@@ -60,7 +60,7 @@
 
 #### 代码规范
 
-- [ ] [编写可读代码的艺术--读书笔记](https://besttao.gitbooks.io/the-art-of-readable-code/content/)
+- [X] [编写可读代码的艺术--读书笔记](https://besttao.gitbooks.io/the-art-of-readable-code/content/) (2017-04-06)
 
 - [ ] [代码整洁之道](file:///Users/michaelmao/Desktop/MyResouce/Books/Coding/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93.pdf)
 
