@@ -15,8 +15,6 @@
 
 #### Networking
 
-[Networking Programming Topics](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/NetworkingTopics/Introduction/Introduction.html#//apple_ref/doc/uid/TP40012488)
-
 [Networking Overview](https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/NetworkingOverview/ChoosingTheRightNetworkingAPI/ChoosingTheRightNetworkingAPI.html#//apple_ref/doc/uid/TP40010220-CH7-SW6)
 
 
@@ -67,5 +65,15 @@
 - [ ] [编写可读代码的艺术](file:///Users/michaelmao/Desktop/MyResouce/Books/Coding/%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF.pdf)
 
 - [ ] [程序员的思维修炼](file:///Users/michaelmao/Desktop/MyResouce/Books/Coding/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%80%9D%E7%BB%B4%E4%BF%AE%E7%82%BC.pdf)
+
+
+#### Review Notes
+
+- [ ]  Docs记录 - Xcode Help
+- [ ]  Docs记录 - UIKit User Interface Catalog
+- [ ]  Docs记录 - About View Controllers
+- [ ]  Docs记录 - Implementate Tableview To Understand-iOS
+
+
 
 
