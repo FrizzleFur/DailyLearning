@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EDDF2E9B1EA472660049D838 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EDDF2E9A1EA472660049D838 /* main.m */; };
+		EDDF2E9E1EA472660049D838 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EDDF2E9D1EA472660049D838 /* AppDelegate.m */; };
+		EDDF2EA11EA472660049D838 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDDF2EA01EA472660049D838 /* ViewController.m */; };
+		EDDF2EA41EA472660049D838 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDDF2EA21EA472660049D838 /* Main.storyboard */; };
+		EDDF2EA61EA472660049D838 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDDF2EA51EA472660049D838 /* Assets.xcassets */; };
+		EDDF2EA91EA472660049D838 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDDF2EA71EA472660049D838 /* LaunchScreen.storyboard */; };
+		EDDF2EB21EA472760049D838 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = EDDF2EB11EA472760049D838 /* Person.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EDDF2E961EA472660049D838 /* BlockDeomo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockDeomo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDDF2E9A1EA472660049D838 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EDDF2E9C1EA472660049D838 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EDDF2E9D1EA472660049D838 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EDDF2E9F1EA472660049D838 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		EDDF2EA01EA472660049D838 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		EDDF2EA31EA472660049D838 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EDDF2EA51EA472660049D838 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EDDF2EA81EA472660049D838 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EDDF2EAA1EA472660049D838 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDDF2EB01EA472760049D838 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		EDDF2EB11EA472760049D838 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EDDF2E931EA472660049D838 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EDDF2E8D1EA472660049D838 = {
+			isa = PBXGroup;
+			children = (
+				EDDF2E981EA472660049D838 /* BlockDeomo */,
+				EDDF2E971EA472660049D838 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EDDF2E971EA472660049D838 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EDDF2E961EA472660049D838 /* BlockDeomo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EDDF2E981EA472660049D838 /* BlockDeomo */ = {
+			isa = PBXGroup;
+			children = (
+				EDDF2E9C1EA472660049D838 /* AppDelegate.h */,
+				EDDF2E9D1EA472660049D838 /* AppDelegate.m */,
+				EDDF2E9F1EA472660049D838 /* ViewController.h */,
+				EDDF2EA01EA472660049D838 /* ViewController.m */,
+				EDDF2EB01EA472760049D838 /* Person.h */,
+				EDDF2EB11EA472760049D838 /* Person.m */,
+				EDDF2EA21EA472660049D838 /* Main.storyboard */,
+				EDDF2EA51EA472660049D838 /* Assets.xcassets */,
+				EDDF2EA71EA472660049D838 /* LaunchScreen.storyboard */,
+				EDDF2EAA1EA472660049D838 /* Info.plist */,
+				EDDF2E991EA472660049D838 /* Supporting Files */,
+			);
+			path = BlockDeomo;
+			sourceTree = "<group>";
+		};
+		EDDF2E991EA472660049D838 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EDDF2E9A1EA472660049D838 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EDDF2E951EA472660049D838 /* BlockDeomo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDDF2EAD1EA472660049D838 /* Build configuration list for PBXNativeTarget "BlockDeomo" */;
+			buildPhases = (
+				EDDF2E921EA472660049D838 /* Sources */,
+				EDDF2E931EA472660049D838 /* Frameworks */,
+				EDDF2E941EA472660049D838 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BlockDeomo;
+			productName = BlockDeomo;
+			productReference = EDDF2E961EA472660049D838 /* BlockDeomo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EDDF2E8E1EA472660049D838 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = MichaelMao;
+				TargetAttributes = {
+					EDDF2E951EA472660049D838 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = EDDF2E911EA472660049D838 /* Build configuration list for PBXProject "BlockDeomo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EDDF2E8D1EA472660049D838;
+			productRefGroup = EDDF2E971EA472660049D838 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EDDF2E951EA472660049D838 /* BlockDeomo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EDDF2E941EA472660049D838 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDDF2EA91EA472660049D838 /* LaunchScreen.storyboard in Resources */,
+				EDDF2EA61EA472660049D838 /* Assets.xcassets in Resources */,
+				EDDF2EA41EA472660049D838 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EDDF2E921EA472660049D838 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDDF2EA11EA472660049D838 /* ViewController.m in Sources */,
+				EDDF2E9E1EA472660049D838 /* AppDelegate.m in Sources */,
+				EDDF2EB21EA472760049D838 /* Person.m in Sources */,
+				EDDF2E9B1EA472660049D838 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EDDF2EA21EA472660049D838 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDDF2EA31EA472660049D838 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EDDF2EA71EA472660049D838 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDDF2EA81EA472660049D838 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EDDF2EAB1EA472660049D838 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EDDF2EAC1EA472660049D838 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EDDF2EAE1EA472660049D838 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = BlockDeomo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.MichaelMao.BlockDeomo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EDDF2EAF1EA472660049D838 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = BlockDeomo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.MichaelMao.BlockDeomo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EDDF2E911EA472660049D838 /* Build configuration list for PBXProject "BlockDeomo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDDF2EAB1EA472660049D838 /* Debug */,
+				EDDF2EAC1EA472660049D838 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EDDF2EAD1EA472660049D838 /* Build configuration list for PBXNativeTarget "BlockDeomo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDDF2EAE1EA472660049D838 /* Debug */,
+				EDDF2EAF1EA472660049D838 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EDDF2E8E1EA472660049D838 /* Project object */;
+}
