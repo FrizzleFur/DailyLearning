@@ -27,6 +27,7 @@
 - [x] use MWeb to manage.  2017-04-26
 - [ ] add comments.  
 - [ ] add article views and number of people.  
+- [ ] add backup to cloud.
 
 #### Git
 
