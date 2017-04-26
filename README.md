@@ -22,6 +22,12 @@
 
 [HexoBlog](https://github.com/FrizzleFur/DailyLearning/blob/master/HexoBlog.md)
 
+- [x] add tags.  2017-04-26
+- [x] add heart click.  2017-04-26
+- [x] use MWeb to manage.  2017-04-26
+- [ ] add comments.  
+- [ ] add article views and number of people.  
+
 #### Git
 
 [Git--distributed-even-if-your-workflow-isnt](https://git-scm.com/book/zh/v2)
@@ -30,7 +36,7 @@
 
 #### OhMyZsh
 
-- [ ] [OhMyZsh](http://ohmyz.sh/)
+- [ ] [OhMyZsh](http://ohmyz.sh/) 
 
 #### 自动化工具
 
