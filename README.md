@@ -46,9 +46,12 @@
 ### 前端H5 学习笔记
 
 
-
 ### Python 学习笔记 (爬虫)
 
 [python web 入坑指南](http://python-web-guide.readthedocs.io/zh/latest/)
 
 
+
+### English —— BEC
+
+- [ ] 扇贝打卡100天
