@@ -28,6 +28,10 @@
 
 [Dependency Management Using Git Submodules](https://www.raywenderlich.com/155150/dependency-management-using-git-submodules)
 
+#### OhMyZsh
+
+- [ ] [OhMyZsh](http://ohmyz.sh/)
+
 #### 自动化工具
 
 ##### fastlane
