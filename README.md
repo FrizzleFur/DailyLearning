@@ -20,7 +20,7 @@
 
 #### HexoBlog
 
-
+[HexoBlog](https://github.com/FrizzleFur/DailyLearning/blob/master/HexoBlog.md)
 
 #### Git
 
