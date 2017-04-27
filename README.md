@@ -57,3 +57,9 @@
 ### English —— BEC
 
 - [ ] 扇贝打卡100天
+
+
+### WechatApp
+
+- [ ] [Awesome-Wechat-Weapp](https://github.com/justjavac/awesome-wechat-weapp)
+- [ ] [【微信小程序开发•系列文章二】视图层](http://www.jsongo.com/post/js/2016/weapp-2/)
