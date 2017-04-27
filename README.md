@@ -28,7 +28,7 @@
 - [ ] add comments.  
 - [ ] add article views and number of people.  
 - [ ] add backup to cloud.
-- [ ] user ·imgur· to add pic.
+- [ ] user `imgur` to add pic.
 
 #### Git
 
