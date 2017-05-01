@@ -43,6 +43,12 @@
 ##### fastlane
 [Getting started with fastlane for iOS](https://docs.fastlane.tools/getting-started/ios/setup/)
 
+### RW
+
+- [ ] RW 2017
+- [ ] RW 2016
+
+
 ### 前端H5 学习笔记
 
 ### Python 学习笔记 (爬虫)
@@ -51,7 +57,7 @@
 
 ### English —— BEC
 
-- [ ] 扇贝打卡100天
+- [ ] 扇贝打卡100天 (打卡天数7天 2017-05-02)
 
 
 ### WechatApp
