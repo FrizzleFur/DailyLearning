@@ -33,8 +33,6 @@ ls -al 显示当前目录下的所有文件及文件夹包括隐藏的.和..等�
 [让你提升命令行效率的 Bash 快捷键](https://linuxtoy.org/archives/bash-shortcuts.html)
 
 [Mac 命令行下编辑常用的快捷键](http://notes.11ten.net/mac-command-line-editing-commonly-used-shortcut-keys.html)
-作者: 洛桑扎巴 | 个人学习记录，内容来自网络，如果有相关版权问题请联系我，我会删除。
-网址: http://notes.11ten.net/mac-command-line-editing-commonly-used-shortcut-keys.html
 Mac 命令行编辑快捷键的方法，对Mac的应用有所帮助。
 
 Mac 命令行命令
