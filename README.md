@@ -30,14 +30,12 @@
 - [ ] add backup to cloud.
 - [ ] user `imgur` to add pic.
 
-#### Git
-
+#### [Git](https://github.com/FrizzleFur/DailyLearning/blob/master/GitLearning.md)
 [Git--distributed-even-if-your-workflow-isnt](https://git-scm.com/book/zh/v2)
 
 [Dependency Management Using Git Submodules](https://www.raywenderlich.com/155150/dependency-management-using-git-submodules)
-
-#### OhMyZsh
-
+#### [Linux](https://github.com/FrizzleFur/DailyLearning/blob/master/LinuxLearning.md)
+##### OhMyZsh
 - [ ] [OhMyZsh](http://ohmyz.sh/) 
 
 #### 自动化工具
@@ -63,3 +61,5 @@
 
 - [ ] [Awesome-Wechat-Weapp](https://github.com/justjavac/awesome-wechat-weapp)
 - [ ] [【微信小程序开发•系列文章二】视图层](http://www.jsongo.com/post/js/2016/weapp-2/)
+
+
