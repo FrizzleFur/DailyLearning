@@ -22,10 +22,10 @@
 
 [HexoBlog](https://github.com/FrizzleFur/DailyLearning/blob/master/HexoBlog.md)
 
-- [x] add tags.  2017-04-26
-- [x] add heart click.  2017-04-26
-- [x] use `MWeb` to manage.  2017-04-26
-- [ ] add comments.  
+- [x] add tags.  (2017-04-26)
+- [x] add heart click.  (2017-04-26)
+- [x] use `MWeb` to manage.  (2017-04-26)
+- [x] add comments.   (2017-05-02)
 - [ ] add article views and number of people.  
 - [ ] add backup to cloud.
 - [ ] user `imgur` to add pic.

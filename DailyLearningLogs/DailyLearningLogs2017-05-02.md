@@ -14,7 +14,7 @@
  ![](http://oc98nass3.bkt.clouddn.com/14936861394836.jpg)
 
 ## Hexo
-- [x] Hexo blog add comments (add [livere](https://livere.com/insight/managereply/period))(2017-05-02)
-
+- [x] Hexo blog add comments (add [livere](https://livere.com/insight/managereply/period) 和
+[hypercomments](http://admin.hypercomments.com/comments/approve/90397)) (2017-05-02)
 
 
