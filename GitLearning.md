@@ -168,13 +168,15 @@ e695606 master@{4}: commit: which version checked in?
 
 ### Git分支
 1. 查看分支列表
-`git branch`
+`$ git branch`
 2. 新建分支
-`git branch new_branch_name`
+`$ git branch new_branch_name`
 3. 切换到分支
-`git checkout branch_name`
+`$ git checkout branch_name`
 4. 合并支分支到`master`主分支
-`git merge branch_name`
+`$ git merge branch_name`
+5. 删除分支
+`$ git branch -d branch_name`
 
 
 ### Git撤销方法
