@@ -163,7 +163,17 @@ e695606 master@{2}: HEAD^: updating HEAD
 4902dc3 master@{3}: commit: does master follow this new commit?
 e695606 master@{4}: commit: which version checked in?
 
+### Git撤销方法
 
+1. `git revert <SHA>`
+2. `git commit --amend -m "Modify last add message"`
+3. 撤销本地的修改`git checkout -- <bad filename>`
+4. 重置本地的修改`git reset <last good SHA>`
+
+
+
+
+[Git的各种Undo技巧](https://tonydeng.github.io/2015/07/08/how-to-undo-almost-anything-with-git/)
 
 ## Gitsome
 [gitsome](https://github.com/donnemartin/gitsome)

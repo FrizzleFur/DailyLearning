@@ -65,4 +65,8 @@
 - [ ] [Awesome-Wechat-Weapp](https://github.com/justjavac/awesome-wechat-weapp)
 - [ ] [【微信小程序开发•系列文章二】视图层](http://www.jsongo.com/post/js/2016/weapp-2/)
 
+## Machine Learning
+[机器学习常见算法分类汇总](https://tonydeng.github.io/)
+[通过机器学习来写诗](https://tonydeng.github.io/2017/03/03/common-algorithms-for-machine-learning/#more)
+
 
