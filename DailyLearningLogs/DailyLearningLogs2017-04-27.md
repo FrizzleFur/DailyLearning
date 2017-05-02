@@ -13,7 +13,7 @@
 ## Hexo
 
 - [x]  add comments.(2017-05-02)
-- [ ]  add backup to cloud.
+- [x]  add backup to cloud.[Bitbucket备份](https://bitbucket.org/MichaelMaoMao/myblog)（2017-05-02）
 - [ ]  try imgur to add pic.
 
 

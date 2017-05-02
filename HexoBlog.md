@@ -22,6 +22,7 @@
     - [ ] [http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置](http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置)
 - [ ]添加字数统计 2,850 |  阅读时长 13[Hexo博客设置进阶](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline)
 - [x] 添加网易云音乐 （2017-05-02）
+- [x] 添加备份[Bitbucket备份](https://bitbucket.org/MichaelMaoMao/myblog)（2017-05-02）
 
 
 
