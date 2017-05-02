@@ -163,6 +163,17 @@ e695606 master@{2}: HEAD^: updating HEAD
 4902dc3 master@{3}: commit: does master follow this new commit?
 e695606 master@{4}: commit: which version checked in?
 
+### Git分支
+1. 查看分支列表
+`git branch`
+2. 新建分支
+`git branch new_branch_name`
+3. 切换到分支
+`git checkout branch_name`
+4. 合并支分支到`master`主分支
+`git merge branch_name`
+
+
 ### Git撤销方法
 
 1. `git revert <SHA>`

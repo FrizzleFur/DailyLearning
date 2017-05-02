@@ -33,9 +33,9 @@ ls -al 显示当前目录下的所有文件及文件夹包括隐藏的.和..等�
 [让你提升命令行效率的 Bash 快捷键](https://linuxtoy.org/archives/bash-shortcuts.html)
 
 [Mac 命令行下编辑常用的快捷键](http://notes.11ten.net/mac-command-line-editing-commonly-used-shortcut-keys.html)
-Mac 命令行编辑快捷键的方法，对Mac的应用有所帮助。
 
-Mac 命令行命令
+#### Mac 命令行命令
+```
 history 显示命令历史列表
 [Tab] =命令行自动补全
 ↑(Ctrl+p) 显示上一条命令
@@ -76,6 +76,7 @@ Ctrl+(x u) 按住Ctrl的同时再先后按x和u，撤销刚才的操作
 Ctrl+s 挂起当前shell
 Ctrl+q 重新启用挂起的shell
 下面的应用可能稍稍高级一点点
+```
 
 ```
 # !! - 上一条命令
