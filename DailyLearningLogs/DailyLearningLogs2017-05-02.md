@@ -13,6 +13,8 @@
 - 2. 完成`iTerm2`的单词切换学习
  ![](http://oc98nass3.bkt.clouddn.com/14936861394836.jpg)
 
+## Hexo
+- [ ] Hexo blog add comments
 
 
 
