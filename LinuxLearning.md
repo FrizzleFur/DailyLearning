@@ -96,6 +96,8 @@ Ctrl+q 重新启用挂起的shell
 
 [Mac item2常用快捷键是什么？iterm2 快捷键大全](https://my.oschina.net/repine/blog/737641)
 
+[iterm2 快捷键大全 ](http://www.cr173.com/html/48065_1.html)
+
 标签
 
 新建标签：command + t
