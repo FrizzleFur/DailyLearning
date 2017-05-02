@@ -8,11 +8,11 @@
 
 ## Git
 
-- [ ] [Learn Git](https://www.codecademy.com/learn/learn-git) 
+- [x] [Learn Git](https://www.codecademy.com/learn/learn-git) (2017-05-02)
 
 ## Hexo
 
-- [ ]  add comments.
+- [x]  add comments.(2017-05-02)
 - [ ]  add backup to cloud.
 - [ ]  try imgur to add pic.
 

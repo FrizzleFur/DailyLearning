@@ -4,17 +4,17 @@
 
 ## Git
 
-- [ ] [Learn Git](https://www.codecademy.com/learn/learn-git) 
+- [x] [Learn Git](https://www.codecademy.com/learn/learn-git) (2017-05-02)
 
 - [ ] add Project to Git
 
 ## Linux
-- [ ] learn Bash Commands
+- [x] learn Bash Commands(2017-05-02)
 
-- [x] add LinuxLearning
-- [x] add Bash Commands
-- [x] add [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) task
-- [x] add [iTerm2](https://www.iterm2.com/) task
+- [x] add LinuxLearning(2017-05-01)
+- [x] add Bash Commands(2017-05-01)
+- [x] add [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) task(2017-05-01)
+- [x] add [iTerm2](https://www.iterm2.com/) task(2017-05-01)
 
 
 
