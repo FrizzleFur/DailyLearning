@@ -80,8 +80,11 @@ A Git project can be thought of as having three parts:
 可以使用 `$ git help grep` 来查看帮助
 
 #### 设置`git`命令 别名
-
 `$ git config --global alias.st status`
+`$ git config --global alias.co checkout`
+`$ git config --global alias.ct commit`
+`$ git config --global alias.df diff`
+`$ git config --global alias.br branch`
 
 #### `Git`删除文件
 
