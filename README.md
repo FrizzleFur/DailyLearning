@@ -26,8 +26,8 @@
 - [x] add heart click.  (2017-04-26)
 - [x] use `MWeb` to manage.  (2017-04-26)
 - [x] add comments.   (2017-05-02)
-- [x] add article views and number of people.  
-- [x] add backup to cloud.
+- [x] add article views and number of people.  (2017-05-03) 
+- [x] add backup to cloud.  (2017-05-03)
 - [ ] user `imgur` to add pic.
 
 #### [Git](https://github.com/FrizzleFur/DailyLearning/blob/master/GitLearning.md)
