@@ -24,7 +24,8 @@
 
 - [ ] Hexo美化♣️[Hexo+nexT主题搭建个人博客
 ](http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/) 
-    - [love](http://www.wuxubj.cn/mylove/)    
+    - [love](http://www.wuxubj.cn/mylove/)  
+    - [Hackerzhou/Love](http://hackerzhou.me/ex_love/)  
     - [ ] [http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置](http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置)
 - [ ]添加字数统计 2,850 |  阅读时长 13[Hexo博客设置进阶](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline)
 
