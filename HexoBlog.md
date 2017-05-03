@@ -29,6 +29,8 @@
     - [ ] [http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置](http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置)
 - [ ]添加字数统计 2,850 |  阅读时长 13[Hexo博客设置进阶](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline)
 
+- [ ] 去除底部多余样式
+![](http://oc98nass3.bkt.clouddn.com/14938557402763.jpg)
 
 ### 参考文章
 
