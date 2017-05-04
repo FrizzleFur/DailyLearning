@@ -14,7 +14,7 @@
 
 2017-04-26
 
-- [x] [View之间的关系究竟意味着什么？泊学网](https://boxueio.com/series/ios-101/ebook/110)
+- [x] [View之间的关系究竟意味着什么？泊学网](https://boxueio.com/series/ios-101/ebook/110) (2017-05-04)
 
 ### 要看的文档
 
