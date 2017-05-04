@@ -19,5 +19,6 @@
 
 - [ ] 了解`Fastlane`
 
-
+## CS
+[CSE 351: The Hardware/Software Interface](https://courses.cs.washington.edu/courses/cse351/16sp/videos.html)
 
