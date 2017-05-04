@@ -75,3 +75,11 @@
 [通过机器学习来写诗](https://tonydeng.github.io/2017/03/03/common-algorithms-for-machine-learning/#more)
 
 
+## iOSApp Reverse Engineering
+
+[iOSAppReverseEngineering](https://github.com/iosre/iOSAppReverseEngineering/blob/master/iOSAppReverseEngineering.pdf)
+
+[iOS应用逆向工程](https://book.douban.com/subject/25826902/)
+
+[iOSRe BBS](http://bbs.iosre.com/)
+
