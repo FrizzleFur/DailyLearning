@@ -74,7 +74,7 @@
 
 #### Review Notes
 
-- [ ]  Docs记录 - Xcode Help
+- [x]  Docs记录 - Xcode Help
 - [ ]  Docs记录 - UIKit User Interface Catalog
 - [ ]  Docs记录 - About View Controllers
 - [ ]  Docs记录 - Implementate Tableview To Understand-iOS
