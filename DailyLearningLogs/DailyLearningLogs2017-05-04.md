@@ -1,12 +1,13 @@
 
 # DailyLearningLogs  2017-05-04
 
+
+- [x] [View之间的关系究竟意味着什么？泊学网](https://boxueio.com/series/ios-101/ebook/110) (2017-05-04)
+
 ## Review Notes
 
-- [ ]  Docs记录 - Xcode Help
+- [X]  Docs记录 - Xcode Help
 - [ ]  Docs记录 - UIKit User Interface Catalog
-- [ ]  Docs记录 - About View Controllers
-- [ ]  Docs记录 - Implementate Tableview To Understand-iOS
 
 ## Git
 - [ ] add Project to Git
