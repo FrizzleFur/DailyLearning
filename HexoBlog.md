@@ -1,7 +1,7 @@
 ## HexoBlog
 
 
-### 近期需要优化
+### HexoBlog优化
 
 - [x] Tag问题，博客`tag`现在不显示;(2017-04-26)
 - [x] 添加点击星星;(2017-04-26)
@@ -22,6 +22,7 @@
     - [Local Search](http://theme-next.iissnan.com/third-party-services.html#local-search)（2017-05-02）
     - [ ]解决输入未实时搜索的情况
 
+#### HexoBlog美化 
 - [ ] Hexo美化♣️[Hexo+nexT主题搭建个人博客
 ](http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/) 
     - [love](http://www.wuxubj.cn/mylove/)  
@@ -31,6 +32,8 @@
 
 - [ ] 去除底部多余样式
 ![](http://oc98nass3.bkt.clouddn.com/14938557402763.jpg)
+
+- [ ] 参考[泊学网](https://boxueio.com/series/ios-101/ebook/110)优化背景色和代码高亮显示
 
 ### 参考文章
 
