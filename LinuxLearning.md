@@ -18,6 +18,7 @@ ls *.png 查找当前目录下所有 png 文件
 ls **/*.png 递归查找
 zsh 的目录跳转很智能，你无需输入 cd 就可直接输入路径即可。比如：.. 表示后退一级目录，../../ 表示后退两级，依次类推。
 在命令窗口中输入：d，将列出当前 session 访问过的所有目录，再按提示的数字即可进入相应目录。
+![](http://oc98nass3.bkt.clouddn.com/14939047690813.jpg)
 
 
 #### `ls` 命令
@@ -115,6 +116,14 @@ ls -al 显示当前目录下的所有文件及文件夹包括隐藏的.和..等�
    结果：
 ![](<http://oc98nass3.bkt.clouddn.com/14937252077798.jpg)
 
+## man命令
+>常用工具命令 man命令是Linux下的帮助指令，通过man指令可以查看Linux中的指令帮助、配置文件帮助和编程帮助等信息。
+> 语法 man(选项)(参数) 
+  -a：在所有的man帮助手册中搜索；
+  -f：等价于whatis指令，显示给定关键字的简短描述信息； 
+  -P：指定内容时使用分页程序；
+  -M：指定man手册搜索的路径。 
+来自:< http://man.linuxde.net/man>
 
 ## Bash 命令
 
@@ -332,6 +341,9 @@ Control + t	交换光标和之前的字符
 
 
 ## OnMyZch
+
+![](http://oc98nass3.bkt.clouddn.com/14939414678630.jpg)
+
 [`oh-my-Zsh`](<https://github.com/robbyrussell/`oh-my-Zsh`)
 ### zsh切换bash bash切换zsh
 1. `zsh`切换`bash`
@@ -412,6 +424,51 @@ uninstall_oh_my_zsh zsh
 10]插件支持
 
 
+### 配置pure(refined)主题
+
+1. 首先，显示隐藏文件，进入`oh-my-zsh`文件的自定义目录，`$ .oh-my-zsh/custom/`，创建一个`theme`文件夹，存放你自定义的`theme`.
+![](http://oc98nass3.bkt.clouddn.com/14939523504693.jpg)
+（`pure`已经在默认主题中，只需要引用）
+
+2. `pure`的改名警告⚠️
+![](http://oc98nass3.bkt.clouddn.com/14939522873793.jpg)
+`pure`的作者把名字改成了“refined”，把`.zshrc`文件的`ZSH_THEME`改成“refined”.就可以了
+![](http://oc98nass3.bkt.clouddn.com/14939525635397.jpg)
+![](http://oc98nass3.bkt.clouddn.com/14939526018058.jpg)
+
+#### 配置[`spaceship`](https://github.com/denysdovhan/spaceship-zsh-theme)主题
+
+![](http://oc98nass3.bkt.clouddn.com/14939647925801.jpg)
+
+#### `.zshrc`文件的引号问题
+报错：`/Users/xxx/.oh-my-zsh/oh-my-zsh.sh:source:110: no such file or directory: /Users/xxx/.oh-my-zsh/themes/”refined”.zsh-theme`
+其实是因为" 变成-> “了， 自己打上去会被改成“，修改为"。
+![](http://oc98nass3.bkt.clouddn.com/14939672378163.jpg)
+
+
+#### iterm2-snazzy
+Elegant iTerm2 theme with bright colors
+[iterm2-snazzy](https://github.com/sindresorhus/iterm2-snazzy)
+![](http://oc98nass3.bkt.clouddn.com/14939531364652.jpg)
+>To get the exact same look as in the screenshot, you need to use the `[Pure prompt](https://github.com/sindresorhus/pure)`, `Menlo font`, and the `[zsh-syntax-highlighting plugin](https://github.com/zsh-users/zsh-syntax-highlighting)` to have commands highlighted.
+记得在`iterm2`的颜色切换成`snazzy`
+![](http://oc98nass3.bkt.clouddn.com/14939550599468.jpg)
+
+#### `zsh-syntax-highlighting`问题
+
+1.首先cd 到 `Users/USERNAME/.oh-my-zsh/custom/plugins`
+执行`git clone https://github.com/zsh-users/zsh-syntax-highlighting.git`
+![](http://oc98nass3.bkt.clouddn.com/14939542911436.jpg)
+
+2. 配置`.zshrc`文件
+`plugins=(zsh-syntax-highlighting)`
+`source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh`
+![](http://oc98nass3.bkt.clouddn.com/14939544716118.jpg)
+
+3. 最后执行配置
+执行 `source ~/.zshrc`
+
+#### [Hyper](https://hyper.is/)
 
 ### 资料整理
 
