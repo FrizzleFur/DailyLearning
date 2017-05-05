@@ -16,6 +16,21 @@
 
 - [x] [View之间的关系究竟意味着什么？泊学网](https://boxueio.com/series/ios-101/ebook/110) (2017-05-04)
 
+
+
+## Git
+- [ ] add Project to Git
+
+## Fastlane
+- [ ] 了解`Fastlane`
+- [ ] 
+### Reading
+
+- [ ] [养眼就是养精神 ](https://book.douban.com/subject/26596435/) 读书笔记
+## CS
+[CSE 351: The Hardware/Software Interface](https://courses.cs.washington.edu/courses/cse351/16sp/videos.html)
+
+
 ### 要看的文档
 
 #### Data
@@ -83,4 +98,5 @@
 #### Project
 
 - [ ] 高仿[`网易美学`](https://itunes.apple.com/cn/app/%E7%BD%91%E6%98%93%E7%BE%8E%E5%AD%A6-%E9%A2%9C%E5%80%BC%E6%9C%80%E9%AB%98%E7%9A%84%E7%BE%8E%E5%A6%86%E7%A4%BE%E5%8C%BA/id1147533466?mt=8)
+
 

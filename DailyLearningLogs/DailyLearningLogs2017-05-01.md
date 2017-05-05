@@ -6,8 +6,6 @@
 
 - [x] [Learn Git](https://www.codecademy.com/learn/learn-git) (2017-05-02)
 
-- [ ] add Project to Git
-
 ## Linux
 - [x] learn Bash Commands(2017-05-02)
 
