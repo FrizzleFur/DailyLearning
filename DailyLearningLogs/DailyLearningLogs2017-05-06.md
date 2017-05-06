@@ -2,7 +2,7 @@
 
 ## 整理`EverNote`
 
-- [ ] 整理`EverNote`到InterNational版
+- [x] 整理`EverNote`到InterNational版 （2017-05-06）已经基本完成，后面会随着整理跟进
 
 ## RSS
 
