@@ -23,7 +23,7 @@
 
 ## Fastlane
 - [ ] 了解`Fastlane`
-- [ ] 
+
 ### Reading
 
 - [ ] [养眼就是养精神 ](https://book.douban.com/subject/26596435/) 读书笔记
