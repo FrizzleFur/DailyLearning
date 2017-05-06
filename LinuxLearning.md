@@ -484,6 +484,9 @@ Elegant iTerm2 theme with bright colors
 3. 最后执行配置
 执行 `source ~/.zshrc`
 
+#### `Zsh` Plugins
+[Awesome-Zsh-Plugins](https://github.com/unixorn/awesome-zsh-plugins)
+
 #### [Hyper](https://hyper.is/)
 
 ### 资料整理
