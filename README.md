@@ -43,17 +43,57 @@
 ##### fastlane
 [Getting started with fastlane for iOS](https://docs.fastlane.tools/getting-started/ios/setup/)
 
-### RW
+### RW学习
 
 - [ ] RW 2017
 - [ ] RW 2016
 
+### JS学习
 
-### 前端H5 学习笔记
+* [JSTraining](https://github.com/ruanyf/jstraining/tree/master/demos)
+前端开发的历史和趋势
+Backbone
+Angular
+Vue
+React 技术栈
+JSX
+React 组件语法
+React 组件的参数
+React 组件的状态
+React 组件实战
+React 组件的生命周期
+ReCharts
+MobX
+Redux
+Node 开发
+Simple App
+REST API
+Express
+前端工程简介
+ESLint
+Mocha
+Nightmare
+Travis CI
+Backbone
+
+* [520LoveDemo](http://lipinso.com/520/love/demo.html)
+* [520/lovetree](http://lipinso.com/520/lovetree/demo.html)
+* [520/loveheart](http://lipinso.com/520/loveheart/demo.html)
+* [Hackerzhou/Love](https://github.com/hackerzhou/Love)
+
+#### WechatApp
+
+- [ ] [Awesome-Wechat-Weapp](https://github.com/justjavac/awesome-wechat-weapp)
+- [ ] [【微信小程序开发•系列文章二】视图层](http://www.jsongo.com/post/js/2016/weapp-2/)
 
 ### Python 学习笔记 (爬虫)
 [python web 入坑指南](http://python-web-guide.readthedocs.io/zh/latest/)
 [新手向爬虫（三）别人的爬虫在干啥](http://www.jianshu.com/p/dcd6438ce4c7)
+
+### React
+
+[【React Native】从源码一步一步解析它的实现原理](http://www.jianshu.com/p/5cc61ec04b39)
+
 
 ### English —— BEC
 
@@ -63,10 +103,7 @@
 [CSE 351: The Hardware/Software Interface](https://courses.cs.washington.edu/courses/cse351/16sp/videos.html)
 
 
-### WechatApp
 
-- [ ] [Awesome-Wechat-Weapp](https://github.com/justjavac/awesome-wechat-weapp)
-- [ ] [【微信小程序开发•系列文章二】视图层](http://www.jsongo.com/post/js/2016/weapp-2/)
 
 ## Machine Learning
 
