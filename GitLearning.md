@@ -45,6 +45,7 @@ A Git project can be thought of as having three parts:
 
 ### `Git`命令
 
+
 用一个命令向改变区(staging)添加多个文件的方法
 `git add filename_1 filename_2`
 
@@ -67,6 +68,11 @@ A Git project can be thought of as having three parts:
 `git reset HEAD filename`: Unstages file changes in the staging area.
 `git reset SHA`: Can be used to reset to a previous commit in your commit history.
 
+#### `remote origin`
+
+1. 添加远程库： `$ git remote add origin`
+2. 移除远程库： `$ git remote remove (OrignName)`
+3. 查看远程库： `$ git remote -v`(--verbose)
 
 #### `git grep`命令查找
 `$ git grep`命令
