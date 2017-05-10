@@ -1,4 +1,4 @@
-# Linux Learning
+# Linux/Unix Learning
 
 记录小白学习`Linux`的过程，如有错误，万望指正，感激不尽。
 
@@ -6,7 +6,7 @@
 
 >Linux 命令
 >
-### 一些常用`Linux` 命令
+
 ### 最常用命令
 参考[](http://www.jianshu.com/p/e7af448d01b0)
 不区分大小写智能提示。我是不喜欢大小写区分的那种人，所以用了 zsh 之后，经常按 Tab 进行提示。
@@ -20,11 +20,41 @@ zsh 的目录跳转很智能，你无需输入 cd 就可直接输入路径即可
 在命令窗口中输入：d，将列出当前 session 访问过的所有目录，再按提示的数字即可进入相应目录。
 ![](http://oc98nass3.bkt.clouddn.com/14939047690813.jpg)
 
+### Mac 常用命令(Unix)
+
+#### 在Finder标题栏显示完整路径
+
+在“终端”中输入下面的命令：
+`$ defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES`
+`$ killall Finder`
+
+#### killall process杀进程
+`$ killall ProcessName`
+* 杀进程神器，一些重要进程不建议用这个命令
+
+#### mdfind寻找文件
+
+许多Linux用户都发现Linux下查找文件的方法在OS X上不好用。当然经典的Unix  find 命令总是可以，但既然OS X有杀手级搜索工具Spotlight，为什么不在命令行上也使用一下呢？ 
+
+这就是  `mdfind` 命令了。Spotlight能做的查找，  mdfind 也能做。包括搜索文件的内容和元数据（metadata）。 
+
+mdfind 还提供更多的搜索选项。例如  -onlyin 选项可以约束搜索范围为一个目录： 
+`$ mdfind -onlyin ~/Documents essay`
+
+#### `Unix`登录登出
+Mac底层是Unix内核，可以登入登出Unix。
+可以先用`who`命令查看当前登录的账户
+1. `Logout `
+2. `Login UserName`
+如果有密码，会提示输入密码
+
+### `Zsh` 命令
 
 #### `ls` 命令
 ls 显示当前下面的文件及文件夹
 ls -a 显示当前目录下的所有文件及文件夹包括隐藏的.和..等
 ls -al 显示当前目录下的所有文件及文件夹包括隐藏的.和..等并显示详细信息，详细信息包括大小，属组，创建时间
+
 #### 历史命令
 1. `histroy`命令
 `histroy`会展示所有命令历史，可以`histroy n`展示n条历史命令。
@@ -53,11 +83,57 @@ ls -al 显示当前目录下的所有文件及文件夹包括隐藏的.和..等�
 `$ vim filename`
 然后点`i`进入编辑, 编辑完成按`Esc`退出编辑，然后点击`:`回到底部，输入`wq`+`Enter`保存退出
 
-#### `rm` 删除命令
+### 文件操作
+参考[Unix常用命令](http://www.cnblogs.com/hjzhang/archive/2009/12/04/2043586.html)
+#### 移动,拷贝
+1. 文件移动
+`$ mv filename path`
+mv + 文件名 + 路径
+2. 文件拷贝
+`$ cp filename path`文件拷贝到path
+如果要复制目录，需要加参数-r或-R
+例如：`$cp /home/a.tar /home/demo`
+`$cp –r /home/aaa /home/bbb` 其中aaa 、bbb均为目录。
+
+#### 拷贝详解
+[复制文件或目录命令：cp](http://www.kwx.gd/LinuxBase/Linux-cp.html)
+【语法】cp[选项][参数]
+【详解】cp命令用于将单个或多个源文件或文件目录，复制到目标文件或文件夹目录中。
+【参数】
+
+选项 | 相应功能
+--- | ---
+-a	| 功能等于同时使用-d -p -r。
+-b	| 在复制文件或目录时，为每个已经存在的目标文件或目录创建备份。
+-d	| 当复制带符号链接的对象时，不复制符号连接所指向的目标文件或目录。
+-f	| 强制复制文件或目录，不提示任何信息。
+-i	| 复制文件时，遇到同名文件或文件夹时提示确认
+-l	| 不复制文件，建立源文件的快捷方式
+-p	| 保留源文件或目录的所有者、所属组信息和权限属性。
+-P	| 功能同等于-d
+-r	| 复制目录及目录内的所有文件或子目录
+-s	| 创建符号链接
+-S	| 指定备份文件的扩展名
+-u	| 在更新源文件或目标文件不存在的情况下才复制文件
+-v	| 显示命令的执行详细过程
+-x| 当源文件或目录所在的文件系统（如ext3），与目标文件或目录所在的文件系统相同的情况下才进行复制。
+ --help	| 显示命令帮助信息。
+--version	| 显示cp命令版本信息。
+【说明】
+
+关键词 |	介绍
+ ----- | ----- 
+源文件或目录	|被复制的文件或目录
+目标文件或目录 |	被复制的文件或目录，所要到达的位置。
+
+#### `rm` 删除
 删除文件
 `$ rm filename`
-
 一、rmdir：删除一个空的目录
+rm命令
+用于删除文件或文件夹。具体语法为：rm + 路径 +文件名 。例如，要删除/home/long/manual.tar文件，用下面命令：$rm /home/long/manual.tar
+如果要删除目录，用rm –r +路径+目录名 。例如：要删除/home/manual目录，用$rm –r /home/manual
+注意：要删除一个文件或文件夹，首先要具有对这个文件夹的写权限。
 
 1.-v选项：提示
 
@@ -74,8 +150,6 @@ ls -al 显示当前目录下的所有文件及文件夹包括隐藏的.和..等�
    rmdir 1 2
 
    结果：一次删除了空目录1、2
-
- 
 
 2.-p选项：级联删除
 
@@ -132,7 +206,7 @@ ls -al 显示当前目录下的所有文件及文件夹包括隐藏的.和..等�
    结果：
 ![](<http://oc98nass3.bkt.clouddn.com/14937252077798.jpg)
 
-## man命令
+#### man命令
 >常用工具命令 man命令是Linux下的帮助指令，通过man指令可以查看Linux中的指令帮助、配置文件帮助和编程帮助等信息。
 > 语法 man(选项)(参数) 
   -a：在所有的man帮助手册中搜索；
@@ -147,7 +221,7 @@ ls -al 显示当前目录下的所有文件及文件夹包括隐藏的.和..等�
 
 [Mac 命令行下编辑常用的快捷键](<http://notes.11ten.net/mac-command-line-editing-commonly-used-shortcut-keys.html>)
 
-#### Mac 命令行命令
+#### Mac 命令行操作命令
 ```
 # !! - 上一条命令
 # !-n - 倒数第N条历史命令
@@ -197,7 +271,6 @@ Ctrl+s 挂起当前shell
 Ctrl+q 重新启用挂起的shell
 下面的应用可能稍稍高级一点点
 ```
-
 
 ## Tool
 
