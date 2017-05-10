@@ -17,10 +17,10 @@
 
 - [x] 添加网页缩略图`favicon`和描述还有头像`Avatar`;（2017-05-03）
 
-- [ ] 添加搜索
+- [x] 添加搜索
     - [algolia](https://www.algolia.com/apps/6V4V7RXQEC/dashboard)
     - [Local Search](http://theme-next.iissnan.com/third-party-services.html#local-search)（2017-05-02）
-    - [ ]解决输入未实时搜索的情况
+    - [x]解决输入未实时搜索的情况（2017-05-10）
 
 #### HexoBlog美化 
 - [ ] Hexo美化♣️[Hexo+nexT主题搭建个人博客
