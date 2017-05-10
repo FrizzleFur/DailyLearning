@@ -192,10 +192,25 @@ e695606 master@{4}: commit: which version checked in?
 3. 撤销本地的修改`git checkout -- <bad filename>`
 4. 重置本地的修改`git reset <last good SHA>`
 
-
-
-
 [Git的各种Undo技巧](https://tonydeng.github.io/2015/07/08/how-to-undo-almost-anything-with-git/)
+
+
+### Git 冲突
+
+1. 代码冲突“! [rejected] master -> master (non-fast-forward)”的原因以及解决办法：
+ ! [rejected]        master ->  master (non-fast-forward)  
+error: failed to push some refs to 'git@github.com:archermind/LEDTorch.apk-for-Android.git'  
+To prevent you from losing history, non-fast-forward updates were rejected  
+Merge the remote changes before pushing again.  See the 'Note about  
+fast-forwards' section of 'git push --help' for details.  
+
+**操作命令：**
+>正确的做法是，在push之前git fetch origin，将github上的新代码拉下来，然后在本地merge，如果没有冲突就可以push了，如果有冲突的话要在本地解决冲突后，再push。具体做法就是。
+
+`git fetch origin`
+`git merge origin (master)`
+>这两步其实可以简化为`git pull origin master`
+>`git push origin master`
 
 ## Gitsome
 [gitsome](https://github.com/donnemartin/gitsome)
