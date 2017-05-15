@@ -212,6 +212,15 @@ fast-forwards' section of 'git push --help' for details.
 >这两步其实可以简化为`git pull origin master`
 >`git push origin master`
 
+## Gitlab-CI
+
+### 参考[GitLab Continuous Integration & Deployment Pipelines](https://about.gitlab.com/features/gitlab-ci-cd/)
+
+1. [使用Gitlab CI进行持续集成](http://www.jianshu.com/p/315cfa4f9e3e)
+2. 使用`Travis CI`[Travis CI 自动部署 Hexo 博客到 Github(带主题版)](http://ixiusama.com/2017/01/03/hexo-Automatic-deployment-on-github-theme-next/#more)
+3. [GitLab integration #5931](https://github.com/travis-ci/travis-ci/issues/5931)
+4. [How do travis-ci and gitlab-ci compare?](http://stackoverflow.com/questions/31338775/how-do-travis-ci-and-gitlab-ci-compare)
+
 ## Gitsome
 [gitsome](https://github.com/donnemartin/gitsome)
 
