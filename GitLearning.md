@@ -212,6 +212,21 @@ fast-forwards' section of 'git push --help' for details.
 >这两步其实可以简化为`git pull origin master`
 >`git push origin master`
 
+### issue
+1. [Git - how to track untracked content?](http://stackoverflow.com/questions/4161022/git-how-to-track-untracked-content)
+```
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+
+	modified:   themes/next (modified content, untracked content)
+	```
+	
+
+
 ## Gitlab-CI
 
 ### 参考[GitLab Continuous Integration & Deployment Pipelines](https://about.gitlab.com/features/gitlab-ci-cd/)

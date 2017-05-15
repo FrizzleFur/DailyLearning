@@ -23,7 +23,7 @@
     - [x]解决输入未实时搜索的情况（2017-05-10）
     - [ ] 
 - [x]添加字数统计 2,850 |  阅读时长 13[Hexo博客设置进阶](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline)(2017-05-15)参考[为Hexo NexT主题添加字数统计功能](https://eason-yang.com/2016/11/05/add-word-count-to-hexo-next/)
-- [ ] 
+
 #### HexoBlog美化 
 - [ ] Hexo美化♣️[Hexo+nexT主题搭建个人博客
 ](http://www.wuxubj.cn/2016/08/Hexo-nexT-build-personal-blog/) 
