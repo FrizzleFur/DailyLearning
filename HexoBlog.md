@@ -21,7 +21,7 @@
     - [algolia](https://www.algolia.com/apps/6V4V7RXQEC/dashboard)
     - [Local Search](http://theme-next.iissnan.com/third-party-services.html#local-search)（2017-05-02）
     - [x]解决输入未实时搜索的情况（2017-05-10）
-    - [ ] 
+
 - [x]添加字数统计 2,850 |  阅读时长 13[Hexo博客设置进阶](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline)(2017-05-15)参考[为Hexo NexT主题添加字数统计功能](https://eason-yang.com/2016/11/05/add-word-count-to-hexo-next/)
 
 #### HexoBlog美化 
@@ -30,7 +30,7 @@
     - [love](http://www.wuxubj.cn/mylove/)  
     - [Hackerzhou/Love](http://hackerzhou.me/ex_love/)  
     - [ ] [http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置](http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置)
-=
+
 - [ ] 去除底部多余样式
 ![](http://oc98nass3.bkt.clouddn.com/14938557402763.jpg)
 
