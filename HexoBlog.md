@@ -1,32 +1,11 @@
-## HexoBlog
+[TOC]
 
+# HexoBlog
 
-### HexoBlog优化
+## TODO
 
-- [x] Tag问题，博客`tag`现在不显示;(2017-04-26)
-- [x] 添加点击星星;(2017-04-26)
-- [x] 使用`MWeb`自动发布; (2017-04-26)
-- [x] 添加评论（Hexo blog add comments （2017-05-02）
-       - [hypercomments](http://admin.hypercomments.com/comments/approve/90397)) (2017-05-02)
-       - [livere](https://livere.com/insight/managereply/period)(2017-05-02)
-
-- [x] 添加网易云音乐 （2017-05-02）
-- [x] 添加备份[Bitbucket备份](https://bitbucket.org/MichaelMaoMao/myblog)（2017-05-02）
-
-- [x] 每篇文章添加查看次数和人数;（2017-05-02）
-
-- [x] 添加网页缩略图`favicon`和描述还有头像`Avatar`;（2017-05-03）
-
-- [x] 添加搜索
-    - [algolia](https://www.algolia.com/apps/6V4V7RXQEC/dashboard)
-    - [Local Search](http://theme-next.iissnan.com/third-party-services.html#local-search)（2017-05-02）
-    - [x]解决输入未实时搜索的情况（2017-05-10）
-
-- [x]添加字数统计 2,850 |  阅读时长 13[Hexo博客设置进阶](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline)(2017-05-15)参考[为Hexo NexT主题添加字数统计功能](https://eason-yang.com/2016/11/05/add-word-count-to-hexo-next/)
-
-- [添加`分类于`标识](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline)
- ![](http://oc98nass3.bkt.clouddn.com/2017-05-15-14948216390897.jpg)
-
+- [ ]  [添加`分类于`标识](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline)
+- [ ] 使用[algolia](https://www.algolia.com/apps/6V4V7RXQEC/dashboard)搜索
 
 ### HexoBlog美化 
 - [ ] Hexo美化♣️[Hexo+nexT主题搭建个人博客
@@ -68,12 +47,32 @@ hexo.extend.filter.register('before_post_render', function(data){
 });
 ```
 
+## Finished
 
-### 参考文章
+ - [x] [Hexo添加Toc支持，生成文章目录](https://imys.net/20150514/hexo-toc.html) (2017-05-17)
+
+- [x]添加字数统计 2,850 |  阅读时长 13[Hexo博客设置进阶](http://blog.junyu.io/posts/0010-hexo-learn-from-Never-yu.html#outline),参考[为Hexo NexT主题添加字数统计功能](https://eason-yang.com/2016/11/05/add-word-count-to-hexo-next/)(2017-05-15)
+[](https://imys.net/20150514/hexo-toc.html)
+
+- [x] 添加搜索,解决输入未实时搜索的情况（2017-05-10）
+- [ ] 
+- [x] 添加网页缩略图`favicon`和描述还有头像`Avatar`;（2017-05-03）
+     - [Local Search](http://theme-next.iissnan.com/third-party-services.html#local-search)（2017-05-02）
+
+- [x] 添加评论（Hexo blog add comments （2017-05-02）
+       - [hypercomments](http://admin.hypercomments.com/comments/approve/90397)) (2017-05-02)
+       - [livere](https://livere.com/insight/managereply/period)(2017-05-02)
+
+- [x] 添加网易云音乐 （2017-05-02）
+- [x] 添加备份[Bitbucket备份](https://bitbucket.org/MichaelMaoMao/myblog)（2017-05-02）
+- [x] 每篇文章添加查看次数和人数;（2017-05-02）
+- [ ] 
+- [x] Tag问题，博客`tag`现在不显示;(2017-04-26)
+- [x] 添加点击星星;(2017-04-26)
+- [x] 使用`MWeb`自动发布; (2017-04-26)
+
+## 参考文章
 
 1. [Qiufengyu Hexo](https://qiufengyu.github.io/tags/hexo/)
-
-
-
 
 

@@ -1,3 +1,5 @@
+[TOC]
+
 # Linux/Unix Learning
 
 记录小白学习`Linux`的过程，如有错误，万望指正，感激不尽。
@@ -5,7 +7,6 @@
 `2017-05-01`
 
 >Linux 命令
->
 
 ### 最常用命令
 参考[](http://www.jianshu.com/p/e7af448d01b0)
