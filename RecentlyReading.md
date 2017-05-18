@@ -1,4 +1,3 @@
-[TOC]
 
 > 需要看的视频 + PDF 
 
@@ -8,7 +7,7 @@
 [高效使用 Mac 键盘，每年多 10 天假期](http://m.quzhiboapp.com/#!/intro/193)
 [如何善用思维导图等工具，每年读透100本书？](http://m.quzhiboapp.com/#!/intro/125)
 
-### ## Git
+### Git
 [Git 从入门到放弃](http://m.quzhiboapp.com/#!/intro/68)
 
 ## iOS
