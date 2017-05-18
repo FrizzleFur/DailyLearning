@@ -2,8 +2,6 @@
 
 >记录点滴成长
 
-[TOC]
-
 ### [RecentlyReading](https://github.com/FrizzleFur/DailyLearning/blob/master/RecentlyReading.md)
 ### [iOSLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/iOSLearning.md)
 
@@ -102,8 +100,6 @@ Backbone
 
 ## CS
 [CSE 351: The Hardware/Software Interface](https://courses.cs.washington.edu/courses/cse351/16sp/videos.html)
-
-
 
 
 ## Machine Learning
