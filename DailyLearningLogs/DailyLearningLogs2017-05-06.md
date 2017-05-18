@@ -10,12 +10,11 @@
 
 ## Git
 
-- [ ] 尝试把项目添加到Git
+- [x] 尝试把项目添加到Git（2017-05-15）
 
 ## Tool
 
-- [ ] 尝试使用[Processon](https://www.processon.com/diagrams) 画出项目类图，结构，叫`UML类图`, [UML类图几种关系的总结](http://blog.csdn.net/u011991249/article/details/52681587)
+- [x] 尝试使用[Processon](https://www.processon.com/diagrams) 画出项目类图，结构，叫`UML类图`, [UML类图几种关系的总结](http://blog.csdn.net/u011991249/article/details/52681587)
 
-- [ ] 试用[InjectionForXcode](https://github.com/johnno1962/injectionforxcode)  
 
 
