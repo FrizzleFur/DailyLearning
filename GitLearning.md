@@ -205,11 +205,11 @@ Merge the remote changes before pushing again.  See the 'Note about
 fast-forwards' section of 'git push --help' for details.  
 
 **操作命令：**
->正确的做法是，在push之前git fetch origin，将github上的新代码拉下来，然后在本地merge，如果没有冲突就可以push了，如果有冲突的话要在本地解决冲突后，再push。具体做法就是。
+* 正确的做法是，在push之前git fetch origin，将github上的新代码拉下来，然后在本地merge，如果没有冲突就可以push了，如果有冲突的话要在本地解决冲突后，再push。具体做法就是。
 
 `git fetch origin`
 `git merge origin (master)`
->这两步其实可以简化为`git pull origin master`
+* 这两步其实可以简化为`git pull origin master`
 >`git push origin master`
 
 ### issue
