@@ -225,7 +225,7 @@ Changes not staged for commit:
   (commit or discard the untracked or modified content in submodules)
 
 	modified:   themes/next (modified content, untracked content)
-	```
+```
 
 ## Gitlab-CI
 
