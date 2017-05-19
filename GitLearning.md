@@ -214,6 +214,8 @@ fast-forwards' section of 'git push --help' for details.
 
 ### issue
 1. [Git - how to track untracked content?](http://stackoverflow.com/questions/4161022/git-how-to-track-untracked-content)
+
+
 ```
 On branch master
 Your branch is up-to-date with 'origin/master'.
@@ -224,8 +226,6 @@ Changes not staged for commit:
 
 	modified:   themes/next (modified content, untracked content)
 	```
-	
-
 
 ## Gitlab-CI
 
@@ -237,13 +237,13 @@ Changes not staged for commit:
 4. [How do travis-ci and gitlab-ci compare?](http://stackoverflow.com/questions/31338775/how-do-travis-ci-and-gitlab-ci-compare)
 
 ## Gitsome
-[gitsome](https://github.com/donnemartin/gitsome)
+[Gitsome](https://github.com/donnemartin/gitsome)
 
 
 ## 参考
 
 1. [图解Git](https://marklodato.github.io/visual-git-guide/index-zh-cn.html#commands-in-detail)
-2. [gitsome](https://github.com/donnemartin/gitsome)
+2. [Gitsome](https://github.com/donnemartin/gitsome)
 
 
 
