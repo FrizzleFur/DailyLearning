@@ -237,8 +237,7 @@ Changes not staged for commit:
 4. [How do travis-ci and gitlab-ci compare?](http://stackoverflow.com/questions/31338775/how-do-travis-ci-and-gitlab-ci-compare)
 
 ## Gitsome
-[Gitsome](https://github.com/donnemartin/gitsome)
-
+[Gitsome](https://github.com/donnemartin/gitsome) （2017-05-19）
 花了些时间，把`Python`环境换成`V3.5`的，搞好`Gitsome`。发现几个比较好用的命令😝
 ### 一、查看`Github`上的流行库
 `gh trending objective-c  -w -p`

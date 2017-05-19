@@ -7,7 +7,7 @@
 
 ### [`iOS`学习笔记 (知识点整理)](https://github.com/FrizzleFur/DailyLearning/tree/master/iOSLearningDemo)
 
-###### `MMPageViewController`
+#### `MMPageViewController`
 `MMPageViewController`是一位童鞋和我交流，如何使用`UIPageViewController`来实现，多页面滚动，如果使用UIPageViewController的set
 `setViewControllers:viewControllers direction: animated: completion:`方法会重新展示每个自控制器，具体的原因还需要细细研究，`UIPageViewController`在父控制器中同时只展示一个`Child ViewController`.
 
@@ -35,7 +35,7 @@
 [Dependency Management Using Git Submodules](https://www.raywenderlich.com/155150/dependency-management-using-git-submodules)
 #### [Linux](https://github.com/FrizzleFur/DailyLearning/blob/master/LinuxLearning.md)
 ##### OhMyZsh
-- [ ] [OhMyZsh](http://ohmyz.sh/) 
+- [x] [OhMyZsh](http://ohmyz.sh/) (2017-05-04) 
 
 #### 自动化工具
 
@@ -118,5 +118,6 @@ Backbone
 [iOSRe BBS](http://bbs.iosre.com/)
 
 
-### 参考[Bestswifter/MySampleCode](https://github.com/bestswifter/MySampleCode)
+## 参考
+[Bestswifter/MySampleCode](https://github.com/bestswifter/MySampleCode)
 
