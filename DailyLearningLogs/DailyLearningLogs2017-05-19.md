@@ -2,11 +2,8 @@
 
 ## Todo
 
-- [ ] Running~ 
-- [ ] Six packs
-- [ ] 《养眼就是养精神》CornellNote
-- [ ] 查看[RecentlyReading](https://github.com/FrizzleFur/DailyLearning/blob/master/RecentlyReading.md)
-- [ ] 整理项目架构——商品详情
+- [x] Running~  (2017-05-19)
+- [x] 《养眼就是养精神》CornellNote (2017-05-20)
 
 ## Done
 
