@@ -88,6 +88,7 @@ Backbone
 ### Python 学习笔记 (爬虫)
 [python web 入坑指南](http://python-web-guide.readthedocs.io/zh/latest/)
 [新手向爬虫（三）别人的爬虫在干啥](http://www.jianshu.com/p/dcd6438ce4c7)
+- [ ] 使用Python爬项目数据，进行数据分析
 
 ### React
 
