@@ -21,14 +21,14 @@
 [泊学Swift](https://boxueio.com/category/swift)
 
 ## Git
-- [ ] add Project to Git
+- [x] add Project to Git (2017-05-10)
 
 ## Fastlane
 - [ ] 了解`Fastlane`
 
 ### Reading
 
-- [ ] [养眼就是养精神 ](https://book.douban.com/subject/26596435/) 读书笔记
+- [x] [养眼就是养精神 ](https://book.douban.com/subject/26596435/) 读书笔记 (2017-05-20)
 ## CS
 [CSE 351: The Hardware/Software Interface](https://courses.cs.washington.edu/courses/cse351/16sp/videos.html)
 
