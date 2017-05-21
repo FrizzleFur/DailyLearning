@@ -2,14 +2,11 @@
 
 ## Todo
 
-- [ ] [Advanced_Apple_Debugging_&_Reverse_Engineering_v0]()
 - [ ] Room Settle
-
-- [ ] [XCTest](https://www.raywenderlich.com/118482/new-video-tutorial-series-testing-in-ios)
-- [ ] [趣直播思维导图](http://m.quzhiboapp.com/#!/intro/125)
 
 ## Done
 
+- [x] [Advanced_Apple_Debugging_&_Reverse_Engineering_v0]   (2017-05-21)规划了下学习方向
 - [x] Six packs  (2017-05-21)
 - [x] [图解机器学习]()(2017-05-21)
 
