@@ -97,7 +97,7 @@ Backbone
 
 ### English —— BEC
 
-- [ ] 扇贝打卡100天 (打卡天数7天 2017-05-02)
+- [ ] 扇贝打卡100天 (打卡天数17天 2017-05-21)
 
 ## CS
 [CSE 351: The Hardware/Software Interface](https://courses.cs.washington.edu/courses/cse351/16sp/videos.html)
