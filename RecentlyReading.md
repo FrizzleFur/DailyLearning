@@ -107,5 +107,14 @@
 1. 图解机器学习
 2. [**Advanced_Apple_Debugging_&_Reverse_Engineering_v0**](https://www.raywenderlich.com/161106/introducing-advanced-apple-debugging-reverse-engineering)
 3. RW
+4. [4点起床-最养生和高效的时间管理中岛孝志]()
+5. [精准拉伸 疼痛消除和损伤预防的针对性练习]()
+6. [解剖列车第三版中文]()
+7. [整体学习法导图](https://zhuanlan.zhihu.com/p/22693867)
+8. [整体学习法](http://www.jianshu.com/p/9a5f27173424)
+9. [如何评价斯科特·扬的《如何高效学习》（Learn More, Study Less!）？](https://www.zhihu.com/question/23043048)
+10. [如何考察求职者的「学习能力」？求职者如何培养学习能力？](https://www.zhihu.com/question/20107788/answer/14002070)
+
+
 
 
