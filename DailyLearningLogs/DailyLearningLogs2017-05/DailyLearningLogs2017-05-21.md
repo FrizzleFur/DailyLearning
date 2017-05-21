@@ -2,10 +2,10 @@
 
 ## Todo
 
-- [ ] Room Settle
 
 ## Done
 
+- [x] Room Settle(2017-05-21)
 - [x] [Advanced_Apple_Debugging_&_Reverse_Engineering_v0]   (2017-05-21)规划了下学习方向
 - [x] Six packs  (2017-05-21)
 - [x] [图解机器学习]()(2017-05-21)
