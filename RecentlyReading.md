@@ -118,3 +118,13 @@
 
 
 
+
+
+### UdaCity
+
+1. [Printable and DebugPrintable](https://classroom.udacity.com/courses/ud774/lessons/4377638660/concepts/43908686170923)
+2. [设计模式](https://classroom.udacity.com/courses/ud1029/lessons/a27e7e59-dfcd-4368-98fb-bf1bf9c31dc3/concepts/6e20466a-3b38-4c3d-abdc-df4672fcd2ce)
+3. [HTTP](https://classroom.udacity.com/courses/ud303/lessons/6ff26dd7-51d6-49b3-9f90-41377bff4564/concepts/ab2f6d8d-fef4-4997-9768-e6e73325b9cb)
+4. [HTML,CSS](https://classroom.udacity.com/courses/ud304/lessons/2617868617/concepts/27713785570923)
+5. [Interview](https://classroom.udacity.com/nanodegrees/nd004/parts/a98f5fbf-0b2a-457d-8f06-7025979cf2bc)
+
