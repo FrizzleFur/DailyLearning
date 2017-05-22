@@ -5,7 +5,7 @@
 ## The Debugging Process
 
 1. Reproduce the problem
-> if you can`t reproduhce the problem, then you (probably) don`t understand it.
+> if you cannot reproduce the problem, then you (probably) do not understand it.
 
 
 2. Gather Debug Information
@@ -33,5 +33,9 @@
 ## 参考
 
 [The Debugging Process](https://classroom.udacity.com/courses/ud774/lessons/4377638660/concepts/43903186280923)
+
+[Advanced Apple Debugging & Reverse Engineering](https://videos.raywenderlich.com/courses/82-rwdevcon-2017-vault-workshops/lessons/1)
+
+
 
 
