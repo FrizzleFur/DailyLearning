@@ -36,6 +36,9 @@
 
 [Advanced Apple Debugging & Reverse Engineering](https://videos.raywenderlich.com/courses/82-rwdevcon-2017-vault-workshops/lessons/1)
 
+[Debugging in Xcode2012](https://developer.apple.com/videos/play/wwdc2012/412/)
+
+[What's New in LLDB 2015](https://developer.apple.com/videos/play/wwdc2015/402/)
 
 
 
