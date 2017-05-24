@@ -79,3 +79,32 @@ Objective-C
 
 [小笨狼与LLDB的故事](http://www.jianshu.com/p/e89af3e9a8d7)
 
+
+
+##### BreakPoint
+
+![](http://oc98nass3.bkt.clouddn.com/2017-05-23-14955445977510.jpg)
+
+
+###  Xcode Debugging Hotkeys
+>Here is a listing of Xcode hotkeys (related to debugging) we mentioned in this course. Let us know if we missed any!
+
+```
+Show Navigator (⌘+0)
+Show Debug Navigator (⌘+6)
+Show Breakpoint Navigator (⌘+7)
+Show Debug Area (⌘+Shift+Y)
+Open Documentation (⌘+Shift+0)
+Step Over (F6)
+Step Into (F7)
+Step Out (F8)
+Continue (⌘+Ctrl+Y)
+Build (⌘+B)
+Run (⌘+R)
+Activate/Deactivate Breakpoint (⌘+Y)
+Quick Search (⌘+Shift+O)
+```
+
+[Xcode Debugging Hotkeys](https://classroom.udacity.com/courses/ud774/lessons/4388088536/concepts/44197787450923)
+
+
