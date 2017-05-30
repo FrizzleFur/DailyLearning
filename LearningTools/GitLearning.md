@@ -285,6 +285,7 @@ $ gh view 1 --browser
 
 1. [图解Git](https://marklodato.github.io/visual-git-guide/index-zh-cn.html#commands-in-detail)
 2. [Gitsome](https://github.com/donnemartin/gitsome)
+3. [**Git Recipes**](https://github.com/geeeeeeeeek/git-recipes)
 
 
 
