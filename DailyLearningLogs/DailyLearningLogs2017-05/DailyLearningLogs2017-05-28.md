@@ -2,18 +2,13 @@
 
 ## Todo
 
-- [ ] 整理房间
+- [x] 整理房间 (2017-05-30)
 
-- [ ] 处理剪头发，洗衣服，兑换券
+- [x] 处理剪头发，洗衣服，兑换券 (2017-05-30)
 
-- [ ] 解决发现
+- [x] 解决发现 (2017-06-01)
 
-- [ ] 首页的倒计时问题
-
-- [ ] 试用[InjectionForXcode](https://github.com/johnno1962/injectionforxcode)  
-
-- [ ] [Mastering Git](https://videos.raywenderlich.com/courses/81-rwdevcon-2017-vault-tutorials/lessons/6)
-
+- [x] 首页的倒计时问题 (2017-06-02)
 
 ## Done
 
