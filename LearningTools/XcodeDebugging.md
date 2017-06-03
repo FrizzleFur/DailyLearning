@@ -65,11 +65,46 @@ Objective-C
     (lldb) expression -- self.view
     (UIView *) $1 = 0x00007fe322c18a10
 
+`expression` 可以支持多行输入，输入`expression`后回车，会显示行号，每行输入后换行，双击回车代表完成输入，过掉断言即刻看到表达式的效果。
+
+
+![](http://oc98nass3.bkt.clouddn.com/2017-06-03-14964589170284.jpg)
 
 
 ##### BreakPoint
 
 ![](http://oc98nass3.bkt.clouddn.com/2017-05-23-14955445977510.jpg)
+
+
+**[非重写方法的符号断点](https://objccn.io/issue-19-2/)**
+假设你想知道 -[MyViewController viewDidAppear:] 什么时候被调用。如果这个方法并没有在MyViewController 中实现，而是在其父类中实现的，该怎么办呢？试着设置一个断点，会出现以下结果：
+
+```
+(lldb) b -[MyViewController viewDidAppear:]
+Breakpoint 1: no locations (pending).
+WARNING:  Unable to resolve breakpoint to any actual locations.
+```
+因为 LLDB 会查找一个符号，但是实际在这个类上却找不到，所以断点也永远不会触发。你需要做的是为断点设置一个条件 `[self isKindOfClass:[MyViewController class]]`，然后把断点放在 `UIViewController` 上。正常情况下这样设置一个条件可以正常工作。但是这里不会，因为我们没有父类的实现。
+
+`viewDidAppear`: 是苹果实现的方法，因此没有它的符号；在方法内没有 `self` 。如果想在符号断点上使用 `self`，你必须知道它在哪里 (它可能在寄存器上，也可能在栈上；在 x86 上，你可以在 $esp+4 找到它)。但是这是很痛苦的，因为现在你必须至少知道四种体系结构 (x86，x86-64，armv7，armv64)。想象你需要花多少时间去学习命令集以及它们每一个的调用约定，然后正确的写一个在你的超类上设置断点并且条件正确的命令。幸运的是，这个在 facebook的[Chisel](https://github.com/facebook/chisel) 被解决了。这被成为 `bmessage`：
+```
+(lldb) bmessage -[MyViewController viewDidAppear:]
+Setting a breakpoint at -[UIViewController viewDidAppear:] with condition (void*)object_getClass((id)$rdi) == 0x000000010e2f4d28
+Breakpoint 1: where = UIKit`-[UIViewController viewDidAppear:], address = 0x000000010e11533c
+LLDB 和 Python
+```
+
+**`breakpoint command add`**
+就是给断点添加命令的命令。
+
+e.g: 假设我们需要在ViewController的viewDidLoad中查看self.view的值
+我们首先给-[ViewController viewDidLoad]添加一个断点
+```
+(lldb) breakpoint set -n "-[ViewController viewDidLoad]"
+'breakpoint 3': where = TLLDB`-[ViewController viewDidLoad] + 20 at ViewController.m:23, address = 0x00000001055e6004
+```
+可以看到添加成功之后，这个breakpoint的id为3，然后我们给他增加一个命令：`po self.view`
+`(lldb) breakpoint command add -o "po self.view" 3`
 
 
 ###  Xcode Debugging Hotkeys
@@ -112,6 +147,11 @@ Quick Search (⌘+Shift+O)
     NSLog(@"I've been injected: %@", self);
 }
 ```
+
+>The plugin can be removed either via Alcatraz, or by running:
+> `rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/InjectionPlugin.xcplugin`
+
+
 **注意**
 
 ```
@@ -212,4 +252,6 @@ Advanced Apple Debugging & Reverse Engineering Appendix A: LLDB CheatsheetToggl
 #### LLDB
 
 [小笨狼与LLDB的故事](http://www.jianshu.com/p/e89af3e9a8d7)
+[lldb.llvm.org](https://lldb.llvm.org/tutorial.html)
+
 
