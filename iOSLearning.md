@@ -103,5 +103,5 @@
 -->
 #### Tool
 
-- [ ] 试用[InjectionForXcode](https://github.com/johnno1962/injectionforxcode)  
+- [x] 试用[InjectionForXcode](https://github.com/johnno1962/injectionforxcode)  （2017-06-03）
 
