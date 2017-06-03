@@ -137,6 +137,8 @@ Quick Search (⌘+Shift+O)
 
 ![Icon Injection Plugin for Xcode](https://github.com/johnno1962/injectionforxcode/blob/master/documentation/images/injected.gif)
 
+![injected](http://oc98nass3.bkt.clouddn.com/2017-06-03-injected.gif)
+
 > 一个Xcode的插件，让你在改完代码后无需重新运行Xcode就可以看到效果。
 
 将需要调试的代码写到`injected`这个方法中，然后在和这个方法中设置一个断言，使用`Ctr + =`,即会停在这个断言里，每次修改，使用一下`Ctr + =`就会重新注入，释放断言就可以看到效果。
