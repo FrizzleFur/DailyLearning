@@ -2,7 +2,7 @@
 # Xcode Debugging
 
 > 你的代码，或者任何人的代码中总会有bug存在，**你可以把调试看做是更好地理解代码的一种方式** —— By Advanced_Apple_Debugging_&_Reverse_Engineering_v0.9.5
-
+    
 ## The Debugging Process
 
 1. Reproduce the problem
@@ -94,6 +94,35 @@ Quick Search (⌘+Shift+O)
 [Xcode Debugging Hotkeys](https://classroom.udacity.com/courses/ud774/lessons/4388088536/concepts/44197787450923)
 
 
+## TOOL
+
+### Icon Injection Plugin for Xcode
+
+[Icon Injection Plugin for Xcode](https://github.com/johnno1962/injectionforxcode#user-content-use-with-appcode)
+
+![Icon Injection Plugin for Xcode ](http://oc98nass3.bkt.clouddn.com/2017-06-03-Icon Injection Plugin for Xcode .gif)
+
+> 一个Xcode的插件，让你在改完代码后无需重新运行Xcode就可以看到效果。
+
+将需要调试的代码写到`injected`这个方法中，然后在和这个方法中设置一个断言，使用`Ctr + =`,即会停在这个断言里，每次修改，使用一下`Ctr + =`就会重新注入，释放断言就可以看到效果。
+
+```
+- (void)injected
+{
+    NSLog(@"I've been injected: %@", self);
+}
+```
+**注意**
+
+```
+- (void)injected as an instance method, which gives you the chance to re-update an object with new contexts.
++ (void)injected as a class method, making it possible to update globals with new information
+Listening for INJECTION_BUNDLE_NOTIFICATION, allowing other classes to listen out for injection calls, this is useful for providing app level changes.
+
+```
+**原理**
+
+它通过解析应用程序的生成日志来确定源文件是如何最后编译的。用这个包将重新编译成一个`bundle`，该`bundle`使用动态加载程序注入应用程序。现在在`bundle`中就有两个版本，原版本和新的修改版本。修改后的版本是“调和”在原版本发生变化。
 
 ## LLDB
 
