@@ -135,7 +135,7 @@ Quick Search (⌘+Shift+O)
 
 [Icon Injection Plugin for Xcode](https://github.com/johnno1962/injectionforxcode#user-content-use-with-appcode)
 
-![Icon Injection Plugin for Xcode ](http://oc98nass3.bkt.clouddn.com/2017-06-03-Icon Injection Plugin for Xcode .gif)
+![Icon Injection Plugin for Xcode](https://github.com/johnno1962/injectionforxcode/blob/master/documentation/images/injected.gif)
 
 > 一个Xcode的插件，让你在改完代码后无需重新运行Xcode就可以看到效果。
 
