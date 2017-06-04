@@ -1,6 +1,12 @@
 
 # DailyTodo
 
+- [ ] 项目的类图
+
+- [ ] 查看平方根科技的简历注意
+
+- [ ] 试着写点简历
+
 
 - [ ] [趣直播思维导图](http://m.quzhiboapp.com/#!/intro/125)
 - [ ] [PART 22: 306: MVVM in Practice](https://videos.raywenderlich.com/courses/59-rwdevcon-2016-vault/lessons/22)
