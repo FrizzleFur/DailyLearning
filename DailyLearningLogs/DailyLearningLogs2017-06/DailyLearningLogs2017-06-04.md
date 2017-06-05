@@ -2,9 +2,9 @@
 
 ## Todo
 
-- [ ] 看完Reeder
 
 
 ## Done
 
+- [x] 看完Reeder (2017-06-05)
 
