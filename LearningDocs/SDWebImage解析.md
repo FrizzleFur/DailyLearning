@@ -26,6 +26,14 @@ Asynchronous image downloader with cache support as a UIImageView category.
 ![SDWebImage(3.8.2) ](http://upload-images.jianshu.io/upload_images/6287298-c307e8ce394cf54c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![SDWebImage步骤](https://github.com/rs/SDWebImage/blob/master/Docs/SDWebImageSequenceDiagram.png?raw=true)
 
+代码的第一句是
+
+```
+[self sd_cancelCurrentImageLoad];
+```
+看方法名就知道它的作用，就是取消这个视图 ImageView 正在加载图片的操作，如果这个 ImageView 正在加载图片，保障在开始新的加载图片任务之前，取消掉正在进行的加载操作。
+
+
 ### 核心方法：
 在`UIImageView`分类`UIImageView+UIImageView+WebCache`中，集成了图片下载和缓存的方法：
 
@@ -96,7 +104,7 @@ Asynchronous image downloader with cache support as a UIImageView category.
 
 在走到`url`存在的时候，就使用`SDWebImageManager`调用`downloadImageWithURL：options:progress:completed:`方法
 
-查找缓存
+### 查找缓存
 
 ```
     // First check the in-memory cache...
@@ -369,7 +377,7 @@ Asynchronous image downloader with cache support as a UIImageView category.
 十三、 回主线程设置 UIImageView
 
 
-### SDWebImageOptions
+#### SDWebImageOptions
 
 ```
 SDWebImageOptions
@@ -478,6 +486,46 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
 Block
 
 ```
+
+
+### UIView (WebCacheOperation）
+
+
+```
+- (NSMutableDictionary *)operationDictionary {
+    NSMutableDictionary *operations = objc_getAssociatedObject(self, &loadOperationKey);
+    if (operations) {
+        return operations;
+    }
+    operations = [NSMutableDictionary dictionary];
+    objc_setAssociatedObject(self, &loadOperationKey, operations, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return operations;
+}
+
+- (void)sd_setImageLoadOperation:(id)operation forKey:(NSString *)key {
+    [self sd_cancelImageLoadOperationWithKey:key];
+    NSMutableDictionary *operationDictionary = [self operationDictionary];
+    [operationDictionary setObject:operation forKey:key];
+}
+- (void)sd_cancelImageLoadOperationWithKey:(NSString *)key {
+    // Cancel in progress downloader from queue
+    NSMutableDictionary *operationDictionary = [self operationDictionary];
+    id operations = [operationDictionary objectForKey:key];
+    if (operations) {
+        if ([operations isKindOfClass:[NSArray class]]) {
+            for (id <SDWebImageOperation> operation in operations) {
+                if (operation) {
+                    [operation cancel];
+                }
+            }
+        } else if ([operations conformsToProtocol:@protocol(SDWebImageOperation)]){
+            [(id<SDWebImageOperation>) operations cancel];
+        }
+        [operationDictionary removeObjectForKey:key];
+    }
+}
+```
+代码中，通过 `objc_setAssociatedObject` 关联对象的方法，给 `UIImageView` 动态添加了一个 `NSMutableDictionary` 的属性。通过 `key-value` 维护这个 `ImageView` 已经有了哪些下载操作，如果是数组就是 `UIImageViewAnimationImages` 否则就是 `UIImageViewImageLoad` 。最后获得的都是遵从了 `<SDWebImageOperation>` 协议的对象，可以统一调用定义好的方法 `cancel`，达到取消下载操作的目的，如果 `operation` 都被取消了，则删除对应 `key` 的值。
 
 
 ### 参考
