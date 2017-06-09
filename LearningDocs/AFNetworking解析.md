@@ -1,10 +1,7 @@
 
-# AFNetworking.md
+# AFNetworking解析.md
 
 >
->
->
-
 
 `AFNetworking`的框架：
 <img src="http:///oc98nass3.bkt.clouddn.com/201612/1496907785055.png" width="371"/>
