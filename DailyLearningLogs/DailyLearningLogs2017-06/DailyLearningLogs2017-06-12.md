@@ -3,7 +3,6 @@
 ## Todo
 
 
-- [ ] 整理KVCKVO
 
 
 - [ ] 整理面试题
@@ -14,4 +13,7 @@
 ## Done
 
 - [x] 使用Easy APNs Provider （2017-06-12）
+
+- [x] 整理KVCKVO （2017-06-12）
+
 
