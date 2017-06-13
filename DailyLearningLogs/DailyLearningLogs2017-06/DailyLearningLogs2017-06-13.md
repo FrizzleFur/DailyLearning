@@ -9,7 +9,10 @@
 
 ## Done
 
-- [ ] finish 
-[UIDebuggingInformationOverlay - Low Level](http://ryanipete.com/blog/ios/swift/objective-c/uidebugginginformationoverlay/)
+- [x] finish [FrizzleFur/MZStarRatingView: MZStarRatingView is focus on better star rating](https://github.com/FrizzleFur/MZStarRatingView)
+(2017-06-13)
+
+- [x] finish 
+[UIDebuggingInformationOverlay - Low Level](http://ryanipete.com/blog/ios/swift/objective-c/uidebugginginformationoverlay/) (2017-06-13)
 
 
