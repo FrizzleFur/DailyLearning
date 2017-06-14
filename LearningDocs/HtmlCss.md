@@ -1,6 +1,9 @@
 
 # HtmlCSS.md
 
+[Front-End Skills Cheklist_ZH.pdf](https://github.com/FrizzleFur/DailyLearning/blob/master/Resource/Front-End%2BSkills%2BCheklist_ZH.pdf)
+
+
 [10大顶级公开课，带你入门Web前端开发](https://zhuanlan.zhihu.com/p/22700195)
 FreeGrit潇洒毅行
 FreeGrit潇洒毅行
