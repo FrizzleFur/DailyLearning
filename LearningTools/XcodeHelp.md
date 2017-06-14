@@ -38,3 +38,13 @@ By the way,使用快捷键是个好习惯~[s:921]
 ![](http://oc98nass3.bkt.clouddn.com/2017-06-03-14964613515064.jpg)
 
 
+
+###  查看编译时间
+
+![](http://oc98nass3.bkt.clouddn.com/2017-06-14-14974004401607.jpg)
+
+`DYLD_PRINT_STATISTICS`
+
+![](http://oc98nass3.bkt.clouddn.com/2017-06-14-14974004600437.jpg)
+
+
