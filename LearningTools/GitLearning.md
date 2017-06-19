@@ -281,6 +281,24 @@ $ gh view 1 -b
 $ gh view 1 --browser
 ```
 
+## Project Bitbucket to Github
+
+>Transfer repo from Bitbucket to Github Raw
+Raw
+
+```
+// Reference: http://www.blackdogfoundry.com/blog/moving-repository-from-bitbucket-to-github/
+// See also: http://www.paulund.co.uk/change-url-of-git-repository
+
+$ cd $HOME/Code/repo-directory
+$ git remote rename origin bitbucket
+$ git remote add origin https://github.com/mandiwise/awesome-new-repo.git
+$ git push origin master
+
+$ git remote rm bitbucket
+```
+
+
 ## 参考
 
 1. [图解Git](https://marklodato.github.io/visual-git-guide/index-zh-cn.html#commands-in-detail)
