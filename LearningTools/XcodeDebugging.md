@@ -112,6 +112,142 @@ Enter your debugger command(s).  Type 'DONE' to end.
 
 ![](http://oc98nass3.bkt.clouddn.com/2017-06-03-14964707712015.jpg)
 
+breakpoint
+
+调试过程中，我们用得最多的可能就是断点了。LLDB中的断点命令也非常强大
+
+breakpoint set
+
+breakpoint set命令用于设置断点，LLDB提供了很多种设置断点的方式：
+
+使用-n根据方法名设置断点：
+
+e.g: 我们想给所有类中的viewWillAppear:设置一个断点:
+
+    (lldb) breakpoint set -n viewWillAppear:
+    Breakpoint 13: 33 locations.
+使用-f指定文件
+
+e.g: 我们只需要给ViewController.m文件中的viewDidLoad设置断点：
+
+    (lldb) breakpoint set -f ViewController.m -n viewDidLoad
+    Breakpoint 22: where = TLLDB`-[ViewController viewDidLoad] + 20 at ViewController.m:22, address = 0x000000010272a6f4
+这里需要注意，如果方法未写在文件中（比如写在category文件中，或者父类文件中），指定文件之后，将无法给这个方法设置断点。
+
+使用-l指定文件某一行设置断点
+
+e.g: 我们想给ViewController.m第38行设置断点
+
+(lldb) breakpoint set -f ViewController.m -l 38
+Breakpoint 23: where = TLLDB`-[ViewController text:] + 37 at ViewController.m:38, address = 0x000000010272a7d5
+使用-c设置条件断点
+
+e.g: text:方法接受一个ret的参数，我们想让ret == YES的时候程序中断：
+
+(lldb) breakpoint set -n text: -c ret == YES
+Breakpoint 7: where = TLLDB`-[ViewController text:] + 30 at ViewController.m:37, address = 0x0000000105ef37ce
+使用-o设置单次断点
+
+e.g: 如果刚刚那个断点我们只想让他中断一次：
+
+(lldb) breakpoint set -n text: -o
+'breakpoint 3': where = TLLDB`-[ViewController text:] + 30 at ViewController.m:37, address = 0x000000010b6f97ce
+breakpoint command
+
+有的时候我们可能需要给断点添加一些命令，比如每次走到这个断点的时候，我们都需要打印self对象。我们只需要给断点添加一个po self命令，就不用每次执行断点再自己输入po self了
+
+breakpoint command add
+
+breakpoint command add命令就是给断点添加命令的命令。
+
+e.g: 假设我们需要在ViewController的viewDidLoad中查看self.view的值
+我们首先给-[ViewController viewDidLoad]添加一个断点
+
+(lldb) breakpoint set -n "-[ViewController viewDidLoad]"
+'breakpoint 3': where = TLLDB`-[ViewController viewDidLoad] + 20 at ViewController.m:23, address = 0x00000001055e6004
+可以看到添加成功之后，这个breakpoint的id为3，然后我们给他增加一个命令：po self.view
+
+(lldb) breakpoint command add -o "po self.view" 3
+-o完整写法是--one-liner，表示增加一条命令。3表示对id为3的breakpoint增加命令。
+添加完命令之后，每次程序执行到这个断点就可以自动打印出self.view的值了
+
+如果我们一下子想增加多条命令，比如我想在viewDidLoad中打印当前frame的所有变量，但是我们不想让他中断，也就是在打印完成之后，需要继续执行。我们可以这样玩：
+
+(lldb) breakpoint command add 3
+Enter your debugger command(s).  Type 'DONE' to end.
+> frame variable
+> continue
+> DONE
+输入breakpoint command add 3对断点3增加命令。他会让你输入增加哪些命令，输入'DONE'表示结束。这时候你就可以输入多条命令了
+
+多次对同一个断点添加命令，后面命令会将前面命令覆盖
+breakpoint command list
+
+如果想查看某个断点已有的命令，可以使用breakpoint command list。
+e.g: 我们查看一下刚刚的断点3已有的命令
+
+(lldb) breakpoint command list 3
+'breakpoint 3':
+    Breakpoint commands:
+      frame variable
+      continue
+可以看到一共有2条命令，分别为frame variable和continue
+
+breakpoint command delete
+
+有增加就有删除，breakpoint command delete可以让我们删除某个断点的命令
+e.g: 我们将断点3中的命令删除:
+
+(lldb) breakpoint command delete 3
+(lldb) breakpoint command list 3
+Breakpoint 3 does not have an associated command.
+可以看到删除之后，断点3就没有命令了
+
+breakpoint list
+
+如果我们想查看已经设置了哪些断点，可以使用breakpoint list
+e.g:
+
+(lldb) breakpoint list
+Current breakpoints:
+4: name = '-[ViewController viewDidLoad]', locations = 1, resolved = 1, hit count = 0
+  4.1: where = TLLDB`-[ViewController viewDidLoad] + 20 at ViewController.m:23, address = 0x00000001055e6004, resolved, hit count = 0
+我们可以看到当前只有一个断点，打在-[ViewController viewDidLoad]上，id是4
+
+breakpoint disable/enable
+
+有的时候我们可能暂时不想要某个断点，可以使用breakpoint disable让某个断点暂时失效
+e.g: 我们来让刚刚的断点4失效
+
+(lldb) breakpoint disable 4
+1 breakpoints disabled.
+输入完命令之后，显示断点已经失效
+
+当我们又需要这个断点的时候，可以使用breakpoint enable再次让他生效
+e.g: 重新启用断点4
+
+(lldb) breakpoint enable 4
+1 breakpoints enabled.
+breakpoint delete
+
+如果我们觉得这个断点以后再也用不上了，可以用breakpoint delete直接删除断点.
+e.g: 删除断点4
+
+(lldb) breakpoint delete 4
+1 breakpoints deleted; 0 breakpoint locations disabled.
+如果我们想删除所有断点，只需要不指定breakpoint delete参数即可
+
+(lldb) breakpoint delete 
+About to delete all breakpoints, do you want to do that?: [Y/n] y
+All breakpoints removed. (1 breakpoint)
+删除的时候他会提示你，是不是真的想删除所有断点，需要你再次输入Y确认。如果想直接删除，不需要他的提示，使用-f命令选项即可
+
+(lldb) breakpoint delete -f
+All breakpoints removed. (1 breakpoint)
+实际平时我们真正使用breakpoint命令反而比较少，因为Xcode已经内置了断点工具。我们可以直接在代码上打断点，可以在断点工具栏里面查看编辑断点，这比使用LLDB命令方便很多。不过了解LLDB相关命令可以让我们对断点理解更深刻。
+如果你想了解怎么使用Xcode设置断点，可以阅读这篇文章《Xcode中断点的威力》
+
+
 ##### 非重写方法的符号断点
 [非重写方法的符号断点](https://objccn.io/issue-19-2/)
 假设你想知道 -[MyViewController viewDidAppear:] 什么时候被调用。如果这个方法并没有在MyViewController 中实现，而是在其父类中实现的，该怎么办呢？试着设置一个断点，会出现以下结果：
@@ -316,6 +452,9 @@ Advanced Apple Debugging & Reverse Engineering Appendix A: LLDB CheatsheetToggl
 #### LLDB
 
 [小笨狼与LLDB的故事](http://www.jianshu.com/p/e89af3e9a8d7)
+
 [lldb.llvm.org](https://lldb.llvm.org/tutorial.html)
+
+
 [Chisel](https://github.com/facebook/chisel) 
 
