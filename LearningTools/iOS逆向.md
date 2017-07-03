@@ -43,3 +43,27 @@ $ make
 3. [iOS逆向工程-----class-dump - 简书](http://www.jianshu.com/p/2add936e8bdd)
 
 
+
+
+### 使用 Xcode 调试第三方应用
+
+
+[使用 Xcode 调试第三方应用](http://swiftyper.com/2017/07/02/attach-third-app-using-xcode/)
+
+
+#### get-task-allow
+
+1. 提取`.mobileprovision`文件的`entitlements.plist`
+
+![](http://oc98nass3.bkt.clouddn.com/2017-07-03-14990792796143.jpg)
+
+拷贝内容，新建一个`.plist`文件
+![](http://oc98nass3.bkt.clouddn.com/2017-07-03-14990793865052.jpg)
+
+拷贝到`wechat.app`文件夹中
+
+
+![](http://oc98nass3.bkt.clouddn.com/2017-07-03-14990796280206.jpg)
+
+
+
