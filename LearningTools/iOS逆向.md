@@ -97,6 +97,40 @@ codesign -vvv -fs “YourCertifierName” --entitlements=AppName.app/entitlement
 ```
 zip -ry AppName.ipa Payload
 ```
+
+#### 链接App，开始调试
+
+2.Attach to Process
+
+重签名后安装到越狱设备上，启动app，在Xcode中随便打开一个工程，选择越狱设备，就可以在Debug->Attach to Process中找到正在运行的进程名和进程id，点击后就会开始连接。大概过1分钟就会连接上。
+
+3.查看UI
+
+连接上后，就可以点击使用Xcode的Debug UI Hierarchy来查看界面布局：
+
+
+UI Hierarchy
+注意，Debug UI Hierarchy对Xcode版本似乎有要求，在调试重签名app时，Xcode8.3.2可以，而Xcode8.2就没有这个功能按钮。
+
+4.查看内存信息
+
+点击Debug Memory Graph按钮，可以查看当前内存中存在的数据。打印地址，查看引用关系，可以配合malloc stack进行追踪。如果打开了malloc stack，就可以直接在右边显示这个对象的创建堆栈。开启方法参考：iOS逆向：在任意app上开启malloc stack追踪内存来源
+
+
+Memory Graph
+5.查看正在使用的文件
+
+debug gauges中的Disk工具可以查看app当前打开的文件。
+
+
+Open Files
+6.instrument调试
+
+类似的，也可以用instrument调试重签名后的app，不过并不是所有工具都可以使用，对逆向的帮助不大。
+
+ 逆向工程
+
+
 ## 参考
 
 1. [iOS 逆向手把手教程之一：砸壳与class-dump · Swiftyper](http://www.swiftyper.com/2016/05/02/iOS-reverse-step-by-step-part-1-class-dump/)
