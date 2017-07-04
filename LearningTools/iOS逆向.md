@@ -63,28 +63,40 @@ $ make
 ![](http://oc98nass3.bkt.clouddn.com/2017-07-04-14991380843315.jpg)
 
 #### 整体流程
+
 1. 选好一个`mobileprovision`文件，可以运行真机得到。
 2. 查看mobileprovision的内容
+
 ```
 security cms -D -i    yourMobileprovisionName.mobileprovision
 ```
-3. 从 mobileprovision 导出 plist文件
 
-导出entitlements.plist
+3. 从 `mobileprovision` 导出 `plist`文件，命名为`entitlements.plist`
+
+```
 /usr/libexec/PlistBuddy -c "Print :Entitlements" mobileprovisionName.plist -x > entitlements.plist
+```
 
-删除
+4. 删除旧的资源签名
+```
 defaults delete CFBundleResourceSpe Info.plist
+```
+如果提示说 `Info.plist `中没有`CFBundleREsourceSpecification` 是正常的。
 
-查找证书
+5. 查找证书
+```
 security find-identity -v -p codesigning
+```
 
-重新签名
+6. 重新签名
+```
 codesign -vvv -fs “YourCertifierName” --entitlements=AppName.app/entitlements.plist --no-strict AppName.app
+```
 
-打包
+6. 打包`ipa`文件
+```
 zip -ry AppName.ipa Payload
-
+```
 ## 参考
 
 1. [iOS 逆向手把手教程之一：砸壳与class-dump · Swiftyper](http://www.swiftyper.com/2016/05/02/iOS-reverse-step-by-step-part-1-class-dump/)
