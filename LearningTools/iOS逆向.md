@@ -36,19 +36,7 @@ $ make
 ### class-dump
 
 
-## 参考
-
-1. [iOS 逆向手把手教程之一：砸壳与class-dump · Swiftyper](http://www.swiftyper.com/2016/05/02/iOS-reverse-step-by-step-part-1-class-dump/)
-2. [iOS 逆向实战 - 钉钉签到远程“打卡”](https://www.instapaper.com/read/923533156)
-3. [iOS逆向工程-----class-dump - 简书](http://www.jianshu.com/p/2add936e8bdd)
-
-
-
-
-### 使用 Xcode 调试第三方应用
-
-
-[使用 Xcode 调试第三方应用](http://swiftyper.com/2017/07/02/attach-third-app-using-xcode/)
+### 使用 `Xcode` 调试第三方应用
 
 
 #### get-task-allow
@@ -65,5 +53,24 @@ $ make
 
 ![](http://oc98nass3.bkt.clouddn.com/2017-07-03-14990796280206.jpg)
 
+
+#### 解决问题
+
+这里会有一个问题，如果app中包含了扩展之类的东西就需要注意了，每个插件包里都会有一个info.plist文件，里面的Bundle identifier也需要做相应的修改，不然后导致安装失败。
+
+另外即使改了所有相关的Bundle identifier，还需要对扩展插件进行砸壳才行。所以为了方便，我就把所有插件相关的东西都删了！
+
+![](http://oc98nass3.bkt.clouddn.com/2017-07-04-14991380843315.jpg)
+
+
+## 参考
+
+1. [iOS 逆向手把手教程之一：砸壳与class-dump · Swiftyper](http://www.swiftyper.com/2016/05/02/iOS-reverse-step-by-step-part-1-class-dump/)
+2. [iOS 逆向实战 - 钉钉签到远程“打卡”](https://www.instapaper.com/read/923533156)
+3. [iOS逆向工程-----class-dump - 简书](http://www.jianshu.com/p/2add936e8bdd)
+
+###   使用 `Xcode` 调试第三方应用参考
+1. [使用 Xcode 调试第三方应用 · Swiftyper](http://swiftyper.com/2017/07/02/attach-third-app-using-xcode/)
+2. [iOS APP重签名 - 简书](http://www.jianshu.com/p/5bc225be6c03)
 
 
