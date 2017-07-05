@@ -35,6 +35,13 @@ Note: You might notice some output on the Xcode stderr Terminal window; this is 
 * apropos：   查找包含搜寻的字符的命令信息
 
 
+
+
+![](http://oc98nass3.bkt.clouddn.com/2017-07-05-14992242080249.jpg)
+
+
+
+
 ### Helpful Links
 
 1. [Advanced Apple Debugging & Reverse Engineering](https://www.raywenderlich.com/161106/introducing-advanced-apple-debugging-reverse-engineering)
