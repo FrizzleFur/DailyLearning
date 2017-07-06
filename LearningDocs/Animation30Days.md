@@ -71,13 +71,17 @@ UIView.animate(withDuration: 0.5, delay: 0.5,usingSpringWithDamping: 0.5, initi
 
 ![Fuzzy search](https://raw.githubusercontent.com/fangwei716/ThirtyDaysOfReactNative/screenshots/screenshot/day17.gif)
 
+### Transitions
+Transitions：过渡，转变，利用一些数学矩阵进行变换。
 
+> 之前的2章，主要通过`UIView`的一些动画属性，比如`position`, `alpha`来实现。下面将用`变换`来实现
 
 ### 参考
 
 1. [fangwei716/30-days-of-react-native](https://github.com/fangwei716/30-days-of-react-native)
 2. [100 Days of Swift](http://samvlu.com/) 
 3. [30DaysofSwift](https://github.com/allenwong/30DaysofSwift)
+4. [iOS_Animations_by_Tutorials_v3.1](https://store.raywenderlich.com/products/ios-animations-by-tutorials)
 
 
 
