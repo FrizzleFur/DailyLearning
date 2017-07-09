@@ -1,6 +1,5 @@
-[TOC]
 
-# Linux/Unix Learning
+# Linux Commands Learning
 
 记录小白学习`Linux`的过程，如有错误，万望指正，感激不尽。
 
