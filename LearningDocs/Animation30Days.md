@@ -74,9 +74,24 @@ UIView.animate(withDuration: 0.5, delay: 0.5,usingSpringWithDamping: 0.5, initi
 ### Transitions
 Transitions：过渡，转变，利用一些数学矩阵进行变换。
 
-> 之前的2章，主要通过`UIView`的一些动画属性，比如`position`, `alpha`来实现。下面将用`变换`来实现
+> 之前的2章，主要通过`UIView`的一些动画属性，比如`position`, `alpha`来实现。下面将用`变换`来实现.
 
-### 参考
+
+### Keyframe Animations
+
+![](http://oc98nass3.bkt.clouddn.com/2017-07-09-14995744576755.jpg)
+
+大多数情况下，您会发现需要为视图设置多个连续的动画。在此之前，您已经使用完成闭包将多个动画连接到一起了。
+这种方法在两个简单动画的链接中起作用，但当你想将三个、四个或更多的动画组合在一起时，可能会导致一些令人难以置信的混乱和复杂的代码。
+
+
+```
+UIView.animate(withDuration: 0.5,  animations: {    view.center.x += 200.0  },  completion: { _ in    UIView.animate(withDuration: 0.5,      animations: {
+      view.center.y += 100.0      },      completion: { _ in        UIView.animate(withDuration: 0.5,          animations: {            view.center.x -= 200.0          },          completion: { _ in            UIView.animate(withDuration: 0.5,              animations: {                view.center.y -= 100.0              }         ) }      ) }    ) })
+```
+
+
+## 参考
 
 1. [fangwei716/30-days-of-react-native](https://github.com/fangwei716/30-days-of-react-native)
 2. [100 Days of Swift](http://samvlu.com/) 
