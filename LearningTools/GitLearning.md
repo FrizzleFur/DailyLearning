@@ -6,7 +6,141 @@
 
 >The Git workflow consists of editing files in the working directory, adding files to the staging area, and saving changes to a Git repository. In Git, we save changes with a commit, which we will learn more about in this lesson.
 
-##### Git
+## Github
+
+[`Zenhub`](www.zenhub.com)
+
+### ZenHub 
+[ZenHub Guide](https://www.zenhub.com/guides#reporting-with-zenhub)
+[Zenhub-boards](https://www.zenhub.com/guides/setup-my-zenhub-boards)
+[ZenHub - Agile GitHub Project Management](https://www.zenhub.com/guides/setup-my-zenhub-boards)
+[Your first sprint using ZenHub](https://www.zenhub.com/guides/your-first-sprint-using-zenhub#what-goes-into-a-sprint)
+
+#### Zenhub issuse template
+![](http://oc98nass3.bkt.clouddn.com/2017-07-11-14997767891391.png)
+
+
+#### ZenHub Board
+
+![ZenHub Board](http://oc98nass3.bkt.clouddn.com/2017-07-11-14997732663573.jpg)
+![Sprint-based workflow](http://oc98nass3.bkt.clouddn.com/2017-07-11-14997745630454.jpg)
+
+* New Issues: 新问题：新问题自动登陆。你应该尽快把他们从这里拖出去。
+
+* Icebox: 冰箱：冰箱代表着一个低优先级的产品待办事项。剩下的问题在冰箱上删除它们有助于避免循环提高重复的问题。冰箱的问题不应采取了团队成员的时间和脑力带宽；把想法放入冰箱管道获取他们出来的方式，帮助团队专注于当前的优先事项。
+
+* Backlog: 待办事项：积压问题不是当前的焦点，但您将在某个时刻对它们进行处理。如果他们没有一个GitHub的里程碑，你可以考虑他们的一部分你的“产品积压”。一旦你添加了一个里程碑，它们就成为你的“待办事项待办事项”（即即将在即将到来的Sprint中完成的任务）的一部分。
+
+* In progress:  在进展中：这里的问题应该有大量的细节，比如估计和需求，因为它们是你团队当前的焦点。这就是“你现在在做什么？”理想情况下，每个团队成员都应该一次只做一件事。在这里的任务应该按照优先受让人加入。
+
+* Review/QA: 评审/ QA：使用评审/ QA专栏对团队开放的问题进行评审和测试。通常这意味着代码已经准备好部署，或者已经处于一个登台环境中。
+
+* Done: 完成：如果你问三个人“完成”意味着什么，你可能会得到三种不同的答案。这就是为什么作为团队讨论你的“完成的定义”是非常重要的！
+
+##### 查看看板
+
+* 这种结构是否只包含我们所需要的，仅此而已？我的老板能看一下这个项目并了解她需要做的一切吗？
+
+* 每一个重要的利益相关者代表吗？在设计，市场营销，或QA的人可以看看这个委员会，并知道确切的地方，他或她的帮助是必要的？
+
+* 我们错过了重复的阶段吗？想想你的团队是如何构建产品的。这一切都是为了让问题在董事会中传播。如果你有一个QA部门，例如，你可能需要一个“准备好QA”的管道。
+
+* “完成”真的完成了吗？我的团队知道并理解我们的定义吗？这种经常错过的步骤是任何敏捷项目的关键部分。
+
+##### Epics
+
+
+GitHub的问题没有真正的层次；它只是一个简单的列表。深入了解哪些问题是相关的、相互阻碍的、依赖于其他工作的，或者是对项目正在进行的工作的感觉是很难确定的。
+
+zenhub add a crucial layer of hierarchy to your GitHub Issues. 
+通过史诗，你可以在发布过程中获得更大的端到端控制权。zenhub史诗帮助束相似的任务为工作主题，以帮助您规划和跟踪更大目标的工作。
+
+##### Issue Dependencies
+
+zenhub依赖帮助团队的问题和故事，当运动项目正得到更好的端到端的能见度。这些信息使团队更了解为什么会发生阻塞，以及需要采取哪些措施来减少风险。
+
+
+##### 流程
+
+* 新的反馈和想法自动降落在新的问题管道中。
+
+* 产品负责人审查每一个问题，并计算出如果它是可操作的。
+注：“产品拥有者”指的是对最终产品和何时进行最终呼叫的人。通常，它是一个项目或产品经理。
+
+* 如果你打算完成一个问题，但它还没有准备好开发（需要更多的细节或者团队没有额外工作的能力），这个问题被拖到了积压。这里的问题还没有一个里程碑。您将在冲刺开始时添加一个。
+
+* 如果它是一个有价值的问题，但你没有计划去解决它在即将到来的冲刺，“冻结”在冰箱管道。
+
+* 如果问题不能解决，就关闭它。如果它真的那么重要，你可以随时重新打开它！
+
+* 问题准备好了吗？在这一点上，您的团队应该添加一些细节，如验收要求和用户故事（从用户利益的角度来描述一个简短的特性描述）。一旦一个评估和一个里程碑被附加到一个问题上，它就正式地成为你的“待办事项积压”（你将在下一次冲刺中处理的东西）。
+
+* 当`Sprint`开始时，只需按里程碑过滤板子，看看需要做些什么。团队成员可以将任务拖到积压的顶部，以指示它们正在工作。简单的！
+
+##### Your first sprint with Zenhub
+
+从熟悉GitHub的里程碑和完成报告，成为更有效的利用zenhub冲刺计划，这将确保你知道插件和冲刺计划的最佳实践与ZenHub出局。
+
+冲刺前要回答的重要问题
+
+* 我们实际能处理多少工作？
+* 我们真的能在接下来的两周内完成所有这些工作吗？我们可能从范围中删除哪些问题？
+* 您的团队在Sprint计划前应处理的所有问题。但是你如何得到这些问题的答案呢？
+你的几次冲刺，为了回答这些问题，最好的办法就是跟你的团队和有关于复杂性的工作你想完全开放的对话，以及确保应对即将到来的关键期限内必须完成。
+
+* 决定什么进入你的冲刺
+
+* 要想在里程碑中添加哪些问题，您需要有一个健康的产品待办事项清单。
+* 
+这意味着你的问题应该有：
+
+* 估计你和你的团队一起决定
+
+* 一个用户故事，它描述一个任务的对象和原因，以及任何需求。不要担心添加太多的细节-你会发现更多的信息，一旦你开始你的里程碑。
+
+* 根据发行商的业务价值确定优先权
+
+##### 创建使用GitHub的里程碑第一冲刺
+
+
+为与终点一致的里程碑选择一个截止日期。一个经验法则来决定一个冲刺应该多长时间，如果你还没有测量时间的工作时间，那就是问问自己是否能得到一个新的特性或增强，团队在你所创建的时间范围内完成整个开发周期。
+
+如果2周看起来太短了，那么看看你的问题，问问自己是不是太大了，不值得处理。将工作分解成更小的块不仅提高了它们被运送的可能性，而且消除了延迟发布的潜在缺陷数量。
+
+一旦创建了里程碑，就应该向您的Sprint添加问题了！回到主板选项卡开始。
+
+既然已经将Sprint定义为里程碑，那么您就可以计划在Sprint中完成什么工作了。记住一件事情，为你准备一个冲刺，从来没有一支球队拥有所有的信息需要向前完美的依赖，冲突，或某些bug修复可能出现的紧迫性…所有这些都是计划外的工作。
+
+这些计划中的许多情况可以在计划会议中发现，也称作Sprint计划。在开始第一次冲刺之前，快速交谈是一个讨论的平台。
+
+##### 向Sprint添加用户故事和任务
+
+在GitHub上，一旦你添加了问题的一个里程碑，他们可以被认为是一个冲刺积压`Backlog`的一部分。
+
+Sprint积压`Backlog`与产品积压`product backlog`问题不同，在您的积压管道中没有里程碑的是您的“产品待办事项”——这些事情您最终将处理，但不是您下一个工作的直接冲刺的一部分。Sprint积压是您的团队承诺在接下来的2周时间内完成的所有问题（或者您用来定义自己迭代的时间表）。
+
+在一个项目的开始，估计是最好的猜测。与瀑布开发相反，大多数敏捷团队现在都会在任务和项目中发现更多关于任务的细节。在项目开始的时候你不会知道太多，这没关系。
+
+为什么要估算软件？估算一个任务是有帮助的，当你整理你的Sprint待办事项：给定的预算和固定的时间，你怎么知道哪些问题要处理，如果不是为了估计？
+
+其次，当历史数据配对（如速度图），估计照明如何快速你真的动–具有洞察力的有效项目管理的一个重要GitHub。
+
+
+
+#### CircleCI
+
+持续集成 — [Circleci](https://circleci.com/)
+
+#### Reviewable
+
+代码Review — Reviewable
+[Reviewable](https://reviewable.io/) GitHub code reviews done right
+
+#### Coveralls
+[Coveralls](www.coveralls.com)
+代码覆盖率 — Coveralls
+
+## Git
 A Git project can be thought of as having three parts:
 
 ![](http://oc98nass3.bkt.clouddn.com/14936106948535.jpg)
@@ -41,6 +175,13 @@ A Git project can be thought of as having three parts:
 下面看一个更接近于真实的版本库结构图：
 
 ![](http://oc98nass3.bkt.clouddn.com/14936266336082.png)
+
+###  两个帮助网站——very useful~
+
+1. [git - the simple guide - no deep shit!](http://rogerdudler.github.io/git-guide/index.zh.html)
+2. [learngitbranching](http://learngitbranching.js.org/?NODEMO)
+3. [git-flow 备忘清单](http://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html)
+
 
 
 ### `Git`命令
@@ -280,6 +421,7 @@ $ gh starred
 $ gh view 1 -b
 $ gh view 1 --browser
 ```
+
 
 ## Project Bitbucket to Github
 
