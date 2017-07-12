@@ -151,6 +151,12 @@ A Git project can be thought of as having three parts:
 
 ![](http://oc98nass3.bkt.clouddn.com/14936109243775.jpg)
 
+###  两个帮助网站——very useful~
+
+1. [git - the simple guide - no deep shit!](http://rogerdudler.github.io/git-guide/index.zh.html)
+2. [learngitbranching](http://learngitbranching.js.org/?NODEMO)
+3. [git-flow 备忘清单](http://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html)
+
 ##### 工作区、版本库、暂存区原理图
 
 ![](http://oc98nass3.bkt.clouddn.com/14936261372760.png)
@@ -176,12 +182,9 @@ A Git project can be thought of as having three parts:
 
 ![](http://oc98nass3.bkt.clouddn.com/14936266336082.png)
 
-###  两个帮助网站——very useful~
+### Git Cheat Sheet
 
-1. [git - the simple guide - no deep shit!](http://rogerdudler.github.io/git-guide/index.zh.html)
-2. [learngitbranching](http://learngitbranching.js.org/?NODEMO)
-3. [git-flow 备忘清单](http://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html)
-
+![Git Cheat Sheet](http://oc98nass3.bkt.clouddn.com/2017-07-12-14998489359095.jpg)
 
 
 ### `Git`命令
