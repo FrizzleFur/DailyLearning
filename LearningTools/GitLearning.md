@@ -323,7 +323,7 @@ $ gh view 1 --browser
 
 作为关于世界上最大的"同Xin交友"平台，一些常见的特点就不在此说了，感兴趣的可以参考知乎上的这个问题[怎样使用 GitHub？](https://www.zhihu.com/question/20070065)，这里主要介绍一些`Github`上我觉得很好用的插件
 
-### NO.1 [`Zenhub`](www.zenhub.com)
+### NO.1 [Zenhub](www.zenhub.com) —— GitHub 中的敏捷开发流~
 [ZenHub Guide](https://www.zenhub.com/guides#reporting-with-zenhub)
 [Zenhub-boards](https://www.zenhub.com/guides/setup-my-zenhub-boards)
 [ZenHub - Agile GitHub Project Management](https://www.zenhub.com/guides/setup-my-zenhub-boards)
@@ -467,12 +467,9 @@ Sprint积压`Backlog`与产品积压`product backlog`问题不同，在您的积
 ## 参考
 
 1. [图解Git](https://marklodato.github.io/visual-git-guide/index-zh-cn.html#commands-in-detail)
-2. [Gitsome](https://github.com/donnemartin/gitsome)
-3. [**Git Recipes**](https://github.com/geeeeeeeeek/git-recipes/wiki)
-
-###  两个帮助网站——very useful~
-
-1. [git - the simple guide - no deep shit!](http://rogerdudler.github.io/git-guide/index.zh.html)
-2. [learngitbranching](http://learngitbranching.js.org/?NODEMO)
-3. [git-flow 备忘清单](http://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html)
+2. [**git - the simple guide - no deep shit!**](http://rogerdudler.github.io/git-guide/index.zh.html)
+3. [**LearnGitBranching**](http://learngitbranching.js.org/?NODEMO)
+4. [**git-flow 备忘清单**](http://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html)
+5. [Gitsome](https://github.com/donnemartin/gitsome)
+6. [Git Recipes](https://github.com/geeeeeeeeek/git-recipes/wiki)
 
