@@ -226,6 +226,22 @@ e695606 master@{4}: commit: which version checked in?
 5. 删除分支
 `$ git branch -d branch_name`
 
+墙裂推荐查看:[3.1 Git 分支 - 分支简介](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B)
+Git 的分支，其实本质上仅仅是指向提交对象的可变指针。 Git 的默认分支名字是 master。 在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 master 分支。 它会在每次的提交操作中自动向前移动。
+Git 的 “master” 分支并不是一个特殊分支。 它就跟其它分支完全没有区别。 之所以几乎每一个仓库都有 master 分支，是因为 git init 命令默认创建它，并且大多数人都懒得去改动它。
+
+为了更加形象地说明，我们假设现在有一个工作目录，里面包含了三个将要被暂存和提交的文件。 暂存操作会为每一个文件计算校验和（使用我们在 起步 中提到的 SHA-1 哈希算法），然后会把当前版本的文件快照保存到 Git 仓库中（Git 使用 blob 对象来保存它们），最终将校验和加入到暂存区域等待提交：
+
+Git 是怎么创建新分支的呢？ 很简单，它只是为你创建了一个可以移动的新的指针。 比如，创建一个 testing 分支， 你需要使用 git branch 命令：
+
+
+![](http://oc98nass3.bkt.clouddn.com/2017-07-13-14999389044006.png)
+
+那么，Git 又是怎么知道当前在哪一个分支上呢？ 也很简单，它有一个名为 HEAD 的特殊指针。 请注意它和许多其它版本控制系统（如 Subversion 或 CVS）里的 HEAD 概念完全不同。 在 Git 中，它是一个指针，指向当前所在的本地分支（译注：将 HEAD 想象为当前分支的别名）。 在本例中，你仍然在 master 分支上。 因为 git branch 命令仅仅 创建 一个新分支，并不会自动切换到新分支中去。
+![](http://oc98nass3.bkt.clouddn.com/2017-07-13-14999389256791.png)
+
+
+
 ### Git撤销方法
 
 1. `git revert <SHA>`
@@ -257,6 +273,61 @@ git merge origin (master)
 ```
 git pull origin master
 ```
+
+`git-fetch - Download objects and refs from another repository`
+`git-merge - Join two or more development histories together`
+
+
+
+### Git log
+
+
+```
+Table 3. 限制 git log 输出的选项
+选项	说明
+-(n)
+
+仅显示最近的 n 条提交
+
+--since, --after
+
+仅显示指定时间之后的提交。
+
+--until, --before
+
+仅显示指定时间之前的提交。
+
+--author
+
+仅显示指定作者相关的提交。
+
+--committer
+
+仅显示指定提交者相关的提交。
+
+--grep
+
+仅显示含指定关键字的提交
+
+-S
+
+仅显示添加或移除了某个关键字的提交
+
+来看一个实际的例子，如果要查看 Git 仓库中，2008 年 10 月期间，Junio Hamano 提交的但未合并的测试文件，可以用下面的查询命令：
+
+$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
+   --before="2008-11-01" --no-merges -- t/
+5610e3b - Fix testcase failure when extended attributes are in use
+acd3b9e - Enhance hold_lock_file_for_{update,append}() API
+f563754 - demonstrate breakage of detached checkout with symbolic link HEAD
+d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths
+51a94af - Fix "checkout --track -b newbranch" on detached HEAD
+b0ad11e - pull: allow "git pull origin $something:$current_branch" into an unborn branch
+在近 40000 条提交中，上面的输出仅列出了符合条件的 6 条记录。
+
+prev | next
+
+```
 ### Git Issue
 1. [Git - how to track untracked content?](http://stackoverflow.com/questions/4161022/git-how-to-track-untracked-content)
 
@@ -271,6 +342,17 @@ Changes not staged for commit:
 
 	modified:   themes/next (modified content, untracked content)
 ```
+
+
+2. [git - fatal: Not a valid object name: 'master' - Stack Overflow](https://stackoverflow.com/questions/9162271/fatal-not-a-valid-object-name-master)
+That is again correct behaviour. Until you commit, there is no master branch.
+
+You haven't asked a question, but I'll answer the question I assumed you mean to ask. Add one or more files to your directory, and git add them to prepare a commit. Then git commit to create your initial commit and master branch.
+
+没有提交的话是没有`master`分支的，也就无法创建新的分支，只了一次有提交记录后，才创建了`master`分支。
+
+
+
 
 # Git 一些好用的插件😝~
 ## Gitsome
