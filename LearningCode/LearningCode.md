@@ -62,3 +62,17 @@ NSRange hotTopicRange = [dynamicComplex.desc rangeOfString:hotTopicComplex.title
 
 
 
+
+**5. 在计算UITableView中某个view在UITableView的位置，和tableHeaderView的联系**
+
+
+发现获取`SectionHeaderView`的`y`坐标时，得减去`tableHeaderView`的高度，原因尚且未知。
+
+```
+    _tableView.contentInset = UIEdgeInsetsMake(bannerHeaderHeight, 0, 0, 0);
+
+    CGFloat sectionHeaderBottom = sectionHeaderViewRect.origin.y + sectionHeaderViewRect.size.height - self.tableView.tableHeaderView.height;//减去tableHeaderView高度
+```
+
+![](http://oc98nass3.bkt.clouddn.com/2017-07-28-15012486582998.jpg)
+
