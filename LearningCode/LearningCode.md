@@ -76,3 +76,29 @@ NSRange hotTopicRange = [dynamicComplex.desc rangeOfString:hotTopicComplex.title
 
 ![](http://oc98nass3.bkt.clouddn.com/2017-07-28-15012486582998.jpg)
 
+
+
+6. **NSMutableArray addObject: -[__NSArrayI addObject:]: unrecognized selector sent to instance**
+
+
+原因就是对`NSMutableArray`属性的定义没定好，
+
+```
+@property (nonatomic, strong) NSMutableArray *dynamicComplexList;/**< 动态列表 */
+@property (nonatomic, copy) NSMutableArray *subscribeList;
+```
+`subscribeList`定义成`copy`的话是`immutable copy`不可变的数组 = = （还不是很知道）
+
+```              
+[self.subscribeList addObjectsFromArray:rsp.subscribeList];
+```
+
+
+参考 [iphone - NSMutableArray addObject: -[__NSArrayI addObject:]: unrecognized selector sent to instance - Stack Overflow](https://stackoverflow.com/questions/3220120/nsmutablearray-addobject-nsarrayi-addobject-unrecognized-selector-sent-t)
+
+```
+The synthesized setter for @property (copy) sends a copy message to the array, which results in an immutable copy.
+
+You have no choice but the implement the setter yourself here, as detailed in the Objective-C guide.
+```
+
