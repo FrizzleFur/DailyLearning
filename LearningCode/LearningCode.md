@@ -16,7 +16,7 @@ if (!self.statusBar.superview) {
 }
 ```
 
-### **2. tableView的一种删除、添加cell后的刷新方法:**
+### **2. UITableView的一种删除、添加cell后的刷新方法:**
 ```
 [self.dataArray removeObjectsAtIndexes:indexs];
 [self.tableView beginUpdates];
@@ -172,4 +172,6 @@ title滚动范围
 ## `Xcode快捷键`
 
 1. 交换上下行代码：  `Cmd + Option + [` or `Cmd + Option + ]`
+
+
 
