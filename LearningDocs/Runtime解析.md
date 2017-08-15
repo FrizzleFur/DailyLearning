@@ -75,8 +75,27 @@ objc_method_list 本质是一个有 objc_method 元素的可变长度的数组�
 但这种实现有个问题，效率低。但一个 class 往往只有 20% 的函数会被经常调用，可能占总调用次数的 80% 。每个消息都需要遍历一次 objc_method_list 并不合理。如果把经常被调用的函数缓存下来，那可以大大提高函数查询的效率。这也就是 objc_class 中另一个重要成员 objc_cache 做的事情 - 再找到 foo 之后，把 foo 的 method_name 作为 key ，method_imp 作为 value 给存起来。当再次收到 foo 消息的时候，可以直接在 cache 里找到，避免去遍历 objc_method_list.
 
 
+### objc_setAssociatedObject
+
+* objc_setAssociatedObject 用于给对象添加关联对象，传入 nil 则可以移除已有的关联对象；
+* objc_getAssociatedObject 用于获取关联对象；
+* objc_removeAssociatedObjects 用于移除一个对象的所有关联对象。
+
+> 在给一个对象添加关联对象时有五种关联策略可供选择：
+
+关联策略	| 等价属性 |	说明
+ --- | --- | --- 
+OBJC_ASSOCIATION_ASSIGN	 |	@property (assign) or  @property (unsafe_unretained) |		弱引用关联对象
+OBJC_ASSOCIATION_RETAIN_NONATOMIC	 |	@property (strong, nonatomic)	 |	强引用关联对象，且为非原子操作
+OBJC_ASSOCIATION_COPY_NONATOMIC	 |	@property (copy, nonatomic)	 |	复制关联对象，且为非原子操作
+OBJC_ASSOCIATION_RETAIN |	@property (strong, atomic) |		强引用关联对象，且为原子操作
+OBJC_ASSOCIATION_COPY	 |	@property (copy, atomic) |		复制关联对象，且为原子操作
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-15-15027671461420.png)
+
 
 ### 参考 
 
-[Objective C Runtime](http://tech.glowing.com/cn/objective-c-runtime/)
+1. [Objective-C Associated Objects 的实现原理](http://blog.leichunfeng.com/blog/2015/06/26/objective-c-associated-objects-implementation-principle/)
+2. [Objective C Runtime](http://tech.glowing.com/cn/objective-c-runtime/)
 
