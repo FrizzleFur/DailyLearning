@@ -287,6 +287,13 @@ br com add 1
 `bt (thread backtrace)`  backtrace
 
 #### Watchpoint
+Watchpoint 
+
+`watchpoint set v (变量名)`
+跟踪变量的值的变化，如果变量地址变成`0x0000000000000000`就说明变量被释放，指向了`nil`
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-15-15027669682910.jpg)
+
 
 #### Chisel
 [Chisel Tutorial](https://www.raywenderlich.com/72244/video-tutorial-using-lldb-ios-part-7-using-chisel)
