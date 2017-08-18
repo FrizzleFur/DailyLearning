@@ -26,6 +26,54 @@ Windows是应用程序的一个基本部分，但在代码中只与它们进行�
 
 你应该很少需要UIWindow类。您可能在窗口中实现的各种行为通常更容易在更高级别的视图控制器中实现。你可能想子几次是覆盖becomekeywindow或resignkeywindow方法来实现自定义行为当一个窗口的关键地位的变化。
 
+![](http://oc98nass3.bkt.clouddn.com/2017-08-16-15028741926601.jpg)
+
+
+
+alertView是怎么弹出的？网上查找资料说是，每次执行[alertView show]，这个方法的时候是新建了一个window，将alertView显示在了window上面。代码验证的确是这样的。
+
+代码验证alertView是添加到哪里的。
+
+
+```- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    UIButton *tempBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    tempBtn.frame = CGRectMake(100, 100, 100, 100);
+    tempBtn.backgroundColor = [UIColor cyanColor];
+    [tempBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:tempBtn];
+
+}
+
+- (void)clickBtn:(UIButton *)sender
+{
+    UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@"title1" message:@"message1" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert1 show];
+
+ NSLog(@"alert1.window = %@   alert1.window.windowLevel = %f",alert1.window,alert1.window.windowLevel);
+    NSLog(@"app.window = %@",app.window);
+    NSLog(@"windows == %@",[UIApplication sharedApplication].windows);
+}
+
+```
+
+测试结果：
+
+
+```alert1.window = <_UIAlertControllerShimPresenterWindow: 0x7f9ee8c07940; frame = (0 0; 414 736); opaque = NO; gestureRecognizers = <NSArray: 0x618000056aa0>; layer = <UIWindowLayer: 0x6180000240a0>>   alert1.window.windowLevel = 2001.000000
+app.window = <UIWindow: 0x7f9ee8f03f80; frame = (0 0; 414 736); autoresize = W+H; gestureRecognizers = <NSArray: 0x608000052f60>; layer = <UIWindowLayer: 0x608000022100>>
+ windows == (
+    "<UIWindow: 0x7f9ee8f03f80; frame = (0 0; 414 736); autoresize = W+H; gestureRecognizers = <NSArray: 0x608000052f60>; layer = <UIWindowLayer: 0x608000022100>>"
+)
+```
+通过打印的结果可以看出：
+1、alert1.window没有在[UIApplication sharedApplication].windows中出现window和windows的关系参考：http://www.jianshu.com/p/75befce85623，windows中只有app.window也就是当前的最底层的控件。
+2、alert1.window的windowLevel是2001比app.window的大，APP.window的windowLevel是0，所以alertView显示在了app.window的上面。相关windowLevel的问题参考：http://www.jianshu.com/p/f60471a7d935
+
+搞懂了alertView显示的大致原理了，那么往我们的需求上靠
+
 
 ## UIScreen
 
