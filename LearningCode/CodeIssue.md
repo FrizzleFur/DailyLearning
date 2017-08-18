@@ -157,8 +157,8 @@
 }
 ```
 
-
 然后注意一点：每次遮罩的`VC`消失的时候，就清将提示的遮罩`VC`和提示的view清除掉
+
 ```
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
