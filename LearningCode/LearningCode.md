@@ -169,6 +169,68 @@ title滚动范围
 }
 ```
 
+
+### 8. 使用`KVO`监听`UIScrollView`的滚动方向
+
+在一个排序的`View`中，需要在`UIScrollView`上下滚动时时，给予显示和隐藏。
+
+
+```
+
+static NSString * const WJSortKeyPathContentOffset = @"contentOffset"; //kvo
+
+- (void)dealloc {
+    if (scrollView) [self removeObservers];
+    scrollView = nil;
+}
+
+
+- (void)initializeSubViewsWithAnimation:(UIScrollView *)view {
+    [self initializeSubViews];
+    if (!view || ![view isKindOfClass:[UIScrollView class]]) return;
+    scrollView = view;
+    [self addObservers];
+}
+
+
+#pragma mark - KVO监听
+- (void)addObservers {
+    NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld;
+    [scrollView addObserver:self forKeyPath:WJSortKeyPathContentOffset options:options context:nil];
+}
+
+- (void)removeObservers {
+    [scrollView removeObserver:self forKeyPath:WJSortKeyPathContentOffset];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (!self.userInteractionEnabled || self.hidden) return;
+    if ([keyPath isEqualToString:WJSortKeyPathContentOffset]) {
+        NSValue *oldValue = change[NSKeyValueChangeOldKey];
+        CGFloat oldY = [oldValue CGPointValue].y;
+        CGFloat newY = scrollView.contentOffset.y ;
+        if (newY == oldY) return;
+        if (newY < oldY) {
+            if (self.top != scrollView.top - self.height) return;
+            UIPanGestureRecognizer *pan = scrollView.panGestureRecognizer;
+            CGPoint velocity = [pan velocityInView:pan.view];
+            if (scrollView.contentOffset.y > self.height && velocity.y <= scrollVelocity) return;
+            [UIView animateWithDuration:hiddenSortViewTime animations:^{
+                self.top = scrollView.top;
+            }];
+        }else {
+            if (scrollView.contentOffset.y <= self.height || self.top != scrollView.top) return;
+            [UIView animateWithDuration:hiddenSortViewTime animations:^{
+                self.top = scrollView.top - self.height;
+            }];
+        }
+    }
+}
+```
+效果看起来很自然
+
+
+
 ## `Xcode快捷键`
 
 1. 交换上下行代码：  `Cmd + Option + [` or `Cmd + Option + ]`
