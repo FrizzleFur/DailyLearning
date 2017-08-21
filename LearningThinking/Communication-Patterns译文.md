@@ -102,19 +102,29 @@ operation.completionBlock = ^{
 
 ## Target-Action
 
-Target-Action is the typical pattern used to send messages in response to user-interface events. Both `UIControl` on iOS and `NSControl/NSCell` on the Mac have support for this pattern. Target-Action establishes a very loose coupling between the sender and the recipient of the message. The recipient of the message doesn’t know about the sender, and even the sender doesn’t have to know up front what the recipient will be. In case the target is `nil`, the action will travel up the [responder chain](https://developer.apple.com/library/ios/documentation/general/conceptual/Devpedia-CocoaApp/Responder.html) until it finds an object that responds to it. On iOS, each control can even be associated with multiple target-action pairs.
+`Target-Action`用于响应用户界面事件发送消息的典型模式。两` UIControl `在`iOS`和` NSControl/NSCell ` 在Mac上都支持这种模式。`Target-Action`建立了消息在发件人和收件人之间的松散耦合关系。该消息的收件人不知道发件人，甚至不需要知道将会接受什么消息。如果`Target`是`nil`空的，`Action`将顺着[响应链](https://developer.apple.com/library/ios/documentation/general/conceptual/devpedia-cocoaapp/responder.html)往上，直到找到响应它的对象。在`iOS`上，每个控件甚至可以与多个`Target`的`Action`对相关。
+
+
 A limitation of target-action-based communication is that the messages sent cannot carry any custom payloads. On the Mac action methods always receive the sender as first argument. On iOS they optionally receive the sender and the event that triggered the action as arguments. But beyond that, there is no way to have a control send other objects with the action message.
 
-## Making the Right Choice
+基于`target-action`的通信有一个限制，发送的消息不能携带任何自定义的payloads。在`Mac`上的操作方法总是发件者作为第一个参数接收。在`iOS`上，可以将发件者和触发动作的事件作为一种参数来接收。但除此之外，还没有办法让一个控件用`action`将消息发送给其他对象。
+
+## 做出正确的抉择
 
 Based on the characteristics of the different patterns outlined above, we have constructed a flowchart that helps to make good decisions of which pattern to use in what situation. As a word of warning: the recommendation of this chart doesn’t have to be the final answer; there might be other alternatives that work equally well. But in most cases it should guide you to the right pattern for the job.
+
+根据上面所描述的不同模式的特点，我们构建了一个流程图，有助于在何种情况下对使用哪种模式做出良好的决策。一个提醒：这个图表不一定是最终的答案；可能还有其他同样有效的选择。但在大多数情况下，它应该指导你选择合适的模式。
+
 ![Decision flow chart for communication patterns in Cocoa](http://oc98nass3.bkt.clouddn.com/2017-08-17-15029354257592.png)
 
-There are a few other details in this chart which deserve further explanation:
-One of the boxes says, sender is **KVO** compliant. This doesn’t mean only that the sender sends **KVO** notifications when the value in question changes, but also that the observer knows about the lifespan of the sender. If the sender is stored in a weak property, it can get nilled out at any time and the observer will leak.
-Another box in the bottom row says, message is direct response to method call. This means that the receiver of the method call needs to talk back to the caller of the method as a direct response of the method call. It mostly also means that it makes sense to have the code processing this message in the same place as the method call.
-Lastly, in the lower right, a decision question states, sender can guarantee to nil out reference to block?. This refers to the discussion [above](https://www.objc.io/issues/7-foundation/communication-patterns/#blocks) about block-based APIs and potential retain cycles. If the sender cannot guarantee that the reference to the block it’s holding will be nilled out at some point, you’re asking for trouble with retain cycles.
 
+本图值得进一步解释一些其他的细节：
+
+One of the boxes says, sender is **KVO** compliant. This doesn’t mean only that the sender sends **KVO** notifications when the value in question changes, but also that the observer knows about the lifespan of the sender. If the sender is stored in a weak property, it can get nilled out at any time and the observer will leak.
+
+Another box in the bottom row says, message is direct response to method call. This means that the receiver of the method call needs to talk back to the caller of the method as a direct response of the method call. It mostly also means that it makes sense to have the code processing this message in the same place as the method call.
+
+Lastly, in the lower right, a decision question states, sender can guarantee to nil out reference to block?. This refers to the discussion [above](https://www.objc.io/issues/7-foundation/communication-patterns/#blocks) about block-based APIs and potential retain cycles. If the sender cannot guarantee that the reference to the block it’s holding will be nilled out at some point, you’re asking for trouble with retain cycles.
 
 
 ## Framework Examples

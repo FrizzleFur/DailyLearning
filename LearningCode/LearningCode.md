@@ -233,7 +233,7 @@ static NSString * const WJSortKeyPathContentOffset = @"contentOffset"; //kvo
 
 ## `Xcode快捷键`
 
-1. 交换上下行代码：  `Cmd + Option + [` or `Cmd + Option + ]`
+### 1. 交换上下行代码：  `Cmd + Option + [` or `Cmd + Option + ]`
 
 
 
