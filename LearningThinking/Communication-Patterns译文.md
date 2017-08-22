@@ -11,7 +11,7 @@
 
 当然，在有些情况下，没有明确的答案说应该使用什么样的模式，而将选择归结为个人偏好问题，但也有很多情况（模式使用）是非常清晰明确的。
 
-在本文中，我们经常使用“收件人”和“发件人”这两个术语，我们指的是在通信模式上下文中的意思，最好用几个例子来解释：表视图是发件人，而它的代理是收件人。一个核心数据管理对象上下文是它发布的通知的发送者，而不管它们是如何接收的。滑块是动作消息的发送者，实现这个动作的应答者是接收者。一个含有遵循`KVO`属性的对象，在变化的是发件人，而对应的观察者是收件人。明白窍门了吗？
+在本文中，我们经常使用“收件人”和“发件人”这两个术语，我们指的是在通信模式上下文中的意思，最好用几个例子来解释：表视图是发件人，而它的代理是收件人。一个核心数据管理对象上下文是它发布的通知的发件人，而不管它们是如何接收的。滑块是动作消息的发送者，实现这个动作的应答者是接收者。一个含有遵循`KVO`属性的对象，在变化的是发件人，而对应的观察者是收件人。明白窍门了吗？
 
 ## 模式
 
@@ -29,11 +29,11 @@
 
 通知是一种很好的工具，可以在代码中相对无关的部分之间广播消息，即是是消息内容比较丰富的时候，而且您不必考虑还需要其他人参与。
 
-通知可以发送任意消息，他们甚至可以通过` UserInfo `词典或子类`NSNotification`中包含一个payload（消息载体）。使通知具有唯一性的是发送方和接收方不必互相了解。它们可以用来在非常松散耦合的模块之间发送信息。因此，通信是单向的——您无法对通知作出回复。
+通知可以发送任意消息，他们甚至可以通过` UserInfo `词典或子类`NSNotification`中包含一个payload（消息载体）。使通知具有唯一性的是发件人和收件人不必互相了解。它们可以用来在非常松散耦合的模块之间发送信息。因此，通信是单向的——您无法对通知作出回复。
 
 ## 代理
 
-在苹果的框架中，代理是一种普遍的模式。它允许我们定制对象的行为，并对某些事件进行通知。对于代理模式，消息发送方需要知道接收方（代理），而不是反过来。耦合进一步松了，因为发送方只知道它的代理符合某个协议。
+在苹果的框架中，代理是一种普遍的模式。它允许我们定制对象的行为，并对某些事件进行通知。对于代理模式，消息发件人需要知道收件人（代理），而不是反过来。耦合进一步松了，因为发件人只知道它的代理符合某个协议。
 
 由于代理协议可以定义任意的方法，所以可以精确地将消息通信建模在您的需求里。您可以以方法参数的形式传递payload，代理甚至可以根据代理方法的返回值作出响应。代理是一种非常灵活和直接的通信模式，如果您只需要在两个特定对象之间进行通信，它们在应用程序体系结构中的位置上彼此相对接近。
 
@@ -111,26 +111,21 @@ A limitation of target-action-based communication is that the messages sent cann
 
 ## 做出正确的抉择
 
-Based on the characteristics of the different patterns outlined above, we have constructed a flowchart that helps to make good decisions of which pattern to use in what situation. As a word of warning: the recommendation of this chart doesn’t have to be the final answer; there might be other alternatives that work equally well. But in most cases it should guide you to the right pattern for the job.
-
-根据上面所描述的不同模式的特点，我们构建了一个流程图，有助于在何种情况下对使用哪种模式做出良好的决策。一个提醒：这个图表不一定是最终的答案；可能还有其他同样有效的选择。但在大多数情况下，它应该指导你选择合适的模式。
+根据上面所描述的不同模式的特点，我们构建了一个流程图，帮助您在某种情况下对使用哪种模式，做出良好的决策。作为提醒：这个图表不一定是最终的答案；可能还有其他同样有效的选择。但在大多数情况下，它应该指导你为这个场景选择合适的模式。
 
 ![Decision flow chart for communication patterns in Cocoa](http://oc98nass3.bkt.clouddn.com/2017-08-17-15029354257592.png)
 
-
 本图值得进一步解释一些其他的细节：
 
-One of the boxes says, sender is **KVO** compliant. This doesn’t mean only that the sender sends **KVO** notifications when the value in question changes, but also that the observer knows about the lifespan of the sender. If the sender is stored in a weak property, it can get nilled out at any time and the observer will leak.
+（图中）其中的一个方块表示：发件人是支持`KVO`。这并不只是意味着当问题中的值发生变化时，发件人将发送`KVO`通知，而且观察者要知道发件人的生命周期。如果发件人存放的属性是`weak`，它可以在任意时间置空（nil）,而观察者会发生内存泄漏。
 
-Another box in the bottom row says, message is direct response to method call. This means that the receiver of the method call needs to talk back to the caller of the method as a direct response of the method call. It mostly also means that it makes sense to have the code processing this message in the same place as the method call.
+在底排另一方块表示，消息是直接响应方法调用的。这意味着，方法调用的接受者需要回应该方法的调用者，作为对这个方法调用的一个直接响应。这也意味着，当这个方法调用时，代码在同一个地方处理此消息是有意义的。
 
-Lastly, in the lower right, a decision question states, sender can guarantee to nil out reference to block?. This refers to the discussion [above](https://www.objc.io/issues/7-foundation/communication-patterns/#blocks) about block-based APIs and potential retain cycles. If the sender cannot guarantee that the reference to the block it’s holding will be nilled out at some point, you’re asking for trouble with retain cycles.
-
+最后，在右下角有一个决策问题：发件人可以保证对`Block`的引用将会置空（nil）吗？这个联系到了[上面](https://www.objc.io/issues/7-foundation/communication-patterns/#blocks)的基于`block`的API和潜在的保留环的讨论。如果发件人无法保证这些`block`所持有的引用将在某个时刻置空（nil），那么你将会遇到保留环的麻烦。
 
 ## Framework Examples
 
 In this section, we will go through some examples from Apple’s frameworks to see if the decision flow outlined before actually makes sense, and why Apple chose the patterns as they are.
-
 
 ## KVO
 
