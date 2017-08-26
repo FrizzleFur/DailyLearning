@@ -230,6 +230,12 @@ static NSString * const WJSortKeyPathContentOffset = @"contentOffset"; //kvo
 效果看起来很自然
 
 
+### 9.字符创过滤换行和空格
+
+
+```
+    self.validText = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+```
 
 ## `Xcode快捷键`
 
