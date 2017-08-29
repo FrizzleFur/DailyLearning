@@ -237,6 +237,35 @@ static NSString * const WJSortKeyPathContentOffset = @"contentOffset"; //kvo
     self.validText = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 ```
 
+### 10 .打开另一个APP（URL Scheme与openURL）
+[【iOS开发】打开另一个APP（URL Scheme与openURL） - 简书](http://www.jianshu.com/p/0811ccd6a65d)
+URL，我们都很清楚，http://www.apple.com
+就是个 URL，我们也叫它链接或网址；
+Schemes，表示的是一个 URL 中的一个位置——最初始的位置，即 ://
+之前的那段字符。比如 http://www.apple.com
+这个网址的 Schemes是 http。
+根据我们上面对 URL Schemes 的使用，我们可以很轻易地理解，在以本地应用为主的 iOS 上，我们可以像定位一个网页一样，用一种特殊的 URL 来定位一个应用甚至应用里某个具体的功能。而定位这个应用的，就应该是这个应用的 URL 的 Schemes 部分，也就是开头儿那部分。
+步骤：选中`WXApp`工程->Info->URL Types->点击“+”->在`URL Schemes`栏填上 `weixin`
+![添加一个URL Schemes](http://oc98nass3.bkt.clouddn.com/2017-08-29-15039922130154.jpg)
+![](http://oc98nass3.bkt.clouddn.com/2017-08-29-15039922451300.jpg)
+MyApp打开WXApp
+现在我们在MyApp里面打开WXApp。方法非常简单。
+在ViewController里面添加一个方法
+```
+- (IBAction)openWXApp:(UIButton *)sender {
+    [self demo1];
+}
+- (void)demo1 {
+    //创建一个url，这个url就是WXApp的url，记得加上：//
+    NSURL *url = [NSURL URLWithString:@"weixin://"];
+
+    //打开url
+    [[UIApplication sharedApplication] openURL:url];
+}
+```
+
+
+
 ## `Xcode快捷键`
 
 ### 1. 交换上下行代码：  `Cmd + Option + [` or `Cmd + Option + ]`
