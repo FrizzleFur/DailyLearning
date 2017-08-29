@@ -264,6 +264,84 @@ MyApp打开WXApp
 }
 ```
 
+### 11. [到底什么时候才需要在ObjC的Block中使用weakSelf/strongSelf](http://blog.lessfun.com/blog/2014/11/22/when-should-use-weakself-and-strongself-in-objc-block/)
+解决 retain circle
+
+Apple 官方的建议是，传进 Block 之前，把 ‘self’ 转换成 weak automatic 的变量，这样在 Block 中就不会出现对 self 的强引用。如果在 Block 执行完成之前，self 被释放了，weakSelf 也会变为 nil。
+
+```
+__weak __typeof__(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [weakSelf doSomething];
+});
+```
+clang 的文档表示，在 doSomething 内，weakSelf 不会被释放。但，下面的情况除外：
+```
+__weak __typeof__(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [weakSelf doSomething];
+    [weakSelf doOtherThing];
+});
+```
+在 doSomething 中，weakSelf 不会变成 nil，不过在 doSomething 执行完成，调用第二个方法 doOtherThing 的时候，weakSelf 有可能被释放，于是，strongSelf 就派上用场了：
+```
+__weak __typeof__(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    __strong __typeof(self) strongSelf = weakSelf;
+    [strongSelf doSomething];
+    [strongSelf doOtherThing];
+});
+__strong 确保在 Block 内，strongSelf 不会被释放。
+```
+总结
+在 Block 内如果需要访问 self 的方法、变量，建议使用 weakSelf。
+如果在 Block 内需要多次 访问 self，则需要使用 strongSelf。
+[Understanding weak self and strong self | Fantageek](http://www.fantageek.com/2014/06/27/understanding-weak-self-and-strong-self/)
+然而，为了实现最佳实践，您应该使用弱函数创建对象的强引用。这不会创建一个保留循环，因为块中的强指针只在块完成之前才存在（它的范围仅是块本身）。
+
+[使用Block时何时需要WeakSelf和StrongSelf? - 姚翔的部落格](http://sherlockyao.com/blog/2015/08/08/weakself-and-strongself-in-blocks/)
+
+```
+[UIView animateWithDuration:0.2 animations:^{
+    self.myView.alpha = 1.0;
+}];
+```
+在ARC环境下的，每个block在创建时，编译器会对里面用到的所有对象自动增加一个reference count，然后当block执行完毕时，再释放这些reference。针对上面的代码，在animations block执行期间，self（假设这里的self是个view controller）的引用数会被加1，执行完后再次减1。但这种情况下为什么我们一般不会去weakify self呢？因为这个block的生命周期是明确可知的，在这个block执行期间当前的view controller一般是不会被销毁的，所以不存在什么风险。现在我们看下面这个例子：
+```
+NSBlockOperation *op = [[[NSBlockOperation alloc] init] autorelease];
+[op addExecutionBlock:^ {
+    [self doSomething];
+    [self doMoreThing];
+}];
+```
+在这种情况下，我们并不知道这个execution block什么时候会执行完毕，所以很有可能发生的情况是，我在block还没执行完毕时就想销毁当前对象（比方说用户关闭了当前页面），这时就会因为block还对self有一个reference而没有立即销毁，这会引起很多问题，比方说你写在- (void)dealloc {}中的代码并不能马上得到执行。所以为了避免这种情况，我们会在block前加上__weak __typeof(self)weakSelf = self;的定义来使block对self获取一个弱引用（也就是refrence count不会加1）。
+
+**在这种情况下，我们并不知道这个execution block什么时候会执行完毕，所以很有可能发生的情况是，我在block还没执行完毕时就想销毁当前对象（比方说用户关闭了当前页面），这时就会因为block还对self有一个reference而没有立即销毁，这会引起很多问题，比方说你写在- (void)dealloc {}中的代码并不能马上得到执行。所以为了避免这种情况，我们会在block前加上__weak __typeof(self)weakSelf = self;的定义来使block对self获取一个弱引用（也就是refrence count不会加1）。**
+那block中的StrongSelf又是做什么的呢？还是上面的例子，当你加了WeakSelf后，block中的self随时都会有被释放的可能，所以会出现一种情况，在调用doSomething的时候self还存在，在doMoreThing的时候self就变成nil了，所以为了避免这种情况发生，我们会重新strongify self。一般情况下，我们都建议这么做，这没什么风险，除非你不关心self在执行过程中变成nil，或者你确定它不会变成nil（比方说所以block都在main thread执行）。
+
+### 12.[iOS UITableView 使用小贴士 - 姚翔的部落格](http://sherlockyao.com/blog/2015/06/28/uitableview-tips/)
+> 设置初始显示位置
+
+在一些用例场景中，我们会要求当用户进入到一个列表页面时，他需要首先看到列表最底部的cell（或者其他一些位置不在top的cell）。通常我们第一反应便是在 UIViewController 的 viewWillAppear: 方法中用代码把table view滚动到需要的位置，但实际上这个方案并不奏效（造成这个的原因是，在viewWillAppear的这个阶段，view还没有真正地去layout，所以table view此时还不知道它真正的content size，也就无法滚动到正确的位置）；紧接着，我们会尝试把代码移动到 viewDidAppear: 方法中，结果确实起作用了，但是用户会在视觉上看到一个滚动的过程，所以并不理想。这里提供一种比较trick的解决方案来处理这个问题：
+
+
+```
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    if (!self.hasFinishedLayoutView) {
+        self.hasFinishedLayoutView = YES; // 这里用一个flag来避免多次执行
+
+        [self.tableView layoutIfNeeded];
+
+        NSIndexPath* indexPath = ...; // 定义要滚动到的位置
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
+}
+
+```
+我们把滚动代码移到 viewDidLayoutSubviews 这个生命周期方法中去，这样就可以成功了。注意一点：我这里手动调用了一下table view的layoutIfNeeded方法，因为在我的实践中，我的view都是用autolayout来构建的，如果这里不手动layout一下，table view的内容大小在这个阶段还是不正确的。
+
 
 
 ## `Xcode快捷键`
