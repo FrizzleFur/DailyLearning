@@ -1,5 +1,9 @@
 ## Algorilthm
 
+[简单粗暴系列之HTTPS原理 - 简书](http://www.jianshu.com/p/650ad90bf563)
+> 非对称加密算法：RSA, DSA/DSS
+   对称加密算法： AES, 3DES
+   HASH算法：MD5, SHA1, SHA256
 
 ### Hash算法
 
