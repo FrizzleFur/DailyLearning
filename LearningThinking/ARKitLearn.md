@@ -93,4 +93,33 @@ ARWorldTrackingSessionConfiguration
 
 
 
+### 总结
+
+ARKit提供两种虚拟增强现实视图，他们分别是3D效果的ARSCNView和2D效果的ARSKView（关于3D效果和2D效果区别以及在上一小节介绍），无论是使用哪一个视图都是用了相机图像作为背景视图（这里可以参考iOS自定义相机中的预览图层），而这一个相机的图像就是由<ARKit>框架中的相机类ARCamera来捕捉的。
+
+2.ARSCNView与ARCamera两者之间并没有直接的关系，它们之间是通过AR会话，也就是ARKit框架中非常重量级的一个类ARSession来搭建沟通桥梁的
+
+3.要想运行一个ARSession会话，你必须要指定一个称之为会话追踪配置的对象:ARSessionConfiguration,ARSessionConfiguration的主要目的就是负责追踪相机在3D世界中的位置以及一些特征场景的捕捉（例如平面捕捉），这个类本身比较简单却作用巨大
+
+ARSessionConfiguration是一个父类，为了更好的看到增强现实的效果，苹果官方建议我们使用它的子类ARWorldTrackingSessionConfiguration，该类只支持A9芯片之后的机型，也就是iPhone6s之后的机型
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041442539645.jpg)
+
+1.3.2-ARWorldTrackingSessionConfiguration与ARFrame
+
+1.ARSession搭建沟通桥梁的参与者主要有两个ARWorldTrackingSessionConfiguration与ARFrame
+
+2.ARWorldTrackingSessionConfiguration（会话追踪配置）的作用是跟踪设备的方向和位置,以及检测设备摄像头看到的现实世界的表面。它的内部实现了一系列非常庞大的算法计算以及调用了你的iPhone必要的传感器来检测手机的移动及旋转甚至是翻滚
+
+我们无需关心内部实现，ARKit框架帮助我们封装的非常完美，只需调用一两个属性即可
+3.当ARWorldTrackingSessionConfiguration计算出相机在3D世界中的位置时，它本身并不持有这个位置数据，而是将其计算出的位置数据交给ARSession去管理（与前面说的session管理内存相呼应），而相机的位置数据对应的类就是ARFrame
+
+ARSession类一个属性叫做currentFrame，维护的就是ARFrame这个对象
+4.ARCamera只负责捕捉图像，不参与数据的处理。它属于3D场景中的一个环节，每一个3D Scene都会有一个Camera，它觉得了我们看物体的视野
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041452604938.jpg)
+
+
+
+
 
