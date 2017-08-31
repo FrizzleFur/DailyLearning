@@ -8,7 +8,6 @@
 
 ![ARKit从入门到精通（2）-ARKit工作原理及流程介绍 - 简书](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041435972369.jpg)
 
-[](http://www.jianshu.com/p/0492c7122d2f)
 2.下图是一个<ARKit>与<SceneKit>框架关系图，通过下图可以看出
 
 继承：子类拥有父类所有的属性及方法
@@ -27,6 +26,29 @@ ARSession的作用及原理将在本篇下一小节介绍
 Tracking in real time.实时追踪设备在现实物理世界的位置(position)和方向（orientation）
 ![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041317564881.jpg)
 
+
+上图中划出曲线的运动的点代表设备，可以看到以设备为中心有一个坐标系也在移动和旋转，这代表着设备在不断的移动和旋转。这个信息是通过设备的运动传感器获取的。
+动图中右侧的黄色点是 3D 特征点。3D 特征点就是处理捕捉到的图像得到的，能代表物体特征的点。例如地板的纹理、物体的边边角角都可以成为特征点。上图中我们看到当设备移动时，ARKit 在不断的追踪捕捉到的画面中的特征点。
+ARKit 将上面两个信息进行结合，最终得到了高精度的设备位置和偏转信息。
+
+#### 追踪状态
+
+世界追踪有三种状态，我们可以通过 camera.trackingState 获取当前的追踪状态。
+
+![TrackingState.png](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041586656266.png)
+
+从上图我们看到有三种追踪状态：
+
+Not Available：世界追踪正在初始化，还未开始工作。
+Normal： 正常工作状态。
+Limited：限制状态，当追踪质量受到影响时，追踪状态可能会变为 Limited 状态。
+与 TrackingState 关联的一个信息是 ARCamera.TrackingState.Reason，这是一个枚举类型：
+
+case excessiveMotion：设备移动过快，无法正常追踪。
+case initializing：正在初始化。
+case insufficientFeatures：特征过少，无法正常追踪。
+case none：正常工作。
+
 #### World tracking 
 
 获得设备在物理环境中的相对位置
@@ -42,26 +64,132 @@ Tracking in real time.实时追踪设备在现实物理世界的位置(position)
 #### Pane detection
 
 平面探测，物理环境的表面或者平面
+ARKit 的平面检测用于检测出现实世界的水平面。
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041589355506.png)
 
-#### Hit-testing
-为了摆放你的虚拟你物体，我们提供了碰撞测试功能
+平面检测是一个动态的过程，当摄像机不断移动时，检测到的平面也会不断的变化。下图中可以看到当移动摄像机时，已经检测到的平面的坐标原点以及平面范围都在不断的变化。
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041589712505.gif)
+
+此外，随着平面的动态检测，不同平面也可能会合并为一个新的平面。下图中可以看到已经检测到的平面随着摄像机移动合并为了一个平面。
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041590104949.gif)
+
+
+```
+// Create a world tracking session configuration.
+let configuration = ARWorldTrackingSessionConfiguration()
+configuration.planeDetection = .horizontal
+// Create a session.
+let session = ARSession()
+// Run.
+session.run(configuration)
+```
+
+##### 平面的表示方式
+
+当 ARKit 检测到一个平面时，ARKit 会为该平面自动添加一个 ARPlaneAnchor，这个 ARPlaneAnchor 就表示了一个平面。
+
+ARPlaneAnchor 主要有以下属性：
+
+alignment: 表示该平面的方向，目前只有 horizontal 一个可能值，表示这个平面是水平面。ARKit 目前无法检测出垂直平面。
+
+```
+var alignment: ARPlaneAnchor.Alignment
+```
+
+#### Hit-testing 场景交互
+
+为了摆放你的虚拟物体，我们提供了碰撞测试功能
+
+`Hit-testing` 是为了获取当前捕捉到的图像中某点击位置有关的信息(包括平面、特征点、`ARAnchor` 等)。
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041607787333.png)
+
+当点击屏幕时，`ARKit` 会发射一个射线，假设屏幕平面是三维坐标系中的 xy 平面，那么该射线会沿着 z 轴方向射向屏幕里面，这就是一次 Hit-testing 过程。此次过程会将射线遇到的所有有用信息返回，返回结果以离屏幕距离进行排序，离屏幕最近的排在最前面。
+
+ResultType
+
+ARFrame 提供了 Hit-testing 的接口：
+
+
+```
+func hitTest(_ point: CGPoint, types: ARHitTestResult.ResultType) -> [ARHitTestResult]
+
+```
+
+上述接口中有一个 types 参数，该参数表示此次 Hit-testing 过程需要获取的信息类型。ResultType 有以下四种：
+
+featurePoint
+表示此次 Hit-testing 过程希望返回当前图像中 Hit-testing 射线经过的 3D 特征点。如下图：
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041609876390.gif)
+
+estimatedHorizontalPlane
+表示此次 Hit-testing 过程希望返回当前图像中 Hit-testing 射线经过的预估平面。预估平面表示 ARKit 当前检测到一个可能是平面的信息，但当前尚未确定是平面，所以 ARKit 还没有为此预估平面添加 ARPlaneAnchor。如下图：
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041609963757.gif)
+
+existingPlaneUsingExtent
+表示此次 Hit-testing 过程希望返回当前图像中 Hit-testing 射线经过的有大小范围的平面。
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041610041553.gif)
+
+上图中，如果 Hit-testing 射线经过了有大小范围的绿色平面，则会返回此平面，如果射线落在了绿色平面的外面，则不会返回此平面。
+
+existingPlane
+表示此次 Hit-testing 过程希望返回当前图像中 Hit-testing 射线经过的无限大小的平面。
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041610136927.gif)
+
+上图中，平面大小是绿色平面所展示的大小，但 exsitingPlane 选项表示即使 Hit-testing 射线落在了绿色平面外面，也会将此平面返回。换句话说，将所有平面无限延展，只要 Hit-testing 射线经过了无限延展后的平面，就会返回该平面。
+
+
+```
+// Adding an ARAnchor based on hit-test
+let point = CGPoint(x: 0.5, y: 0.5)  // Image center
+
+// Perform hit-test on frame.
+let results = frame. hitTest(point, types: [.featurePoint, .estimatedHorizontalPlane])
+
+// Use the first result.
+if let closestResult = results.first {
+    // Create an anchor for it.
+    anchor = (transform: closestResult.worldTransform)
+    // Add it to the session.
+    session.add(anchor: anchor)
+}
+
+```
 
 #### Light estimation
 
 光线估计，渲染虚拟几何体或者实现正确打光，以匹配现实物理世界。
 
+ARKit 的光照估计默认是开启的，当然也可以通过下述方式手动配置：
+
+```
+configuration.isLightEstimationEnabled = true
+```
+获取光照估计的光照强度也很简单，只需要拿到当前的 ARFrame，通过以下代码即可获取估计的光照强度：
+
+
+
+```
+let intensity = frame.lightEstimate?.ambientIntensity
+```
 
 ### Rendering
 
 Easy integration
-
 AR Views
-
 Custom rendering
-
 
 ![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041307674446.jpg)
 
+* 将摄像机捕捉到的真实世界的视频作为背景。
+* 将世界追踪到的相机状态信息实时更新到 AR world 中的相机。
+* 处理光照估计的光照强度。
+* 实时渲染虚拟世界物体在屏幕中的位置。
 
 ### ARSession
 ARSession 
@@ -90,6 +218,66 @@ ARWorldTrackingSessionConfiguration
 #### Scence Information 
 ##### ARAnchor
 
+### 4x4 矩阵？
+
+物体在三维空间中的运动通常分类两类：平移和旋转，那么表达一个物体的变化就应该能够包含两类运动变化。
+
+平移
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041587172800.png)
+
+首先看上图，假设有一个长方体(黄色虚线)沿 x 轴平移Δx、沿 y 轴平移Δy、沿 z 轴平移Δz 到了另一个位置(紫色虚线)。长方体的顶点 P(x1, y1, z1)则平移到了 P'(x2, y2, z2)，使用公式表示如下：
+
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041587246589.png)
+
+旋转
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041587331148.png)
+
+在旋转之前，上图中包含以下信息：
+
+黄色虚线的长方体
+P(x1, y1, z1)是长方体的一个顶点
+P 点在 xy 平面的投影点 Q(x1, y1, 0)
+Q 与坐标原点的距离为 L
+Q 与坐标原点连线与 y 轴的夹角是α
+那么在旋转之前，P 点坐标可以表示为：
+
+
+``` 
+    x1 = L * sinα
+    y1 = L * cosα
+    z1 = z1
+```
+下面我们让长方体绕着 z 轴逆时针旋转β角度，那么看图可以得到以下信息：
+
+P 点会绕着 z 轴逆时针旋转β角度到达 P'(x2, y2, z2)
+P' 在 xy 平面投影点 Q'(x2, y2, 0)
+Q' 与 Q 在以 xy 平面原点为圆心，半径为 L 的圆上
+Q' 与原点连线与 Q 与原点连线之间的夹角为 β
+Q'与原点连线与 y 轴的角度是 α-β。
+那么在旋转之后，P' 点的坐标可以表示为：
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041587467633.png)
+
+
+使用矩阵来表示：
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041588616456.png)
+
+
+从上面的分析可以看出，为了表达旋转信息，我们需要一个 3x3 的矩阵，在表达了旋转信息的 3x3 矩阵中，我们无法表达平移信息，为了同时表达平移和旋转信息，在 3D 计算机图形学中引入了齐次坐标系，在齐次坐标系中，使用四维矩阵表示一个点或向量：
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041588701017.png)
+
+
+加入一个变化是先绕着 z 轴旋转 β 角度，再沿 x 轴平移Δx、沿 y 轴平移Δy、沿 z 轴平移Δz，我们可以用以下矩阵变化表示：
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041588765098.png)
+
+
+最后，还有一种变化是缩放，在齐次坐标系中只需要在前三列矩阵中某个位置添加一个系数即可，比较简单，这里不在展示矩阵变换。从上面可以看出，为了完整的表达一个物体在 3D 空间的变化，需要一个 4x4 矩阵。
 
 
 
@@ -115,10 +303,70 @@ ARSessionConfiguration是一个父类，为了更好的看到增强现实的效�
 3.当ARWorldTrackingSessionConfiguration计算出相机在3D世界中的位置时，它本身并不持有这个位置数据，而是将其计算出的位置数据交给ARSession去管理（与前面说的session管理内存相呼应），而相机的位置数据对应的类就是ARFrame
 
 ARSession类一个属性叫做currentFrame，维护的就是ARFrame这个对象
-4.ARCamera只负责捕捉图像，不参与数据的处理。它属于3D场景中的一个环节，每一个3D Scene都会有一个Camera，它觉得了我们看物体的视野
+4.ARCamera只负责捕捉图像，不参与数据的处理。它属于3D场景中的一个环节，每一个3D Scene都会有一个Camera，它决定了我们看物体的视野
 
 ![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041452604938.jpg)
 
+#### 1.4-ARKit工作完整流程
+
+ARKit框架工作流程可以参考下图:
+1.ARSCNView加载场景SCNScene
+2.SCNScene启动相机ARCamera开始捕捉场景
+3.捕捉场景后ARSCNView开始将场景数据交给Session
+4.Session通过管理ARSessionConfiguration实现场景的追踪并且返回一个ARFrame
+5.给ARSCNView的scene添加一个子节点（3D物体模型）
+ARSessionConfiguration捕捉相机3D位置的意义就在于能够在添加3D物体模型的时候计算出3D物体模型相对于相机的真实的矩阵位置
+在3D坐标系统中，有一个世界坐标系和一个本地坐标系。类似于UIView的Frame和Bounds的区别，这种坐标之间的转换可以说是ARKit中最难的部分
+
+![](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041482797633.jpg)
+
+
+#### ARKitArchitecture
+
+
+椅子是计算机程序创建的虚拟世界的物体，而背景则是摄像机捕捉到的真实世界，AR 系统将两者结合在一起。我们从上图可以窥探出 AR 系统由以下几个基础部分组成：
+
+捕捉真实世界：上图中的背景就是真实世界，一般由摄像机完成。
+虚拟世界：例如上图中的椅子就是虚拟世界中的一个物体模型。当然，可以有很多物体模型，从而组成一个复杂的虚拟世界。
+虚拟世界与现实世界相结合：将虚拟世界渲染到捕捉到的真实世界中。
+世界追踪：当真实世界变化时(如上图中移动摄像机)，要能追踪到当前摄像机相对于初始时的位置、角度变化信息，以便实时渲染出虚拟世界相对于现实世界的位置和角度。
+场景解析：例如上图中可以看出椅子是放在地面上的，这个地面其实是 AR 系统检测出来的。
+与虚拟世界互动：例如上图中缩放、拖动椅子。(其实也属于场景解析的范畴)
+
+ARKitSystem
+![ARKitSystem](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041485645877.png)
+
+ARKitArchitecture
+![ARKitArchitecture](http://oc98nass3.bkt.clouddn.com/2017-08-31-15041484664569.png)
+
+对于上图，ARSession 是核心整个ARKit系统的核心，ARSession 实现了世界追踪、场景解析等重要功能。而 ARFrame 中包含有 ARSession 输出的所有信息，是渲染的关键数据来源。虽然 ARKit 提供的 API 较为简单，但看到上面整个框架后，对于初识整个体系的开发者来说，还是会觉着有些庞大。没关系，后面几节会对每个模块进行单独的介绍，当读完最后时，再回头来看这个架构图，或许会更加明了一些。
+
+
+
+### 追踪什么？
+
+在这个 AR-World 坐标系中，ARKit 会追踪以下几个信息：
+
+追踪设备的位置以及旋转，这里的两个信息均是相对于设备起始时的信息。
+追踪物理距离(以“米”为单位)，例如 ARKit 检测到一个平面，我们希望知道这个平面有多大。
+追踪我们手动添加的希望追踪的点，例如我们手动添加的一个虚拟物体。
+
+#### 世界追踪如何工作？
+
+苹果文档中对世界追踪过程是这么解释的：ARKit 使用视觉惯性测距技术，对摄像头采集到的图像序列进行计算机视觉分析，并且与设备的运动传感器信息相结合。ARKit 会识别出每一帧图像中的特征点，并且根据特征点在连续的图像帧之间的位置变化，然后与运动传感器提供的信息进行比较，最终得到高精度的设备位置和偏转信息。
+
+
+## 资源
+
+[苹果官方 demo ARKit Demo App: Placing Objects in Augmented Reality](https://developer.apple.com/sample-code/wwdc/2017/PlacingObjects.zip)
+
+[WWDC ARKit 初体验 - 简书](http://www.jianshu.com/p/5b1d322f22c9)
+
+## 参考
+
+1. [直击苹果 ARKit 技术 - 简书](http://www.jianshu.com/p/7faa4a3af589)
+2. [ARKit从入门到精通（2）-ARKit工作原理及流程介绍 - 简书](http://www.jianshu.com/p/0492c7122d2f)
+3. [ARKit从入门到精通（3）-ARKit自定义实现](http://www.jianshu.com/p/e67d519d2cf7)
 
 
 
