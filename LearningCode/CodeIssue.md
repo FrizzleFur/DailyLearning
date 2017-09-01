@@ -177,3 +177,19 @@
 ```
 ------------------------------------------------------------------------
 
+
+--------------------2017-09-01--------------------
+
+
+Jenkins打包，Xcode9 beta 貌似 对profile检查的更加严格
+[Xcode 9.0 (beta) support · Issue #9380 · fastlane/fastlane](https://github.com/fastlane/fastlane/issues/9380)
+
+报错
+requires a provisioning profile with the Push Notifications and Associated Domains features
+![](http://oc98nass3.bkt.clouddn.com/2017-09-01-15042409093815.jpg)
+
+
+解决方法：先制定Xcode的Command Line Tool
+![](http://oc98nass3.bkt.clouddn.com/2017-09-01-15042408699237.jpg)
+
+
