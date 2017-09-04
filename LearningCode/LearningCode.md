@@ -351,6 +351,28 @@ NSBlockOperation *op = [[[NSBlockOperation alloc] init] autorelease];
 context与session不同之处是：一般与硬件打交道，例如摄像头捕捉ARSession，网卡的调用NSURLSession等使用的都是session后缀。没有硬件参与，一般用context，如绘图上下文，自定义转场上下文等
 
 
+### 14. 检测用户截屏
+
+[iOS开发-检测用户截屏, 并获取所截图片 - CSDN博客](http://blog.csdn.net/hitwhylz/article/details/38386979)
+```
+//注册通知  
+[[NSNotificationCenter defaultCenter] addObserver:self  
+        selector:@selector(userDidTakeScreenshot:) 
+        name:UIApplicationUserDidTakeScreenshotNotification 
+        object:nil];  
+```
+
+关于淘口令的 读取，是在`UIApplicationDidBecomeActiveNotification`的时候，调用监听，检测黏贴板的链接，是否包含协议的格式，然后弹出口令，可以在`- (void)applicationDidBecomeActive:(UIApplication *)application `中定义，统一交给一个管理类来实现，或者在当前业务类中利用通知~
+```
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(funUIApplicationDidBecomeActiveNotification)
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(funUIApplicationWillResignActiveNotification)
+                                                 name:UIApplicationWillResignActiveNotification object:nil];
+```
+
 ## `Xcode快捷键`
 
 ### 1. 交换上下行代码：  `Cmd + Option + [` or `Cmd + Option + ]`
