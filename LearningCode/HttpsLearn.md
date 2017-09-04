@@ -1,8 +1,186 @@
-## HTTPS
+## HTTP
+
+### 一、HTTP之请求消息Request
+
+[关于HTTP协议，一篇就够了 - 简书](http://www.jianshu.com/p/80e25cb1d81a)
+
+客户端发送一个HTTP请求到服务器的请求消息包括以下格式：
+
+请求行（request line）、请求头部（header）、空行和请求数据四个部分组成。
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045083200378.jpg)
 
 [简单粗暴系列之HTTPS原理](http://www.jianshu.com/p/650ad90bf563)
 
-三、HTTPS工作原理
+POST请求例子，使用Charles抓取的request：
+
+```
+POST / HTTP1.1
+Host:www.wrox.com
+User-Agent:Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022)
+Content-Type:application/x-www-form-urlencoded
+Content-Length:40
+Connection: Keep-Alive
+
+name=Professional%20Ajax&publisher=Wiley
+```
+
+第一部分：请求行，第一行明了是post请求，以及http1.1版本。
+第二部分：请求头部，第二行至第六行。
+第三部分：空行，第七行的空行。
+第四部分：请求数据，第八行。
+HTTP之响应消息Response
+
+一般情况下，服务器接收并处理客户端发过来的请求后会返回一个HTTP的响应消息。
+
+HTTP响应也由四个部分组成，分别是：状态行、消息报头、空行和响应正文。
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045086649685.jpg)
+
+```
+HTTP/1.1 200 OK
+Date: Fri, 22 May 2009 06:07:21 GMT
+Content-Type: text/html; charset=UTF-8
+
+<html>
+      <head></head>
+      <body>
+            <!--body goes here-->
+      </body>
+</html>
+```
+
+第一部分：状态行，由HTTP协议版本号， 状态码， 状态消息 三部分组成。
+
+第一行为状态行，（HTTP/1.1）表明HTTP版本为1.1版本，状态码为200，状态消息为（ok）
+
+第二部分：消息报头，用来说明客户端要使用的一些附加信息
+
+第二行和第三行为消息报头，
+Date:生成响应的日期和时间；Content-Type:指定了MIME类型的HTML(text/html),编码类型是UTF-8
+
+第三部分：空行，消息报头后面的空行是必须的
+
+第四部分：响应正文，服务器返回给客户端的文本信息。
+
+空行后面的html部分为响应正文。
+
+
+HTTP之状态码
+
+状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:
+
+1xx：指示信息--表示请求已接收，继续处理
+
+2xx：成功--表示请求已被成功接收、理解、接受
+
+3xx：重定向--要完成请求必须进行更进一步的操作
+
+4xx：客户端错误--请求有语法错误或请求无法实现
+
+5xx：服务器端错误--服务器未能实现合法的请求
+
+```
+200 OK                        //客户端请求成功
+400 Bad Request               //客户端请求有语法错误，不能被服务器所理解
+401 Unauthorized              //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用 
+403 Forbidden                 //服务器收到请求，但是拒绝提供服务
+404 Not Found                 //请求资源不存在，eg：输入了错误的URL
+500 Internal Server Error     //服务器发生不可预期的错误
+503 Server Unavailable        //服务器当前不能处理客户端的请求，一段时间后可能恢复正常
+```
+
+#### GET和POST请求的区别
+
+##### GET请求
+
+
+```
+GET /books/?sex=man&name=Professional HTTP/1.1
+Host: www.wrox.com
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)
+Gecko/20050225 Firefox/1.0.1
+Connection: Keep-Alive
+
+```
+注意最后一行是空行
+
+##### POST请求
+
+```
+POST / HTTP/1.1
+Host: www.wrox.com
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)
+Gecko/20050225 Firefox/1.0.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 40
+Connection: Keep-Alive
+
+name=Professional%20Ajax&publisher=Wiley
+```
+
+1、GET提交，请求的数据会附在URL之后（就是把数据放置在HTTP协议头中），以?分割URL和传输数据，多个参数用&连接；例 如：login.action?name=hyddd&password=idontknow&verify=%E4%BD%A0 %E5%A5%BD。如果数据是英文字母/数字，原样发送，如果是空格，转换为+，如果是中文/其他字符，则直接把字符串用BASE64加密，得出如： %E4%BD%A0%E5%A5%BD，其中％XX中的XX为该符号以16进制表示的ASCII。
+
+POST提交：把提交的数据放置在是HTTP包的包体中。上文示例中红色字体标明的就是实际的传输数据
+
+因此，GET提交的数据会在地址栏中显示出来，而POST提交，地址栏不会改变
+
+2、传输数据的大小：首先声明：HTTP协议没有对传输的数据大小进行限制，HTTP协议规范也没有对URL长度进行限制。
+
+而在实际开发中存在的限制主要有：
+
+GET:特定浏览器和服务器对URL长度有限制，例如 IE对URL长度的限制是2083字节(2K+35)。对于其他浏览器，如Netscape、FireFox等，理论上没有长度限制，其限制取决于操作系 统的支持。
+
+因此对于GET提交时，传输数据就会受到URL长度的 限制。
+
+POST:由于不是通过URL传值，理论上数据不受 限。但实际各个WEB服务器会规定对post提交数据大小进行限制，Apache、IIS6都有各自的配置。
+
+3、安全性
+
+POST的安全性要比GET的安全性高。比如：通过GET提交数据，用户名和密码将明文出现在URL上，因为(1)登录页面有可能被浏览器缓存；(2)其他人查看浏览器的历史纪录，那么别人就可以拿到你的账号和密码了，除此之外，使用GET提交数据还可能会造成Cross-site request forgery攻击
+
+4、Http get,post,soap协议都是在http上运行的
+
+（1）get：请求参数是作为一个key/value对的序列（查询字符串）附加到URL上的
+查询字符串的长度受到web浏览器和web服务器的限制（如IE最多支持2048个字符），不适合传输大型数据集同时，它很不安全
+
+（2）post：请求参数是在http标题的一个不同部分（名为entity body）传输的，这一部分用来传输表单信息，因此必须将Content-type设置为:application/x-www-form- urlencoded。post设计用来支持web窗体上的用户字段，其参数也是作为key/value对传输。
+但是：它不支持复杂数据类型，因为post没有定义传输数据结构的语义和规则。
+
+（3）soap：是http post的一个专用版本，遵循一种特殊的xml消息格式
+Content-type设置为: text/xml 任何数据都可以xml化。
+
+Http协议定义了很多与服务器交互的方法，最基本的有4种，分别是GET,POST,PUT,DELETE. 一个URL地址用于描述一个网络上的资源，而HTTP中的GET, POST, PUT, DELETE就对应着对这个资源的查，改，增，删4个操作。 我们最常见的就是GET和POST了。GET一般用于获取/查询资源信息，而POST一般用于更新资源信息.
+
+##### 我们看看GET和POST的区别
+
+GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&相连，如`EditPosts.aspx?name=test1&id=123456` .POST方法是把提交的数据放在HTTP包的Body中.
+
+GET提交的数据大小有限制（因为浏览器对URL的长度有限制），而POST方法提交的数据没有限制.
+
+GET方式需要使用`Request.QueryString`来取得变量的值，而POST方式通过`Request.Form`来获取变量的值。
+
+GET方式提交数据，会带来安全问题，比如一个登录页面，通过GET方式提交数据时，用户名和密码将出现在URL上，如果页面可以被缓存或者其他人可以访问这台机器，就可以从历史记录获得该用户的账号和密码.
+
+#### HTTP请求方法
+
+根据HTTP标准，HTTP请求可以使用多种请求方法。
+HTTP1.0定义了三种请求方法： GET, POST 和 HEAD方法。
+HTTP1.1新增了五种请求方法：OPTIONS, PUT, DELETE, TRACE 和 CONNECT 方法。
+
+```
+GET     请求指定的页面信息，并返回实体主体。
+HEAD     类似于get请求，只不过返回的响应中没有具体的内容，用于获取报头
+POST     向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包含在请求体中。POST请求可能会导致新的资源的建立和/或已有资源的修改。
+PUT     从客户端向服务器传送的数据取代指定的文档的内容。
+DELETE      请求服务器删除指定的页面。
+CONNECT     HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。
+OPTIONS     允许客户端查看服务器的性能。
+TRACE     回显服务器收到的请求，主要用于测试或诊断。
+
+```
+
+### 二、HTTPS工作原理
   HTTPS工作在客户端和服务器端之间。以上故事中，客户端可以看作为大师A，服务器端可以看作为大师B。客户端和服务器本身都会自带一些加密的算法，用于双方协商加密的选择项。
 1、客户端首先会将自己支持的加密算法，打个包告诉服务器端。
 2、服务器端从客户端发来的加密算法中，选出一组加密算法和HASH算法（注，HASH也属于加密），并将自己的身份信息以证书的形式发回给客户端。而证书中包含了网站的地址，加密用的公钥，以及证书的颁发机构等；
@@ -31,5 +209,112 @@
    HASH算法：MD5, SHA1, SHA256
 
 这就是HTTPS的基本原理，如果没有简单粗暴，请告诉我，以帮助我持续改进；如果真的简单粗暴，请告诉有需要的人，大家共同进步。
+
+
+### TCP协议详解
+
+#### TCP/IP协议分层
+
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045091458482.jpg)
+
+[TCP协议详解](http://www.jianshu.com/p/ef892323e68f)
+
+####  IP地址
+
+每个计算机必须有一个 IP 地址才能够连入因特网。
+
+每个 IP 包必须有一个地址才能够发送到另一台计算机。
+
+网络上每一个节点都必须有一个独立的Internet地址（也叫做IP地址）。现在，通常使用的IP地址是一个32bit的数字，也就是我们常说的IPv4标准，这32bit的数字分成四组，也就是常见的255.255.255.255的样式。IPv4标准上，地址被分为五类，我们常用的是B类地址。具体的分类请参考其他文档。需要注意的是IP地址是网络号+主机号的组合，这非常重要。
+
+CP/IP 使用 32 个比特来编址。一个计算机字节是 8 比特。所以 TCP/IP 使用了 4 个字节。
+一个计算机字节可以包含 256 个不同的值：
+00000000、00000001、00000010、00000011、00000100、00000101、00000110、00000111、00001000 ....... 直到 11111111。
+现在，你知道了为什么 TCP/IP 地址是介于 0 到 255 之间的 4 个数字。
+
+##### IP 路由器
+
+当一个 IP 包从一台计算机被发送，它会到达一个 IP 路由器。
+
+IP 路由器负责将这个包路由至它的目的地，直接地或者通过其他的路由器。
+
+在一个相同的通信中，一个包所经由的路径可能会和其他的包不同。而路由器负责根据通信量、网络中的错误或者其他参数来进行正确地寻址。
+
+
+#### TCP三次握手
+
+所谓三次握手（Three-Way Handshake）即建立TCP连接，就是指建立一个TCP连接时，需要客户端和服务端总共发送3个包以确认连接的建立。在socket编程中，这一过程由客户端执行connect来触发，整个流程如下图所示：
+
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045092317141.jpg)
+
+（1）第一次握手：Client将标志位SYN置为1，随机产生一个值seq=J，并将该数据包发送给Server，Client进入SYN_SENT状态，等待Server确认。
+
+（2）第二次握手：Server收到数据包后由标志位SYN=1知道Client请求建立连接，Server将标志位SYN和ACK都置为1，ack=J+1，随机产生一个值seq=K，并将该数据包发送给Client以确认连接请求，Server进入SYN_RCVD状态。
+
+（3）第三次握手：Client收到确认后，检查ack是否为J+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给Server，Server检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，Client和Server进入ESTABLISHED状态，完成三次握手，随后Client与Server之间可以开始传输数据了。
+
+简单来说，就是
+
+1、建立连接时，客户端发送SYN包（SYN=i）到服务器，并进入到SYN-SEND状态，等待服务器确认
+
+2、服务器收到SYN包，必须确认客户的SYN（ack=i+1）,同时自己也发送一个SYN包（SYN=k）,即SYN+ACK包，此时服务器进入SYN-RECV状态
+
+3、客户端收到服务器的SYN+ACK包，向服务器发送确认报ACK（ack=k+1）,此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手，客户端与服务器开始传送数据。
+
+SYN攻击：
+
+在三次握手过程中，Server发送SYN-ACK之后，收到Client的ACK之前的TCP连接称为半连接（half-open connect），此时Server处于SYN_RCVD状态，当收到ACK后，Server转入ESTABLISHED状态。SYN攻击就是Client在短时间内伪造大量不存在的IP地址，并向Server不断地发送SYN包，Server回复确认包，并等待Client的确认，由于源地址是不存在的，因此，Server需要不断重发直至超时，这些伪造的SYN包将产时间占用未连接队列，导致正常的SYN请求因为队列满而被丢弃，从而引起网络堵塞甚至系统瘫痪。SYN攻击时一种典型的DDOS攻击，检测SYN攻击的方式非常简单，即当Server上有大量半连接状态且源IP地址是随机的，则可以断定遭到SYN攻击了，使用如下命令可以让之现行：
+
+```
+#netstat -nap | grep SYN_RECV
+```
+
+
+#### 域名
+
+12 个阿拉伯数字很难记忆。使用一个名称更容易。
+
+用于 TCP/IP 地址的名字被称为域名。w3school.com.cn 就是一个域名。
+
+当你键入一个像 http://www.w3school.com.cn 这样的域名，域名会被一种 `DNS` 程序翻译为数字。
+
+在全世界，数量庞大的 DNS 服务器被连入因特网。DNS 服务器负责将域名翻译为 TCP/IP 地址，同时负责使用新的域名信息更新彼此的系统。
+
+当一个新的域名连同其 TCP/IP 地址一同注册后，全世界的 DNS 服务器都会对此信息进行更新。
+
+##### DNS
+DNS（Domain Name System，域名系统），因特网上作为域名和IP地址相互映射的一个分布式数据库，能够使用户更方便的访问互联网，而不用去记住能够被机器直接读取的IP数串。通过主机名，最终得到该主机名对应的IP地址的过程叫做域名解析（或主机名解析）。DNS协议运行在UDP协议之上，使用端口号53。在RFC文档中RFC 2181对DNS有规范说明，RFC 2136对DNS的动态更新进行说明，RFC 2308对DNS查询的反向缓存进行说明。
+
+
+#### 为什么建立连接是三次握手，而关闭连接却是四次挥手呢？
+
+这是因为服务端在LISTEN状态下，收到建立连接请求的SYN报文后，把ACK和SYN放在一个报文里发送给客户端。而关闭连接时，当收到对方的FIN报文时，仅仅表示对方不再发送数据了但是还能接收数据，己方也未必全部数据都发送给对方了，所以己方可以立即close，也可以发送一些数据给对方后，再发送FIN报文给对方来表示同意现在关闭连接，因此，己方ACK和FIN一般都会分开发送。
+
+
+### content-type
+![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045100047341.jpg)
+
+[HTTP 请求头与请求体 - 某熊的全栈之路 - SegmentFault](https://segmentfault.com/a/1190000006689767)
+
+content-type是必须的，它包括一个类似标志性质的名为boundary的标志，
+
+这算是最常见的 POST 提交数据的方式了。浏览器的原生 <form> 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。请求类似于下面这样（无关的请求头在本文中都省略掉了）：
+
+```
+POST http://www.example.com HTTP/1.1
+Content-Type: application/x-www-form-urlencoded;charset=utf-8
+title=test&sub%5B%5D=1&sub%5B%5D=2&sub%5B%5D=3
+```
+首先，Content-Type 被指定为 application/x-www-form-urlencoded；这里的格式要求就是URL中Query String的格式要求：多个键值对之间用&连接，键与值之前用=连接，且只能用ASCII字符，非ASCII字符需使用UrlEncode编码。大部分服务端语言都对这种方式有很好的支持。例如 PHP 中，$_POST['title'] 可以获取到 title 的值，$_POST['sub'] 可以得到 sub 数组。
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045099311373.jpg)
+
+
+#### 文件分割
+第三种请求体的请求体被分成为多个部分，文件上传时会被使用，这种格式最先应该是被用于邮件传输中，每个字段/文件都被boundary（Content-Type中指定）分成单独的段，每段以-- 加 boundary开头，然后是该段的描述头，描述头之后空一行接内容，请求结束的标制为boundary后面加--，结构见下图：
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045099842386.jpg)
 
 
