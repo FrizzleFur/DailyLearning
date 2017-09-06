@@ -373,6 +373,23 @@ context与session不同之处是：一般与硬件打交道，例如摄像头捕
                                                  name:UIApplicationWillResignActiveNotification object:nil];
 ```
 
+
+### 15. `UICollectionView` 滚动到指定的位置。
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-06-15046576192380.jpg)
+
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-06-15046575860803.jpg)
+
+```
+-(void) scrollToSectionHeader:(int)section {    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+    //拿到第一个SectionHeader的`UICollectionViewLayoutAttributes`    UICollectionViewLayoutAttributes *attribs = [self.collectionView layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeaderatIndexPath:indexPath];
+    //去掉contentInset    CGPoint topOfHeader = CGPointMake(0, attribs.frame.origin.y - self.collectionView.contentInset.top);    [self.collectionView setContentOffset:topOfHeader animated:YES];}
+```
+
+
+
+
 ## `Xcode快捷键`
 
 ### 1. 交换上下行代码：  `Cmd + Option + [` or `Cmd + Option + ]`
