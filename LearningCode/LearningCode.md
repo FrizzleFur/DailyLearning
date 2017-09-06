@@ -388,6 +388,31 @@ context与session不同之处是：一般与硬件打交道，例如摄像头捕
 ```
 
 
+### 16.  属性对外只读
+
+[ios - readonly public, readwrite private property - Stack Overflow](https://stackoverflow.com/questions/18979818/readonly-public-readwrite-private-property)
+
+If you want to do this you re-declare the property in a class extension.
+
+For example, if you have a class called MyClass:
+
+MyClass.h
+
+
+```
+@property (nonatomic, copy, readonly) NSString *username;
+
+```MyClass.m
+
+
+```
+// Create a class extension before the @implementation section
+@interface MyClass ()
+@property (nonatomic, copy, readwrite) NSString *username;
+@end
+
+```
+```
 
 
 ## `Xcode快捷键`
