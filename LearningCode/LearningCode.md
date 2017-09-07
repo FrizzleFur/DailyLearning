@@ -398,21 +398,66 @@ For example, if you have a class called MyClass:
 
 MyClass.h
 
-
 ```
 @property (nonatomic, copy, readonly) NSString *username;
 
-```MyClass.m
+```
 
+MyClass.m
 
 ```
 // Create a class extension before the @implementation section
 @interface MyClass ()
 @property (nonatomic, copy, readwrite) NSString *username;
 @end
+```
+
+
+### 17. 什么时候调用`ViewDidLoad`
+
+![](http://oc98nass3.bkt.clouddn.com/2017-09-07-15047776695308.jpg)
+
+在做分享的时候,发现有个视图没初始化， 对比一下才发现，需要把子视图添加到父视图，才会调用`ViewDidLoad`
 
 ```
+#pragma mark - ShareVC Function
+
+- (void)showInWindow {
+    isShareVCShowing = true;
+    isShareVCPresented = true;
+    [[UIApplication sharedApplication].keyWindow addSubview:self.view];
+    shareView.top = self.view.height;
+    shadowView.alpha = 0.0;
+    [UIView animateWithDuration:0.25 animations:^{
+        shareView.bottom = self.view.height;
+        shadowView.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        shareView.bottom = self.view.height;
+        shadowView.alpha = 1.0;
+        isShareVCShowing = false;
+    }];
+}
+
+//截屏
+- (void)showShareCodeInfoInWindow{
+    isShareVCShowing = true;
+    isShareVCPresented = true;
+    shareCodeInfoView.shareCodeInfoType = ShareCodeInfoType_ScreenShot;
+    [[UIApplication sharedApplication].keyWindow addSubview:self.view];
+    shareView.hidden = true;
+    shareCodeInfoView.hidden = false;
+    shadowView.alpha = 0.0;
+    [UIView animateWithDuration:0.25 animations:^{
+        shareCodeInfoView.bottom = self.view.height;
+        shadowView.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [shareView setHidden:true];
+        [shareCodeInfoView setHidden:false];
+        isShareVCShowing = false;
+    }];
+}
 ```
+
 
 
 ## `Xcode快捷键`
