@@ -498,3 +498,9 @@ MyClass.m
 类方法，也称静态方法，指的是用static关键字修饰的方法。此方法属类本身的方法，不属于类的某一个实例（对象）。类方法中不可直接使用实例变量。其调用方式有三种：可直接调用、类名.方法名、对象名.方法名。实例方法指的是不用static关键字修饰的方法。每个实例对象都有自身的实例方法，互相独立，不共享一个。其调用方式只能是对象名.方法名。
 
 
+### 20. WorkSpace
+
+Frameworks and projects that build a single result.
+![](http://oc98nass3.bkt.clouddn.com/2017-09-09-15049433862276.jpg)
+
+
