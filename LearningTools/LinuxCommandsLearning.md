@@ -9,8 +9,20 @@
 
 ### 常用命令
 
+#### man命令
+>常用工具命令 man命令是Linux下的帮助指令，通过man指令可以查看Linux中的指令帮助、配置文件帮助和编程帮助等信息。
+> 语法 man(选项)(参数) 
+  -a：在所有的man帮助手册中搜索；
+  -f：等价于whatis指令，显示给定关键字的简短描述信息； 
+  -P：指定内容时使用分页程序；
+  -M：指定man手册搜索的路径。 
+来自: [](http://man.linuxde.net/man)
+
+
 * 不区分大小写智能提示。我是不喜欢大小写区分的那种人，所以用了 `zsh` 之后，经常按 `Tab` 进行提示。
 此外按下 `tab` 键显示出所有待选项后，再按一次 `tab` 键，即进入选择模式，进入选择模式后，按 tab 切向下一个选项，按 `shift + tab` 键切向上一个选项，`ctrl+f/b/n/p` 可以向前后左右切换。
+![](http://upload-images.jianshu.io/upload_images/225323-11c6c703424c4b1f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 `kill + 空格键 + Tab`键，列出运行的进程，要啥哪个进程不需要再知道 PID 了，当然了 `zsh`，提供了让你知道 PID 的方法：
 比如输入：`kill vim`，再按下 `tab`，会变成：`kill 5643`
 
@@ -20,7 +32,6 @@
 
 `zsh` 的目录跳转很智能，你无需输入 `cd` 就可直接输入路径即可。比如：`..` 表示后退一级目录，`../../ `表示后退两级，依次类推。
 在命令窗口中输入：`d`，将列出当前 session 访问过的所有目录，再按提示的数字即可进入相应目录。
-![](http://upload-images.jianshu.io/upload_images/225323-11c6c703424c4b1f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### Mac 常用命令(Unix)
 
@@ -91,6 +102,7 @@ Mac底层是Unix内核，可以登入登出Unix。
 
 ### 文件操作
 参考[Unix常用命令](http://www.cnblogs.com/hjzhang/archive/2009/12/04/2043586.html)
+
 #### 移动,拷贝
 1. 文件移动
 `$ mv filename path`
@@ -142,61 +154,71 @@ rm命令
 如果要删除目录，用rm –r +路径+目录名 。例如：要删除/home/manual目录，用$rm –r /home/manual
 注意：要删除一个文件或文件夹，首先要具有对这个文件夹的写权限。
 
-1.-v选项：提示
+1. `-v`选项：提示
 
-   mkdir -v dirname
-
-   rmdir -v dirname
-
+```
+ mkdir -v directoryName
+```
    结果： 操作成功后都会有提示信息。
+![](http://oc98nass3.bkt.clouddn.com/15130866514954.jpg)
+   
+2. 一次删除两个目录，用空格分开： 空目录1、空目录2
 
-   一次删除两个目录，用空格分开
-
-   空目录1、2
-
-   rmdir 1 2
-
+```
+   rmdir directory1  directory2
+```
    结果：一次删除了空目录1、2
 
-2.-p选项：级联删除
+3. `-p`选项：级联删除
 
-   目录1122/1
+eg1：   目录1122/1
 
+```
    rmdir -p -v 1122/1
-
+```
    结果：先删除1122/1，再删除1122。
 
 
-   目录1122/1  1122/2
+eg2：   目录1122/1  1122/2
 
+```
     rmdir -p -v 1122/1
-
+```
     结果：删除1122/1,再删除1122时错误，因为此时1122不是空文件夹。
 
 
-二、rm：删除文件或者目录
+二、`rm` 删除文件或者目录
 
-1.-f选项：不管目录下的文件存在不存在，都不给予提示
+1. `-f`选项：不管目录下的文件存在不存在，都不给予提示（force强制）
 
     目录1122/1/a，1122/1为目录，a为文件
 
+```
      rm -f 1122/1
+```
 
      结果：提示1122/1为目录，不能删除
 
+
+```
      rm 1122/1/a
+```
 
      结果：成功，但是没有任何提示
 
+```
      rm 1122/1/b
+```
 
      结果：没有任何提示 
    
-2.-r：删除此目录下的所有文件，但是此目录不删除
+2. `-r`：删除此目录下的所有文件，但是此目录不删除
 
     目录：1122/1 1122/2
 
+```
      rm -r -v 1122
+```
 
      结果：删除1122/1  1122/22
  
@@ -204,19 +226,12 @@ rm命令
 
    目录1122/1/a  1122/2
 
+```
    rm -rf -v 1122
+```
 
    结果：
-[图片上传失败...(image-2d0230-1512954847204)]
 
-#### man命令
->常用工具命令 man命令是Linux下的帮助指令，通过man指令可以查看Linux中的指令帮助、配置文件帮助和编程帮助等信息。
-> 语法 man(选项)(参数) 
-  -a：在所有的man帮助手册中搜索；
-  -f：等价于whatis指令，显示给定关键字的简短描述信息； 
-  -P：指定内容时使用分页程序；
-  -M：指定man手册搜索的路径。 
-来自:< http://man.linuxde.net/man>
 
 ## Bash 命令
 
@@ -237,43 +252,14 @@ history  | 显示命令历史列表
 Ctrl+l  | 清屏
 Ctrl+w  | 剪切光标所在处之前的一个词（以空格、标点等为分隔符）
 Ctrl+k  | 剪切命令行中光标所在处之后的所有字符（包括自身）
-Ctrl+d |  删除光标所在处字符
+Ctrl+u  |  剪切命令行中光标所在处之前的所有字符（不包括自身）
 Ctrl+h  | 删除光标所在处前一个字符
 Ctrl+y  |  粘贴刚才所删除的字符
-Ctrl+u  |  剪切命令行中光标所在处之前的所有字符（不包括自身）
-Ctrl+t  |  颠倒光标所在处及其之前的字符位置，并将光标移动到下一个字符
-Ctrl+v |   插入特殊字符,如Ctrl+v+Tab加入Tab字符键
-Esc+t  |  颠倒光标所在处及其相邻单词的位置
-Ctrl+c  |  删除整行
 [Tab] = |  命令行自动补全
 ↑(Ctrl+p)  |  显示上一条命令
 ↓(Ctrl+n)  |  显示下一条命令
-clear  |  清除 shell 提示屏幕
-exit  |  注销
-reset  |  刷新 shell 提示屏幕
-
-### Mac   命令行编辑快捷键
-命令  | 介绍
---- | ---
-↑(Ctrl+p)  |  显示上一条命令
-↓(Ctrl+n)  |  显示下一条命令
-!num  |  执行命令历史列表的第num条命令
-!!  |  执行上一条命令
-!?string?  |  执行含有string字符串的最新命令
-Ctrl+r  |   然后输入若干字符，开始向上搜索包含该字符的命令，继续按Ctrl+r， |  搜索上一条匹配的命令
-Ctrl+s  |  与Ctrl+r类似,只是正向检索
-Ctrl+f  |  光标向前移动一个字符,相当与->
-Ctrl+b  |  光标向后移动一个字符,相当与<-
-opt+<\-  |  光标向前移动一个单词
-opt+->  |  光标向后移动一个单词
-ls !$  |  执行命令ls，并以上一条命令的参数为其参数
 Ctrl+a  |  移动到当前行的开头
 Ctrl+e |   移动到当前行的结尾
-Esc+b  |  移动到当前单词的开头
-Esc+f  |  移动到当前单词的结尾
-Ctrl+(x u)  |  按住Ctrl的同时再先后按x和u，撤销刚才的操作
-Ctrl+s  |  挂起当前shell
-Ctrl+q |   重新启用挂起的shell
 
 ## Tool
 
@@ -295,11 +281,11 @@ Ctrl+q |   重新启用挂起的shell
 ### 分屏
  介绍 | 命令
 --- | ---
+查看历史命令： | command + ;
+查看剪贴板历史： | command + shift + h
 垂直分屏： | command + d
 水平分屏： | command + shift + d
 切换屏幕： | command + option + 方向键 command + [ 或 command + ]
-查看历史命令： | command + ;
-查看剪贴板历史： | command + shift + h
 
 ### 其他
  介绍 | 命令
@@ -354,8 +340,6 @@ C+y  | 粘贴至光标后
 C+r  | 搜索命令历史，这个较常用
 
 ### iTerm2 常用快捷键
-[iTerm2 常用快捷键](<http://www.jianshu.com/p/e7af448d01b0)
-这篇文章配了很多图，如果你想更加具体地了解可以看这篇文章，我不想截图了：<http://swiftcafe.io/2015/07/25/iterm/
 #### 快捷键介绍
 
 命令  | 介绍
@@ -402,6 +386,7 @@ Control + t	 | 交换光标和之前的字符
 ![](http://upload-images.jianshu.io/upload_images/225323-9f80c1d60073bd39.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 [`oh-my-Zsh`](<https://github.com/robbyrussell/`oh-my-Zsh`)
+
 ### zsh切换bash bash切换zsh
 1. `zsh`切换`bash`
 `chsh -s /bin/bash`
