@@ -3,7 +3,8 @@
 记录小白学习`Linux`的过程，如有错误，万望指正，感激不尽。
 ![zsh配合iterm2效果.png](http://upload-images.jianshu.io/upload_images/225323-5d4602aff38a4cf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-`2017-05-01`
+start :`2017-05-01`
+update : `2017-12-11`
 
 >Linux 命令
 
