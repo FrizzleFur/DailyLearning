@@ -16,7 +16,7 @@ update : `2017-12-11`
   -f：等价于whatis指令，显示给定关键字的简短描述信息； 
   -P：指定内容时使用分页程序；
   -M：指定man手册搜索的路径。 
-来自: [](http://man.linuxde.net/man)
+来自: [man命令_Linux man 命令用法详解](http://man.linuxde.net/man)
 
 
 * 不区分大小写智能提示。我是不喜欢大小写区分的那种人，所以用了 `zsh` 之后，经常按 `Tab` 进行提示。
