@@ -5,15 +5,17 @@
 
 Method Swizzling 和 AOP 实践
 07 JANUARY 2015
-上一篇介绍了 Objective-C Messaging。利用 Objective-C 的 Runtime 特性，我们可以给语言做扩展，帮助解决项目开发中的一些设计和技术问题。这一篇，我们来探索一些利用 Objective-C Runtime 的黑色技巧。这些技巧中最具争议的或许就是 Method Swizzling 。
+上一篇介绍了 Objective-C Messaging。利用 Objective-C 的 Runtime 特性，我们可以给语言做扩展，帮助解决项目开发中的一些设计和技术问题。这一篇，我们来探索一些利用 `Objective-C Runtime` 的黑科技。这些技巧中最具争议的或许就是 `Method Swizzling` 。
 
 介绍一个技巧，最好的方式就是提出具体的需求，然后用它跟其他的解决方法做比较。
 
-所以，先来看看我们的需求：对 App 的用户行为进行追踪和分析。简单说，就是当用户看到某个 View 或者点击某个 Button 的时候，就把这个事件记下来。
+所以，先来看看我们的需求：对 `App` 的用户行为进行追踪和分析。简单说，就是当用户看到某个 `View` 或者点击某个 `Button` 的时候，就把这个事件记下来。
 
 手动添加
-最直接粗暴的方式就是在每个 viewDidAppear 里添加记录事件的代码。
+最直接粗暴的方式就是在每个 `viewDidAppear` 里添加记录事件的代码。
 
+
+```objc
 @implementation MyViewController ()
 
 - (void)viewDidAppear:(BOOL)animated
@@ -34,10 +36,13 @@ Method Swizzling 和 AOP 实践
     // Logging
     [Logging logWithEventName:@“my button clicked”];
 }
+```
+
 这种方式的缺点也很明显：它破坏了代码的干净整洁。因为 Logging 的代码本身并不属于 ViewController 里的主要逻辑。随着项目扩大、代码量增加，你的 ViewController 里会到处散布着 Logging 的代码。这时，要找到一段事件记录的代码会变得困难，也很容易忘记添加事件记录的代码。
 
 你可能会想到用继承或类别，在重写的方法里添加事件记录的代码。代码可以是长的这个样子：
 
+```objc
 @implementation UIViewController ()
 
 - (void)myViewDidAppear:(BOOL)animated
@@ -59,15 +64,18 @@ Method Swizzling 和 AOP 实践
     NSString *name = [NSString stringWithFormat:@“my button in %@ is clicked”, NSStringFromClass([self class])];
     [Logging logWithEventName:name];
 }
-Logging 的代码都很相似，通过继承或类别重写相关方法是可以把它从主要逻辑中剥离出来。但同时也带来新的问题：
+```
 
-你需要继承 UIViewController, UITableViewController, UICollectionViewController 所有这些 ViewController ，或者给他们添加类别；
-每个 ViewController 里的 ButtonClick 方法命名不可能都一样；
+`Logging` 的代码都很相似，通过继承或类别重写相关方法是可以把它从主要逻辑中剥离出来。但同时也带来新的问题：
+
+你需要继承 `UIViewController`, `UITableViewController`, `UICollectionViewController` 所有这些 `ViewController` ，或者给他们添加类别；
+每个` ViewController` 里的 `ButtonClick` 方法命名不可能都一样；
 你不能控制别人如何去实例化你的子类；
 对于类别，你没办法调用到原来的方法实现。大多时候，我们重写一个方法只是为了添加一些代码，而不是完全取代它。
 如果有两个类别都实现了相同的方法，运行时没法保证哪一个类别的方法会给调用。
-Method Swizzling
-Method Swizzling 利用 Runtime 特性把一个方法的实现与另一个方法的实现进行替换。
+
+### Method Swizzling
+`Method Swizzling` 利用 `Runtime` 特性把一个方法的实现与另一个方法的实现进行替换。
 
 上一篇文章 有讲到每个类里都有一个 Dispatch Table ，将方法的名字（SEL）跟方法的实现（IMP，指向 C 函数的指针）一一对应。Swizzle 一个方法其实就是在程序运行时在 Dispatch Table 里做点改动，让这个方法的名字（SEL）对应到另个 IMP 。
 

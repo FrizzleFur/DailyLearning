@@ -331,7 +331,6 @@ prev | next
 ### Git Issue
 1. [Git - how to track untracked content?](http://stackoverflow.com/questions/4161022/git-how-to-track-untracked-content)
 
-
 ```
 On branch master
 Your branch is up-to-date with 'origin/master'.
@@ -358,17 +357,57 @@ You haven't asked a question, but I'll answer the question I assumed you mean to
 ## Gitsome
 [Gitsome](https://github.com/donnemartin/gitsome) （2017-05-19）
 
-### 一、查看`Github`上的流行库
-`gh trending objective-c  -w -p`
-`gh trending swift  -w -b`
+
+### GitHub Integration Commands Listing （2018-01-20）
+
+ 命令  |  解释
+ --- | ---
+  configure            |    Configure gitsome.
+  create-comment      |     Create a comment on the given issue.
+  create-issue       |      Create an issue.
+  create-repo       |       Create a repo.
+  emails            |       List all the user's registered emails.
+  emojis            |       List all GitHub supported emojis.
+  feed                |     List all activity for the given user or repo.
+  followers         |       List all followers and the total follower count.
+  following           |     List all followed users and the total followed count.
+  gitignore-template    |   Output the gitignore template for the given language.
+  gitignore-templates  |    Output all supported gitignore templates.
+  issue               |     Output detailed information about the given issue.
+  issues             |      List all issues matching the filter.
+  license            |      Output the license template for the given license.
+  licenses            |     Output all supported license templates.
+  me                   |    List information about the logged in user.
+  notifications         |   List all notifications.
+  octo                   |  Output an Easter egg or the given message from Octocat.
+  pull-request           |  Output detailed information about the given pull request.
+  pull-requests          |  List all pull requests.
+  rate-limit             |  Output the rate limit.  Not available for Enterprise.
+  repo                   |  Output detailed information about the given filter.
+  repos                  |  List all repos matching the given filter.
+  search-issues          |  Search for all issues matching the given query.
+  search-repos           |  Search for all repos matching the given query.
+  starred                |  Output starred repos.
+  trending               |  List trending repos for the given language.
+  user                   |  List information about the given user.
+  view                   |  View the given index in the terminal or a browser.
+
+### `Gitsome`查看`Github`上的流行库
+
+
+```
+gh trending objective-c  -w -p
+gh trending swift  -w -b
+```
 `-b`是在浏览器中打开，`-p`是在`shell`中打开,`Github`有时候会抽，建议还是用`-p`
-### 二、 查看`github`的通知、库、拉取请求、账户等信息
+
+### `Gitsome`查看`Github`的通知、库、拉取请求、账户等信息
+
 `gh view`
 
 >View the given notification/repo/issue/pull_request/user index in the terminal or a browser.
 
 >This method is meant to be called after one of the following commands which outputs a table of notifications/repos/issues/pull_requests/users:
-
 
 ```
 gh repos
@@ -386,7 +425,7 @@ gh user
 gh me
 ```
 
-栗子~
+eg. 栗子~
 
 ```
 $ gh repos
