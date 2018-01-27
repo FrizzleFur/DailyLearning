@@ -114,6 +114,7 @@
 第二种用法（不使用路径<paths>的用法）则会重置引用。根据不同的选项，可以对暂存区或者工作区进行重置。参照下面的版本库模型图，来看一看不同的参数对第二种重置语法的影响。
 
 #### 深入了解`git checkout`命令
+
 检出命令（git checkout）是Git最常用的命令之一，同样也很危险，因为这条命令会重写工作区。
 ```
 用法一： git checkout [-q] [<commit>] [--] <paths>...
@@ -394,7 +395,6 @@ You haven't asked a question, but I'll answer the question I assumed you mean to
 
 ### `Gitsome`查看`Github`上的流行库
 
-
 ```
 gh trending objective-c  -w -p
 gh trending swift  -w -b
@@ -403,11 +403,33 @@ gh trending swift  -w -b
 
 ### `Gitsome`查看`Github`的通知、库、拉取请求、账户等信息
 
-`gh view`
+#### Searching Repos
+Search all Python repos created on or after 2015, with >= 1000 stars:
 
->View the given notification/repo/issue/pull_request/user index in the terminal or a browser.
+```
+$ gh search-repos "created:>=2015-01-01 stars:>=1000 language:python" --sort stars -p
+```
+![](http://oc98nass3.bkt.clouddn.com/15164121223660.jpg)
 
->This method is meant to be called after one of the following commands which outputs a table of notifications/repos/issues/pull_requests/users:
+
+####  Listing Trending Repos and Devs
+View trending repos:
+
+```
+$ gh trending [language] [-w/--weekly] [-m/--monthly] [-d/--devs] [-b/--browser]
+```
+
+#### Viewing Content
+The view command
+View the previously listed notifications, pull requests, issues, repos, users etc, with HTML nicely formatted for your terminal, or optionally in your browser:
+
+```
+$ gh view [#] [-b/--browser]
+$ gh view
+```
+![](http://oc98nass3.bkt.clouddn.com/15164121912056.jpg)
+
+
 
 ```
 gh repos
