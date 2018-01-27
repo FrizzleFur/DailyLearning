@@ -1,8 +1,6 @@
 
 > 需要看的视频 + PDF 
 
-# 趣直播
-
 ## Tool
 [高效使用 Mac 键盘，每年多 10 天假期](http://m.quzhiboapp.com/#!/intro/193)
 [如何善用思维导图等工具，每年读透100本书？](http://m.quzhiboapp.com/#!/intro/125)
