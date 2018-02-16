@@ -331,6 +331,13 @@ prev | next
 ```
 git log -p 
 ```
+### Git diff
+
+当add了change后, `git diff`是不会显示已经add后的change的，可以制定stage的diff
+
+```
+git diff --staged
+```
 
 ### Git config
 Git的配置
@@ -357,7 +364,6 @@ $ git config --global core.editor emacs
 ```
 
 #### 设置`git`命令 别名
-
 
 ```
 $ git config --global alias.st status
