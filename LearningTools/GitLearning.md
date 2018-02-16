@@ -529,6 +529,27 @@ It was a problem with git configuration. This fixed it for me:
 git config --global core.editor /usr/bin/vim
 ```
 
+4. [remote Permission to jlord/patchwork.git denied returned error: 403 · Issue #11600 · jlord/patchwork](https://github.com/jlord/patchwork/issues/11600)
+
+
+```
+When you get a 403 on this challenge it is because you are trying to push your changes to a repository you don't have access to i.e. my original one jlord/patchwork.
+
+I'm going to update the app soon to make it more clear since this is catching quite a few people.
+
+To see what your remotes are you can run:
+
+git remote -v
+You should have an origin that points to the copy (fork) on your GitHub account and one named upstream that points to my original jlord/patchwork. You can only pull from upstream, not push.
+
+It seems like people are either pushing to upstream or have set the URL to origin incorrectly.
+
+You can update your origin remote url by running:
+
+git remote set-url origin <urltoyourfork>
+
+```
+
 ### Git Tips
 
 1. Git跟踪的是文件file的路径和内容，但是对文件夹并不清楚，无法追踪空的文件夹，如果需要在仓库中建立空文件夹到Git，需要在文件夹内添加一个隐藏文件`.keep`或者`.gitkkeep`.
