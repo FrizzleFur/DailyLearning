@@ -3,6 +3,11 @@
 记录小白学习`Git`的过程，如有错误，希望拍砖指正~
 
 # Git
+
+![](http://oc98nass3.bkt.clouddn.com/15187660224172.jpg)
+diff: 分支点之间的变化
+分支点的继承
+
 > Git 作为现在最流行的开源的版本控制系统,  有很多好用开源的工具，`SourceTree`、`Tower`[](https://www.git-tower.com/mac/?source=rd)、`[GitUp](https://github.com/git-up/GitUp)`当然还有`Github`的官方客户端,还有大量的开发者，可以说`Git`是目前用户最多，最火的版本控制系统。
 
 具体什么是`Git`,可以参考[what-is-git](https://www.atlassian.com/git/tutorials/what-is-git)文章,可以说`Git`集成了`SVN`的一些特性（tag, branch），采用了巧妙的设计(本地库)，让并行开发更高效。
@@ -90,13 +95,6 @@
  `src/format.lisp:1`
 
 可以使用 `$ git help grep` 来查看帮助
-
-#### 设置`git`命令 别名
-`$ git config --global alias.st status`
-`$ git config --global alias.co checkout`
-`$ git config --global alias.ct commit`
-`$ git config --global alias.df diff`
-`$ git config --global alias.br branch`
 
 #### `Git`删除文件
 
@@ -282,7 +280,6 @@ git pull origin master
 
 ### Git log
 
-
 ```
 Table 3. 限制 git log 输出的选项
 选项	说明
@@ -329,6 +326,178 @@ b0ad11e - pull: allow "git pull origin $something:$current_branch" into an unbor
 prev | next
 
 ```
+
+2. 显示每次提交的diff:
+```
+git log -p 
+```
+
+### Git config
+Git的配置
+
+1. 列出`Git`全局配置列表
+```
+git config --global --list
+```
+2. 列出`Git`本地仓库配置列表
+```
+git config --local --list
+```
+
+3. 设置用户名，邮箱密码等 
+```
+$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com
+```
+
+
+4. 设置编辑器
+```
+$ git config --global core.editor emacs
+```
+
+#### 设置`git`命令 别名
+
+
+```
+$ git config --global alias.st status
+$ git config --global alias.co checkout
+$ git config --global alias.ct commit
+$ git config --global alias.df diff
+$ git config --global alias.br branch
+#git lg to view commit log like network graph
+$ git config --global alias.lg "log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit"
+```
+
+
+#### 同一台电脑可以有2个git账号（不同网站的）
+
+[1.同一台电脑可以有2个git账号（不同网站的）](https://gist.github.com/suziewong/4378434)
+
+这种情况下，需要几点注意
+
+1.remote pull push的时候有问题，因为要设置邮箱问题了 pull的时候识别的是邮箱，2个github账号，2个邮箱，我们自然不能使用global的user.email了
+
+1.取消global
+
+```
+git config --global --unset user.name
+git config --global --unset user.email
+```
+2.设置每个项目repo的自己的user.email
+
+```
+git config  user.email "xxxx@xx.com"
+git config  user.name "suzie"
+```
+
+之后push pull就木有问题了
+
+备注
+生成ssh key
+
+ssh-keygen -m rsa -C "your mail" （当前目录） 然后可以命名默认id_rsa 或者id_rsa_second 把对应的pub放到公共服务器上。
+
+###  fork命令
+现在有这样一种情形：有一个叫做Joe的程序猿写了一个游戏程序，而你可能要去改进它。并且Joe将他的代码放在了GitHub仓库上。下面是你要做的事情：
+
+fork并且更新GitHub仓库的图表演示
+![](http://oc98nass3.bkt.clouddn.com/15174730715491.png)
+
+1. Fork他的仓库：这是GitHub操作，这个操作会复制Joe的仓库（包括文件，提交历史，issues，和其余一些东西）。复制后的仓库在你自己的GitHub帐号下。目前，你本地计算机对这个仓库没有任何操作。
+
+2. Clone你的仓库：这是Git操作。使用该操作让你发送"请给我发一份我仓库的复制文件"的命令给GitHub。现在这个仓库就会存储在你本地计算机上。
+
+3. 更新某些文件：现在，你可以在任何程序或者环境下更新仓库里的文件。
+
+4. 提交你的更改：这是Git操作。使用该操作让你发送"记录我的更改"的命令至GitHub。此操作只在你的本地计算机上完成。
+
+5. 将你的更改push到你的GitHub仓库：这是Git操作。使用该操作让你发送"这是我的修改"的信息给GitHub。Push操作不会自动完成，所以直到你做了push操作，GitHub才知道你的提交。
+
+6. 给Joe发送一个pull request：如果你认为Joe会接受你的修改，你就可以给他发送一个pull request。这是GitHub操作，使用此操作可以帮助你和Joe交流你的修改，并且询问Joe是否愿意接受你的"pull request"，当然，接不接受完全取决于他自己。
+
+7. 如果Joe接受了你的pull request，他将把那些修改拉到自己的仓库。胜利！
+
+#### 同步一个fork
+Joe和其余贡献者已经对这个项目做了一些修改，而你将在他们的修改的基础上，还要再做一些修改。在你开始之前，你最好"同步你的fork"，以确保在最新的复制版本里工作。下面是你要做的
+![](http://oc98nass3.bkt.clouddn.com/15174733991977.png)
+1. 从Joe的仓库中取出那些变化的文件：这是Git操作，使用该命令让你库获取最新的文件。
+
+2. 将这些修改合并到你自己的仓库：这是Git操作，使用该命令使得那些修改更新到你的本地计算机（那些修改暂时存放在一个"分支"中）。记住：步骤1和2经常结合为一个命令使用，合并后的Git命令叫做"pull"。
+
+3. 将那些修改更新推送到你的GitHub仓库（可选）：记住，你本地计算机不会自动更新你的GitHub仓库。所以，唯一更新GitHub仓库的办法就是将那些修改推送上去。你可以在步骤2完成后立即执行push，也可以等到你做了自己的一些修改，并已经本地提交后再执行推送操作。
+
+比较一下fork和同步工作流程的区别：当你最初fork一个仓库的时候，信息的流向是从Joe的仓库到你的仓库，然后再到你本地计算机。但是最初的过程之后，信息的流向是从Joe的仓库到你的本地计算机，之后再到你的仓库。
+
+### 在github上同步一个分支(fork)
+[在github上同步一个分支(fork)](http://leonardyp.github.io/git/%E5%9C%A8github%E4%B8%8A%E5%90%8C%E6%AD%A5%E4%B8%80%E4%B8%AA%E5%88%86%E6%94%AF%28fork%29/)
+在同步之前，需要创建一个远程点指向上游仓库(repo).如果你已经派生了一个原始仓库，可以按照如下方法做。
+
+
+```  
+$ git remote -v  
+    # List the current remotes （列出当前远程仓库）  
+    # origin  https://github.com/user/repo.git (fetch)  
+    # origin  https://github.com/user/repo.git (push)  
+    $ git remote add upstream https://github.com/otheruser/repo.git  
+    # Set a new remote (设置一个新的远程仓库)  
+    $ git remote -v  
+    # Verify new remote (验证新的原仓库)  
+    # origin    https://github.com/user/repo.git (fetch)  
+    # origin    https://github.com/user/repo.git (push)  
+    # upstream  https://github.com/otheruser/repo.git (fetch)  
+    # upstream  https://github.com/otheruser/repo.git (push)  
+```
+同步
+同步上游仓库到你的仓库需要执行两步：首先你需要从远程拉去，之后你需要合并你希望的分支到你的本地副本分支。
+
+拉取
+从远程仓库拉取将取回其分支以及各自的提交。它们将存储在你本地仓库的指定分之下。
+
+    $ git fetch upstream
+    # Grab the upstream remote's branches
+    # remote: Counting objects: 75, done.
+    # remote: Compressing objects: 100% (53/53), done.
+    # remote: Total 62 (delta 27), reused 44 (delta 9)
+    # Unpacking objects: 100% (62/62), done.
+    # From https://github.com/otheruser/repo
+    #  * [new branch]      master     -> upstream/master
+    
+现在我们把上游master保存到了本地仓库，upstream/master
+    $ git branch -va
+    # List all local and remote-tracking branches
+    # * master                  a422352 My local commit
+    #   remotes/origin/HEAD     -> origin/master
+    #   remotes/origin/master   a422352 My local commit
+    #   remotes/upstream/master 5fdff0f Some upstream commit
+合并
+现在我们已经拉取了上游仓库，我们将要合并其变更到我们的本地分支。这将使该分支与上游同步，而不会失去我们的本地更改。
+
+    $ git checkout master
+    # Check out our local master branch
+    # Switched to branch 'master'
+
+    $ git merge upstream/master
+    # Merge upstream's master into our own
+    # Updating a422352..5fdff0f
+    # Fast-forward
+    #  README                    |    9 -------
+    #  README.md                 |    7 ++++++
+    #  2 files changed, 7 insertions(+), 9 deletions(-)
+    #  delete mode 100644 README
+    #  create mode 100644 README.md
+如果您的本地分支没有任何独特的提交，Git会改为执行“fast-forward”。
+
+    $ git merge upstream/master
+    # Updating 34e91da..16c56ad
+    # Fast-forward
+    #  README.md                 |    5 +++--
+    #  1 file changed, 3 insertions(+), 2 deletions(-)
+最后将本地变更推送到远程服务器即可。
+
+
+
+
 ### Git Issue
 1. [Git - how to track untracked content?](http://stackoverflow.com/questions/4161022/git-how-to-track-untracked-content)
 
@@ -351,7 +520,186 @@ You haven't asked a question, but I'll answer the question I assumed you mean to
 
 没有提交的话是没有`master`分支的，也就无法创建新的分支，只了一次有提交记录后，才创建了`master`分支。
 
+3. [error: There was a problem with the editor 'vi'. #6](https://github.com/google/vim-colorscheme-primary/issues/6)  
 
+这是`Git`的全局配置的问题
+It was a problem with git configuration. This fixed it for me:
+
+```
+git config --global core.editor /usr/bin/vim
+```
+
+### Git Tips
+
+1. Git跟踪的是文件file的路径和内容，但是对文件夹并不清楚，无法追踪空的文件夹，如果需要在仓库中建立空文件夹到Git，需要在文件夹内添加一个隐藏文件`.keep`或者`.gitkkeep`.
+2. 
+
+
+
+## Git重点
+
+1.  本地有改动先提交到暂存区(Staging)，`Push`之前应该先`Pull`，这样可以保证自己解决所有冲突之后，再把结果放到其他库。不要把麻烦留给别人！
+
+```
+git add 
+git commit -m "commit messge"
+git pull
+git push
+```
+
+2.  提交时的`-- rebase`参数
+` merge `操作的没意义提交记录~
+![image.png](http://upload-images.jianshu.io/upload_images/225323-0a88ed64907f362b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+其实在 `pull` 操作的时候，，使用 `git pull --rebase` 选项即可很好地解决上述问题。 加上 `--rebase` 参数的作用是，提交线图有分叉的话，Git 会 rebase 策略来代替默认的 merge 策略。 使用 rebase 策略有什么好处呢？借用一下 man git-merge 中的图就可以很好地说明清楚了。
+假设提交线图在执行 pull 前是这样的：
+```
+                 A---B---C  remotes/origin/master
+                /
+           D---E---F---G  master
+```
+如果是执行 git pull 后，提交线图会变成这样：
+```
+                 A---B---C remotes/origin/master
+                /         \
+           D---E---F---G---H master
+```
+结果多出了 `H` 这个没必要的提交记录。如果是执行 `git pull --rebase `的话，提交线图就会变成这样：
+```
+                       remotes/origin/master
+                           |
+           D---E---A---B---C---F'---G'  master
+```
+`F`、` G` 两个提交通过 `rebase `方式重新拼接在 `C `之后，多余的分叉去掉了，目的达到。
+
+不过，如果你对使用 `git` 还不是十分熟练的话，我的建议是 `git pull --rebase` 多练习几次之后再使用，因为 `rebase` 在 `git` 中，算得上是『危险行为』。
+
+1. [团队开发里频繁使用 git rebase 来保持树的整洁好吗? - SegmentFault 思否](https://segmentfault.com/q/1010000000430041)
+
+3. 合并冲突
+
+<<<<<<<head 是指你本地的分支的
+<<<<<<< HEAD
+b789
+=======
+b45678910
+>>>>>>> 6853e5ff961e684d3a6c02d4d06183b5ff330dcc
+head 到 =======里面的b789是您的commit的内容
+=========到 >>>>68的是您下拉的内容
+
+### 三、git rebase教程
+`git rebase`用于把一个分支的修改合并到当前分支。
+
+以前遇到commit写错总是使用git reset --soft回退到之前的状态，再commit后push -f强推到远程库，能够覆盖掉之前的commit。
+
+现在想想也是很low的做法，git rebase 可以帮你搞定这个问题。
+
+好了，随便提交了几个
+![](http://oc98nass3.bkt.clouddn.com/15178298763331.jpg)
+
+
+工作中，我们可能不小心写错commit，例如上面那个 “测试 git rebase”我写错了，我想改一改，怎么办呢？
+
+1.（打开terminal）
+
+git rebase -i 233d7b3( 这个commit是在我们要修改的commit前一个)
+
+git rebase -i 233d7b3
+
+然后就进入下面这里：
+
+![](http://oc98nass3.bkt.clouddn.com/15178298852746.jpg)
+
+
+这里就是我们熟悉的vi，按i进入insert模式，
+
+我们是要修改，所以改成
+
+reword 345c70f 测试 git rebase
+
+     esc ： wq 保存退出
+
+![](http://oc98nass3.bkt.clouddn.com/15178298937726.jpg)
+
+
+i进入insert模式，修改commit内容，esc  ： wq 保存退出。
+
+最后害得强push
+
+git push --force
+
+那么我们要如何合并几个commit呢？
+
+和上面类似，我们首先
+
+git rebase -i f290515(我们要合并的commit的前一个)
+
+![](http://oc98nass3.bkt.clouddn.com/15178299079398.jpg)
+
+pick 766f348 dsfdsf
+
+squash 233d7b3 sdfdsf
+
+squash 345c70f 测试 git rebase
+
+我们可以这样修改  将后面两个改成squash，就是合并到第一个上去
+
+如果没有冲突就可以看到这个界面
+![](http://oc98nass3.bkt.clouddn.com/15178299134967.jpg)
+
+
+保存退出
+
+最后git push -f
+
+
+#### rebase和merge有什么区别呢
+
+![](http://oc98nass3.bkt.clouddn.com/15178300610660.jpg)
+
+现在我们在这个分支做一些修改，然后生成两个提交(commit).
+
+$ 修改文件
+$ git commit
+$ 修改文件
+$ git commit
+
+但是与此同时，有些人也在"origin"分支上做了一些修改并且做了提交了. 这就意味着"origin"和"mywork"这两个分支各自"前进"了，它们之间"分叉"了
+
+![](http://oc98nass3.bkt.clouddn.com/15178300701048.jpg)
+
+
+在这里，你可以用"pull"命令把"origin"分支上的修改拉下来并且和你的修改合并； 结果看起来就像一个新的"合并的提交"(merge commit):
+![](http://oc98nass3.bkt.clouddn.com/15178300745333.jpg)
+但是，如果你想让"mywork"分支历史看起来像没有经过任何合并一样，你也许可以用 git rebase:
+
+
+```
+$ git checkout mywork
+$ git rebase origin
+```
+
+这些命令会把你的"mywork"分支里的每个提交(commit)取消掉，并且把它们临时 保存为补丁(patch)(这些补丁放到".git/rebase"目录中),然后把"mywork"分支更新 为最新的"origin"分支，最后把保存的这些补丁应用到"mywork"分支上。
+
+![](http://oc98nass3.bkt.clouddn.com/15178300786831.jpg)
+![](http://oc98nass3.bkt.clouddn.com/15178301165540.jpg)
+rebase黄金定律
+永远不要rebase一个已经分享的分支（到非remote分支，比如rebase到master,develop,release分支上），也就是说永远不要rebase一个已经在中央库中存在的分支.只能rebase你自己使用的私有分支
+
+如你和你的同事John都工作在一个feature开发上，你和他分别做了一些commit，随后你fetch了John的feature分支（或者已经被John分享到中央库的feature分支），那么你的repo的版本历史可能已经是下面的样子了：
+![](http://oc98nass3.bkt.clouddn.com/15178302903450.jpg)
+
+这时你希望集成John的feature开发工作，你也有两个选择，要么merge,要么rebase,
+![](http://oc98nass3.bkt.clouddn.com/15178302864675.jpg)
+
+记住在这个场景中，你rebase到John/feature分支的操作并不违反rebase的黄金定律，因为：
+
+只有你的local本地私有（还未push的） `feature commits`被移动和重写历史了，而你的本地commit之前的所有commit都未做改变。这就像是说“把我的改动放到John的工作之上”。在大多数情况下，这种rebase比用merge要好很多
+
+
+#### gitrebase使用笔记
+1. [用了两年git，rebase原来这样用 - 简书](https://www.jianshu.com/p/384a945f6e7e)
+2. [git rebase使用笔记](https://www.jianshu.com/p/cca69cb695a6)
 
 
 # Git 一些好用的插件😝~

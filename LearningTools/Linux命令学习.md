@@ -1,10 +1,11 @@
-# Linux命令学习
+# Linux & Unix命令学习
 
 >Linux 命令记录小白学习`Linux`的过程，如有错误，万望指正，感激不尽。
 ![zsh配合iterm2效果.png](http://upload-images.jianshu.io/upload_images/225323-5d4602aff38a4cf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 start :`2017-05-01`
 update : `2017-12-11`
+update2 : `2018-02-11`
 
 
 ### 常用命令
@@ -33,7 +34,7 @@ update : `2017-12-11`
 `zsh` 的目录跳转很智能，你无需输入 `cd` 就可直接输入路径即可。比如：`..` 表示后退一级目录，`../../ `表示后退两级，依次类推。
 在命令窗口中输入：`d`，将列出当前 session 访问过的所有目录，再按提示的数字即可进入相应目录。
 
-### Mac 常用命令(Unix)
+### (Unix)Mac 常用命令
 
 #### 在Finder标题栏显示完整路径
 
@@ -54,6 +55,13 @@ $ killall Finder
 
 `mdfind` 还提供更多的搜索选项。例如  `-onlyin` 选项可以约束搜索范围为一个目录： 
 `$ mdfind -onlyin ~/Documents essay`
+
+
+#### `cat` 连续查看文件内容
+`$ cat fileName`
+
+#### `more` 分页查看文件内容
+`$ more fileName`
 
 #### `Unix`登录登出
 Mac底层是Unix内核，可以登入登出Unix。
@@ -146,12 +154,19 @@ mv + 文件名 + 路径
 目标文件或目录 |	被复制的文件或目录，所要到达的位置。
 
 #### `rm` 删除
+
 删除文件
 `$ rm filename`
 一、rmdir：删除一个空的目录
 `rm`命令
-用于删除文件或文件夹。具体语法为：rm + 路径 +文件名 。例如，要删除/home/long/manual.tar文件，用下面命令：$rm /home/long/manual.tar
-如果要删除目录，用rm –r +路径+目录名 。例如：要删除/home/manual目录，用$rm –r /home/manual
+用于删除文件或文件夹。具体语法为：rm + 路径 +文件名 。例如，要删除/home/long/manual.tar文件，用下面命令：
+```
+$rm /home/long/manual.tar
+```
+如果要删除目录，用rm –r +路径+目录名 。例如：要删除/home/manual目录，用
+```
+$rm –r /home/manual
+```
 注意：要删除一个文件或文件夹，首先要具有对这个文件夹的写权限。
 
 
