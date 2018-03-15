@@ -1,6 +1,8 @@
 
 # DailyTodo
 
+参考： [TodoManagerIssue](https://github.com/FrizzleFur/TodoManagerIssue/issues)
+
 - [ ]  GitBook book [iOS interview](https://hit-alibaba.github.io/interview/iOS/Cocoa-Touch/UIView-Basic.html)
 
 - [ ] 做面试题
