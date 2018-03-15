@@ -56,6 +56,7 @@
 
 ## JavaScript
 
+* [JavaScript 教程](http://www.runoob.com/js/js-tutorial.html)
 * [NJHu/vue](https://github.com/NJHu/vue) 是一个很好学习前端`JavaScript`的好资源
 
 ### WechatDev
