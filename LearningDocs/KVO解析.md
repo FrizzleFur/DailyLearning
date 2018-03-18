@@ -223,6 +223,74 @@ SomeClass *someObj = [[SomeClass alloc] init];
 
 表示的意思是：对象someObj设置他的delegate属性的值为当前类，当然调用此方法的对象必须要有delegate属性才能设置，不然调用了也没效果
 
+
+
+#  Docs记录 - KVO
+@(iOS_Docs)[iOS知识点整理]
+
+`2017-04-13` `iOS_Docs`
+
+
+### KVO
+
+顾名思义，键值观察就是说当某个属性发生变化，其对应的值也发生变化。它一般用于单个 object 内部的情况。举个具体的例子，ViewController 一开始 UIImageView 没有图片的时候，我们用 activityIndicator 显示加载状态，当 Network 下载好图片并给 UIImageView 赋值之后，我们停止 activityIndicator 的加载状态。也就是说我们观察 image 这个属性，当它由 nil 变成非 nil 时，程序作出关闭 activityIndicator 动画的相应操作
+
+
+所以基本流程如下：
+
+ViewController 给 UIImageView 添加 activityIndicator，启动动画效果
+ViewController 观察 UIImageView 的 image 属性
+ViewController 通过上面提到的跨 object 通知，从 Network 里下载 image，并给 UIImageView 赋值
+ViewController 观察到 UIImageView 的 image 属性已经被赋值，所以启动相应方法，关闭 activityIndicator 的动画
+这里我们可以看出来，这是针对单个 object 的某个属性变化而设计出来的通知框架。所以我们不妨用 extension 的形式对 NSObject 添加通知方法。
+
+```objectivec
+extension NSObject {
+  /* 注册观察
+   * observer：说明谁是观察者，此例中是 UIImageView
+   * property: 指出被观察的属性，此例中是 UIImageView 中的 image
+   * options：通知中应该传递的信息，比如 UIImageView 中新的 image 信息
+   */
+  func add​Observer(observer: NSObject, property: String, ​options: ObservingOptions) 
+
+  /* 响应观察
+   * property: 指出被观察的属性，此例中是 UIImageView 中的 image
+   * object: 观察属性对应的 object，此例中是 UIImageView
+   * change: 表明属性的相应变化，如果表示任何变化都可以接受，可以传入 nil
+   */
+  func observeValue(forProperty property: String, 
+                                 ofObject object: Any, 
+                                 change: [NSKeyValueChangeKey : Any]?) 
+}
+```
+同是不要忘记 deinit 的时候 removeObserver，防止 App 崩溃。对比 Apple 官方的 addObserver API 和 observeValue API，我们发现苹果还引入了一个参数context来更加灵活的处理通知观察机制。你可以定义不同的 context 并根据这些 context 来对属性变化做出处理。比如下面这样：
+
+```objectivec
+let myContext = UnsafePointer<()>()
+
+observee.addObserver(observer, forKeyPath: …, options: nil, context: myContext)
+
+override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject!, change: [NSObject : AnyObject]!, context: UnsafePointer<()>) {
+    if context == myContext {
+        …
+    } else {
+        super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+    }
+}
+```
+
+总结
+
+iOS 10中苹果的本地推送和远程推送 API 达到了高度统一，都使用 UserNotifications 这个框架来实现，学习曲线大幅下降。功能也得到了大幅度扩展，多媒体文件添加、扩展包、分类别响应、3D Touch 都使得推送功能更加灵活。
+
+至于苹果自己设计的 KVO 和 NotificationCenter 机制，笔者认为有很大的局限性。因为对应的通知和相应代码段之间有一定距离，代码量很大的时候非常容易找不到对应的相应。同时这种观察者模式又难以测试，代码维护和质量很难得到保证。正是因为这些原因，响应式编程才日渐兴起，大家不妨去看看 RxSwift 和 ReactCocoa，其对应的 MVVM 架构也在系统解耦上要优于原生的 MVC。
+
+### 参考
+
+[iOS 开发中，怎样用好 Notifications？](http://www.jianshu.com/p/f20b00c1fc24)
+
+
+
 ### 参考
 
 1. [kvo 实践使用总结](http://www.jianshu.com/p/b878aa3194c6)
