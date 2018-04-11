@@ -17,6 +17,13 @@
 
 ### 优化
 
+#### 架构优化
+
+
+* [iOS组件化（上篇）- 拆分基础组件 - 简书](https://www.jianshu.com/p/760d6cd46719)
+
+* [iOS应用架构谈 组件化方案 - Casa Taloyum](https://casatwy.com/iOS-Modulization.html)
+
 ####  代码优化
 
 * **[iOS开发中提高代码质量的10件事](http://m.quzhiboapp.com/#!/intro/134)**
@@ -28,9 +35,6 @@
 
 * [从 iOS 角度出发，剖析移动端性能监控的技术原理](http://m.quzhiboapp.com/#!/intro/392)
 
-#### 架构优化
-
-* [上链家组件化探索历程](http://m.quzhiboapp.com/#!/intro/407)
 
 ### 单元测试
 
