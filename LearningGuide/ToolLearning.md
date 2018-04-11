@@ -29,5 +29,6 @@
 
 * [Git-tips](https://github.com/521xueweihan/git-tips):trollface:Git的奇技淫巧
 
+* [Git 从入门到放弃](http://m.quzhiboapp.com/#!/intro/68)
 
 

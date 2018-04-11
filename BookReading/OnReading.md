@@ -6,9 +6,6 @@
 [高效使用 Mac 键盘，每年多 10 天假期](http://m.quzhiboapp.com/#!/intro/193)
 [如何善用思维导图等工具，每年读透100本书？](http://m.quzhiboapp.com/#!/intro/125)
 
-### Git
-[Git 从入门到放弃](http://m.quzhiboapp.com/#!/intro/68)
-
 ## iOS
 ### 单元测试
 [单元测试与自动化](http://m.quzhiboapp.com/#!/intro/214)
@@ -66,16 +63,10 @@
 ==[新年新目标 | 去美国硅谷工作](http://m.quzhiboapp.com/#!/intro/291)==
 >《逗比程序媛的湾区FLAGT面试求职经验》
 
-两年前写的文章，现在读来虽然有点幼稚但是还是很有价值的，希望能够帮助到大家。^_^
-
-经过近半年的辛苦面试，总算签约dream company。整理下思路，把自己的情况写出来，只是为了给大家做个参考，希望能帮助到需要的人。
-
-简介： 2010年国内一本本科毕业（大学排名30以外），四年左右iOS相关开发工作经验的女程序媴。有多家公司的工作经验，囧。期间做过free lancer一年，和多家公司（团队）合作过，认识了不少朋友。从2012年年底开始尝试面湾区工作，G、F及多家startup全部都是一两次电话面试就直接失败，之后开始做各种online编程比赛，看Cracking the Coding Interview，每天关注@陈利人 的微博及评论，和@待字闺中 的微信，并Crack了所有Leetcode的题（开始花了一个多月做完大部分题，等到昨晚剩下的难题一共花了3个月左右）。2013年夏天进入国内某top互联网公司，9月份只花了两个多礼拜重做Leetcode，发现自己的代码越来越简洁了。之后开始面G，11月初面完进入漫长等待，12月中去美国onsite FB，直接悲剧。回国后，焦急的等待G的结果很久都没有任何进展，觉得不能坐以待毙，14年1月底辞职飞去湾区集中精力找工作一个月，最终拿回LinkedIn，Amazon，Google，Twitter，和一个startup Tango的五个offer，因此标题简称为FLAGT。之后和各公司hr、hiring manager周旋两礼拜，总算尘埃落定。
-
-
 [一起来揭开硅谷的神秘面纱吧！](http://m.quzhiboapp.com/#!/intro/102)
 
 ## 简历
+
 [面试了1000人后，我想说说简历如何写](http://m.quzhiboapp.com/#!/intro/80)
 ==[iOS 面试小灶直播 - 简历、面试题、进阶](http://m.quzhiboapp.com/#!/intro/115)==
 
@@ -127,5 +118,5 @@
 2. [设计模式](https://classroom.udacity.com/courses/ud1029/lessons/a27e7e59-dfcd-4368-98fb-bf1bf9c31dc3/concepts/6e20466a-3b38-4c3d-abdc-df4672fcd2ce)
 3. [HTTP](https://classroom.udacity.com/courses/ud303/lessons/6ff26dd7-51d6-49b3-9f90-41377bff4564/concepts/ab2f6d8d-fef4-4997-9768-e6e73325b9cb)
 4. [HTML,CSS](https://classroom.udacity.com/courses/ud304/lessons/2617868617/concepts/27713785570923)
-5. [Interview](https://classroom.udacity.com/nanodegrees/nd004/parts/a98f5fbf-0b2a-457d-8f06-7025979cf2bc)
+
 
