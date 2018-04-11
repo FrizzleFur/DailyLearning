@@ -1,7 +1,7 @@
 
 # AwesomeLearning
 
-* **[Awesome](https://github.com/sindresorhus/awesome)**😎 Curated list of awesome lists
+* [Awesome](https://github.com/sindresorhus/awesome)😎 Curated list of awesome lists
 * [dkhamsing/open-source-ios-apps: Collaborative List of Open-Source iOS Apps](https://github.com/dkhamsing/open-source-ios-apps#spritekit) iOS的开源项目
 
 ## iOS 
