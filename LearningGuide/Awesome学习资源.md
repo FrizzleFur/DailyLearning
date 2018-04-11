@@ -55,11 +55,6 @@
 
 * [iOS-Cracked-Apps](https://github.com/aozhimin/iOS-Cracked-Apps)
 
-## Git
-
-* [Git-recipes](https://github.com/geeeeeeeeek/git-recipes)
-* [Git-tips](https://github.com/521xueweihan/git-tips):trollface:Git的奇技淫巧
-
 
 ## ReactNative
 
