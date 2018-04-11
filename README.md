@@ -10,7 +10,7 @@
 
 * [OnReading](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/OnReading.md) 最近在阅读
 
-* [教程公开课]()
+* [教程公开课](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/%E6%95%99%E7%A8%8B%E5%85%AC%E5%BC%80%E8%AF%BE.md)
 
 ## iOS
 
@@ -32,7 +32,11 @@
 
 ## 面试
 
-[]()
+[ChenYilong/iOSInterviewQuestions: iOS面试题集锦（附答案）--学习交流群515295083](https://github.com/ChenYilong/iOSInterviewQuestions)
+
+* [面试了1000人后，我想说说简历如何写](http://m.quzhiboapp.com/#!/intro/80)
+
+* [iOS 面试小灶直播 - 简历、面试题、进阶](http://m.quzhiboapp.com/#!/intro/115)
 
 ## 参考
 
