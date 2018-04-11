@@ -2,6 +2,7 @@
 > 需要看的视频 + PDF 
 
 ## Tool
+
 [高效使用 Mac 键盘，每年多 10 天假期](http://m.quzhiboapp.com/#!/intro/193)
 [如何善用思维导图等工具，每年读透100本书？](http://m.quzhiboapp.com/#!/intro/125)
 
@@ -118,10 +119,6 @@
 8. [整体学习法](http://www.jianshu.com/p/9a5f27173424)
 9. [如何评价斯科特·扬的《如何高效学习》（Learn More, Study Less!）？](https://www.zhihu.com/question/23043048)
 10. [如何考察求职者的「学习能力」？求职者如何培养学习能力？](https://www.zhihu.com/question/20107788/answer/14002070)
-
-
-
-
 
 
 ### UdaCity

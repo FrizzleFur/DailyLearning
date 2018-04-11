@@ -15,8 +15,6 @@
 > - 本人著作的书籍[《Laravel 入门教程》](https://laravel-china.org/laravel-tutorial/5.1)已正式发布，有兴趣的朋友可点击 [此处](https://laravel-china.org/topics/3383) 作进一步了解。
 
 
-**若有任何疑问可通过微博 [@李锦发](http://weibo.com/jinfali) 或我的微信（lijinfa894330982）联系我** 
-
 项目名称 | 项目信息
 ------- | -------
 [AFNetworking](https://github.com/AFNetworking/AFNetworking) | 作者是 NSHipster 的博主, iOS 开发界的大神级人物, 毕业于卡内基·梅隆大学, 开源了许多牛逼的项目, 这个便是其中之一, AFNetworking 采用 NSURLConnection + NSOperation, 主要方便与服务端 API 进行数据交换, 操作简单, 功能强大, 现在许多人都用它取代 ASIHTTPRequest

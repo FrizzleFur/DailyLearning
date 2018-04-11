@@ -73,6 +73,7 @@
 [Four](https://github.com/SketchK/FOUR)|  一个上线的任务记录app，star300+
 ## 微信公众号
 ![QQ20170622-090914.png](http://upload-images.jianshu.io/upload_images/1070332-47a8fbbfed3c3071.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ## 更多资料
 
 地址  |  简介
@@ -309,10 +310,5 @@
 ## 贡献者
 
 点击[该链接](https://github.com/Aufree/trip-to-iOS/graphs/contributors)查看该项目的所有贡献者
-
-## License
-
-以上内容采用 [CC BY-NC-SA 3.0](http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh) 进行许可, 转载请注明出处, 版权归本人及所有贡献者所有
-
 
 

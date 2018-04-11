@@ -51,10 +51,15 @@
 
 * [Awesome-ARKit](https://github.com/olucurious/Awesome-ARKit)
 
-###  逆向
+##  逆向
 
 * [iOS-Cracked-Apps](https://github.com/aozhimin/iOS-Cracked-Apps)
 
+[iOSAppReverseEngineering](https://github.com/iosre/iOSAppReverseEngineering/blob/master/iOSAppReverseEngineering.pdf)
+
+[iOS应用逆向工程](https://book.douban.com/subject/25826902/)
+
+[iOSRe BBS](http://bbs.iosre.com/)
 
 ## ReactNative
 
@@ -72,8 +77,25 @@
 
 * [Awesome-wechat-weapp](https://github.com/justjavac/awesome-wechat-weapp)
 
+
 ## 机器学习
 
 * [有趣的机器学习系列 | 莫烦Python](https://morvanzhou.github.io/tutorials/machine-learning/ML-intro/)
+
+[机器学习常见算法分类汇总](https://tonydeng.github.io/)
+
+[通过机器学习来写诗](https://tonydeng.github.io/2017/03/03/common-algorithms-for-machine-learning/#more)
+
+### Python 学习笔记 (爬虫)
+[python web 入坑指南](http://python-web-guide.readthedocs.io/zh/latest/)
+[新手向爬虫（三）别人的爬虫在干啥](http://www.jianshu.com/p/dcd6438ce4c7)
+
+- [ ] 使用Python爬项目数据，进行数据分析
+
+## 计算机基础
+
+[CSE 351: The Hardware/Software Interface](https://courses.cs.washington.edu/courses/cse351/16sp/videos.html)
+
+
 
 

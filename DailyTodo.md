@@ -1,6 +1,8 @@
 
 # DailyTodo
 
+[DailyCard ](https://github.com/FrizzleFur/DailyLearning/issues/8)
+
 参考： [TodoManagerIssue](https://github.com/FrizzleFur/TodoManagerIssue/issues)
 
 - [ ]  GitBook book [iOS interview](https://hit-alibaba.github.io/interview/iOS/Cocoa-Touch/UIView-Basic.html)
