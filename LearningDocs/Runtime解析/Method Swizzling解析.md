@@ -3,8 +3,7 @@
 
 [Method Swizzling 和 AOP 实践](http://tech.glowing.com/cn/method-swizzling-aop/)
 
-Method Swizzling 和 AOP 实践
-07 JANUARY 2015
+
 上一篇介绍了 Objective-C Messaging。利用 Objective-C 的 Runtime 特性，我们可以给语言做扩展，帮助解决项目开发中的一些设计和技术问题。这一篇，我们来探索一些利用 `Objective-C Runtime` 的黑科技。这些技巧中最具争议的或许就是 `Method Swizzling` 。
 
 介绍一个技巧，最好的方式就是提出具体的需求，然后用它跟其他的解决方法做比较。

@@ -116,5 +116,8 @@
 
 1. [AFNetworking源码解析](http://www.jianshu.com/p/22075e7db6f7)
 2. [AFNetworking](https://github.com/AFNetworking/AFNetworking)
-3. 
+3. [AFNetworking到底做了什么？](https://www.jianshu.com/p/856f0e26279d)
+4. [AFNetworking到底做了什么？(二) - 简书](https://www.jianshu.com/p/f32bd79233da)
+5. [AFNetworking到底做了什么？(终) - 简书](https://www.jianshu.com/p/7ed7c0be15b4)
+
 
