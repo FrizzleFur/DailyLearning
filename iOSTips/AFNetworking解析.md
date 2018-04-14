@@ -1,11 +1,9 @@
 
 # AFNetworking解析.md
 
->
+ `AFNetworking`的框架：
 
-`AFNetworking`的框架：
 <img src="http:///oc98nass3.bkt.clouddn.com/201612/1496907785055.png" width="371"/>
-
 
 `AFNetworking3.0`已经去掉了对废弃的`NSURLConnection`的支持，使用`NSURLSession`来实现
 

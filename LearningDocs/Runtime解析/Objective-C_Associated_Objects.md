@@ -13,9 +13,9 @@
 
 按照 Mattt Thompson 大神的文章 Associated Objects 中的说法，Associated Objects 主要有以下三个使用场景：
 
-为现有的类添加私有变量以帮助实现细节；
-为现有的类添加公有属性；
-为 KVO 创建一个关联的观察者。
+* 为现有的类添加私有变量以帮助实现细节；
+* 为现有的类添加公有属性；
+* 为 KVO 创建一个关联的观察者。
 从本质上看，第 1 、2 个场景其实是一个意思，唯一的区别就在于新添加的这个属性是公有的还是私有的而已。就目前来说，我在实际工作中使用得最多的是第 2 个场景，而第 3 个场景我还没有使用过。
 
 相关函数
@@ -289,11 +289,59 @@ void _object_remove_assocations(id object) {
 看完源代码后，我们知道对象地址与 AssociationsHashMap 哈希表是一一对应的。那么我们可能就会思考这样一个问题，是否可以给类对象添加关联对象呢？答案是肯定的。我们完全可以用同样的方式给类对象添加关联对象，只不过我们一般情况下不会这样做，因为更多时候我们可以通过 static 变量来实现类级别的变量。我在分类 ViewController+AssociatedObjects 中给 ViewController 类对象添加了一个关联对象 associatedObject ，读者可以亲自在 viewDidLoad 方法中调用一下以下两个方法验证一下：
 
 
+
 ```
 + (NSString *)associatedObject;
 + (void)setAssociatedObject:(NSString *)associatedObject;
-+ ```
 
+```
+
+### 例子🌰
+> 为了在点击按钮的时候添加自定义事件间隔，使用分类的方式，交换`sendAction:to:forEvent:`的方法实现，然后使用属性绑定添加`acceptEventTime`属性。
+
+```
+#import "UIControl+Event.h"
+#import "objc/runtime.h"
+
+@implementation UIControl (Event)
+
+static char acceptEventIntervalKey;
+static char acceptEventTimeKey;
+
++ (void)load {
+    Method a = class_getInstanceMethod(self, @selector(sendAction:to:forEvent:));
+    Method b = class_getInstanceMethod(self, @selector(__yh_sendAction:to:forEvent:));
+    method_exchangeImplementations(a, b);
+}
+
+- (NSTimeInterval)acceptEventInterval {
+    return [objc_getAssociatedObject(self, &acceptEventIntervalKey) doubleValue];
+}
+
+- (void)setAcceptEventInterval:(NSTimeInterval)acceptEventInterval {
+    objc_setAssociatedObject(self, &acceptEventIntervalKey, @(acceptEventInterval), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSTimeInterval)acceptEventTime {
+    return [objc_getAssociatedObject(self, &acceptEventTimeKey) doubleValue];
+}
+
+- (void)setAcceptEventTime:(NSTimeInterval)acceptEventTime {
+    objc_setAssociatedObject(self, &acceptEventTimeKey, @(acceptEventTime), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)__yh_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {
+    if ([[NSDate date] timeIntervalSince1970] - self.acceptEventTime < self.acceptEventInterval) {
+        return;
+    }
+    if (self.acceptEventInterval > 0) {
+        self.acceptEventTime = [[NSDate date] timeIntervalSince1970];
+    }
+    [self __yh_sendAction:action to:target forEvent:event];
+}
+
+@end
+```
 ### 总结
 
 读到这里，相信你对开篇的那三个问题已经有了一定的认识，下面我们再梳理一下：
