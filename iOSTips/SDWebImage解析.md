@@ -1,7 +1,7 @@
 # SDWebImage解析.md
 
 >简介
-Asynchronous image downloader with cache support as a UIImageView category.
+>Asynchronous image downloader with cache support as a UIImageView category.
 
 言简意赅：SDWebImage 以 UIImageView category（分类）的形式，来支持图片的异步下载与缓存。
 
@@ -486,7 +486,6 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
 Block
 
 ```
-
 
 ### UIView (WebCacheOperation）
 
