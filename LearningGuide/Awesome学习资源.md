@@ -12,9 +12,17 @@
 
 2. [iOS马甲包审核以及常见审核问题 - 简书](https://www.jianshu.com/p/77b6869d648e)
 
-### Runloop
+#### Runloop
 
 [iOS RunLoop详解 - 掘金](https://juejin.im/post/5aca2b0a6fb9a028d700e1f8)
+
+### 知名库
+
+[iOS源码补完计划--SDWebImage4.0+源码参阅(附面试题/流程图) - 简书](https://www.jianshu.com/p/3b8a7ae966d3)
+
+[iOS源码补完计划--AFNetworking 3.1.0源码研读 - 简书](https://www.jianshu.com/p/d085525cc88b)
+
+[iOS基础深入补完计划--Block相关原理探究 - 简书](https://www.jianshu.com/p/083315ba7671)
 
 ### iOS Resource Pool
 

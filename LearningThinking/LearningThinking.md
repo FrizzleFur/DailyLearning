@@ -101,8 +101,6 @@ if (isShareVCShowing) return;//避免多次点击
 分解UIViewController
 
 
-
-
 写了那么多Controller，让你来说下一个Controller都细分为哪些更小的功能单位，你能随口说出来么？只有做过足够多的业务，才能慢慢对Controller的构成有自己的理解。
 
 当然可以回答说MVC或者MVP，但这个答案粒度太粗，一个Controller内部会发生哪些事可以说的更细，我们看下VIPER的答案：
@@ -217,4 +215,19 @@ Delegate, Target-Action, Block, Notification, KVO。
 在controller内部传递model或者state的时候，我们应该也尽量使用copy行为，任何state你一旦暴露出去就不再安全，自己创建，自己修改，自己销毁才是正途。说到
 
 我之前介绍Facebook架构的时候就提到过，Facebook当中的model layer是由一个单独开发团队维护的，应用层开发人员（Controller开发人员）获取到的都是新的拷贝，要修改某个属性不一定有接口，甚至要向model的维护团队提交增加接口的申请，对于state维护的谨慎度可见一斑。
+
+### 2018-04-16
+
+[Google 将于明年彻底关闭 Chrome Apps，以后就是 PWA 的天下了_搜狐科技_搜狐网](http://www.sohu.com/a/209075468_115128)
+
+2016 年，Google 提出了 “Progressive Web Apps”（PWA），志在增强 Web 体验。可显著提高加载速度、可离线工作、可被添加至主屏、全屏执行、推送通知消息……等等这些特性可使 Web 应用渐进式地变成 App，甚至与 App 相匹敌。
+
+而现在，Google 正打算以 PWA 完全取代原先的 Chrome Apps，并且，已经将 Chrome Web Store 中“Apps”的部分删除，如果你打算通过以前的网址访问该板块，将会直接跳转到“扩展程序”。此外，还以邮件方式正式告知开发者，他们计划在 2018 年年初彻底关闭 Chrome 浏览器的 App 支持。
+
+尽管两者都旨在使 Web 引用程序更适合本机桌面端，但 PWA 是跨平台和跨浏览器的，而 Chrome Apps 显然局限于谷歌浏览器并使用专有的 Chrome API。
+
+
+一个PWA, 一个微信小程序，前端就要变成风口，需要拥抱未来的技术变化。
+
+感觉腾讯就像美国的Google, 阿里有点像Apple
 
