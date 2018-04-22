@@ -28,11 +28,7 @@
 
 * [2_ThirdParty](https://github.com/coolnameismy/ios-tips/tree/master/2_ThirdParty) 三方库的解析
 
-### PWA
 
-[什么是 PWA](https://lavas.baidu.com/pwa)
-
-[基于 Vue.js 的 PWA 解决方案](https://lavas.baidu.com/`)
 
 ###  博客
 
@@ -42,6 +38,22 @@
 [SwiftOldDriver/iOS-Weekly: 🇨🇳 老司机 iOS 周报](https://github.com/SwiftOldDriver/iOS-Weekly) | iOS最新周报
 [Kenshin Cui's Blog](http://www.cnblogs.com/kenshincui)| 崔江涛，文章写的非常详细
 [ChenYilong](https://github.com/ChenYilong)| [微博@iOS程序犭袁](http://weibo.com/luohanchenyilong?refer_flag=1005055013_&is_all=1)有iOS9AdaptationTips,iOSInterviewQuestions等多个上千star的项目
+
+## JavaScript
+
+### PWA
+
+- [什么是 PWA](https://lavas.baidu.com/pwa)
+
+- [基于 Vue.js 的 PWA 解决方案](https://lavas.baidu.com/`)
+
+
+### Vue
+
+- [vue guide](https://vuejs.org/v2/guide/)
+
+- [MASTER VUE.JS](https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1)
+
 
 ## 工具
 
