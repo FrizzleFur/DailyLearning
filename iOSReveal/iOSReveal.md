@@ -1,9 +1,6 @@
 # iOSReveal
 
 ##  classdump
-[iOS 逆向工程资料整理](https://niyaoyao.github.io/2017/05/09/Learning-Reverse-From-Today-D4/)
-
-[逆向工程之当/usr/bin安装不了class-dump怎么办](https://www.jianshu.com/p/eeebb43a68b7)
 
 参考网址：[http://blog.csdn.net/majiakun1/article/details/52064435](https://link.jianshu.com?t=http://blog.csdn.net/majiakun1/article/details/52064435)
 根据上面网址所说整理一下：
@@ -50,5 +47,14 @@ Usage: class-dump [options] <mach-o-file>
 ```
 
 有啥错误希望各路大神指点，会尽快修改。
+
+
+
+## 参考
+
+* [iOS应用逆向工程资料汇总 - everettjf - 安全爱好者;面向性能编程;](https://everettjf.github.io/2018/01/15/ios-app-reverse-engineering-stuff/)
+* [iOS 逆向工程资料整理](https://niyaoyao.github.io/2017/05/09/Learning-Reverse-From-Today-D4/)
+* [逆向工程之当/usr/bin安装不了class-dump怎么办](https://www.jianshu.com/p/eeebb43a68b7)
+
 
 
