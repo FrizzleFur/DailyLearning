@@ -6,6 +6,7 @@
 start :`2017-05-01`
 update : `2017-12-11`
 update2 : `2018-02-11`
+update2 : `2018-04-30`:  添加文件重命名
 
 ### 常用命令
 
@@ -108,7 +109,8 @@ Mac底层是Unix内核，可以登入登出Unix。
 然后点`i`进入编辑, 编辑完成按`Esc`退出编辑，然后点击`:`回到底部，输入`wq`+`Enter`保存退出
 
 ### 文件操作
-参考[Unix常用命令](http://www.cnblogs.com/hjzhang/archive/2009/12/04/2043586.html)
+
+参考 [Unix常用命令](http://www.cnblogs.com/hjzhang/archive/2009/12/04/2043586.html)
 
 #### 移动,拷贝
 1. 文件移动
@@ -151,6 +153,25 @@ mv + 文件名 + 路径
  ----- | ----- 
 源文件或目录	|被复制的文件或目录
 目标文件或目录 |	被复制的文件或目录，所要到达的位置。
+
+#### 文件重名名
+
+linux下重命名文件或文件夹的命令`mv`既可以重命名，又可以移动文件或文件夹.
+
+例子：将目录A重命名为B
+
+```
+mv A B
+```
+
+例子：将/a目录移动到/b下，并重命名为c
+
+
+```
+mv /a /b/c
+```
+
+其实在文本模式中要重命名文件或目录的话也是很简单的，我们只需要使用mv命令就可以了，比如说我们要将一个名为abc的文件重命名为1234就可以这样来写：mv abc 1234，但是要注意的是，如果当前目录下也有个1234的文件的话，我们的这个文件是会将它覆盖的
 
 #### `rm` 删除
 
@@ -561,4 +582,6 @@ Elegant iTerm2 theme with bright colors
 11. [linux下的终端利器----tmux - CSDN博客](http://blog.csdn.net/gatieme/article/details/49301037)
 12. [Tmux 入门介绍 - 文章 - 伯乐在线](http://blog.jobbole.com/87278/)
 13. [Linux终极shell-Z Shell-用强大的zsh & oh-my-zsh把Bash换掉](http://www.linuxdiyf.com/linux/24777.html)
+
+
 
