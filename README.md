@@ -48,6 +48,13 @@
 - [基于 Vue.js 的 PWA 解决方案](https://lavas.baidu.com/`)
 
 
+* 地址栏输入：`Chrome://flags`
+* 搜索并启用以下项目：App Banners（应用横幅）、Experimental App Banners（实验性应用横幅）、Desktop PWAs（桌面PWAs）。
+* 重启浏览器即可添加支持。
+* 目前PWA应用没有统一的应用商店，用户在访问支持PWA的网址时将自动启动。
+![](http://oc98nass3.bkt.clouddn.com/15256848635235.jpg)
+![](http://oc98nass3.bkt.clouddn.com/15256848889827.jpg)
+
 ### Vue
 
 - [vue guide](https://vuejs.org/v2/guide/)
