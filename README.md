@@ -47,7 +47,6 @@
 
 - [基于 Vue.js 的 PWA 解决方案](https://lavas.baidu.com/`)
 
-
 * 地址栏输入：`Chrome://flags`
 * 搜索并启用以下项目：App Banners（应用横幅）、Experimental App Banners（实验性应用横幅）、Desktop PWAs（桌面PWAs）。
 * 重启浏览器即可添加支持。
@@ -60,7 +59,6 @@
 - [vue guide](https://vuejs.org/v2/guide/)
 
 - [MASTER VUE.JS](https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1)
-
 
 ## 工具
 
