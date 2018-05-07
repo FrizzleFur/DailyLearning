@@ -1,6 +1,6 @@
-# Linux & Unix命令学习
+# Linux命令学习
 
->Linux 命令记录小白学习`Linux`的过程，如有错误，万望指正，感激不尽。
+> Linux 命令 记录小白学习`Linux`的过程，如有错误，万望指正，感激不尽。
 ![zsh配合iterm2效果.png](http://upload-images.jianshu.io/upload_images/225323-5d4602aff38a4cf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 start :`2017-05-01`
@@ -19,10 +19,10 @@ update2 : `2018-04-30`:  添加文件重命名
   -M：指定man手册搜索的路径。 
 来自: [man命令_Linux man 命令用法详解](http://man.linuxde.net/man)
 
-
 * 不区分大小写智能提示。我是不喜欢大小写区分的那种人，所以用了 `zsh` 之后，经常按 `Tab` 进行提示。
 此外按下 `tab` 键显示出所有待选项后，再按一次 `tab` 键，即进入选择模式，进入选择模式后，按 tab 切向下一个选项，按 `shift + tab` 键切向上一个选项，`ctrl+f/b/n/p` 可以向前后左右切换。
 ![](http://upload-images.jianshu.io/upload_images/225323-11c6c703424c4b1f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<!-- more -->
 
 `kill + 空格键 + Tab`键，列出运行的进程，要啥哪个进程不需要再知道 PID 了，当然了 `zsh`，提供了让你知道 PID 的方法：
 比如输入：`kill vim`，再按下 `tab`，会变成：`kill 5643`
@@ -34,7 +34,7 @@ update2 : `2018-04-30`:  添加文件重命名
 `zsh` 的目录跳转很智能，你无需输入 `cd` 就可直接输入路径即可。比如：`..` 表示后退一级目录，`../../ `表示后退两级，依次类推。
 在命令窗口中输入：`d`，将列出当前 session 访问过的所有目录，再按提示的数字即可进入相应目录。
 
-### (Unix)Mac 常用命令
+### Mac 常用命令(Unix)
 
 #### 在Finder标题栏显示完整路径
 
@@ -55,13 +55,6 @@ $ killall Finder
 
 `mdfind` 还提供更多的搜索选项。例如  `-onlyin` 选项可以约束搜索范围为一个目录： 
 `$ mdfind -onlyin ~/Documents essay`
-
-
-#### `cat` 连续查看文件内容
-`$ cat fileName`
-
-#### `more` 分页查看文件内容
-`$ more fileName`
 
 #### `Unix`登录登出
 Mac底层是Unix内核，可以登入登出Unix。
@@ -109,8 +102,7 @@ Mac底层是Unix内核，可以登入登出Unix。
 然后点`i`进入编辑, 编辑完成按`Esc`退出编辑，然后点击`:`回到底部，输入`wq`+`Enter`保存退出
 
 ### 文件操作
-
-参考 [Unix常用命令](http://www.cnblogs.com/hjzhang/archive/2009/12/04/2043586.html)
+参考[Unix常用命令](http://www.cnblogs.com/hjzhang/archive/2009/12/04/2043586.html)
 
 #### 移动,拷贝
 1. 文件移动
@@ -166,7 +158,6 @@ mv A B
 
 例子：将/a目录移动到/b下，并重命名为c
 
-
 ```
 mv /a /b/c
 ```
@@ -174,33 +165,16 @@ mv /a /b/c
 其实在文本模式中要重命名文件或目录的话也是很简单的，我们只需要使用mv命令就可以了，比如说我们要将一个名为abc的文件重命名为1234就可以这样来写：mv abc 1234，但是要注意的是，如果当前目录下也有个1234的文件的话，我们的这个文件是会将它覆盖的
 
 #### `rm` 删除
-
-##### 删除文件
-
+删除文件
 `$ rm filename`
 
-一、rmdir：删除一个空的目录
-`rm`命令
-用于删除文件或文件夹。具体语法为：rm + 路径 +文件名 。例如，要删除/home/long/manual.tar文件，用下面命令：
 
-```
-$rm /home/long/manual.tar
-```
-如果要删除目录，用rm –r +路径+目录名 。例如：要删除/home/manual目录，用
-```
-$rm –r /home/manual
-```
+##### 一、rmdir：删除一个空的目录
+
+###### rm命令
+用于删除文件或文件夹。具体语法为：rm + 路径 +文件名 。例如，要删除/home/long/manual.tar文件，用下面命令：$rm /home/long/manual.tar
+如果要删除目录，用rm –r +路径+目录名 。例如：要删除/home/manual目录，用$rm –r /home/manual
 注意：要删除一个文件或文件夹，首先要具有对这个文件夹的写权限。
-
-##### 删除文件夹内的残余文件
-
-一般删除了文件后，一个`ls`命令，发现还有一些带着` ~$ `的文件，这是残余文件
-因为` ~$ `影响，需要添加 ' '
-
-```
-$ rm '~$filename.xxx'
-```
-
 
 1. `-v`选项：提示
 
@@ -235,9 +209,9 @@ eg2：   目录1122/1  1122/2
     结果：删除1122/1,再删除1122时错误，因为此时1122不是空文件夹。
 
 
-二、`rm` 删除文件或者目录
+##### 二、`rm` 删除文件或者目录
 
-1. `-f`选项：不管目录下的文件存在不存在，都不给予提示（force强制）
+###### 1. `-f`选项：不管目录下的文件存在不存在，都不给予提示（force强制）
 
     目录1122/1/a，1122/1为目录，a为文件
 
@@ -260,7 +234,7 @@ eg2：   目录1122/1  1122/2
 
      结果：没有任何提示 
    
-2. `-r`：删除此目录下的所有文件，但是此目录不删除
+###### 2. `-r`：删除此目录下的所有文件，但是此目录不删除
 
     目录：1122/1 1122/2
 
@@ -270,15 +244,15 @@ eg2：   目录1122/1  1122/2
 
      结果：删除1122/1  1122/22
  
-3.组合删除:删除该目录以及该目录下的所有文件
+###### 3. 组合删除
+
+**删除该目录以及该目录下的所有文件**
 
    目录1122/1/a  1122/2
 
 ```
-   rm -rf -v 1122
+sudo rm -rf -v /Volumes/macOSSierra/Backups.backupdb/xxx/xxxx
 ```
-
-   结果：
 
 
 ## Bash 命令
@@ -567,6 +541,73 @@ Elegant iTerm2 theme with bright colors
 ![](http://oc98nass3.bkt.clouddn.com/15129591787875.jpg)
 [Hyper](https://hyper.is/)一个轻量简洁的终端
 
+
+## 目录讲解
+
+/usr/bin : 所有可执行文件，如 gcc，firefox 等（指不包含在 /sbin 和 /bin 内的）；
+
+/usr/include : 各种头文件，编译文件等时需要使用；
+
+/usr/include/’package-name’ : 程序特定的头文件；
+
+/usr/lib : 所以可执行文件所需要的库文件；
+
+/usr/local : 这里主要存放那些手动安装的软件，即 不是通过“新立得”或apt-get安装的软件 。 它和/usr目录具有相类似的目录结构 。让软件包管理器来管理/usr目录，而把自定义的脚本(scripts)放到/usr/local目录下面，我想这应该是个不错的主意。
+
+/usr/X11R6 : x 系统的二进制文件，库文件，文档，字体等。它不等同于 /usr 的作用，只有 x 才能调用这些库文件等，其他程序不读取或者使用。因为 linux 没有原生图形界面，而且 linux 大部分情况下是 for server 的，所以图形界面没有意义；其中 X11R6 代表 version 11 release 6；
+
+/usr/X11R6/bin : x 的二进制文件，包含运行 x 的必须文件；
+
+/usr/X11R6/include : x 相关的头文件；
+
+/usr/X11R6/lib : x 库文件；
+
+/usr/X11R6/lib/modules : x 的模块，启动时加载。缺少 video4linux, DRI and GLX 和 输入输出设备 模块，将工作不正常；
+
+/usr/X11R6/lib/X11/fonts : x font server 的字体文件；
+
+/usr/doc : 文档。实际是 /usr/share/doc 的软链接；
+
+/usr/etc : 一个极少用到的配置文件存放地；
+
+/usr/games : 曾经包含游戏等文件，现在很少用到；
+
+/usr/info : 系统相关信息，是 /usr/share/info 的软链接；
+
+/usr/man : man 手册，已经移至 /usr/share/man；
+
+/usr/sbin : 类似 /sbin，root 可以执行。但此目录不包含在环境变量 $PATH 中，它包含的程序类似于 chroot, useradd, in.tftpd and pppconfig；
+
+/usr/share : 它包含了各种程序间的共享文件，如字体，图标，文档等。（/usr/local 对应的目录是  /usr/loca/share）;
+
+/usr/share/doc : 类似应用程序的 man 手册。它包含程序的说明文件，默认配置文件等；
+
+/usr/share/info : 不常用，已经被 man 代替；
+
+/usr/share/man : app 的 manual；
+
+/usr/share/icons : 应用程序的图标等文件，分为 png，svg 等多种格式；
+
+/usr/share/fonts : 字体文件，系统范围内可使用，~/.fonts 仅当前用户可用；
+
+/usr/src : linux 内核的源码和说明文档等；
+
+/usr/src/linux : linux 源代码；
+
+/usr/src/linux/.config : 内核编译过程产生的文件；通常由命令 ‘make config’ ， ‘make menuconfig’ 或 ‘make xconfig’ 执行后产生；
+
+/usr/src/linux/.depend, /usr/src/linux/.hdepend : ‘make dep’ 检测编译依赖时需要的文件，由 /usr/src/linux/.config 产生；
+
+/usr/src/linux/COPYING : GNU license；
+
+/usr/src/linux/Makefile : 编译内核所需的 Makefile；
+
+/usr/src/linux/Rules.make : 当有多个 Makefile 时，根据它的规则执行 make；
+
+/usr/tmp : 已经被众多发行版抛弃的临时文件夹。
+
+
+
 ### 参考资料
 
 1. [一个Java程序员眼中的Mac OS（系列六：终端方案iTerm2 + Zsh）](http://www.jianshu.com/p/e7af448d01b0)
@@ -582,6 +623,4 @@ Elegant iTerm2 theme with bright colors
 11. [linux下的终端利器----tmux - CSDN博客](http://blog.csdn.net/gatieme/article/details/49301037)
 12. [Tmux 入门介绍 - 文章 - 伯乐在线](http://blog.jobbole.com/87278/)
 13. [Linux终极shell-Z Shell-用强大的zsh & oh-my-zsh把Bash换掉](http://www.linuxdiyf.com/linux/24777.html)
-
-
 
