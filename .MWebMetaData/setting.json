@@ -1,0 +1,9 @@
+{
+  "name" : "DailyLearning",
+  "fileExtension" : ".md",
+  "autoUploadInsertedImage" : true,
+  "folderType" : 10,
+  "mediaFloder" : "media",
+  "orderBy" : 0,
+  "newlinesToBR" : 0
+}
