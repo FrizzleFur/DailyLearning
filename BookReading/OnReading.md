@@ -35,7 +35,6 @@
 
 * [从 iOS 角度出发，剖析移动端性能监控的技术原理](http://m.quzhiboapp.com/#!/intro/392)
 
-
 ### 单元测试
 
 * [单元测试与自动化](http://m.quzhiboapp.com/#!/intro/214)
@@ -44,8 +43,9 @@
 
 * [响应式编程在 iOS 开发中的应用](http://m.quzhiboapp.com/#!/intro/204)
 
-### 安全
+### 逆向安全
 
+* [iOS应用逆向与安全 (豆瓣)](https://book.douban.com/subject/30239776/)
 * [圣诞节之夜，聊聊 iOS 的安全和 ATS](http://m.quzhiboapp.com/#!/intro/252)
 
 ## 大前端
