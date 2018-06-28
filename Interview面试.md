@@ -160,7 +160,6 @@
 * 给`nil`对象发送消息会崩溃吗？
 
 
-
 3. 多线程
 
 * 常见多线程在项目中的应用？
@@ -271,12 +270,16 @@ weak可以修饰对象，assign是生成与栈上的，如果用于修饰对象�
 * 架构
 
 6. 传值模式的介绍： 代理、通知、block
+![](http://oc98nass3.bkt.clouddn.com/15301587846244.jpg)
 
-
-7. Runtime & RunLoop介绍
+7. `Runtime` & `RunLoop` 介绍
 8. 有了解`OpenGL`吗？
 9. 有Mac相关开发吗？
 
 ## 参考
 
 1. [面试总结 · Issue #1 · FrizzleFur/DailyLearning](https://github.com/FrizzleFur/DailyLearning/issues/1)
+
+### 多线程
+
+2. [iOS开发系列--并行开发其实很容易 - KenshinCui - 博客园](http://www.cnblogs.com/kenshincui/p/3983982.html)
