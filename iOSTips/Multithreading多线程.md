@@ -5,7 +5,7 @@
 * 控制并发线程的数量： 多线程的信号量`dispatch_semaphore`
 * 线程的异步
 * 任务进行分块： `dispatch_group_notify`.
-iOS使用dispatch_group实现分组并发网络请求
+* iOS使用dispatch_group实现分组并发网络请求
 
 ## 多任务分块
 
@@ -74,7 +74,6 @@ dispatch_semaphore_t dispatch_semaphore_create(long value);
 ```
 // 返回0：表示正常。返回非0：表示等待时间超时
 long dispatch_semaphore_wait(dispatch_semaphore_t dsema, dispatch_time_t timeout);
-
 ```
 
 ##### 信号通知
@@ -375,3 +374,4 @@ KCMainViewController.m
 1. [iOS开发系列--并行开发其实很容易 - KenshinCui - 博客园](http://www.cnblogs.com/kenshincui/p/3983982.html)
 2. [dispatch_semaphore控制并发线程数 - 简书](https://www.jianshu.com/p/a5e75df26d9c)
 3. [浅谈GCD中的信号量 - 简书](https://www.jianshu.com/p/04ca5470f212)
+4. [iOS使用dispatch_group实现分组并发网络请求 - 简书](https://www.jianshu.com/p/657e994aeee2)
