@@ -7,6 +7,7 @@
 `2018-02-11` | 
 `2018-04-30` | 添加文件重命名
 `2018-06-20` | 整理 & 添加补充`grep`命令
+`2018-07-02` | 整理 & 添加补充文件命令
 
 > 记录小白学习`Linux`的过程。
 
@@ -44,11 +45,11 @@
 这是我们**使用得最多**的命令了，**Linux最基础的命令**！
 
 * `sudo du -sh *` 按下回车后系统就会自动统计该目录下所有文件的占用情况，一般等待一两分钟后就能得到结果了。
+*   `-`表示**用cd命令切换目录前所在的目录**
 *   可用 `pwd`命令查看用户的当前目录
 *   可用 `cd` 命令来切换目录
 *   `.`表示当前目录
 *   `..` 表示当前目录的上一级目录（父目录）
-*   `-`表示用 cd 命令切换目录**前**所在的目录
 *   `~` 表示**用户主目录**的绝对路径名
 *   `ls`：显示文件或目录信息
 *   `mkdir`：当前目录下创建一个空目录
@@ -801,19 +802,29 @@ Elegant iTerm2 theme with bright colors
 
 ## 参考资料
 
-1. [Mac 终端命令大全](<http://www.jianshu.com/p/3291de46f3ff)
-2. [看完这篇Linux基本的操作就会了](https://zhongfucheng.bitcron.com/post/shou-ji/wen-zhang-dao-hang)
-3. [一个Java程序员眼中的Mac OS（系列六：终端方案iTerm2 + Zsh）](http://www.jianshu.com/p/e7af448d01b0)
-4. [iTerm2 - Mac 开发配置手册 - 极客学院Wiki](http://wiki.jikexueyuan.com/project/mac-dev-setup/iterm.html)
-5. [你应该知道的 iTerm2 使用方法--MAC终端工具](http://wulfric.me/2015/08/iterm2/)
-6. [iTerm - 让你的命令行也能丰富多彩 - SwiftCafe 享受代码的乐趣](http://swiftcafe.io/2015/07/25/iterm/)
-7. [Terminal 代理方案 - 杨辉的个人博客](http://yanghui.name/blog/2015/07/19/make-all-command-through-proxy/)
-8. [Mac下iTerm2＋Tmux配置 - Karrdy - SegmentFault](https://segmentfault.com/a/1190000003001555)
-9. [我的tmux配置及说明【k-tmux】](http://www.wklken.me/posts/2015/08/06/linux-tmux.html)
+1. [文件和目录管理_Linux命令大全](http://man.linuxde.net/par/1)
+2. [Mac 终端命令大全](<http://www.jianshu.com/p/3291de46f3ff)
+3. [看完这篇Linux基本的操作就会了](https://zhongfucheng.bitcron.com/post/shou-ji/wen-zhang-dao-hang)
+4. [一个Java程序员眼中的Mac OS（系列六：终端方案iTerm2 + Zsh）](http://www.jianshu.com/p/e7af448d01b0)
+
+### iTerm2
+
+5. [iTerm2 - Mac 开发配置手册 - 极客学院Wiki](http://wiki.jikexueyuan.com/project/mac-dev-setup/iterm.html)
+6. [你应该知道的 iTerm2 使用方法--MAC终端工具](http://wulfric.me/2015/08/iterm2/)
+7. [iTerm - 让你的命令行也能丰富多彩 - SwiftCafe 享受代码的乐趣](http://swiftcafe.io/2015/07/25/iterm/)
+8. [Terminal 代理方案 - 杨辉的个人博客](http://yanghui.name/blog/2015/07/19/make-all-command-through-proxy/)
+9. [Mac下iTerm2＋Tmux配置 - Karrdy - SegmentFault](https://segmentfault.com/a/1190000003001555)
 10.  [Mac 下配置终端环境 iTerm2 + Zsh + Oh My Zsh + tmux | 明无梦](http://www.dreamxu.com/mac-terminal/)
-11. [Tmux - Linux从业者必备利器 • cenalulu's Tech Blog](http://cenalulu.github.io/linux/tmux/)
-12. [linux下的终端利器----tmux - CSDN博客](http://blog.csdn.net/gatieme/article/details/49301037)
-13. [Tmux 入门介绍 - 文章 - 伯乐在线](http://blog.jobbole.com/87278/)
-14. [Linux终极shell-Z Shell-用强大的zsh & oh-my-zsh把Bash换掉](http://www.linuxdiyf.com/linux/24777.html)
-15. [linux下grep用法 - CSDN博客](https://blog.csdn.net/u011003120/article/details/52185356)
-16. [grep-非此即彼的博客-51CTO博客](http://blog.51cto.com/13528516/2061347)
+
+### Tmux
+
+11. [Tmux 入门介绍 - 文章 - 伯乐在线](http://blog.jobbole.com/87278/)
+12. [我的tmux配置及说明【k-tmux】](http://www.wklken.me/posts/2015/08/06/linux-tmux.html)
+13. [Tmux - Linux从业者必备利器 • cenalulu's Tech Blog](http://cenalulu.github.io/linux/tmux/)
+14. [linux下的终端利器----tmux - CSDN博客](http://blog.csdn.net/gatieme/article/details/49301037)
+15. [Linux终极shell-Z Shell-用强大的zsh & oh-my-zsh把Bash换掉](http://www.linuxdiyf.com/linux/24777.html)
+ 
+### Grep
+
+16. [linux下grep用法 - CSDN博客](https://blog.csdn.net/u011003120/article/details/52185356)
+17. [grep-非此即彼的博客-51CTO博客](http://blog.51cto.com/13528516/2061347)
