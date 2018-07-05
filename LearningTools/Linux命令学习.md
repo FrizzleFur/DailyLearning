@@ -3,11 +3,9 @@
  时间 |  备注
  --- | --- 
 `2017-05-01` | start
-`2017-12-11` |  
-`2018-02-11` | 
 `2018-04-30` | 添加文件重命名
 `2018-06-20` | 整理 & 添加补充`grep`命令
-`2018-07-02` | 整理 & 添加补充文件命令
+`2018-07-05` | 整理 & 添加powerline
 
 > 记录小白学习`Linux`的过程。
 
@@ -17,7 +15,7 @@
 
 ### man命令
 
-> 常用工具命令 man命令是Linux下的帮助指令，通过man指令可以查看Linux中的指令帮助、配置文件帮助和编程帮助等信息。
+>常用工具命令 man命令是Linux下的帮助指令，通过man指令可以查看Linux中的指令帮助、配置文件帮助和编程帮助等信息。
 > 语法 man(选项)(参数) 
   -a：在所有的man帮助手册中搜索；
   -f：等价于whatis指令，显示给定关键字的简短描述信息； 
@@ -69,7 +67,6 @@
 *   **`echo`：把内容重定向到指定的文件中 ，有则打开，无则创建**
 *   **`管道命令 |` ：将前面的结果给后面的命令，例如：`ls -la | wc`，将ls的结果加油wc命令来统计字数**
 *   `重定向 > 是覆盖模式，>> 是追加模式`，例如：`echo "Java3y,zhen de hen xihuan ni" > qingshu.txt`把左边的输出放到右边的文件里去
-
 
 ### Linux命令重点
 
@@ -243,6 +240,8 @@ Mac底层是Unix内核，可以登入登出Unix。
 ![](http://oc98nass3.bkt.clouddn.com/15294676296816.jpg)
 
 ### `Zsh` 命令
+
+![](http://oc98nass3.bkt.clouddn.com/15301106716847.jpg)
 
 #### `ls` 命令
 
@@ -593,7 +592,41 @@ Control + k	 | 删除从光标到行尾的内容
 Control + c	 | 结束当前状态，另起一行
 Control + t	 | 交换光标和之前的字符
 
-## OnMyZch
+### powerline
+
+> Powerline是vim的状态行插件，并为其他几个应用程序提供状态和提示，包括zsh，bash，tmux，IPython，Awesome和Qtile。
+
+![](http://oc98nass3.bkt.clouddn.com/15307861284844.jpg)
+
+```
+//没有安装pip先安装pip
+sudo easy_install pip
+
+//之后安装powerline（这里可能会报错，可以参考问题解决）
+pip install powerline-status
+
+```
+
+#### 安装powerline字体库[fonts](https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fpowerline%2Ffonts)
+
+```
+//克隆字体库到本地
+git clone https://github.com/powerline/fonts.git
+
+//安装字体
+cd fonts
+./install.sh
+```
+
+安装成功之后输出：
+
+```
+➜  fonts git:(master) ./install.sh
+Copying fonts...
+Powerline fonts installed to /Users/WENBO/Library/Fonts
+```
+
+### OnMyZch
 
 ![](http://upload-images.jianshu.io/upload_images/225323-9f80c1d60073bd39.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -803,7 +836,7 @@ Elegant iTerm2 theme with bright colors
 ## 参考资料
 
 1. [文件和目录管理_Linux命令大全](http://man.linuxde.net/par/1)
-2. [Mac 终端命令大全](<http://www.jianshu.com/p/3291de46f3ff)
+2. [Mac 终端命令大全](http://www.jianshu.com/p/3291de46f3ff)
 3. [看完这篇Linux基本的操作就会了](https://zhongfucheng.bitcron.com/post/shou-ji/wen-zhang-dao-hang)
 4. [一个Java程序员眼中的Mac OS（系列六：终端方案iTerm2 + Zsh）](http://www.jianshu.com/p/e7af448d01b0)
 
