@@ -626,6 +626,29 @@ Copying fonts...
 Powerline fonts installed to /Users/WENBO/Library/Fonts
 ```
 
+### Powerlevel9k  
+
+![](http://oc98nass3.bkt.clouddn.com/15309458898475.jpg)
+
+[Install Instructions · bhilburn/powerlevel9k Wiki](https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#option-2-install-for-oh-my-zsh)
+
+#### Option 2: Install for Oh-My-ZSH
+
+To install this theme for use in [Oh-My-Zsh](https://github.com/robbyrussell/oh-my-zsh), clone this repository into your OMZ `custom/themes`directory.
+
+```
+$ git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+
+```
+You then need to select this theme in your ~/.zshrc:
+
+注意安装后的发现没有生效，这里需要是在第二层路径。
+```
+ZSH_THEME="powerlevel9k/powerlevel9k"
+```
+
+参考[超簡單！十分鐘打造漂亮又好用的 zsh command line – Statementdog-Engineering – Medium](https://medium.com/statementdog-engineering/prettify-your-zsh-command-line-prompt-3ca2acc967f)
+
 ### OnMyZch
 
 ![](http://upload-images.jianshu.io/upload_images/225323-9f80c1d60073bd39.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
