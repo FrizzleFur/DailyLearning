@@ -44,9 +44,14 @@ Vi有三种模式：
 * `x`删除光标所在的字符
 * `u`取消上一次编辑操作（undo）
 
+
+
+
+
 ## 1.2 插入模式
 
 在 Normal 模式下输入插入命令 `i、 a 、 o`进入insert模式。用户输入的任何字符都被vim**当做文件内容保存起来**，并将其显示在屏幕上。
+![](http://oc98nass3.bkt.clouddn.com/15311962564268.jpg)
 
 * 在文本输入过程中，若想回到Normal模式下，按 Esc 键即可。
 
@@ -72,6 +77,103 @@ Normal 模式下，用户按冒号 `:`即可进入 Command 模式，此时 vim �
 * :set 显示设置的所有选项
 * :set all 显示所有可以设置的选项
 
+
+## 常用
+
+* `h、j、k、l`上下左右
+* `w、b`移动单词
+* 配合数字表示重复次数
+* 配合[motion]
+* `行号 + G` 跳转到制定的行
+* `: + 行号`跳转到制定的行
+* u表示撤销上一次修改（undo）
+* U表示撤销对整行的修改（undo）
+* Ctrl + r 恢复所撤销的内容（redo）
+* 按下`%`跳转到另一半的括号
+* `>>`向右边👉缩进，`<<`向左边👈缩进
+* 搜索🔍，使用`/`进行查询,使用`n`,`N`切换结果. 搜索替换`:s/SEARCH_STRING/REPLACE_STRING`; 
+* `:s/SEARCH_STRING/REPLACE_STRING/g`整行替换
+* `%s/SEARCH_STRING/REPLACE_STRING/g`表示全部都进行替换
+* `:[数字1],[数字2]s/SEARCH_STRING/REPLACE_STRING/gc`表示制定行范围内，每次询问替换操作`replace with O (y/n/a/q/l/E/~Y) ?`，(g是表示global,但c表示continue?)/
+* :nohl取消屏幕所有高亮
+* `:!`表示进入命令模式
+* `:w + newFileName`表示当前路径下另存为新文件
+* `r + FileName`表示将FileName合并
+ * `v`进入可视模式
+
+
+## Motion
+
+![](http://oc98nass3.bkt.clouddn.com/15311967218523.jpg)
+数字 + [motion] = 重复多个[motion]
+
+
+## 删除命令
+
+d + [motion]
+![](http://oc98nass3.bkt.clouddn.com/15311968436967.jpg)
+
+d + [数字] + [motion] = 删除多个[motion]范围
+
+所有的“删除”操作并不是真的删除，它们事实上是存放在VIM的一个缓冲区中，相当于Windows的剪切功能
+
+## 拷贝
+
+y + [数字] + [motion] 
+
+## 黏贴
+
+配合之前删除的“dd”
+* p: 将最后一次删除的内容黏贴到光标之前
+* P: 将最后一次删除的内容黏贴到光标之后
+* 如果你需要粘贴的是整行为单位，那么p命令将在光标的下一行开始粘贴;
+* 如果你拷贝的是非整行的局部字符串，那么p命令将在光标后开始粘贴。
+
+### iterm2黏贴到系统
+
+[mac os x copy terminal (does work) vs iterm2 (does not work) · Issue #3702 · neovim/neovim](https://github.com/neovim/neovim/issues/3702)
+
+
+```
+@hansrodtang just enlightened me on what is going on here. This is actually a feature of iTerm2.
+Go to Settings->General, and enable Applications in terminal may access clipboard.
+
+When I enabled that option, I could copy from and paste to iTerm2 as one would expect.
+There is still something strange here, though. @hansrodtang gets expected behaviour with the option off.
+
+Anyway, hope this helps, @ephes. :)
+
+EDIT: Sorry for all the noise here. Especially since this has nothing to do with Neovim.
+I reinstalled the latest nightly from iTerm2, and then, everything was allright. It turned out that I in fact couldn't copy from iTerm whether the option I mentioned was enabled or not. After reinstallation, the option does not seem to have any effect.
+```
+
+```
+I also had similar problem with iTerm. For me, turning on Application in terminal may access clipboard didn't help.
+What actually worked for me is: Profile -> Text -> Blinking Cusror (mark it checked)
+Weird !!
+```
+
+## 替换模式
+
+* r命令用于替换光标所在的字符，做法是先将光标移动到需要替换的字符处，按一下r键，然后输入新的字符。
+
+* 在键入r命令前输入数字,表示从光标处开始，将多个字符统一替换为新字符
+* abc ——>  aaa
+* R命令让你一步到位进入替换模式
+* Backspace可以退回替换前的模式
+
+## 修改模式
+
+VIM用C命令实现修改: C [数字] motion
+![](http://oc98nass3.bkt.clouddn.com/15311987911491.jpg)
+修改 == 删除 十 进入插入模式
+
+## 文件信息
+
+Ctrl + g
+
+
+
 ## 1.4 Vi练习题
 
 > 在用户主目录下，执行vi程序，编辑文件install.log；移动光标到第10行，第五个字符；按大写字母G，达到文件末尾；不存盘退出；
@@ -88,8 +190,6 @@ Normal 模式下，用户按冒号 `:`即可进入 Command 模式，此时 vim �
 ![](http://oc98nass3.bkt.clouddn.com/15295536218243.jpg)
 
 ![](http://oc98nass3.bkt.clouddn.com/15295536294515.jpg)
-
-
 
 
 ## vi/vim 使用实例

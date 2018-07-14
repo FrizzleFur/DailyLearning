@@ -351,9 +351,9 @@ mv /a /b/c
 其实在文本模式中要重命名文件或目录的话也是很简单的，我们只需要使用mv命令就可以了，比如说我们要将一个名为abc的文件重命名为1234就可以这样来写：mv abc 1234，但是要注意的是，如果当前目录下也有个1234的文件的话，我们的这个文件是会将它覆盖的
 
 #### `rm` 删除
+
 删除文件
 `$ rm filename`
-
 
 ##### 一、rmdir：删除一个空的目录
 
@@ -645,6 +645,48 @@ You then need to select this theme in your ~/.zshrc:
 注意安装后的发现没有生效，这里需要是在第二层路径。
 ```
 ZSH_THEME="powerlevel9k/powerlevel9k"
+```
+#### 安装 awesome-terminal-fonts
+
+[awesome-terminal-fonts](https://github.com/gabrielelana/awesome-terminal-fonts)这是一款可以在终端界面显示 awesome 图标的工具。
+[awesome-terminal-fonts](https://github.com/gabrielelana/awesome-terminal-fonts/wiki/OS-X)
+```
+git clone https://github.com/gabrielelana/awesome-terminal-fonts
+```
+
+Option 3: Install Awesome-Powerline Fonts
+Alternatively, you can install Awesome-Terminal Fonts, which provide a number of additional glyphs.
+
+You then need to indicate that you wish to use the additional glyphs by defining one of the following in your ~/.zshrc before you specify the powerlevel9k theme:
+
+If you use fontconfig to install them:
+
+```
+POWERLEVEL9K_MODE='awesome-fontconfig'
+```
+
+[Install Instructions · bhilburn/powerlevel9k Wiki](https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#option-3-install-awesome-powerline-fonts)
+![DefaultFontFallbacks](http://oc98nass3.bkt.clouddn.com/DefaultFontFallbacks.jpg)
+
+参考
+* [install-awesome-powerline-fonts](https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#option-3-install-awesome-powerline-fonts)
+* [定制一款漂亮的终端 - 简书](https://www.jianshu.com/p/8c3f7345aef2)
+
+#### 我的一些powerlevel9k配置
+
+```
+#custom settings
+# fontconfig to install them:
+POWERLEVEL9K_MODE='awesome-fontconfig'
+
+# os_icon root_indicator dir vcs
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon root_indicator dir vcs)
+## command line 左边现实的内容，将文件设置dir
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir) # <= left prompt 设了 "dir"
+## 添加版本控制信息version control system
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs) # 加上 "vcs"
+## 另起一行,两行提示符
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 ```
 
 参考[超簡單！十分鐘打造漂亮又好用的 zsh command line – Statementdog-Engineering – Medium](https://medium.com/statementdog-engineering/prettify-your-zsh-command-line-prompt-3ca2acc967f)
