@@ -152,3 +152,15 @@ FATAL: No global development team or local team ID was configured.
 
 ![TeamID](http://oc98nass3.bkt.clouddn.com/2017-08-08-15021737969197.jpg)
 
+
+
+## 参考
+
+1. [手把手教你利用Jenkins持续集成iOS项目](http://www.jianshu.com/p/41ecb06ae95f)
+2. [Mac下Jenkins+SVN+Xcode构建持续导出环境](http://www.jianshu.com/p/c0955ff67c91)
+3. [mac jenkins iOS持续集成中的坑](https://my.oschina.net/u/2359371/blog/804357)
+4. [**nomad**shenzhen](https://github.com/nomad/shenzhen/issues/236#issuecomment-88688098)
+5. [**Jenkins:”ResourceRules.plist: cannot read resources” error after Xcode 6.1**](http://stackoverflow.com/questions/26516442/how-do-we-manually-fix-resourcerules-plist-cannot-read-resources-error-after)
+6. [--resource-rules has been deprecated in mac os x >= 10.10](http://stackoverflow.com/questions/26459911/resource-rules-has-been-deprecated-in-mac-os-x-10-10)
+7. [installing-jenkins-os-x-homebrew](http://flummox-engineering.blogspot.com/2016/01/installing-jenkins-os-x-homebrew.html)
+8. [IOS 自动化部署 - 最新Jenkins + git +cocoapods + fir - 简书](http://www.jianshu.com/p/ccc97e7ecf15)

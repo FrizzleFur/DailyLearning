@@ -7,6 +7,93 @@
 * 任务进行分块： `dispatch_group_notify`.
 * iOS使用dispatch_group实现分组并发网络请求
 
+## 线程死锁
+
+案例一：
+
+```objc
+NSLog(@"1"); // 任务1
+dispatch_sync(dispatch_get_main_queue(), ^{
+    NSLog(@"2"); // 任务2
+});
+NSLog(@"3"); // 任务3
+```
+
+结果，控制台输出：
+
+```
+ 1
+```
+ 
+分析：
+
+* dispatch_sync表示是一个同步线程；
+* dispatch_get_main_queue表示运行在主线程中的主队列；
+* 任务2是同步线程的任务。
+* 首先执行任务1，这是肯定没问题的，只是接下来，程序遇到了同步线程，**那么它会进入等待，等待任务2执行完，然后执行任务3。但这是队列，有任务来，当然会将任务加到队尾，然后遵循FIFO原则执行任务。那么，现在任务2就会被加到最后，任务3排在了任务2前面**，问题来了：
+![](http://oc98nass3.bkt.clouddn.com/15329357033662.jpg)
+
+案例二
+
+```objc
+NSLog(@"1"); // 任务1
+dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    NSLog(@"2"); // 任务2
+});
+NSLog(@"3"); // 任务3
+```
+
+结果，控制台输出：
+
+```
+1
+2 
+3
+```
+ 
+分析：
+
+首先执行任务1，接下来会遇到一个同步线程，程序会进入等待。等待任务2执行完成以后，才能继续执行任务3。从dispatch_get_global_queue可以看出，任务2被加入到了全局的并行队列中，当并行队列执行完任务2以后，返回到主队列，继续执行任务3。
+
+![](http://oc98nass3.bkt.clouddn.com/15329357827277.jpg)
+
+例子4
+
+```objc
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    
+    NSLog(@"=================1");
+    
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSLog(@"=================2");
+
+    });
+    NSLog(@"=================3");
+
+    
+});
+
+}
+```
+程序会完成执行，为什么不会出现死锁。
+
+
+首先： async 在主线程中  创建了一个异步线程 加入全局并发队列，**async 不会等待block 执行完成，立即返回，**
+
+1，async 立即返回， viewDidLoad 执行完毕，及主线程执行完毕。 
+2，同时，全局并发队列立即执行异步 block ， 打印 1， 当执行到 sync 它会等待 block 执行完成才返回， 及等待
+dispatch_get_main_queue() 队列中的 mianThread 执行完成， 然后才开始调用block 。
+
+因为1 和 2 几乎同时执行，因为2 在全局并发队列上， 2 中执行到sync 时 1 可能已经执行完成或 等了一会，mainThread 很快退出， 2 等已执行后续内容。
+
+如果阻塞了主线程，2 中的sync 就无法执行啦，mainThread 永远不会退出， sync 就永远等待着，
+
+
+
 ## 多任务分块
 
 ```objc
@@ -371,7 +458,9 @@ KCMainViewController.m
 
 ##  参考
 
-1. [iOS开发系列--并行开发其实很容易 - KenshinCui - 博客园](http://www.cnblogs.com/kenshincui/p/3983982.html)
-2. [dispatch_semaphore控制并发线程数 - 简书](https://www.jianshu.com/p/a5e75df26d9c)
-3. [浅谈GCD中的信号量 - 简书](https://www.jianshu.com/p/04ca5470f212)
-4. [iOS使用dispatch_group实现分组并发网络请求 - 简书](https://www.jianshu.com/p/657e994aeee2)
+* [iOS开发日记32-详解多线程(死锁) - Mr.林的博客 - 博客园](http://www.cnblogs.com/Twisted-Fate/p/4864278.html#undefined)
+* [GCD 之线程死锁 - hhhker - 博客园](https://www.cnblogs.com/tangbinblog/p/4133481.html)
+* [iOS开发系列--并行开发其实很容易 - KenshinCui - 博客园](http://www.cnblogs.com/kenshincui/p/3983982.html)
+* [dispatch_semaphore控制并发线程数 - 简书](https://www.jianshu.com/p/a5e75df26d9c)
+* [浅谈GCD中的信号量 - 简书](https://www.jianshu.com/p/04ca5470f212)
+* [iOS使用dispatch_group实现分组并发网络请求 - 简书](https://www.jianshu.com/p/657e994aeee2)

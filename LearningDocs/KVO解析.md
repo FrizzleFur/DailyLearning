@@ -1,7 +1,79 @@
 
 # KVO解析.md
 
+![](http://oc98nass3.bkt.clouddn.com/15335303051090.jpg)
+# 一、KVO是什么？
+
+*   KVO 是 Objective-C 对观察者设计模式的一种实现。【另外一种是：通知机制（notification）】；
+*   KVO提供一种机制，指定一个被观察对象(例如A类)，当对象某个属性(例如A中的字符串name)发生更改时，监听对象会获得通知，并作出相应处理；【且不需要给被观察的对象添加任何额外代码，就能使用KVO机制】
+    在MVC设计架构下的项目，KVO机制很适合实现mode模型和view视图之间的通讯。
+
+例如：代码中，在模型类A创建属性数据，在控制器中创建观察者，一旦属性数据发生改变就收到观察者收到通知，通过KVO再在控制器使用回调方法处理实现视图B的更新；
+
+## KVC与KVO的不同
+
+KVC(键值编码)，即Key-Value Coding，一个非正式的Protocol，使用字符串(键)访问一个对象实例变量的机制。而不是通过调用Setter、Getter方法等显式的存取方式去访问。
+KVO(键值监听)，即Key-Value Observing，它提供一种机制,当指定的对象的属性被修改后,对象就会接受到通知，前提是执行了setter方法、或者使用了KVC赋值。
+
+## 和notification(通知)的区别
+
+notification比KVO多了发送通知的一步。
+两者都是一对多，但是对象之间直接的交互，notification明显得多，需要notificationCenter来做为中间交互。而KVO如我们介绍的，设置观察者->处理属性变化，至于中间通知这一环，则隐秘多了，只留一句“交由系统通知”，具体的可参照以上实现过程的剖析。
+
+notification的优点是监听不局限于属性的变化，还可以对多种多样的状态变化进行监听，监听范围广，例如键盘、前后台等系统通知的使用也更显灵活方便。
+
+*   推荐文章：[通知机制](https://link.jianshu.com?t=http://www.cnblogs.com/azuo/p/5416825.html)
+
+## 与delegate的不同
+
+和delegate一样，KVO和NSNotification的作用都是类与类之间的通信。但是与delegate不同的是：
+这两个都是负责发送接收通知，剩下的事情由系统处理，所以不用返回值；而delegate 则需要通信的对象通过变量(代理)联系；
+delegate一般是一对一，而这两个可以一对多。
+
+
+# 二、kvo简单使用
+
+### 1:注册观察者，实施监听；
+
+*   被观察对象必须能支持kvc机制——所有NSObject的子类都支持这个机制
+*   必须用 被观察对象 的 addObserver:forKeyPath:options:context: 方法注册观察者
+*   观察者 必须实现 observeValueForKeyPath:ofObject:change:context: 方法
+
+```
+[self.model addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:nil];
+
+- observer 指观察者
+
+- keyPath 表示被观察者的属性
+
+- options 决定了提供给观察者change字典中的具体信息有哪些。 【见options解析】
+
+- context 这个参数可以是一个 C指针，也可以是一个 对象引用，它可以作为这个context的唯一标识，也可以提供一些数据给观察者。因为你传进去是啥，回调时候还是回传的还是啥
+
+```
+
+#### ：options解析
+
+```
+typedef NS_OPTIONS(NSUInteger, NSKeyValueObservingOptions) {
+    表示监听对象的新值（变化后的值），change字典中会包含有该key的键值对，通过该key，就可以取到属性变化后的值
+    NSKeyValueObservingOptionNew = 0x01,
+
+    表示监听对象的旧值（变化前的值），change字典中会包含有该key的键值对，通过该key，就可以取到属性变化前的值
+    NSKeyValueObservingOptionOld = 0x02,
+
+    在注册观察者的方法return的时候就会发出一次通知。比如：在viewDidLoad中注册的监听，那viewDidLoad方法运行完，通知就发出去了
+    NSKeyValueObservingOptionInitial NS_ENUM_AVAILABLE(10_5, 2_0) = 0x04,
+
+    会在值发生改变前发出一次通知，当然改变后的通知依旧还会发出，也就是每次change都会有两个通知
+    NSKeyValueObservingOptionPrior NS_ENUM_AVAILABLE(10_5, 2_0) = 0x08
+};
+```
+
+
 ## 键值监听KVO
+
+
 	• KVO提供一种机制，指定一个被观察对象(例如A类)，当对象某个属性(例如A中的字符串name)发生更改时，监听对象会获得通知，并作出相应处理；【且不需要给被观察的对象添加任何额外代码，就能使用KVO机制】在MVC设计架构下的项目，KVO机制很适合实现mode模型和view视图之间的通讯。
 
 我们知道在WPF、Silverlight中都有一种双向绑定机制，如果数据模型修改了之后会立即反映到UI视图上，类似的还有如今比较流行的基于 MVVM设计模式的前端框架，例如Knockout.js。其实在ObjC中原生就支持这种机制，它叫做Key Value Observing（简称KVO）。KVO其实是一种观察者模式，利用它可以很容易实现视图组件和数据模型的分离，当数据模型的属性值改变之后作为监听器 的视图组件就会被激发，激发时就会回调监听器自身。在ObjC中要实现KVO则必须实现NSKeyValueObServing协议，不过幸运的是 NSObject已经实现了该协议，因此几乎所有的ObjC对象都可以使用KVO。
@@ -11,9 +83,7 @@
 	• 回调监听： observeValueForKeyPath: ofObject: change: context:
  
 
-```
-
-
+```objc
 //  GoodsSortView.m
 static NSString * const WJSortKeyPathContentOffset = @"contentOffset"; //kvo
 
@@ -62,7 +132,7 @@ static CGFloat const scrollVelocity = 900;//拖动速度
 
 	1. 这两个判断很给力
 
-```
+```objc
         //过滤在控件不在顶部隐藏的时候
             if (self.top != scrollView.top - self.height) return;
 
@@ -77,7 +147,7 @@ static CGFloat const scrollVelocity = 900;//拖动速度
  
 由于我们还没有介绍过IOS的界面编程，这里我们还是在上面的例子基础上继续扩展，假设当我们的账户余额balance变动之后我们希望用户可以及 时获得通知。那么此时Account就作为我们的被监听对象，需要Person为它注册监听（使用addObserver: forKeyPath: options: context:）;而人员Person作为监听器需要重写它的observeValueForKeyPath: ofObject: change: context:方法，当监听的余额发生改变后会回调监听器Person监听方法（observeValueForKeyPath: ofObject: change: context:）。下面通过代码模拟上面的过程：
 
-```
+```objc
   Account.h 
 #import <Foundation/Foundation.h> 
 @interface Account : NSObject
@@ -94,7 +164,7 @@ Account.m
 @end
 ```
 
-```
+```objc
 Person.h
  
 #import <Foundation/Foundation.h>
@@ -149,9 +219,8 @@ Person.m
  
 #pragma mark 重写销毁方法
 -(void)dealloc{
-    [self.account removeObserver:self forKeyPath:@"balance"]; 移除监听
-   
-[super dealloc]; 注意启用了ARC，此处不需要调用
+    [self.account removeObserver:self forKeyPath:@"balance"]; 移除监听
+    [super dealloc]; 注意启用了ARC，此处不需要调用
 }
 @end
  
@@ -224,13 +293,6 @@ SomeClass *someObj = [[SomeClass alloc] init];
 表示的意思是：对象someObj设置他的delegate属性的值为当前类，当然调用此方法的对象必须要有delegate属性才能设置，不然调用了也没效果
 
 
-
-#  Docs记录 - KVO
-@(iOS_Docs)[iOS知识点整理]
-
-`2017-04-13` `iOS_Docs`
-
-
 ### KVO
 
 顾名思义，键值观察就是说当某个属性发生变化，其对应的值也发生变化。它一般用于单个 object 内部的情况。举个具体的例子，ViewController 一开始 UIImageView 没有图片的时候，我们用 activityIndicator 显示加载状态，当 Network 下载好图片并给 UIImageView 赋值之后，我们停止 activityIndicator 的加载状态。也就是说我们观察 image 这个属性，当它由 nil 变成非 nil 时，程序作出关闭 activityIndicator 动画的相应操作
@@ -279,23 +341,23 @@ override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObjec
 }
 ```
 
-总结
+### 总结
 
 iOS 10中苹果的本地推送和远程推送 API 达到了高度统一，都使用 UserNotifications 这个框架来实现，学习曲线大幅下降。功能也得到了大幅度扩展，多媒体文件添加、扩展包、分类别响应、3D Touch 都使得推送功能更加灵活。
 
 至于苹果自己设计的 KVO 和 NotificationCenter 机制，笔者认为有很大的局限性。因为对应的通知和相应代码段之间有一定距离，代码量很大的时候非常容易找不到对应的相应。同时这种观察者模式又难以测试，代码维护和质量很难得到保证。正是因为这些原因，响应式编程才日渐兴起，大家不妨去看看 RxSwift 和 ReactCocoa，其对应的 MVVM 架构也在系统解耦上要优于原生的 MVC。
 
-### 参考
-
-[iOS 开发中，怎样用好 Notifications？](http://www.jianshu.com/p/f20b00c1fc24)
 
 
 
 ### 参考
 
 1. [kvo 实践使用总结](http://www.jianshu.com/p/b878aa3194c6)
-2. [setValue和setObject的区别 - taylor的专栏 - 博客频道 - CSDN.NET](http://blog.csdn.net/itianyi/article/details/8661997)
-3.  [Key-Value Observing - NSHipster](http://nshipster.cn/key-value-observing/)
+2. [iOSInterviewQuestions/《招聘一个靠谱的iOS》面试题参考答案（下）.md at master · ChenYilong/iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8B%EF%BC%89.md#51-apple%E7%94%A8%E4%BB%80%E4%B9%88%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84kvo)
+3. [setValue和setObject的区别 - taylor的专栏 - 博客频道 - CSDN.NET](http://blog.csdn.net/itianyi/article/details/8661997)
+4. [Key-Value Observing - NSHipster](http://nshipster.cn/key-value-observing/)
+5. [iOS 开发中，怎样用好 Notifications？](http://www.jianshu.com/p/f20b00c1fc24)
+
 
 
 
