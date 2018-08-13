@@ -66,7 +66,6 @@ method_imp->调用函数 通过函数指针调用函数
 使用`method_exchangeImplemetations`(`originalMethod, swappedMethod`);实现运行时的`Selector`交换
 ![methodSwizzing](http://oc98nass3.bkt.clouddn.com/15112511121054.png)
 
-
 ## 类和元类
 
 ### class对象
@@ -207,14 +206,58 @@ if ([objct class] == [SomeClass class]) {
 成员变量的值时存储在实例对象中的，因为只有当创建实例对象的时候才为成员变赋值。但是成员变量叫什么名字，是什么类型，只需要有一份就可以了。所以存储在class对象中。
 
 
-#### `self`到底是什么
+## self关键字
 
 `self`的规则大家需要记住下面的规则：
 
 1. 实例方法里面的`self`，是对象的首地址。
 2. 类方法里面的`self`，是`Class`.
 
-尽管在同一个类里面的使用`self`，但是`self`却有着不同的解读。在类方法里面的`self`，可以翻译成`class self`；在实例方法里面的`self`，应该被翻译成为`object self`。在类方法里面的`self`和实例方法里面的`self`有着本质上的不同，尽管他们的名字都叫`self`。
+* 尽管在同一个类里面的使用`self`，但是`self`却有着不同的解读。在类方法里面的`self`，可以翻译成`class self`；在实例方法里面的`self`，应该被翻译成为`object self`。在类方法里面的`self`和实例方法里面的`self`有着本质上的不同，尽管他们的名字都叫`self`。
+
+* 平常在构造方法里做一些初始化工作时都会写上这样的代码， self = [super init] 这里先调用父类的构造方法也符合上述的构造顺序问题，但疑惑的是，为什么 [super init] 要赋值给 self ？为什么需要使用 if 作校验？
+
+看如下一段代码
+
+```objc
+- (id)initWithString:(NSString *)aString
+{
+    self = [super init];
+    if (self)
+    {
+        instanceString = [aString retain];
+    }
+    return self;
+}
+```
+
+你所声明的每个方法都有两个隐藏参数：self和_cmd。
+
+```objc
+- (id)initWithString:(NSString *)aString;
+```
+将由编译器转换为以下函数调用：
+
+```objc
+id initWithString(id self, SEL _cmd, NSString *aString);
+```
+* 实际情况是，这self只是每个方法的隐藏参数。与任何其他参数一样，它从函数调用接收其值。
+* 方法需要知道要处理的数据。该self参数告诉类要处理的数据
+* 实际情况是编译器使用该self参数来解析对方法内的实例变量的任何引用。
+
+```objc
+[[MyClass alloc] initWithString:@"someString"]
+//转换成一个objc_msgSend调用
+MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @"someString");
+```
+所以当我们到达方法的内部时，self已经有了一个值; 它的值是myObject1（即从[MyClass alloc]调用返回的已分配对象。这是必不可少的，因为没有它，super调用将不可能 - self编译器使用该值来发送调用：
+
+## super关键字
+
+回到 [super init] 这句代码，要注意，它不是被编译器转换成 objc_msgSend(super, @selector(init)) ，而是会被转换成 objc_msgSendSuper(self, @selector(init)) 。
+
+这里的 super 是一个编译器指令，和 self 指向同一个消息接受者，即当前调用方法的实例。他们两个的不同点在于：**super 会告诉编译器，执行 [super xxx] 时转换成 objc_msgSendSuper ，即要去父类的方法列表找，而不是本类**。
+
 
 #### 类方法和实例方法认知的误区
 
@@ -300,7 +343,6 @@ struct objc_class : objc_object {
 这是有效的，因为当您向Objective-C对象（如此处的NSCFString）发送消息时，运行时遵循对象的isa指针来获取对象的Class（在本例中为NSCFString类）。然后，类包含一个适用于该类的所有对象的方法列表和一个指向超类的指针，以查找继承的方法。运行时查看类和超类上的方法列表，找到与消息选择器匹配的方法（在上面的例子中，NSString的writeToFile:atomically:encoding:error ）。然后运行时调用该方法的函数（IMP）。
 
 重要的是，Class定义了什么样的消息可以发送给对象。
-
 
 ## 元类
 
@@ -562,7 +604,8 @@ typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
 
 ![](http://oc98nass3.bkt.clouddn.com/15335755081498.jpg)
 
-从以上图中可以看出，
+从以上图中可以看出
+
 - Father类实例化3次，initialize执行一次，init执行3次
 - Son继承自Father,当Son实例化一次的时候，其它父类中的initialize执行一次,init方法执行一次
 
@@ -571,6 +614,22 @@ typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
 initialize在这个类第一次被调用的时候比如[[class alloc] init]会调用一次initialize方法,不管创建多少次这个类,都只会调用一次这个方法,我们用它来初始化静态变量,而init方法是只要这个类被调用,就会调用这个init方法,这个类被调用几次,这个init方法就会被调用几次,当有一个类继承这个类,是这个类的子类的时候,当子类被调用的时候比如子类被[[class alloc] init]的时候,父类的initialize和init方法都会被调用一次,
 
 在程序运行过程中，它会在你程序中每个类调用一次initialize。这个调用的时间发生在你的类接收到消息之前，但是在它的父类接收到initialize之后。
+
+### 设计一个类的interface
+
+类与接口的设计原则 - 电视和遥控器
+我喜欢将Class和interface的关系比喻成电视+遥控器，那么objc中的消息机制就可以理解成：
+
+用户（caller）通过遥控器（interface）上的按钮（methods）发送红外线（message）来操纵电视（object）
+
+所以，有没有遥控器，电视都在那儿，也就是说，有没有interface，class都是存在的，只是这种存在并没有意义，就好像这个电视没人会打开，没人会用，没人能看，一堆废铁摆在那儿。
+
+所以，在设计一个类的interface的时候，如同在设计遥控器应该有怎样功能的按钮，要从调用者的角度出发，区分边界，应该时刻有以下几点考虑：
+
+这个方法或属性真的属于这个类的职责么？（电视遥控器能遥控空调？）
+这个方法或属性真的必须放在.h中（而不是放在.m的类扩展中）么？
+调用者必须看文档才能知道这个类该如何使用么？（同一个业务需要调用者按顺序调用多次（而不是将这些细节隐藏，同时提供一个简洁的接口）才行）
+调用者是否可以很容易发现类内部的变量和实现方式？（脑补下电视里面一块电路板漏在外面半截- -）
 
 ## 总结
 
@@ -594,11 +653,14 @@ initialize在这个类第一次被调用的时候比如[[class alloc] init]会�
 1. [Objective-C特性：Runtime](http://www.jianshu.com/p/25a319aee33d)
 2. [Effective Objective C 2.0](https://book.douban.com/subject/25829244/)
 3. [Objective-C Runtime](http://tech.glowing.com/cn/objective-c-runtime/)
-4. [Objective-C 中的元类（meta class）是什么？](http://ios.jobbole.com/81657/)
-5. [What is a meta-class in Objective-C?](http://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html)
-6. [iOS底层原理总结 - 探寻OC对象的本质 - 简书](https://www.jianshu.com/p/aa7ccadeca88#iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%80%BB%E7%BB%93%20-%20%E6%8E%A2%E5%AF%BBOC%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9C%AC%E8%B4%A8)
-7. [Classes and metaclasses](http://www.sealiesoftware.com/blog/archive/2009/04/14/objc_explain_Classes_and_metaclasses.html) 这篇文章主要为我们阐述在OC面向对象思想中，对象，类和元类的关系，类作为对象的角度去看OC是如何管理对象、类、元类之间的关系的。
-8. [Objective-C中的实例方法、类方法、Category、Protocol | 程序员说](http://www.devtalking.com/articles/method-category-protocol/)
-9. [iOS分类(category),类扩展(extension)—史上最全攻略 - 简书](https://www.jianshu.com/p/9e827a1708c6)
-10. [iOS底层原理总结 - Category的本质 - 简书](https://www.jianshu.com/p/fa66c8be42a2)
-11. [Category的本质<一> - 简书](https://www.jianshu.com/p/da463f413de7)
+4. [由 NSObject *obj 引发的一二事儿 - 掘金](https://juejin.im/post/5b63b857e51d455f5f4d1d74)
+5. [Objective-C 中的元类（meta class）是什么？](http://ios.jobbole.com/81657/)
+6. [What is a meta-class in Objective-C?](http://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html)
+7. [iOS底层原理总结 - 探寻OC对象的本质 - 简书](https://www.jianshu.com/p/aa7ccadeca88#iOS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%80%BB%E7%BB%93%20-%20%E6%8E%A2%E5%AF%BBOC%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9C%AC%E8%B4%A8)
+8. [将`super init`分配给self时意味着什么？](http://www.cocoawithlove.com/2009/04/what-does-it-mean-when-you-assign-super.html)
+9. [Classes and metaclasses](http://www.sealiesoftware.com/blog/archive/2009/04/14/objc_explain_Classes_and_metaclasses.html) 这篇文章主要为我们阐述在OC面向对象思想中，对象，类和元类的关系，类作为对象的角度去看OC是如何管理对象、类、元类之间的关系的。
+10. [Objective-C中的实例方法、类方法、Category、Protocol | 程序员说](http://www.devtalking.com/articles/method-category-protocol/)
+11. [iOS分类(category),类扩展(extension)—史上最全攻略 - 简书](https://www.jianshu.com/p/9e827a1708c6)
+12. [iOS底层原理总结 - Category的本质 - 简书](https://www.jianshu.com/p/fa66c8be42a2)
+13. [Category的本质<一> - 简书](https://www.jianshu.com/p/da463f413de7)
+14. [objc@interface的设计哲学与设计技巧 · sunnyxx的技术博客](https://blog.sunnyxx.com/2014/04/13/objc_dig_interface/)
