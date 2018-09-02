@@ -47,7 +47,6 @@ HTTP 的请求报文分为三个部分 请求行、请求头和请求体，格�
 　　Range:bytes=554554- 
 ```
 
-
 ### HTTP请求行
 
 请求行（Request Line）分为三个部分：请求方法、请求地址和协议及版本，以CRLF(rn)结束。
@@ -55,54 +54,16 @@ HTTP/1.1 定义的请求方法有8种：GET、POST、PUT、DELETE、PATCH、HEAD
 
 ### HTTP请求头
 
-| Header | 解释 | 示例 |
-| --- | --- | --- |
-| Accept | 指定客户端能够接收的内容类型 | Accept: text/plain, text/html,application/json |
-| Accept-Charset | 浏览器可以接受的字符编码集。 | Accept-Charset: iso-8859-5 |
-| Accept-Encoding | 指定浏览器可以支持的web服务器返回内容压缩编码类型。 | Accept-Encoding: compress, gzip |
-| Accept-Language | 浏览器可接受的语言 | Accept-Language: en,zh |
-| Accept-Ranges | 可以请求网页实体的一个或者多个子范围字段 | Accept-Ranges: bytes |
-| Authorization | HTTP授权的授权证书 | Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ== |
-| Cache-Control | 指定请求和响应遵循的缓存机制 | Cache-Control: no-cache |
-| Connection | 表示是否需要持久连接。（HTTP 1.1默认进行持久连接） | Connection: close |
-| Cookie | HTTP请求发送时，会把保存在该请求域名下的所有cookie值一起发送给web服务器。 | Cookie: $Version=1; Skin=new; |
-| Content-Length | 请求的内容长度 | Content-Length: 348 |
-| Content-Type | 请求的与实体对应的MIME信息 | Content-Type: application/x-www-form-urlencoded |
-| Date | 请求发送的日期和时间 | Date: Tue, 15 Nov 2010 08:12:31 GMT |
-| Expect | 请求的特定的服务器行为 | Expect: 100-continue |
-| From | 发出请求的用户的Email | From: user@email.com |
-| Host | 指定请求的服务器的域名和端口号 | Host: www.zcmhi.com |
-| If-Match | 只有请求内容与实体相匹配才有效 | If-Match: “737060cd8c284d8af7ad3082f209582d” |
-| If-Modified-Since | 如果请求的部分在指定时间之后被修改则请求成功，未被修改则返回304代码 | If-Modified-Since: Sat, 29 Oct 2010 19:43:31 GMT |
-| If-None-Match | 如果内容未改变返回304代码，参数为服务器先前发送的Etag，与服务器回应的Etag比较判断是否改变 | If-None-Match: “737060cd8c284d8af7ad3082f209582d” |
-| If-Range | 如果实体未改变，服务器发送客户端丢失的部分，否则发送整个实体。参数也为Etag | If-Range: “737060cd8c284d8af7ad3082f209582d” |
-| If-Unmodified-Since | 只在实体在指定时间之后未被修改才请求成功 | If-Unmodified-Since: Sat, 29 Oct 2010 19:43:31 GMT |
-| Max-Forwards | 限制信息通过代理和网关传送的时间 | Max-Forwards: 10 |
-| Pragma | 用来包含实现特定的指令 | Pragma: no-cache |
-| Proxy-Authorization | 连接到代理的授权证书 | Proxy-Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ== |
-| Range | 只请求实体的一部分，指定范围 | Range: bytes=500-999 |
-| Referer | 先前网页的地址，当前请求网页紧随其后,即来路 | Referer: [http://www.zcmhi.com/archives...](http://www.zcmhi.com/archives/71.html) |
-| TE | 客户端愿意接受的传输编码，并通知服务器接受接受尾加头信息 | TE: trailers,deflate;q=0.5 |
-| Upgrade | 向服务器指定某种传输协议以便服务器进行转换（如果支持） | Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11 |
-| User-Agent | User-Agent的内容包含发出请求的用户信息 | User-Agent: Mozilla/5.0 (Linux; X11) |
-| Via | 通知中间网关或代理服务器地址，通信协议 | Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1) |
-| Warning | 关于消息实体的警告信息 | Warn: 199 Miscellaneous warning |
+包含了对客户端的环境描述、客户端请求信息等
 
 ### HTTP请求体
 
-注意，仅有POST、PUT以及PATCH这三个动词时会包含请求体，而GET、HEAD、DELETE、CONNECT、TRACE、OPTIONS这几个动词时不包含请求体。
-
-
-
-### Cookie 相关 Header
-
-Set-Cookie：响应的 HTTP header 中如果有这个字段，那么浏览器会把这个字段的 value 设定到本地的 Cookie 里，配合服务端的 Session 可以实现登录状态临时记录的功能。
-Cookie：会出现在请求的 HTTP header 中。Set-Cookie 设置的 Cookie 会有一个作用域名，一般为 www.baidu.com 或者 .baidu.com，在浏览器本地记录的众多 Cookie 中，只要有满足这个作用域名要求的，下一次 HTTP 请求发出的时候会把这些条 Cookie 全部带上。
+* 客户端发给服务器的具体数据（请求参数），比如文件数据(POST请求才会有)
+* 注意，仅有POST、PUT以及PATCH这三个动词时会包含请求体，而GET、HEAD、DELETE、CONNECT、TRACE、OPTIONS这几个动词时不包含请求体。
 
 ## HTTP响应 Response
 
 ![](http://oc98nass3.bkt.clouddn.com/15358006676079.jpg)
-
 
 ```
 HTTP/1.1 200 OK
@@ -139,6 +100,14 @@ Content-Length: 122
 (3)空行：响应头和响应体由空行连接。
 
 (4)响应体：该响应消息的响应体是一个html文档。浏览器可以直接识别这个html文件。而我们访问的是一个jsp文件，响应回去的是一个html文件。说明服务器将该jsp翻译成了一个html，然后再响应给浏览器。
+
+###  HTTP响应头
+
+包含了对服务器的描述、对返回数据的描述
+
+###  HTTP响应体
+
+服务器返回给客户端的具体数据，比如文件数据
 
 ### HTTP之状态码
 
@@ -682,6 +651,24 @@ http协议是应用层的协义
 
 两个计算机之间的交流无非是两个端口之间的数据通信,具体的数据会以什么样的形式展现是以不同的应用层协议来定义的如HTTP、FTP...
 
+## 网络加密
+
+
+### Base64
+
+
+Base64，就是使用64个可打印字符来表示二进制数据的方法。 
+
+Base64编码原理
+
+
+1. 将所有字符转化为ASCII码;
+2. 将ASCII码转化为8位二进制;
+3. 将二进制3个归成一组(不足3个在后边补8. 共24位，再拆分成4组。每组6位;
+4. 统一在6位二进制前补两个@凑足8位;
+5. 将补8后的二进制转为十进制;
+6. 从Base64编码表获取十进制对应的Base64编码;
+
 ## HTTPS
 
 HTTPS 全称为 HTTP Over TLS。（SSL/TLS 是一系列承前启后的加密协议族，此处统称为 TLS。）
@@ -740,6 +727,81 @@ AFNetworking 对数据进行https ssl加密
 
 [ios 配置https - 漫步CODE人生 - 博客园](https://www.cnblogs.com/scode2/p/8664478.html)
 
+
+## Http请求过程
+
+通过TCP三次握手建立链接 ——> 在此链接基础上进行Http的请求和响应 ——> 通过TCP四次挥手进行链接的释放
+
+![](http://oc98nass3.bkt.clouddn.com/15343911190241.jpg)
+
+![](http://oc98nass3.bkt.clouddn.com/15343910887788.jpg)
+
+## Https
+
+![](http://oc98nass3.bkt.clouddn.com/15343913264534.jpg)
+
+* 连接建立过程中使用非对称加密，很耗时
+
+* 后续通信过程中使用对称加密
+
+> [摘要]为了强制增强数据访问安全， iOS9 默认会把 所有的http请求 所有从NSURLConnection 、 CFURL 、 NSURLSession发出的 HTTP 请求，都改为 HTTPS 请求：iOS9.x-SDK编译时，默认会让所有从NSURLConnection 、 CFURL 、 NSURLSession发出的 HTTP 请求统一采用TLS 1.2 协议。因为 AFNetworking 现在的版本底层使用了 NSURLConnection ，众多App将被影响（基于iOS8.x-SDK的App不受影响）。服务器因此需要更新，以解析相关数据。如不更新，可通过在 Info.plist 中声明，倒退回不安全的网络请求。而这一做法，官方文档称为ATS，全称为App Transport Security，是iOS9的一个新特性。
+
+一个符合 ATS 要求的 HTTPS，应该满足如下条件：
+* Transport Layer Security协议版本要求TLS1.2以上
+* 服务的Ciphers配置要求支持Forward Secrecy等
+* 证书签名算法符合ATS要求等
+
+```
+HTTPS =  HTTP+SSL/TLS+TCP 
+```
+![](http://oc98nass3.bkt.clouddn.com/15335338411873.jpg)
+
+Apple让你的HTTP采用SSL/TLS协议，就是让你从HTTP转到HTTPS。而这一做法，官方文档称为ATS，全称为App Transport Security。
+
+
+#### Mix & Match（混合）
+
+如果你的服务器不符合ATS要求。
+
+比如当你遇到以下三个不符合 ATS 要求的服务器的域名时：
+
+1.  api.insecuredomain.com
+2.  cdn.domain.com
+3.  thatotherdomain.com
+
+你可以分别设置如下：
+
+1.  api.insecuredomain.com
+
+Info.plist 配置中的XML源码如下所示:
+
+```text-xml
+   <key>NSAppTransportSecurity</key>
+   <dict>
+       <key>NSExceptionDomains</key>
+       <dict>
+           <key>api.insecuredomain.com</key>
+           <dict>
+
+               <!--允许App进行不安全的HTTP请求-->
+               <key>NSExceptionAllowsInsecureHTTPLoads</key>
+               <true/>
+
+               <!--适用于这个特定域名下的所有子域-->
+               <key>NSIncludesSubdomains</key>
+               <true/>
+           </dict>
+       </dict>
+   </dict>
+```
+
+在 plist 文件里显示如下：
+
+[![enter image description here](https://camo.githubusercontent.com/a45cc829d85c2a08788bd2a676148aef6c5f439a/687474703a2f2f6935392e74696e797069632e636f6d2f6678746b306a2e6a7067)](https://camo.githubusercontent.com/a45cc829d85c2a08788bd2a676148aef6c5f439a/687474703a2f2f6935392e74696e797069632e636f6d2f6678746b306a2e6a7067)
+
+我们定义的第一个“例外”（Exception）告诉ATS当与这个子域交互的时候撤销了必须使用HTTPS的要求。注意这个仅仅针对在“例外”（Exception）中声明了的子域。非常重要的一点是要理解NSExceptionAllowsInsecureHTTPLoads关键字并不仅仅只是与使用HTTPS相关。这个“例外”（Exception）指明了对于那个域名，所有的App Transport Security的要求都被撤销了。
+
+
 ## TODO
 
 进一步阅读
@@ -756,3 +818,7 @@ AFNetworking 对数据进行https ssl加密
 4. [简单粗暴系列之HTTPS原理](http://www.jianshu.com/p/650ad90bf563)
 5. [iOS 配置https - 简书](https://www.jianshu.com/p/8c128d9c9681)
 6. [ios 配置https - 漫步CODE人生 - 博客园](https://www.cnblogs.com/scode2/p/8664478.html)
+7. [ChenYilong/iOS9AdaptationTips: iOS9适配系列教程（iOS9开发学习交流群：515295083）](https://github.com/ChenYilong/iOS9AdaptationTips#1-demo1_ios9%E7%BD%91%E7%BB%9C%E9%80%82%E9%85%8D_ats%E6%94%B9%E7%94%A8%E6%9B%B4%E5%AE%89%E5%85%A8%E7%9A%84https)
+8. [iOS HTTPS适配 - 简书](https://www.jianshu.com/p/25efb6d8ec8c#%E4%B8%80%E3%80%81%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C)
+9. [iOS 9 HTTPS适配 - 简书](https://www.jianshu.com/p/b03ae4a1a2d3)
+10. [一次完整的HTTP请求过程 - CSDN博客](https://blog.csdn.net/yezitoo/article/details/78193794)
