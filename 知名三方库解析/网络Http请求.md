@@ -157,7 +157,8 @@ Content-Length: 122
 ![](http://oc98nass3.bkt.clouddn.com/2017-06-08-14969148476130.jpg)
 
 ## GET请求
- 
+
+
  举例：
  
 ```
@@ -175,7 +176,12 @@ GET请求有3各部分：
 3. 最后，HTTP / 1.1是请求的协议。多年来，HTTP的工作方式发生了一些变化。客户必须告诉服务器他们说的是哪一种方言。HTTP / 1.1是当今最常见的版本。
 ![](http://oc98nass3.bkt.clouddn.com/15236304256994.jpg)
 
+由于浏览器和服务器对URL长度有限制，因此在URL后面附带的参数是有限制的，
+通常不能超过1KB
+
 ## POST请求
+
+POST的本质是向服务器发送数据,也可以获得服务器处理之后的结果,效率不如GET.POST请求不可以被缓存,每次刷新之后都需要重新提交表单.
 
 ```
 POST / HTTP1.1
@@ -733,6 +739,14 @@ HTTPS工作在客户端和服务器端之间。以上故事中，客户端可以
 AFNetworking 对数据进行https ssl加密
 
 [ios 配置https - 漫步CODE人生 - 博客园](https://www.cnblogs.com/scode2/p/8664478.html)
+
+## TODO
+
+进一步阅读
+
+* [Apple官方文档翻译: NSURLSession Programming Guide-codexiu.cn](http://www.codexiu.cn/ios/blog/16902/)
+* [urlsession](https://developer.apple.com/documentation/foundation/urlsession)
+* [URL Loading System | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/url_loading_system)
 
 ## 参考
 
