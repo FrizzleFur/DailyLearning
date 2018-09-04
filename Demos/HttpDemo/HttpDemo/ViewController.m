@@ -8,13 +8,29 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <NSURLSessionDelegate, NSURLSessionDataDelegate>
+
+@property (nonatomic, strong) NSMutableData *fileData;/**< 接受响应体的信息 */
 @property (nonatomic, strong) UIWebView *webView;
 
 @end
 
 @implementation ViewController
 @synthesize webView;
+
+#pragma mark -
+#pragma mark - init
+
+- (NSMutableData *)fileData {
+    if (_fileData == nil) {
+        _fileData = [NSMutableData data];
+    }
+    return _fileData;
+}
+
+
+#pragma mark -
+#pragma mark - View life cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,7 +50,7 @@
 #pragma mark - Method Calling
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self makePostRequest];
+    [self makeHTTPSGetRequest];
 }
 
 #pragma mark -
@@ -48,7 +64,6 @@
     NSURL *url = [NSURL URLWithString:requestStr];
     
     //2. 创建一个请求对象
-    
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
     //3. 创建一个session
@@ -65,12 +80,9 @@
         //6. 数据解析
         //data是请求体，response是请求头
         NSString *htmlStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"htmlStr = %@", htmlStr);
-        NSError *strError;
-        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithData:[htmlStr dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error: &strError];
-        NSLog(@"attrStr = %@", attrStr);
-        NSLog(@"strError = %@", strError);
-        
+//        NSLog(@"htmlStr = %@", htmlStr);
+        NSLog(@"error = %@", error);
+
         // 使用NSOperation回到主线程
         NSBlockOperation *op = [NSBlockOperation blockOperationWithBlock:^{
             __weak typeof(self) weakSelf = self;
@@ -145,6 +157,47 @@
     [task resume];
 }
 
+#pragma mark -
+#pragma mark - HTTPS请求
+
+/** Get的HTTPS请求 */
+- (void)makeHTTPSGetRequest{
+    
+    //1. 创建一个url
+    NSString *requestStr = @"https://kyfw.12306.cn/otn'";//发送HTTPS请求在未配置HTTPS时候，请求会报错
+    NSURL *url = [NSURL URLWithString:requestStr];
+    
+    //2. 创建一个请求对象
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    //3. 创建一个session
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]	 delegate:self delegateQueue:[NSOperationQueue mainQueue]];//制定代理的队列为主队列
+    
+    //4. 创建一个任务
+    NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        //6. 数据解析
+        //data是请求体，response是请求头
+        NSString *htmlStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"htmlStr = %@", htmlStr);
+        NSLog(@"error = %@", error);        
+        NSError *strError;
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithData:[htmlStr dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error: &strError];
+        NSLog(@"attrStr = %@", attrStr);
+        NSLog(@"strError = %@", strError);
+        
+        // 使用NSOperation回到主线程
+        NSBlockOperation *op = [NSBlockOperation blockOperationWithBlock:^{
+            __weak typeof(self) weakSelf = self;
+            [weakSelf.webView loadHTMLString:htmlStr baseURL:nil];
+        }];
+        //将任务加入到主队列中
+        [[NSOperationQueue mainQueue] addOperation:op];
+    }];
+    
+    //5. 开启任务, 默认创建后的NSURLSessionTask是关闭的
+    [task resume];
+}
+
 
 #pragma mark -
 #pragma mark - 文件下载
@@ -195,6 +248,61 @@
     NSLog(@"url4 = %@", url4.absoluteString);
     NSLog(@"url5 = %@", url5.absoluteString);
     NSLog(@"url6 = %@", url6.absoluteString);
+}
+
+
+#pragma mark -
+#pragma mark - NSURLSessionTaskDelegate
+
+/** 1. 接受到服务器的响应，默认会取消这个请求 */
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler{
+    
+    NSLog(@"%s", __func__);
+    completionHandler(NSURLSessionResponseAllow);/** 接受服务器的请求 */
+    
+}
+
+/**
+ * 接收到服务器返回的数据，多次调用
+ */
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
+    NSLog(@"%s", __func__);
+    //拼接数据
+    [self.fileData appendData:data];
+}
+
+/**
+ * 请求结束或者失败的时候调用
+ */
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
+    NSLog(@"%s", __func__);
+    //解析数据
+    NSString *dataStr = [[NSString alloc] initWithData:self.fileData encoding:NSUTF8StringEncoding];
+    NSLog(@"dataStr = %@", dataStr);
+}
+
+/** 接收到来自服务器的需要客户端身份验证的服务器的挑战 */
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didReceiveChallenge:(nonnull NSURLAuthenticationChallenge *)challenge completionHandler:(nonnull void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler{
+    
+//    NSLog(@"challenge.protectionSpace = %@", challenge.protectionSpace);
+    
+    // 1.判断服务器返回的证书类型, 是否是服务器信任
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        NSLog(@"调用了里面这一层是服务器信任的证书");
+        /*
+         NSURLSessionAuthChallengeUseCredential = 0,                     使用证书
+         NSURLSessionAuthChallengePerformDefaultHandling = 1,            忽略证书(默认的处理方式)
+         NSURLSessionAuthChallengeCancelAuthenticationChallenge = 2,     忽略书证, 并取消这次请求
+         NSURLSessionAuthChallengeRejectProtectionSpace = 3,            拒绝当前这一次, 下一次再询问
+         */
+        //        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+        
+        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
+        completionHandler(NSURLSessionAuthChallengeUseCredential , card);
+    }
+
 }
 
 @end

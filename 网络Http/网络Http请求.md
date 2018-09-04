@@ -1,5 +1,23 @@
 # HTTP请求
+            
+```objc
+typedef void (^completion_t)(id result);
 
+//获得参数
+[self writeImages:saveImages completion:^(id result) {
+    DBLog(@"Result: %@", result);
+}];
+    
+- (void)writeImages:(NSMutableArray*)images
+     completion:(void ^(id result))completionHandler {
+if ([images count] == 0) {
+    if (completionHandler) {
+        completionHandler(@"所有图片都成功保存");
+    }
+    return;
+}
+
+```
 * IP协议对应于网络层，TCP协议对应于传输层，而HTTP协议对应于应用层。
 * socket则是对TCP/IP协议的封装和应用。
 * TCP/IP协议是传输层协议，主要解决数据如何在网络中传输。
@@ -212,6 +230,14 @@ GET提交的数据大小有限制（因为浏览器对URL的长度有限制）�
 GET方式需要使用`Request.QueryString`来取得变量的值，而POST方式通过`Request.Form`来获取变量的值。
 
 GET方式提交数据，会带来安全问题，比如一个登录页面，通过GET方式提交数据时，用户名和密码将出现在URL上，如果页面可以被缓存或者其他人可以访问这台机器，就可以从历史记录获得该用户的账号和密码.
+
+## HTTP请求过程
+
+通过TCP三次握手建立链接 ——> 在此链接基础上进行Http的请求和响应 ——> 通过TCP四次挥手进行链接的释放
+
+![](http://oc98nass3.bkt.clouddn.com/15343911190241.jpg)
+
+![](http://oc98nass3.bkt.clouddn.com/15343910887788.jpg)
 
 ## TCP协议详解
 
@@ -569,8 +595,6 @@ Localhost是指“此计算机本身”的特殊地址 - 用于客户端（如�
 公钥加密，私钥解密。
 私钥数字签名，公钥验证。
  
-
-
 ## Socket
 
 我们知道两个进程如果需要进行通讯最基本的一个前提能能够唯一的标示一个进程，在本地进程通讯中我们可以使用PID来唯一标示一个进程，但PID只在本地唯一，网络中的两个进程PID冲突几率很大，这时候我们需要另辟它径了，我们知道IP层的ip地址可以唯一标示主机，而TCP层协议和端口号可以唯一标示主机的一个进程，这样我们可以利用ip地址＋协议＋端口号唯一标示网络中的一个进程。
@@ -606,14 +630,15 @@ HTTP连接最显著的特点是客户端发送的每次请求都需要服务器�
 
 由于HTTP在每次请求结束后都会主动释放连接，因此HTTP连接是一种“短连接”，要保持客户端程序的在线状态，需要不断地向服务器发起连接请求。通常的做法是即时不需要获得任何数据，客户端也保持每隔一段固定的时间向服务器发送一次“保持连接”的请求，服务器在收到该请求后对客户端进行回复，表明知道客户端“在线”。若服务器长时间无法收到客户端的请求，则认为客户端“下线”，若客户端长时间无法收到服务器的回复，则认为网络已经断开。
 
-三.SOCKET原理
+### 三  SOCKET原理
+
 套接字（socket）概念
 
 套接字（socket）是通信的基石，是支持TCP/IP协议的网络通信的基本操作单元。它是网络通信过程中端点的抽象表示，包含进行网络通信必须的五种信息：连接使用的协议，本地主机的IP地址，本地进程的协议端口，远地主机的IP地址，远地进程的协议端口。
 
 应用层通过传输层进行数据通信时，TCP会遇到同时为多个应用程序进程提供并发服务的问题。多个TCP连接或多个应用程序进程可能需要通过同一个 TCP协议端口传输数据。为了区别不同的应用程序进程和连接，许多计算机操作系统为应用程序与TCP／IP协议交互提供了套接字(Socket)接口。应用层可以和传输层通过Socket接口，区分来自不同应用程序进程或网络连接的通信，实现数据传输的并发服务。
 
-建立socket连接
+#### 建立socket连接
 
 建立Socket连接至少需要一对套接字，其中一个运行于客户端，称为ClientSocket ，另一个运行于服务器端，称为ServerSocket 。
 
@@ -625,7 +650,8 @@ HTTP连接最显著的特点是客户端发送的每次请求都需要服务器�
 
 连接确认：当服务器端套接字监听到或者说接收到客户端套接字的连接请求时，就响应客户端套接字的请求，建立一个新的线程，把服务器端套接字的描述发给客户端，一旦客户端确认了此描述，双方就正式建立连接。而服务器端套接字继续处于监听状态，继续接收其他客户端套接字的连接请求。
 
-四.SOCKET连接与TCP/IP连接
+### 四.SOCKET连接与TCP/IP连接
+
 创建Socket连接时，可以指定使用的传输层协议，Socket可以支持不同的传输层协议（TCP或UDP），当使用TCP协议进行连接时，该Socket连接就是一个TCP连接。
 
 socket则是对TCP/IP协议的封装和应用（程序员层面上）。也可以说，TPC/IP协议是传输层协议，主要解决数据 如何在网络中传输，而HTTP是应用层协议，主要解决如何包装数据。关于TCP/IP和HTTP协议的关系，网络有一段比较容易理解的介绍：
@@ -638,7 +664,8 @@ socket则是对TCP/IP协议的封装和应用（程序员层面上）。也可�
 
 实际上，传输层的TCP是基于网络层的IP协议的，而应用层的HTTP协议又是基于传输层的TCP协议的，而Socket本身不算是协议，就像上面所说，它只是提供了一个针对TCP或者UDP编程的接口。socket是对端口通信开发的工具,它要更底层一些.
 
-五.Socket连接与HTTP连接
+### 五.Socket连接与HTTP连接
+
 由于通常情况下Socket连接就是TCP连接，因此Socket连接一旦建立，通信双方即可开始相互发送数据内容，直到双方连接断开。但在实际网络应用中，客户端到服务器之间的通信往往需要穿越多个中间节点，例如 路由器 、网关、防火墙等，大部分防火墙默认会关闭长时间处于非活跃状态的连接而导致 Socket 连接断连，因此需要通过轮询告诉网络，该连接处于活跃状态。
 
 而HTTP连接使用的是“请求—响应”的方式，不仅在请求时需要先建立连接，而且需要客户端向服务器发出请求后，服务器端才能回复数据。
@@ -651,27 +678,77 @@ http协议是应用层的协义
 
 两个计算机之间的交流无非是两个端口之间的数据通信,具体的数据会以什么样的形式展现是以不同的应用层协议来定义的如HTTP、FTP...
 
-## 网络加密
-
-
-### Base64
-
-
-Base64，就是使用64个可打印字符来表示二进制数据的方法。 
-
-Base64编码原理
-
-
-1. 将所有字符转化为ASCII码;
-2. 将ASCII码转化为8位二进制;
-3. 将二进制3个归成一组(不足3个在后边补8. 共24位，再拆分成4组。每组6位;
-4. 统一在6位二进制前补两个@凑足8位;
-5. 将补8后的二进制转为十进制;
-6. 从Base64编码表获取十进制对应的Base64编码;
-
 ## HTTPS
 
-HTTPS 全称为 HTTP Over TLS。（SSL/TLS 是一系列承前启后的加密协议族，此处统称为 TLS。）
+HTTPS加密过程
+![](http://oc98nass3.bkt.clouddn.com/15359240544677.jpg)
+![](http://oc98nass3.bkt.clouddn.com/15359242716342.jpg)
+
+### 1.https简单说明
+
+    HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，简单讲是HTTP的安全版。
+    即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。 它是一个URI scheme（抽象标识符体系），句法类同http:体系。用于安全的HTTP数据传输。
+    https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间）。
+    HTTPS 全称为 HTTP Over TLS。（SSL/TLS 是一系列承前启后的加密协议族，此处统称为 TLS。）
+
+#### 2.HTTPS和HTTP的区别主要为以下四点：
+
+* https协议需要到ca申请证书，一般免费证书很少，需要交费。
+* http是超文本传输协议，信息是明文传输，https 则是具有安全性的ssl加密传输协议。
+* http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。
+* http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。
+
+#### 3.简单说明
+
+1. HTTPS的主要思想是在不安全的网络上创建一安全信道，并可在使用适当的加密包和服务器证书可被验证且可被信任时，对窃听和中间人攻击提供合理的保护。
+2. HTTPS的信任继承基于预先安装在浏览器中的证书颁发机构（如VeriSign、Microsoft等. （意即“我信任证书颁发机构告诉我应该信任的”) 。
+3. 因此，一个到某网站的HTTPS连接可被信任，如果服务器搭建自己的https 也就是说采用自认证的方式来建立https信道，这样一般在客户端是不被信任的。
+4. 所以我们一般在浏览器访问一些https站点的时候会有一个提示，问你是否继续。
+
+#### 4.对开发的影响。
+
+4.1 如果是自己使用NSURLSession来封装网络请求，涉及代码如下。
+
+```objc
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+
+    NSURLSessionDataTask *task =  [session dataTaskWithURL:[NSURL URLWithString:@"https://www.apple.com"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    }];
+    [task resume];
+}
+
+/*
+ 只要请求的地址是HTTPS的, 就会调用这个代理方法
+ 我们需要在该方法中告诉系统, 是否信任服务器返回的证书
+ Challenge: 挑战 质问 (包含了受保护的区域)
+ protectionSpace : 受保护区域
+ NSURLAuthenticationMethodServerTrust : 证书的类型是 服务器信任
+ */
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler
+{
+    //    NSLog(@"didReceiveChallenge %@", challenge.protectionSpace);
+    NSLog(@"调用了最外层");
+    // 1.判断服务器返回的证书类型, 是否是服务器信任
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        NSLog(@"调用了里面这一层是服务器信任的证书");
+        /*
+         NSURLSessionAuthChallengeUseCredential = 0,                     使用证书
+         NSURLSessionAuthChallengePerformDefaultHandling = 1,            忽略证书(默认的处理方式)
+         NSURLSessionAuthChallengeCancelAuthenticationChallenge = 2,     忽略书证, 并取消这次请求
+         NSURLSessionAuthChallengeRejectProtectionSpace = 3,            拒绝当前这一次, 下一次再询问
+         */
+//        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+
+        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
+        completionHandler(NSURLSessionAuthChallengeUseCredential , card);
+    }
+}
+```
+
+4.2 如果是使用AFN框架，那么我们不需要做任何额外的操作，AFN内部已经做了处理。
 
 ### 什么是 TLS
 
@@ -727,16 +804,104 @@ AFNetworking 对数据进行https ssl加密
 
 [ios 配置https - 漫步CODE人生 - 博客园](https://www.cnblogs.com/scode2/p/8664478.html)
 
+#### AFNetworking 配置https
 
-## Http请求过程
+```objc
+一.项目中的网络交互都是基于AFN，要求AFN版本在3.0及其以上;
+ 
+二.代码部分
+设置AFN请求管理者的时候 添加 https ssl 验证。
+// 1.获得请求管理者
+AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+// 2.加上这个函数，https ssl 验证。
+[manager setSecurityPolicy:[self customSecurityPolicy]];
+ 
+// https ssl 验证函数
+ 
+- (AFSecurityPolicy *)customSecurityPolicy {
+    
+    // 先导入证书 证书由服务端生成，具体由服务端人员操作
+    NSString *cerPath = [[NSBundle mainBundle] pathForResource:@"xxx" ofType:@"cer"];//证书的路径
+    NSData *cerData = [NSData dataWithContentsOfFile:cerPath];
+    
+    // AFSSLPinningModeCertificate 使用证书验证模式
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+         // allowInvalidCertificates 是否允许无效证书（也就是自建的证书），默认为NO
+    // 如果是需要验证自建证书，需要设置为YES
+    securityPolicy.allowInvalidCertificates = YES;
+    
+    //validatesDomainName 是否需要验证域名，默认为YES;
+    //假如证书的域名与你请求的域名不一致，需把该项设置为NO；如设成NO的话，即服务器使用其他可信任机构颁发的证书，也可以建立连接，这个非常危险，建议打开。
+    //置为NO，主要用于这种情况：客户端请求的是子域名，而证书上的是另外一个域名。因为SSL证书上的域名是独立的，假如证书上注册的域名是www.google.com，那么mail.google.com是无法验证通过的；当然，有钱可以注册通配符的域名*.google.com，但这个还是比较贵的。
+    //如置为NO，建议自己添加对应域名的校验逻辑。
+    securityPolicy.validatesDomainName = NO;
+    
+    securityPolicy.pinnedCertificates = [[NSSet alloc] initWithObjects:cerData, nil];
+    
+    return securityPolicy;
+}
+ 
+ 
+三.关于证书 参考文章:http://www.2cto.com/Article/201510/444706.html
+服务端给的是crt后缀的证书，其中iOS客户端用到的cer证书，是需要开发人员转换：
+1.证书转换
+在服务器人员，给你发送的crt证书后，进到证书路径，执行下面语句
+ 
+openssl x509 -in 你的证书.crt -out 你的证书.cer -outform der
+ 
+这样你就可以得到cer类型的证书了。双击，导入电脑。
+2.证书放入工程
+1、可以直接把转换好的cer文件拖动到工程中。
+2、可以在钥匙串内，找到你导入的证书，单击右键，导出项目，就可以导出.cer文件的证书了
+ 
+参考链接:http://www.jianshu.com/p/97745be81d64。
+ 
+四.在info.plist去掉之前允许http加载的代码 就是删除下面的代码(么有的就省了这一步)
+ <key>NSAppTransportSecurity</key>
+	<dict>
+ <key>NSAllowsArbitraryLoads</key>
+ <true/>
+```
 
-通过TCP三次握手建立链接 ——> 在此链接基础上进行Http的请求和响应 ——> 通过TCP四次挥手进行链接的释放
+AFN https认证主要的四个步骤：
 
-![](http://oc98nass3.bkt.clouddn.com/15343911190241.jpg)
+步骤一：服务器cer证书导入Xcode项目
+获得证书cer文件
+法一，服务器那边给（我们项目服务器给的cer文件，导入项目中出了点问题，之后用的是自己在网站上导的）；
+法二，自己在网站导出（以下面12306网页为例 https://kyfw.12306.cn/otn/lcxxcx/init）
+打开上面给的12306链接，点击https旁边的三角感叹号，依次如图操作，则会出现下图
+按住箭头所指图片，拖拽到桌面，之后返回到桌面，会发现kyfw.12306.cn.cer文件
+导入到Xcode项目中
+add file添加到项目中，ok。（这样假如失败的话，可以尝试导入证书之前，先双击证书添加到钥匙串中，之后允许，最后再导出，再重新导入到项目中）
+步骤二：xcode info.list文件相关配置
+主要是设置ATS开关和白名单（因为是自签名的证书，必须要添加白名单，即自己服务器的域名，否则无法访问）。
 
-![](http://oc98nass3.bkt.clouddn.com/15343910887788.jpg)
+notice:图中ATS下面的Allow Arbitrary Loads 若设置成YES的话，则app允许http访问，其实这样绕过了https，但是这种情况确实非常不安全，后面可以看到Charles一抓包，数据全都能看的见。
 
-## Https
+步骤三：AFN程序代码相关配置
+
+```objc
+
+AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    //配置https
+    session.securityPolicy = [self customSecurityPolicy];
+    session.securityPolicy.allowInvalidCertificates = YES;
+
+#pragma mark- 配置https
+- (AFSecurityPolicy *)customSecurityPolicy
+{
+    /** https */
+    NSString*cerPath = [[NSBundle mainBundle] pathForResource:@"kyfw.12306.cn.cer"ofType:nil];
+    NSData*cerData = [NSData dataWithContentsOfFile:cerPath];
+    NSSet*set = [[NSSet alloc] initWithObjects:cerData,nil];
+    AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate withPinnedCertificates:set];
+    return policy;
+}
+
+```
+步骤四：Charles抓包验证
+首先检测，google浏览器请求，Charles抓包是否成功，若失败，解决方法如下（cmd+, 快捷键进入浏览器设置界面）
+
 
 ![](http://oc98nass3.bkt.clouddn.com/15343913264534.jpg)
 
@@ -815,6 +980,7 @@ Info.plist 配置中的XML源码如下所示:
 1. [简析TCP的三次握手与四次分手](http://www.jellythink.com/archives/705)
 2. [公钥，私钥和数字签名这样最好理解](http://blog.csdn.net/21aspnet/article/details/7249401)
 3. [关于HTTP协议，一篇就够了 - 简书](http://www.jianshu.com/p/80e25cb1d81a)
+
 4. [简单粗暴系列之HTTPS原理](http://www.jianshu.com/p/650ad90bf563)
 5. [iOS 配置https - 简书](https://www.jianshu.com/p/8c128d9c9681)
 6. [ios 配置https - 漫步CODE人生 - 博客园](https://www.cnblogs.com/scode2/p/8664478.html)
@@ -822,3 +988,4 @@ Info.plist 配置中的XML源码如下所示:
 8. [iOS HTTPS适配 - 简书](https://www.jianshu.com/p/25efb6d8ec8c#%E4%B8%80%E3%80%81%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C)
 9. [iOS 9 HTTPS适配 - 简书](https://www.jianshu.com/p/b03ae4a1a2d3)
 10. [一次完整的HTTP请求过程 - CSDN博客](https://blog.csdn.net/yezitoo/article/details/78193794)
+11. [iOS AFN之https配置小结 - 简书](https://www.jianshu.com/p/b254abbe3e13)

@@ -543,12 +543,11 @@ typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
 + (void)load{    NSLog(@"%s",__func__);} + (void)initialize{    [super initialize];    NSLog(@"%s %@",__func__,[self class]);} - (instancetype)init{    if (self = [super init]) {        NSLog(@"%s",__func__);    }    return self;}
 ```
 
-* load方法会在程序启动就会调用，当装载类信息的时候就会调用。
+* **load方法会在程序启动就会调用，当装载类信息的时候就会调**用。
 * load方法在这个文件被程序装载时调用。只要是在Compile Sources中出现的文件总是会被装载，这与这个类是否被用到无关，因此load方法总是在main函数之前调用。
 * 如果一个类实现了load方法，在调用这个方法前会首先调用父类的load方法。而且这个过程是自动完成的，并不需要我们手动实现：
 * **由于调用load方法时的环境很不安全，我们应该尽量减少load方法的逻辑**。另一个原因是load方法是线程安全的，它内部使用了锁，所以我们应该避免线程阻塞在load方法中。
 * 优先调用类的load方法，之后调用分类的load方法。
-
 
 一个常见的使用场景是在load方法中实现`Method Swizzle`：
 
@@ -558,7 +557,7 @@ typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
 
 ### initialize
 
-这个方法在第一次给某个类发送消息时调用（比如实例化一个对象），并且只会调用一次。initialize方法实际上是一种惰性调用，也就是说如果一个类一直没被用到，那它的initialize方法也不会被调用，这一点有利于节约资源。
+**这个方法在第一次给某个类发送消息时调用**（比如实例化一个对象），并且只会调用一次。initialize方法实际上是一种惰性调用，也就是说如果一个类一直没被用到，那它的initialize方法也不会被调用，这一点有利于节约资源。
 
 虽然initialize方法对一个类而言只会调用一次，但这里由于出现了两个类，所以调用两次符合规则，但不符合我们的需求。正确使用initialize方法的姿势如下：
 
@@ -573,7 +572,7 @@ typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
 	3. load方法通常用来进行Method Swizzle，initialize方法一般用于初始化全局变量或静态变量。
 	4. load和initialize方法内部使用了锁，因此它们是线程安全的。实现时要尽可能保持简单，避免阻塞线程，不要再使用锁。
 
-**load先在main函数之前加载，初始化类，然后initialize是类的一个懒加载**，如果没有使用这个类就不回去调用这个方法，默认只加载一次，而且发生在init方法之前。还有,创建子类的时候，子类会去调用父类的 + initialize 方法。
+*load先在main函数之前加载，初始化类，然后initialize是类的一个懒加载*，如果没有使用这个类就不回去调用这个方法，默认只加载一次，而且发生在init方法之前。还有,创建子类的时候，子类会去调用父类的 + initialize 方法。
 
 #### initialize方法和init区别详解
 

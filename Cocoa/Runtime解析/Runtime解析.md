@@ -131,7 +131,7 @@ PS: `isa` 指针不总是指向实例对象所属的类，不能依靠它来确�
 
 ### `SEL`
 
-`SEL` 区分方法的 `ID`，而这个 `ID` 的数据结构是`SEL`,其实它就是个映射到方法的C字符串，你可以用 `Objc` 编译器命令 `@selector()` 或者 `Runtime` 系统的 `sel_registerName` 函数来获得一个 `SEL` 类型的方法选择器。
+`SEL` 区分方法的 `ID`，而这个 `ID` 的数据结构是`SEL`,**其实它就是个映射到方法的C字符串**，你可以用 `Objc` 编译器命令 `@selector()` 或者 `Runtime` 系统的 `sel_registerName` 函数来获得一个 `SEL` 类型的方法选择器。
 它是一个模仿C的构造指针类型的对象，可以定义很多方法指针。 常作为形参。 用于运行时或者多类之间隔文件 传递方法。
 * `@selector`是查找当前类的实例方法，而`[object @selector(方法名:方法参数..) ]` ;是取object所属类的实例方法.
 * 查找类方法时，除了方法名,方法参数也查询条件之一.
@@ -212,9 +212,9 @@ struct objc_method_description {
 消息直到运行时才绑定到方法的实现上。编译器会将消息表达式`[receiver message]`转化为一个消息函数，即`objc_msgSend(receiver, selector)`。	
 ![](http://oc98nass3.bkt.clouddn.com/2017-08-15-15027671461420.png)
 
-##### 	objc_msgSend
+#### objc_msgSend
 
-Objective-C 方法的调用，会转换成消息发送的代码，如 id objc_msgSend(id self, SEL op, ...);
+Objective-C 方法的调用，会转换成消息发送的代码，如 `id objc_msgSend(id self, SEL op, ...)`;`...`表示可变参数，方法的参数可能会有多个。
 
 ```objc
 MyClass *myObject = [[MyClass alloc] initWithString:@"someString"];
@@ -233,7 +233,7 @@ MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @"someString");
 
 `objc_msgSend`做了如下事情：
 
-1. 检测这个 `selector` 是不是要忽略的，或者是不是 nil 对象，是则忽略。
+1. （把方法名注册成方法编号）检测这个 `selector` 是不是要忽略的，或者是不是 nil 对象，是则忽略。
 2. 如果满足查找条件，通过对象的`isa`指针获取类的结构体。开始查找这个类的 `IMP`，先从 `cache` 里面找，完了找得到就跳到对应的函数去执行。
 3. 如果 `cache` 找不到就在类的方法分发表`objc_method_list`中查找
 3. 如果没有找到`selector`，则通过`objc_msgSend`结构体中指向父类的指针找到父类，并在父类的方法表里查找方法的`selector`。
@@ -248,7 +248,7 @@ MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @"someString");
 
 在消息转发机制执行前，`Runtime` 系统会再给我们一次偷梁换柱的机会，即通过重载`- (id)forwardingTargetForSelector:(SEL)aSelector`方法替换消息的接受者为其他对象
 
-#### 	消息转发机制
+#### 消息转发机制
 
 以 `[receiver message]`的方式调用方法，如果`receiver`无法响应`message`，编译器会报错。但如果是以`performSelector`来调用，则需要等到运行时才能确定`object`是否能接收`message`消息。如果不能，则程序崩溃。
 当我们不能确定一个对象是否能接收某个消息时，会先调用`respondsToSelector:`来判断一下
@@ -261,6 +261,7 @@ MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @"someString");
 这样就可以采取一些措施，让程序执行特定的逻辑，从而避免崩溃。措施分为三个步骤。
 
 ##### 1. 动态方法解析
+
 对象接收到未知的消息时，首先会调用所属类的类方法`+resolveInstanceMethod:(实例方法)`或 者`+resolveClassMethod:(类方法)`。
 在这个方法中，我们有机会为该未知消息新增一个”处理方法”。使用该“处理方法”的前提是已经实现，只需要在运行时通过class_addMethod函数，动态的添加到类里面就可以了。代码如下。
 	
@@ -269,12 +270,11 @@ class_addMethod
 ```
 
 ##### 2. 备用接收者
-如果在上一步无法处理消息，则Runtime会继续调下面的方法。
 
-`forwardingTargetForSelector`
-如果这个方法返回一个对象，则这个对象会作为消息的新接收者。注意这个对象不能是self自身，否则就是出现无限循环。如果没有指定对象来处理aSelector，则应该 return [super forwardingTargetForSelector:aSelector]。
+如果在上一步无法处理消息，则Runtime会继续调`forwardingTargetForSelector`方法。
+
+如果这个方法返回一个对象，则这个对象会作为消息的新接收者。注意这个对象不能是self自身，否则就是出现无限循环。如果没有指定对象来处理aSelector，则应该 `return [super forwardingTargetForSelector:aSelector]`。
 但是我们只将消息转发到另一个能处理该消息的对象上，无法对消息进行处理，例如操作消息的参数和返回值。
-	
 
 ##### 3. 完整消息转发
 
@@ -332,7 +332,6 @@ objc_msgSend(receiver, selector, arg1, arg2, ...)
     - 转发这个selector，否则
 * 报错，抛出异常
 
-
 当一个方法在比较“上层”的类中，用比较“下层”（继承关系上的上下层）对象去调用的时候，如果没有缓存，那么整个查找链是相当长的。就算方法是在这个类里面，当方法比较多的时候，每次都查找也是费事费力的一件事情。
 考虑下面的一个调用过程：
 
@@ -375,6 +374,7 @@ typedef struct {
 3)、imp，方法实现
 
 ## Runtime实战
+
 > 我们知道App在项目开发过程中。由于不断迭代的业务逻辑和增加的模块，由于网络性能或者代码质量的或者项目Bug等问题，会出现App报出异常，出现崩溃的问题，如果次数多了会非常影响用户体验，在关键的模块，比如支付，登录等等，需要写很多校验就是防止出现异常。那么如何使用一种有效的手段来减少异常呢？
 
 其实`Runtime`就可以做到这点，在OC中，方法的调用在运行时会被编译成一个消息，在这个消息中不断去顺着isa指针在类或父类的元类的方法列表methodLists中寻找接受者，如果没有找到方法，就会开启消息转发机制。直接调用`[reciever methodName]`
@@ -393,12 +393,13 @@ Method method= class_getInstanceMethod([father class], @selector(getNameWithfami
 NSString *invokeName= method_invoke(father,method,@"Zhao");
 NSLog(@"%@",invokeName);
 ```
+
+
 ### `Runtime`应用举例
 
 > 设置按钮的快速点击的时间间隔
 
 建一个`UIControl`的分类，使用属性关联添加属性，并且交换`sendAction:to:forEvent:`的方法实现，
-
 
 ```objc
 //
@@ -446,6 +447,51 @@ static char acceptEventTimeKey;
 
 @end
 ```
+
+### objc_getClass & object_getClass
+
+isa指针的实现是相当于调用方法：`object_getClass(id)`
+`[object class]`的实现相当于调用方法：`objc_getClass(const char * _Nonnull name)
+`
+objc_getClass参数是类名的字符串，返回的就是这个类的类对象；object_getClass参数是id类型，它返回的是这个id的isa指针所指向的Class，如果传参是Class，则返回该Class的metaClass。
+
+这两个方法的区别可以通过下面两个例子来展示：
+
+```objc
+Son *sonObject = [Son new];
+Class currentClass = [sonObject class];
+const char *className = object_getClassName(currentClass);
+/*
+sonObject->(class)Son->(isa)MetaClassOfSon->(isa)MetaClassOfNSObject->(isa)MetaClassOfNSObject
+*/
+for (int i=0; i<4; i++) {
+    NSLog(@"class:%p-----className:%s-------superClass: %@\n",currentClass,className,[currentClass superclass]);
+    currentClass = object_getClass(currentClass);
+    className = object_getClassName(currentClass);
+}
+```
+
+打印结果：
+![](http://oc98nass3.bkt.clouddn.com/15360562621048.jpg)
+
+从中可以看到最后两次打印的currentClass地址相同，说明最后MetaClassOfNSObject的isa指针最终指向了本身。
+
+```objc
+Son *sonObject = [Son new];
+Class currentClass = [sonObject class];
+const char *className = object_getClassName(currentClass);
+
+for (int i=0; i<4; i++) {
+    NSLog(@"class:%p-----className:%s-------superClass:%@\n",currentClass,className,[currentClass superclass]);
+    currentClass = objc_getClass([NSStringFromClass(currentClass) UTF8String]);
+    className = object_getClassName(currentClass);
+}
+```
+
+打印结果：
+![](http://oc98nass3.bkt.clouddn.com/15360563486710.jpg)
+
+由此可知objc_getClass方法只是单纯地返回了Class，而非isa指针指向的Class
 
 ## Runtime的使用
 
@@ -580,6 +626,139 @@ struct objc_class {
 @end
 ```
 
+## 方法交换
+
+使用场景：
+
+需求:
+比如说有一个项目,已经开发了2年，忽然项目负责人添加一个功能,每次UIImage加载图片,告诉我是否加载成功
+// 1.自定义UIImage，重写方法，给原来方法添加新功能。
+// 2. UIImage添加分类，分类方法会重写原来的方法,最好加上前缀来封装。
+
+弊端:
+    1. 每次使用，都需要导入
+    2. 项目大了, 没办法实现，获取不到
+
+```objc
+
+@implementation UIViewController (SPNavigationBar)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        SEL originalSelector = @selector(viewDidLoad);
+        SEL swizzledSelector = @selector(sp_viewDidLoad);
+        swizzleMethod([self class], originalSelector, swizzledSelector);
+        
+        originalSelector = @selector(viewWillAppear:);
+        swizzledSelector = @selector(sp_viewWillAppear:);
+        swizzleMethod([self class], originalSelector, swizzledSelector);
+        
+        originalSelector = @selector(viewWillDisappear:);
+        swizzledSelector = @selector(sp_viewWillDisappear:);
+        swizzleMethod([self class], originalSelector, swizzledSelector);
+    });
+}
+
+void swizzleMethod(Class cls, SEL originalSelector, SEL swizzledSelector);
+
+//静态就交换静态，实例方法就交换实例方法
+void swizzleMethod(Class cls, SEL originalSelector, SEL swizzledSelector) {
+    // the method might not exist in the class, but in its superclass
+    Method originalMethod = class_getInstanceMethod(cls, originalSelector);
+    Method swizzledMethod = nil;
+    if (!originalMethod) {//处理为类的方法
+        originalMethod = class_getClassMethod(cls, originalSelector);
+        swizzledMethod = class_getClassMethod(cls, swizzledSelector);
+        if (!originalMethod || !swizzledMethod) return;
+    } else {//处理为事例的方法
+        swizzledMethod = class_getInstanceMethod(cls, swizzledSelector);
+        if (!swizzledMethod) return;
+    }
+    
+    // class_addMethod will fail if original method already exists
+    BOOL didAddMethod = class_addMethod(cls, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+    
+    // the method doesn’t exist and we just added one
+    if (didAddMethod) {
+        class_replaceMethod(cls, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+}
+```
+
+![](http://oc98nass3.bkt.clouddn.com/15360623948928.jpg)
+
+## 添加属性
+
+> 我们知道，在 Objective-C 中可以通过 Category 给一个现有的类添加属性，但是却不能添加实例变量，这似乎成为了 Objective-C 的一个明显短板。然而值得庆幸的是，我们可以通过 Associated Objects 来弥补这一不足。本文将结合 runtime 源码深入探究 Objective-C 中 Associated Objects 的实现原理。
+
+Associated Objects 主要有以下三个使用场景：
+
+* 为现有的类添加私有变量以帮助实现细节；
+* 为现有的类添加公有属性；
+* 为 KVO 创建一个关联的观察者。
+
+声明 static char kAssociatedObjectKey; ，使用 &kAssociatedObjectKey 作为 key 值;
+声明 static void *kAssociatedObjectKey = &kAssociatedObjectKey; ，使用 kAssociatedObjectKey 作为 key 值；
+用 selector ，使用 getter 方法的名称作为 key 值。
+
+
+```objc
+void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy);
+id objc_getAssociatedObject(id object, const void *key);
+void objc_removeAssociatedObjects(id object);
+```
+
+* 以键值对形式添加关联对象
+* 根据 key 获取关联对象
+* 移除所有关联对象
+
+举例
+```objc
+@interface ViewController (AssociatedObjects)
+
+@property (assign, nonatomic) NSString *associatedObject_assign;
+@property (strong, nonatomic) NSString *associatedObject_retain;
+@property (copy,   nonatomic) NSString *associatedObject_copy;
+
+@end
+
+@implementation ViewController (AssociatedObjects)
+
+- (NSString *)associatedObject_assign {
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setAssociatedObject_assign:(NSString *)associatedObject_assign {
+    objc_setAssociatedObject(self, @selector(associatedObject_assign), associatedObject_assign, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (NSString *)associatedObject_retain {
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setAssociatedObject_retain:(NSString *)associatedObject_retain {
+    objc_setAssociatedObject(self, @selector(associatedObject_retain), associatedObject_retain, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSString *)associatedObject_copy {
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setAssociatedObject_copy:(NSString *)associatedObject_copy {
+    objc_setAssociatedObject(self, @selector(associatedObject_copy), associatedObject_copy, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+@end
+
+```
+
+关联对象的释放时机与被移除的时机并不总是一致的，比如上面的 self.associatedObject_assign 所指向的对象在 ViewController 出现后就被释放了，但是 self.associatedObject_assign 仍然有值，还是保存的原对象的地址。如果之后再使用 self.associatedObject_assign 就会造成 Crash ，所以我们在使用弱引用的关联对象时要非常小心；
+一个对象的所有关联对象是在这个对象被释放时调用的 _object_remove_assocations 函数中被移除的。
+接下来，我们就一起看看 runtime 中的源码，来验证下我们的实验结论。
+
 
 ## 参考
 
@@ -589,3 +768,8 @@ struct objc_class {
 4. [iOS - Runtime 方法与消息 - 简书](https://www.jianshu.com/p/2bf7fedb86b6)
 5. [深入理解Objective-C：方法缓存](https://tech.meituan.com/DiveIntoMethodCache.html)
 6. [Objective-C 消息发送与转发机制原理](http://yulingtianxia.com/blog/2016/06/15/Objective-C-Message-Sending-and-Forwarding/)
+7. [RuntimePDF](https://github.com/DeveloperErenLiu/RuntimePDF)
+8. [object_getClass与objc_getClass的不同 - 掘金](https://juejin.im/post/5afaaf5df265da0ba567b2b2)
+9. [Objective-C Associated Objects 的实现原理 - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2015/06/26/objective-c-associated-objects-implementation-principle/)
+10. [关联对象 AssociatedObject 完全解析](https://draveness.me/ao)
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BlockDeomo/Person.m"
+            timestampString = "557749411.648788"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "-test"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[Person test]"
+                  moduleName = "BlockDeomo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelmao/Desktop/MyResouce/GitRepo/DailyLearning/Demos/BlockDeomo/BlockDeomo/Person.m"
+                  timestampString = "557749411.66128"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "41">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__14-[Person test]_block_invoke"
+                  moduleName = "BlockDeomo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelmao/Desktop/MyResouce/GitRepo/DailyLearning/Demos/BlockDeomo/BlockDeomo/Person.m"
+                  timestampString = "557749411.663722"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.3"
+                  moduleName = "BlockDeomo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelmao/Desktop/MyResouce/GitRepo/DailyLearning/Demos/BlockDeomo/BlockDeomo/Person.m"
+                  timestampString = "557749411.667235"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
