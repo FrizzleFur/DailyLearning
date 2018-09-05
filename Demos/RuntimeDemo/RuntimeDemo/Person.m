@@ -7,6 +7,7 @@
 //
 
 #import "Person.h"
+#import "User.h"
 #import <objc/message.h>
 
 @implementation Person

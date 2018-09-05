@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED316ADD213F95D600974A5F /* NSObject+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = ED316ADC213F95D600974A5F /* NSObject+Model.m */; };
+		ED316AE0213FA15900974A5F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = ED316ADF213FA15900974A5F /* User.m */; };
 		EDAEE9B9213E972200E97DF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAEE9B8213E972200E97DF6 /* AppDelegate.m */; };
 		EDAEE9BC213E972200E97DF6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAEE9BB213E972200E97DF6 /* ViewController.m */; };
 		EDAEE9BF213E972200E97DF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAEE9BD213E972200E97DF6 /* Main.storyboard */; };
@@ -18,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ED316ADB213F95D600974A5F /* NSObject+Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Model.h"; sourceTree = "<group>"; };
+		ED316ADC213F95D600974A5F /* NSObject+Model.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Model.m"; sourceTree = "<group>"; };
+		ED316ADE213FA15900974A5F /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		ED316ADF213FA15900974A5F /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		EDAEE9B4213E972200E97DF6 /* RuntimeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RuntimeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDAEE9B7213E972200E97DF6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EDAEE9B8213E972200E97DF6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -68,10 +74,14 @@
 				EDAEE9B8213E972200E97DF6 /* AppDelegate.m */,
 				EDAEE9BA213E972200E97DF6 /* ViewController.h */,
 				EDAEE9BB213E972200E97DF6 /* ViewController.m */,
+				ED316ADE213FA15900974A5F /* User.h */,
+				ED316ADF213FA15900974A5F /* User.m */,
 				EDAEE9CD213E978B00E97DF6 /* Person.h */,
 				EDAEE9CE213E978B00E97DF6 /* Person.m */,
 				EDAEE9D0213EA5F100E97DF6 /* Person+appendName.h */,
 				EDAEE9D1213EA5F100E97DF6 /* Person+appendName.m */,
+				ED316ADB213F95D600974A5F /* NSObject+Model.h */,
+				ED316ADC213F95D600974A5F /* NSObject+Model.m */,
 				EDAEE9BD213E972200E97DF6 /* Main.storyboard */,
 				EDAEE9C0213E972300E97DF6 /* Assets.xcassets */,
 				EDAEE9C2213E972300E97DF6 /* LaunchScreen.storyboard */,
@@ -152,7 +162,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDAEE9BC213E972200E97DF6 /* ViewController.m in Sources */,
+				ED316AE0213FA15900974A5F /* User.m in Sources */,
 				EDAEE9D2213EA5F100E97DF6 /* Person+appendName.m in Sources */,
+				ED316ADD213F95D600974A5F /* NSObject+Model.m in Sources */,
 				EDAEE9C7213E972300E97DF6 /* main.m in Sources */,
 				EDAEE9CF213E978B00E97DF6 /* Person.m in Sources */,
 				EDAEE9B9213E972200E97DF6 /* AppDelegate.m in Sources */,

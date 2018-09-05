@@ -32,12 +32,20 @@
 
 #pragma mark - 属性绑定
 
+- (void)setFirstName:(NSString *)firstName{
+    objc_setAssociatedObject(self, @selector(firstName), firstName, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (NSString *)firstName{
+    return objc_getAssociatedObject(self, @selector(firstName));
+}
+
 - (void)setLastName:(NSString *)lastName{
     objc_setAssociatedObject(self, @selector(lastName), lastName, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (NSString *)lastName{
-    return  objc_getAssociatedObject(self, @selector(lastName));
+    return objc_getAssociatedObject(self, @selector(lastName));
 }
 
 @end

@@ -10,6 +10,8 @@
 #import <objc/message.h>
 #import "Person.h"
 #import "Person+appendName.h"
+#import "NSObject+Model.h"
+
 
 @interface ViewController ()
 
@@ -23,7 +25,19 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-      [self testAssoicateObject];
+      [self KVCOnRuntime];
+}
+
+
+#pragma mark - KVC的Runtime实现
+
+- (void)KVCOnRuntime{
+
+    NSDictionary *modelDict = @{@"phone" : @"123123", @"school" : @"My School",  @"user" : @{@"user_phone" : @"123123", @"user_school" : @"My School"}};
+    Person *person = [Person modelWithDict:modelDict];
+    NSLog(@"person.phone = %@", person.phone);
+    NSLog(@"person.school = %@", person.school);
+    NSLog(@"person.user = %@", person.user);
 }
 
 #pragma mark - 消息转发
