@@ -2,23 +2,10 @@
 
 > 记录点滴成长
 
-## Todo
 
-* [DailyCard ](https://github.com/FrizzleFur/DailyLearning/issues/8) 日常
+## 学习资源
 
-## Read
-
-* [OnReading](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/OnReading.md) 最近在阅读
-
-* [教程公开课](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/%E6%95%99%E7%A8%8B%E5%85%AC%E5%BC%80%E8%AF%BE.md)
-
-## iOS
-
-*  [iOSLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/iOSLearning.md)
-
-*  [iOS学习笔记 (知识点整理)](https://github.com/FrizzleFur/DailyLearning/tree/master/iOSLearningDemo)
-
-### 学习资源
+* [LearningIOS](https://github.com/zhouhuanqiang/LearningIOS) 视频学习资源
 
 * [AwesomeLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/Awesome%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90.md) 自己整理的学习资料
 
@@ -38,6 +25,24 @@
 [SwiftOldDriver/iOS-Weekly: 🇨🇳 老司机 iOS 周报](https://github.com/SwiftOldDriver/iOS-Weekly) | iOS最新周报
 [Kenshin Cui's Blog](http://www.cnblogs.com/kenshincui)| 崔江涛，文章写的非常详细
 [ChenYilong](https://github.com/ChenYilong)| [微博@iOS程序犭袁](http://weibo.com/luohanchenyilong?refer_flag=1005055013_&is_all=1)有iOS9AdaptationTips,iOSInterviewQuestions等多个上千star的项目
+
+
+## Todo
+
+* [DailyCard ](https://github.com/FrizzleFur/DailyLearning/issues/8) 日常
+
+## Read
+
+* [OnReading](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/OnReading.md) 最近在阅读
+
+* [教程公开课](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/%E6%95%99%E7%A8%8B%E5%85%AC%E5%BC%80%E8%AF%BE.md)
+
+## iOS
+
+*  [iOSLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/iOSLearning.md)
+
+*  [iOS学习笔记 (知识点整理)](https://github.com/FrizzleFur/DailyLearning/tree/master/iOSLearningDemo)
+
 
 ## JavaScript
 

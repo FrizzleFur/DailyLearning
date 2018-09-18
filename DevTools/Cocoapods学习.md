@@ -1,6 +1,55 @@
 
 # CocoaPods 问题
 
+## pod install
+
+`pod install`参考的是podfile.lock文件的版本
+
+![](http://oc98nass3.bkt.clouddn.com/15364967396430.jpg)
+
+## pod update
+
+`pod install`参考的是Podfile文件的版本
+
+![](http://oc98nass3.bkt.clouddn.com/15364967642596.jpg)
+
+如果Podfile文件库未指定版本，默认下载库的最新版本
+
+## rubygems镜像
+
+通俗地来讲RubyGems就像是一个仓库，里面包含了各种软件的包(如Cocoapods、MySql)，可以通过命令行的方式来安装这些软件包，最为方便的是自动帮你配置好软件依赖的环境，整个安装过程仅仅只需要几行命令行。
+
+我们在安装CocoaPods的时候，就是通过rubygems来安装的，由于在国内访问rubygems非常慢，所以替换rubygems镜像源就显得十分必要了。在替换rubygems镜像源的时候，先检查一下rubygems的版本，建议在2.6.x以上，如果没有的话，建议先升级一下，升级命令行如下：
+
+
+```
+$ gem update --system # 这里请翻墙一下
+$ gem -v
+```
+
+升级完成之后，可以用gem -v查看下现在的版本号，比如我现在的版本是2.6.7。之前很多人用的都是淘宝的镜像源，现在淘宝的rubygems镜像源交给Ruby China来维护了，替换rubygems镜像源的命令行如下：
+
+```
+$ gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+$ gem sources -l
+https://gems.ruby-china.org
+
+```
+确保只有 gems.ruby-china.org
+
+但是现在淘宝源已经不再维护了，所以需要换为目前国内还在维护的【ruby-china】，如果之前没换过则默认为【https://rubygems.org/ 】，这个是国外的，对于我们来说也是比较慢的，所以也得将其更换掉
+
+```
+// 移除
+gem sources --remove http://ruby.taobao.org/
+
+// 添加 ruby-china 的源
+gem sources --add https://gems.ruby-china.org/
+```
+
+参考 [解决CocoaPods慢的小技巧 - 简书](https://www.jianshu.com/p/b3d15c9bbf2b), 
+[解决Cocoapods贼慢问题 - 简书](https://www.jianshu.com/p/f024ca2267e3)
+
 ## 问题记录
 
 ### 1.`$ pod install`后，没有生成`XWorkSpace`文件，并且报错
@@ -15,6 +64,52 @@ Error:“The sandbox is not in sync with the Podfile.lock…”
 ![](http://oc98nass3.bkt.clouddn.com/2017-06-28-14986425068849.jpg)
 
 然后回到项目文件夹，执行`pod install` 就可以了
+
+
+### 2. 升级Cocoapods时候， Unable to download data from https://gems.ruby-china.org
+
+
+``` 
+╰─ sudo gem install cocoapods
+ERROR:  Could not find a valid gem 'cocoapods' (>= 0), here is why:
+          Unable to download data from https://gems.ruby-china.org/ - bad response Not Found 404 (https://gems.ruby-china.org/specs.4.8.gz)
+```
+
+原因：域名已经被更换了：从`gems.ruby-china.org`更换成`gems.ruby-china.com`
+
+可以切换源
+```
+gem sources -a https://gems.ruby-china.com/  --remove https://gems.ruby-china.org/
+```
+
+
+参考： [Error fetching https://gems.ruby-china.org/: bad response Not Found 404 解决方法 - CSDN博客](https://blog.csdn.net/MChuajian/article/details/82016921)
+
+### CocoaPods version
+
+执行pod install时，提示如下信息：
+
+```
+[!] The version of CocoaPods used to generate the lockfile (1.5.3) is higher than the version of the current executable (1.3.1). Incompatibility issues may arise.
+[!] Unable to satisfy the following requirements:
+
+- `AFNetworking (~> 3.0)` required by `Podfile`
+- `AFNetworking (= 3.2.1)` required by `Podfile.lock`
+
+None of your spec sources contain a spec satisfying the dependencies: `AFNetworking (~> 3.0), AFNetworking (= 3.2.1)`.
+
+You have either:
+ * out-of-date source repos which you can update with `pod repo update` or with `pod install --repo-update`.
+ * mistyped the name or version.
+ * not added the source repo that hosts the Podspec to your Podfile.
+
+Note: as of CocoaPods 1.0, `pod repo update` does not happen on `pod install` by default.
+```
+* 这是因为Podfile中的库版本比podfile.lock制定的低了
+* 用'pod repo udapte'命令更新
+* 然后'pod install'安装
+
+参考[The version of CocoaPods used to generate the lockfile is higher than the version of - CSDN博客](https://blog.csdn.net/qq942418300/article/details/53446719)
 
 ## Podfile
 
@@ -74,7 +169,10 @@ B、使用 dynamic frameworks，必须要在Podfile文件中添加 use_framework
 
 (4)Linked:Pods_xxx.framework包含了其它用pod导入的第三方框架的.framework文件。
 use_frameworks! -> dynamic frameworks 方式 -> .framework
+
+```
 #use_frameworks! -> static libraries 方式 -> .a
+```
 
 关于Library 和 Framework 可以参考：
 http://blog.lanvige.com/2015/...
