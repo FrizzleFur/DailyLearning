@@ -7,6 +7,33 @@
 
 ![](oc98nass3.bkt.clouddn.com/15380102181054.jpg)
 
+1. 到`.git`文件夹📂中查看config文件。
+```
+cd .git 
+cat config
+```
+
+```
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@code.aliyun.com:fenke-ios/Avenger.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "develop"]
+	remote = origin
+	merge = refs/heads/develop
+[user]
+	name = xxxx
+	email = xxxx@xxxx.com
+[difftool "tower"]
+	cmd = \"/Applications/Tower.app/Contents/Resources/filemerge.sh\" \"$LOCAL\" \"$REMOTE\"
+```
+
 1，找到项目所在目录下的 .git/文件夹，进入.git/文件夹，然后执行如下命令分别设置用户名和邮箱：
 
 ```bash
