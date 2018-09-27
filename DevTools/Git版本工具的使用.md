@@ -22,7 +22,7 @@ cat config
 	ignorecase = true
 	precomposeunicode = true
 [remote "origin"]
-	url = git@code.aliyun.com:fenke-ios/Avenger.git
+	url = git@xxxx.com:xxxx.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
 [branch "develop"]
 	remote = origin
