@@ -1,6 +1,14 @@
 
 ## Block定义
 
+###  block的语法结构
+
+```objc
+ * 定义Block： 返回类型 + （标识^ + block名称）+ 参数类型 + 参数
+ * Block作为参数： 返回类型 + （标识^） + 参数类型 + 参数 + block名称
+ * Block实现：  标识^ + 返回类型 + (参数类型 + 参数)
+```
+
 ## typedef
 
 ```objc
@@ -23,17 +31,18 @@ myBlock();
 * Block作为参数时，注意需要写明入参的名字
 
 ```objc
-[self appendMsgWithMsgBlock:^NSString *(NSString *receiveMsg) {
-    NSString *returnMsg = [receiveMsg stringByAppendingString:@"this is a message send by me."];
-    return returnMsg;
-} sendMsg:@"你好，"];
-
 - (void)appendMsgWithMsgBlock:(NSString *(^)(NSString *receiveMsg))myBlock sendMsg:(NSString *)sendMsg{
     if (myBlock) {
         NSString *returnMsg =  myBlock(sendMsg);
         NSLog(@"returnMsg = %@", returnMsg);
     }
 }
+
+[self appendMsgWithMsgBlock:^NSString *(NSString *receiveMsg) {
+    NSString *returnMsg = [receiveMsg stringByAppendingString:@"this is a message send by me."];
+    return returnMsg;
+} sendMsg:@"你好，"];
+
 ```
 
 2. 一种情况在非ARC下是无法编译的：
@@ -53,7 +62,18 @@ blk_t func(int rate){
 3. 有时候我们需要调用block 的copy函数，将block拷贝到堆上。看下面的代码：
 
 ```objc
--(id) getBlockArray{    int val =10;    return [[NSArray alloc]initWithObjects:        ^{NSLog(@"blk0:%d",val);},        ^{NSLog(@"blk1:%d",val);},nil];} id obj = getBlockArray();typedef void (^blk_t)(void);blk_t blk = (blk_t)[obj objectAtIndex:0];blk();
+-(id) getBlockArray{  
+  int val =10;
+  return [[NSArray alloc]initWithObjects:        ^{NSLog(@"blk0:%d",val);},  ^{NSLog(@"blk1:%d",val);}, nil];
+} 
+
+id obj = getBlockArray();
+
+typedef void (^blk_t)(void);
+
+blk_t blk = (blk_t)[obj objectAtIndex:0];
+
+blk();
 ```
 
 这段代码在最后一行blk()会异常，因为数组中的block是栈上的。因为val是栈上的。解决办法就是调用copy方法。
@@ -67,7 +87,17 @@ blk_t func(int rate){
 int val肯定是在栈上的，我保存了val的地址，看看block调用前后是否变化。输出一致说明是栈上，不一致说明是堆上。
 
 ```objc
-typedef int (^blkt1)(void) ;-(void) stackOrHeap{    __block int val =10;    int *valPtr = &val;//使用int的指针，来检测block到底在栈上，还是堆上    blkt1 s= ^{        NSLog(@"val_block = %d",++val);        return val;};    s();    NSLog(@"valPointer = %d",*valPtr);}
+typedef int (^blkt1)(void) ;
+-(void) stackOrHeap{  
+  __block int val =10;    
+  int *valPtr = &val;//使用int的指针，来检测block到底在栈上，还是堆上   
+     blkt1 s= ^{     
+        NSLog(@"val_block = %d",++val);    
+        return val;
+    }; 
+    s();
+    NSLog(@"valPointer = %d",*valPtr);
+}
 ```
 
 在ARC下——block捕获了自动变量，那么block就被会直接生成到堆上了。 val_block = 11 valPointer = 10

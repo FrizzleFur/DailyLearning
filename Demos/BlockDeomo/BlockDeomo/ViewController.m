@@ -8,7 +8,11 @@
 
 #import "ViewController.h"
 #import "Person.h"
-
+/**
+ * block的语法结构
+ * 定义Block： 返回类型 + （标识^ + block名称）+ 参数类型 + 参数
+ * Block作为参数： 返回类型 + （标识^） + 参数类型 + 参数 + block名称
+ */
 typedef void (^completion_t)(id result);
 
 @interface ViewController ()

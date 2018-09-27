@@ -1,6 +1,16 @@
 
 # KVO解析.md
 
+* 监听方法本质:并不需要修改方法的实现,仅仅想判断下有没有调用
+* // KV0怎么实现
+* // KV0的本质就是监听一个对象有没有调用set方法，重写这个方法 
+* 修改当前对象的isa指针,指向自定
+// KV0底层实现
+// 1.自定义NSKVONotifying_ Person子类
+// 2.重写setName,在内部恢复父类做法,通知观察者
+// 3.如何让外界调用自定义Person类的子类方法，修改当前对象的isa指针,指向
+NSKVONotifying_ Person
+
 ## Apple用什么方式实现对一个对象的KVO？
 
 [Apple 的文档](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/Articles/KVOImplementation.html)对 KVO 实现的描述：
