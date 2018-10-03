@@ -261,6 +261,7 @@ Static Framework & Dynamic Framework
 伪Framework 是指使用Xcode的Bundle来实现的。在使用时和Cocoa Touch Framework没有区别。但通过Framework，可以或者其中包含的资源文件（Image, Plist, Nib）。
 
 #### Xcode 6 and iOS Static Frameworks
+
 iOS Universal Framework Mk 8 中文
 iOS-Framework
 Swift 与 Framework 的关系
@@ -299,27 +300,12 @@ iOS 8 Support only:
 
 如果使用了动态链接库，在尝试编译到iOS 7设备上时，会出现在下错误：
 
-1
-2
-3
+
+```
 ld: warning: directory not found for option '-F/Volumes/Mactop BD/repos/SwiftWeather/Carthage.build/iOS'
 ld: embedded dylibs/frameworks are only supported on iOS 8.0 and later (@rpath/Alamofire.framework/Alamofire) for architecture armv7
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
-REF::
-
-WWDC2014 Building Modern Frameworks
-Dynamic Linking
-How to Create a Framework for iOS
-Library? Static? Dynamic? Or Framework? - SO
-Dynamic Frameworks on iOS 7
-CocoaPods Swift Support PR
-Apple - Framework Programming Guide
-Module System of Swift (简析 Swift 的模块系统)
-深入浅出Cocoa之Framework
-linux中静态库和动态库的区别和汇总
-IOS开发～Cocoa Touch Static Library（静态库）
-说说iOS中静态库的开发
-
+```
 
 [Library vs Framework in iOS | Lanvige's Zen Garden](http://blog.lanvige.com/2015/01/04/library-vs-framework-in-ios/?utm_source=tuicool&utm_medium=referral)
 
