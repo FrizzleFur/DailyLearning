@@ -323,3 +323,23 @@ IOS开发～Cocoa Touch Static Library（静态库）
 
 [Library vs Framework in iOS | Lanvige's Zen Garden](http://blog.lanvige.com/2015/01/04/library-vs-framework-in-ios/?utm_source=tuicool&utm_medium=referral)
 
+
+### Pod 更新慢
+
+
+```
+pod update --verbose --no-repo-update
+```
+
+
+## 问题
+ 
+1. CocoaPods could not find compatible versions for pod "XXX"
+
+解决方法：
+
+```
+pod update --verbose --no-repo-update
+
+pod install
+```
