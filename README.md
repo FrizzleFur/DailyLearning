@@ -2,7 +2,6 @@
 
 > 记录点滴成长
 
-
 ## 学习资源
 
 * [LearningIOS](https://github.com/zhouhuanqiang/LearningIOS) 视频学习资源
@@ -14,8 +13,6 @@
 * [iOS-Cracked-Apps](https://github.com/aozhimin/iOS-Cracked-Apps) 提供国内外知名 App 破解二进制文件，可以将这些已经破解的二进制文件通过反编译工具进行静态分析，另外仓库中已经从破解的二进制文件 dump 出了 Class 信息。
 
 * [2_ThirdParty](https://github.com/coolnameismy/ios-tips/tree/master/2_ThirdParty) 三方库的解析
-
-
 
 ###  博客
 
