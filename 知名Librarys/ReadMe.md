@@ -1,10 +1,8 @@
-##  iOS 常用知识点
+##iOS 常用知识点
 
 Inspired by [ios-tips](https://github.com/coolnameismy/ios-tips)
 
 his blog： [liuyanwei](http://liuyanwei.jumppo.com/index.html)
-
-
 
 ### Third Party
 

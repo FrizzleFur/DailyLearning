@@ -1,9 +1,6 @@
-
-# PublishToAppStore.md
-
+# App发布到AppStore
 
 [Publishing to the App Store - Part 1: Getting Started](https://videos.raywenderlich.com/courses/71-publishing-to-the-app-store/lessons/1)
-
 
 ##  Certificate
 

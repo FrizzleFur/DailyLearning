@@ -1,5 +1,4 @@
-
-# iOS 设计模式 Design Patterns.md
+# iOS 设计模式 Design Patterns
 
 ## 常见设计模式
 

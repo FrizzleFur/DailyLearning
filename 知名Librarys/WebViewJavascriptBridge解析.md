@@ -1,5 +1,4 @@
-
-## WebViewJavascriptBridgeNotes
+## WebViewJavascriptBridge解析.md
 
 
 > **前言**：iOS 开发中，h5 和原生实现通信有[多种方式]()， JSBridge 就是最常用的一种，各 JSBridge 类库的实现原理大同小异，这篇文章主要是针对当前使用最为广泛的 [WebViewJavascriptBridge（v6.0.2）](https://github.com/marcuswestin/WebViewJavascriptBridge/tree/v6.0.2)，从功能 API、实现原理到源码解读、最佳实践，做一个简单介绍。

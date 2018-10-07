@@ -30,3 +30,13 @@ If the view controller has a valid navigation item or tab-bar item, assigning a 
 * self.navigationItem.title: 设置 VC 顶部导航栏的标题
 * self.tabBarItem.title: 设置 VC 底部标签栏的标题
 * self.title: 同时修改上述两处的标题
+
+## 自控制器
+
+//控制器的view在,控制器被销毁。
+//控制器不存在,控制器的view也是可以存在
+// ARC管理原则;只要-一个对象没有被强引用,就会被销毁
+
+
+![](http://oc98nass3.bkt.clouddn.com/15388740190329.jpg)
+由于创建的VC都是局部变量，因此在创建方法走完之后，局部变量VC被销毁，但是VC的view加入到self.view的subviews数组中，被当前VC强引用。因此没有被释放。

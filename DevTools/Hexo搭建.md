@@ -1,5 +1,3 @@
-[TOC]
-
 # HexoBlog
 
 ## TODO
