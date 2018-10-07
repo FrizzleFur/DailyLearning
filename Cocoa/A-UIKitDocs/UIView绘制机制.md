@@ -414,6 +414,221 @@ A subview is added to the view or removed from the view.
 * rotating a device only calls layoutSubview on the parent view (the responding viewControllers primary view)
 * removeFromSuperview – layoutSubviews is called on superview only (not show in table)
 
+
+## CALayer的属性
+
+下面就逐个过下 CALayer 的一些重要属性:
+ 
+1. shadowPath : 设置 CALayer 背景(shodow)的位置
+ 
+2. shadowOffset : shadow 在 X 和 Y 轴 上延伸的方向，即 shadow 的大小
+ 
+3. shadowOpacity : shadow 的透明效果
+ 
+4. shadowRadius : **shadow 的渐变距离，从外围开始，往里渐变 shadowRadius 距离**
+ 
+5. masksToBounds : 很重要的属性，可以用此属性来防止子元素大小溢出父元素，如若防止溢出，请设为 true
+ 
+6. borderWidth 和 boarderColor : 边框颜色和宽度，很常用
+ 
+7. bounds : 对于我来说比较难的一个属性，测了半天也没完全了解，只知道可以用来控制 UIView 的大小，但是不能控制 位置
+ 
+8. opacity : UIView 的透明效果
+ 
+9. cornerRadius : UIView 的圆角
+
+
+### 1. 简单阴影
+
+我们给layer设置了shadowOpacity后就能得到一个简单的阴影
+
+```
+view.layer.shadowOpacity = 1;
+
+```
+
+![](//upload-images.jianshu.io/upload_images/1790850-513cec3f72763b31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/406/format/webp)
+
+shadowOpacity设置了阴影的不透明度,取值范围在0~1
+这里shadow有一个默认值
+shadowOffset = CGSizeMake(0, -3)
+shadowRadius = 3.0
+注意:如果view没有设置背景色阴影也是不会显示的
+
+### 2. 阴影属性
+
+layer中与阴影相关的属性有以下几个
+
+```
+(CGColorRef *) shadowColor//阴影颜色
+(float) shadowOpacity//阴影透明度
+(CGSize) shadowOffset//阴影偏移量
+(CGFloat) shadowRadius//模糊计算的半径
+(CGPathRef *) shadowPath//阴影路径
+
+```
+
+### 3. shadowColor
+
+```
+- (void)p_setupSubViews {
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self p_setupViewWithY:100 shadowColor:[UIColor redColor]];
+    [self p_setupViewWithY:170 shadowColor:[UIColor blueColor]];
+    [self p_setupViewWithY:240 shadowColor:[UIColor yellowColor]];
+}
+
+- (void)p_setupViewWithY:(CGFloat)y shadowColor:(UIColor *)shadowColor {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(30, y, [UIScreen mainScreen].bounds.size.width - 60, 50)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:view];
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowColor = shadowColor.CGColor;
+}
+
+```
+
+![](//upload-images.jianshu.io/upload_images/1790850-f843dc760e0462b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/389/format/webp)
+
+shadow color
+
+### 4. shadowOpacity
+
+```
+- (void)p_setupSubViews {
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self p_setupViewWithY:100 shadowOpacity:0.2];
+    [self p_setupViewWithY:170 shadowOpacity:0.6];
+    [self p_setupViewWithY:240 shadowOpacity:0.9];
+}
+
+- (void)p_setupViewWithY:(CGFloat)y shadowOpacity:(float)shadowOpacity {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(30, y, [UIScreen mainScreen].bounds.size.width - 60, 50)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:view];
+    view.layer.shadowOpacity = shadowOpacity;
+}
+
+```
+
+![](//upload-images.jianshu.io/upload_images/1790850-73e48af79d0abc79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/384/format/webp)
+
+shadow opacity
+
+### 5. shadowOffset
+
+```
+- (void)p_setupSubViews {
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self p_setupViewWithY:100 shadowOffset:CGSizeMake(0, 0)];
+    [self p_setupViewWithY:170 shadowOffset:CGSizeMake(5, 0)];
+    [self p_setupViewWithY:240 shadowOffset:CGSizeMake(-5, 0)];
+    [self p_setupViewWithY:310 shadowOffset:CGSizeMake(0, 5)];
+    [self p_setupViewWithY:380 shadowOffset:CGSizeMake(0, -5)];
+    [self p_setupViewWithY:450 shadowOffset:CGSizeMake(5, 5)];
+    [self p_setupViewWithY:520 shadowOffset:CGSizeMake(-5, -5)];
+}
+
+- (void)p_setupViewWithY:(CGFloat)y shadowOffset:(CGSize)shadowOffset {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(30, y, [UIScreen mainScreen].bounds.size.width - 60, 50)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:view];
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowOffset = shadowOffset;
+}
+
+```
+
+![](//upload-images.jianshu.io/upload_images/1790850-e5554d803a2ec067.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/394/format/webp)
+
+shadow offset
+
+### 6. shadowRadius
+
+shadowRadius其实可以理解为阴影的宽度
+
+```
+- (void)p_setupSubViews {
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self p_setupViewWithY:100 shadowRadius:0];
+    [self p_setupViewWithY:170 shadowRadius:3.0];
+    [self p_setupViewWithY:240 shadowRadius:10.0];
+
+}
+
+- (void)p_setupViewWithY:(CGFloat)y shadowRadius:(CGFloat)shadowRadius {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(30, y, [UIScreen mainScreen].bounds.size.width - 60, 50)];
+    view.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:view];
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowOffset = CGSizeMake(0, 0);
+    view.layer.shadowRadius = shadowRadius;
+}
+
+```
+
+![](//upload-images.jianshu.io/upload_images/1790850-37abee0b4ae6a1bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/403/format/webp)
+
+shadow radius
+
+### 7. shadowPath
+
+```
+- (void)p_setupSubViews {
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self p_setupViewWithY1:100];
+    [self p_setupViewWithY2:170];
+    [self p_setupViewWithY3:240];//贝塞尔曲线未闭合
+}
+
+- (void)p_setupViewWithY1:(CGFloat)y {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(30, y, [UIScreen mainScreen].bounds.size.width - 60, 50)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:view];
+    view.layer.shadowOpacity = 1;
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.shadowPath = path.CGPath;
+}
+
+- (void)p_setupViewWithY2:(CGFloat)y {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(30, y, [UIScreen mainScreen].bounds.size.width - 60, 50)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:view];
+    view.layer.shadowOpacity = 1;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0, 0)];
+    [path addLineToPoint:CGPointMake(0, view.frame.size.height + 10)];
+    [path addLineToPoint:CGPointMake(view.frame.size.width, view.frame.size.height + 10)];
+    [path addLineToPoint:CGPointMake(view.frame.size.width, 0)];
+    [path addLineToPoint:CGPointMake(0, 0)];
+    view.layer.shadowPath = path.CGPath;
+}
+
+- (void)p_setupViewWithY3:(CGFloat)y {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(30, y, [UIScreen mainScreen].bounds.size.width - 60, 50)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:view];
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowOffset = CGSizeMake(0, 0);
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(-5, 0)];
+    [path addLineToPoint:CGPointMake(-5, view.frame.size.height)];
+    [path addLineToPoint:CGPointMake(view.frame.size.width, view.frame.size.height)];
+    [path addLineToPoint:CGPointMake(view.frame.size.width, 0)];
+    view.layer.shadowPath = path.CGPath;
+}
+
+```
+
+![](//upload-images.jianshu.io/upload_images/1790850-ff585968f23664e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/389/format/webp)
+
+shadow path
+
+当用bounds设置path时,看起来的效果与只设置了shadowOpacity一样
+但是添加了shadowPath后消除了离屏渲染问题
+
+
+
 ## 参考
 
 1. [谈谈UIView的几个layout方法-layoutSubviews、layoutIfNeeded、setNeedsLayout...](http://www.jianshu.com/p/eb2c4bb4e3f1)
@@ -421,6 +636,7 @@ A subview is added to the view or removed from the view.
 3. [When is layoutSubviews called?](http://stackoverflow.com/questions/728372/when-is-layoutsubviews-called)
 4. [UIView的setNeedsLayout, layoutIfNeeded 和 layoutSubviews 方法之间的关系解释](http://blog.csdn.net/meegomeego/article/details/39890385)
 5. [理解UIView的绘制](http://vizlabxt.github.io/blog/2012/10/22/UIView-Rendering/)
+6. [iOS 阴影(shadow) - 简书](https://www.jianshu.com/p/9f73bc843d00)
 
 
 
