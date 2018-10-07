@@ -1,10 +1,4 @@
-
 # NSNotification.md
-
-
-
-### 
-
 
 >只要往NSNotificationCenter注册了，就必须有remove的存在，这点是大家共识的。但是大家在使用的时候发现，在UIViewController 中addObserver后没有移除，好像也没有挂！我想很多人可能和我有一样的疑问，是不是因为使用了ARC？在你对象销毁的时候自动置为nil了呢？或者苹果在实现这个类的时候用了什么神奇的方式呢？下面我们就一步步来探究下。
 

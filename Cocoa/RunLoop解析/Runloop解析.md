@@ -1,5 +1,4 @@
-
-## RunLoop 的概念
+## RunLoop解析
 
 ### Foundation中的NSRunLoop
 * Core Foundation中的CFRunLoopRef

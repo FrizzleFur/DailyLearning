@@ -1,7 +1,5 @@
 # UITableView-iOS 11 安全区域适配
 
-
-
 本文为作者原创，未经作者允许不得转载。该文同时发表在腾讯bugly公众号：[http://mp.weixin.qq.com/s/W1_0VrchCO50owhJNmJnuQ](https://link.jianshu.com?t=http://mp.weixin.qq.com/s/W1_0VrchCO50owhJNmJnuQ) 欢迎阅读
 
 导语：本文主要是对iOS 11下APP中`tableView`内容下移20pt或下移64pt的问题适配的一个总结。内容包括五个部分：问题的原因分析、`adjustContentInset`属性的计算方式、什么情况下的`tableView`会发生内容下移、有哪些解决方法、解决这个问题时遇到的另外一个小问题。
