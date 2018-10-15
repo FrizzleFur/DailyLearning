@@ -1,9 +1,7 @@
 ## 饭圈App问题记录
 
 
-
 ### 首页下拉和吸顶的问题
-
 
 #### 需求： 
 
@@ -16,7 +14,6 @@
 ![](http://oc98nass3.bkt.clouddn.com/15393193121117.jpg)
 
 这里使用了通知来监听内外层ScrollView滚动的偏移量
-
 
 1. 
 
@@ -37,12 +34,7 @@
 
 ```
 
-
-
-
 在主视图中，保存子视图的滑动视图。
-
-
 
 ```objc
 /** 子VC的滚动视图scrollView */
@@ -89,3 +81,22 @@
 ```
 
 参考 [Avenger-10-12首页滚动问题未改动备份](https://github.com/SPStore/HVScrollView)
+
+
+
+## 网页加载完返回的崩溃
+
+原因：加载网页会调用多次，每次去pop造成页面崩溃。
+
+```objc
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+ // call request
+     [[HttpClient sharedClient] postRequest:HTTP_COMMAND_HITS_BINDHITSACCOUNT serviceType:(HTTP_SERVICE_USER) params:params success:^(id responseObject) {
+// success
+    // 返回上个页面，web需要置空
+    [self.navigationController popViewControllerAnimated:true];
+```
+
+## 参考
+
+1. [iphone - EXC_BAD_ACCESS in UIWebView - Stack Overflow](https://stackoverflow.com/questions/1520674/exc-bad-access-in-uiwebview)

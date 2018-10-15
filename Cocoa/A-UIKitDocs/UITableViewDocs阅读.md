@@ -34,9 +34,25 @@ Many methods of UITableView take NSIndexPath objects as parameters and return va
 一个UITableView对象必须有一个对象，作为一个数据源和一个对象作为代表；通常这些对象是应用程序的代理或更频繁，一个自定义UITableViewController对象。数据源必须采用uitableviewdatasource协议和委托必须采用uitableviewdelegate协议。数据源提供的信息，表格需要构建表和管理数据模型时，一个表的行插入，删除或重新排序。委托管理表行配置和选择、行重新排序、突出显示、附件视图和编辑操作。
 
 
+### 刷新
 
+Changing UITableView section header without tableView:titleForHeaderInSection
 
+```objc
+[self.tableView beginUpdates];
+[self.tableView endUpdates];
+// forces the tableView to ask its delegate/datasource the following:
+//   numberOfSectionsInTableView:
+//   tableView:titleForHeaderInSection:
+//   tableView:titleForFooterInSection:
+//   tableView:viewForHeaderInSection:
+//   tableView:viewForFooterInSection:
+//   tableView:heightForHeaderInSection:
+//   tableView:heightForFooterInSection:
+//   tableView:numberOfRowsInSection:
+```
 
+[iphone - Changing UITableView section header without tableView:titleForHeaderInSection - Stack Overflow](https://stackoverflow.com/questions/1586420/changing-uitableview-section-header-without-tableviewtitleforheaderinsection)
 
 
 
