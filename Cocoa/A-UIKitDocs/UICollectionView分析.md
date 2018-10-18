@@ -24,3 +24,27 @@ mCollectView.transform = CGAffineTransformMakeRotation(M_PI);
 cell.transform = CGAffineTransformMakeRotation(M_PI);
 ```
 
+## 设置section的背景颜色
+
+Basically, we will have to subclass UICollectionViewLayoutAttributes, UICollectionReusableView and UICollectionViewLayout in order to create a instance UICollectionReusableView as section's background view.
+
+自定义一个UICollectionViewLayoutAttributes
+
+```objc
++ (UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString *)decorationViewKind
+                                                                withIndexPath:(NSIndexPath *)indexPath {
+    
+    ECCollectionViewLayoutAttributes *layoutAttributes = [super layoutAttributesForDecorationViewOfKind:decorationViewKind
+                                                                                              withIndexPath:indexPath];
+    if (indexPath.section%2 == 0) {
+        layoutAttributes.color = [UIColor redColor];
+    } else {
+        layoutAttributes.color = [UIColor blueColor];
+    }
+    return layoutAttributes;
+}
+
+```
+![](http://oc98nass3.bkt.clouddn.com/15397755573987.jpg)
+
+1. [ios - How to change background color of a whole section in UICollectionView? - Stack Overflow](https://stackoverflow.com/questions/13609204/how-to-change-background-color-of-a-whole-section-in-uicollectionview)

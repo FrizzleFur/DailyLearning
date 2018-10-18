@@ -328,6 +328,10 @@ a 为『从目前光标所在的下一个字符处开始输入』， A 为『从
 举例来说，要删除 50 行，则是用 『50dd』 对吧！ 数字加在动作之前，如我要向下移动 20 行呢？那就是『20j』或者是『20↓』即可。
 
 
+## Vim for markdown
+
+[suan/vim-instant-markdown: Instant Markdown previews from VIm!](https://github.com/suan/vim-instant-markdown)
+
 ## 参考
 
 1. [看完这篇Linux基本的操作就会了 - 简书](https://www.jianshu.com/p/a182a0be4b8a#%E5%9B%9B%E3%80%81VI%E7%BC%96%E8%BE%91%E5%99%A8)
