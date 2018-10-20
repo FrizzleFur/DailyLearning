@@ -55,6 +55,23 @@ Changing UITableView section header without tableView:titleForHeaderInSection
 [iphone - Changing UITableView section header without tableView:titleForHeaderInSection - Stack Overflow](https://stackoverflow.com/questions/1586420/changing-uitableview-section-header-without-tableviewtitleforheaderinsection)
 
 
+## cell分割线 设置间距
+
+```objc
+// 分割线左间距
+    cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
+```
+
+## 隐藏导航的时候露出状态白线
+
+```objc
+ // 取消自动调整内容内间距
+    if (@available(iOS 11.0, *)) {
+        [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
+    } else {
+        // Fallback on earlier versions
+    」
+```
 
 ## 参考 
 
