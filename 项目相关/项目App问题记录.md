@@ -135,8 +135,27 @@ NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[htmlStr
 UILabel * myLabel = [[UILabel alloc] init];
 myLabel.attributedText = attrStr;
 ```
+
+
+```objc
+- (NSAttributedString *)attributedStringWithHTMLString:(NSString *)htmlString
+
+{
+
+NSDictionary *options = @{ NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType,
+
+NSCharacterEncodingDocumentAttribute :@(NSUTF8StringEncoding) };
+
+NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
+
+return [[NSAttributedString alloc] initWithData:data options:options documentAttributes:nil error:nil];
+
+}
+```
  
- 参考：[How to show an HTML string on a UILabel in iOS? - Stack Overflow](https://stackoverflow.com/questions/19946251/how-to-show-an-html-string-on-a-uilabel-in-ios)
+- 参考：
+    - 1. [How to show an HTML string on a UILabel in iOS? - Stack Overflow](https://stackoverflow.com/questions/19946251/how-to-show-an-html-string-on-a-uilabel-in-ios)
+    - 2. [iOS 开发_NSAtrributeString与HTML之间的相互转换 - 简书](https://www.jianshu.com/p/aa92f597ed55)
  
 ## 参考
 
