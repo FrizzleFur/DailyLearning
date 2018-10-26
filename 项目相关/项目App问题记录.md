@@ -157,6 +157,22 @@ return [[NSAttributedString alloc] initWithData:data options:options documentAtt
     - 1. [How to show an HTML string on a UILabel in iOS? - Stack Overflow](https://stackoverflow.com/questions/19946251/how-to-show-an-html-string-on-a-uilabel-in-ios)
     - 2. [iOS 开发_NSAtrributeString与HTML之间的相互转换 - 简书](https://www.jianshu.com/p/aa92f597ed55)
  
+ 
+## 打包问题
+
+```objc
+ld: could not reparse object file in bitcode bundle: 'Invalid bitcode version (Producer: '1000.11.45.2_0' Reader: '902.0.39.2_0')', using libLTO version 'LLVM version 9.1.0, (clang-902.0.39.2)' for architecture armv7
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+```
+
+![](https://i.loli.net/2018/10/26/5bd2ac06c93f2.jpg)
+
+分析：
+项目中框架是使用Xcode 10编译的，但我使用的是Xcode 9.4.1（看起来像900.0.39.2_0是Xcode 9.2而902.0.39.2_0是Xcode 9.4）。我通过在Build Settings中暂时将Enable Bitcode设置为No来解决它。
+
+解决： [ios - VSTS Build Generation throwing Invalid bitcode version error - Stack Overflow](https://stackoverflow.com/questions/51128462/vsts-build-generation-throwing-invalid-bitcode-version-error)
+
+ 
 ## 参考
 
 1. [iphone - EXC_BAD_ACCESS in UIWebView - Stack Overflow](https://stackoverflow.com/questions/1520674/exc-bad-access-in-uiwebview)
