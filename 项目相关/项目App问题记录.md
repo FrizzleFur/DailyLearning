@@ -1,8 +1,10 @@
-## 饭圈App问题记录
-
+## 项目App问题记录
 
 ### 首页下拉和吸顶的问题
 
+首页先往上拉，在下拉，就无法获取ScrollView正确的contentOffset，造成MJ的Inset错误刷新失效！！在`handleSubScrollDidScroll`方法中有问题，可否KVO
+1. child scrollview的bounce需要设置，以便在临界点触发过度阶段。
+2. 下拉过程，快速滑动的过程中，child scrollview超过临界点后contentOffsetY每次被更新为0，然后main scrollview会停止滚动。
 #### 需求： 
 
 需要一个包含头视图的类似网易新闻的tabBar，下面是列表的结构.
@@ -82,9 +84,7 @@
 
 参考 [Avenger-10-12首页滚动问题未改动备份](https://github.com/SPStore/HVScrollView)
 
-
-
-## 网页加载完返回的崩溃
+## 网页加载完返回的崩溃en
 
 原因：加载网页会调用多次，每次去pop造成页面崩溃。
 
@@ -97,6 +97,47 @@
     [self.navigationController popViewControllerAnimated:true];
 ```
 
+## 浮层的动画问题
+
+```objc
+// 在动画期间，对于要动画的视图暂时禁用用户交互
+// 原因是对UIView的动画理解还不够，执行的时候，从之前的状态到动画终点的状态，然后是完成的回调。
+// 之前的问题代码
+    [UIView animateWithDuration:0.25 animations:^{
+        self.view.alpha = 1.0;
+        self->taskFloatView.bottom = self.view.bottom;
+    } completion:^(BOOL finished) {
+        self->taskFloatView.bottom = self.view.bottom;
+        self->taskFloatView.hidden = false;
+    }];
+
+// 修改后的代码
+    [UIView animateWithDuration:0.25 animations:^{
+        self.view.alpha = 1.0;
+        self->taskFloatView.hidden = false;
+        self->taskFloatView.bottom = self.view.bottom;
+    } completion:nil];
+
+```
+
+## hitTest方法的调用
+
+ Tabbar中间Item按钮，二级页里也会触发.原因:检测tabbar中间点击范围的时候，调用hitTest方法中返回了starTabBarBtn，导致调用UITabBarController的点击事件代理。
+ 
+ 
+ 
+## HTML转富文本
+
+```objc
+NSString * htmlString = @"<html><body> Some html string </body></html>";
+NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+
+UILabel * myLabel = [[UILabel alloc] init];
+myLabel.attributedText = attrStr;
+```
+ 
+ 参考：[How to show an HTML string on a UILabel in iOS? - Stack Overflow](https://stackoverflow.com/questions/19946251/how-to-show-an-html-string-on-a-uilabel-in-ios)
+ 
 ## 参考
 
 1. [iphone - EXC_BAD_ACCESS in UIWebView - Stack Overflow](https://stackoverflow.com/questions/1520674/exc-bad-access-in-uiwebview)
