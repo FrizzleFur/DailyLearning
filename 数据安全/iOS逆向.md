@@ -1,142 +1,293 @@
-# iOS逆向
+# 一条命令完成砸壳
 
+发表于 2018-01-30   |   分类于 [逆向 ](http://www.alonemonkey.com/categories/%E9%80%86%E5%90%91/)  |   [3 Comments](http://www.alonemonkey.com/2018/01/30/frida-ios-dump/#comments)
 
-### 学习资源
+### [](http://www.alonemonkey.com/2018/01/30/frida-ios-dump/#%E8%83%8C%E6%99%AF "背景")背景
 
-[学习资料资源入口整理（一起整理啦）](http://www.iosre.com/t/topic/4680)
-[iPhone Development Wiki](http://iphonedevwiki.net/index.php/Main_Page)
+最早的砸壳工具是stefanesser写的[dumpdecrypted](https://github.com/stefanesser/dumpdecrypted)，通过手动注入然后启动应用程序在内存进行dump解密后的内存实现砸壳，这种砸壳只能砸主App可执行文件。
 
-[iOS%20Hacking%20Guide](chrome-extension://gfbliohnnapiefjpjlpjnehglfpaknnc/pages/pdf_viewer.html?r=https://web.securityinnovation.com/hubfs/iOS%20Hacking%20Guide.pdf)
+对于应用程序里面存在framework的情况可以使用conradev的[dumpdecrypted](https://github.com/conradev/dumpdecrypted)，通过_dyld_register_func_for_add_image注册回调对每个模块进行dump解密。
 
+但是这种还是需要拷贝dumpdecrypted.dylib，然后找路径什么的，还是挺麻烦的。所以笔者干脆放到[MonkeyDev](https://github.com/AloneMonkey/MonkeyDev)模板变成一个tweak的形式[dumpdecrypted](https://github.com/AloneMonkey/dumpdecrypted)，这样填写目标bundle id然后看日志把文件拷贝出来就可以了。
 
+但是还是很麻烦，需要拷贝文件自己还原ipa，然后有了KJCracks的[Clutch](https://github.com/KJCracks/Clutch)通过posix_spawnp创建进程然后dump直接生成ipa包在设备，可以说是很方便了。这个是工具在使用的时候大部分应用会出报错，此外生成的包还需要自己拷贝。
 
-###  砸壳
+### [](http://www.alonemonkey.com/2018/01/30/frida-ios-dump/#%E4%B8%80%E9%94%AEdump "一键dump")一键dump
 
-为了砸壳，我们需要使用到`dumpdecrypted`，这个工具已经开源并且托管在了`GitHub` 上面，我们需要进行手动编译。步骤如下：
+人都是想偷懒的，于是便有了本文将要介绍的[frida-ios-dump](https://github.com/AloneMonkey/frida-ios-dump)，该工具基于frida提供的强大功能通过注入js实现内存dump然后通过python自动拷贝到电脑生成ipa文件，通过以下方式配置完成之后真的就是一条命令砸壳。
 
-1. 从`GitHub` 上 `clone`源码：
+### [](http://www.alonemonkey.com/2018/01/30/frida-ios-dump/#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE "环境配置")环境配置
 
-```
-$ cd ~/iOSReverse
-$ git clone git://github.com/stefanesser/dumpdecrypted/
-```
+首先上面也说了该工具基于frida，所以首先要在手机和mac电脑上面安装frida，安装方式参数官网的文档:[https://www.frida.re/docs/home/](https://www.frida.re/docs/home/)
 
-2. 编译 dumpdecrypted.dylib：
+如果mac端报如下错:
 
-```
-$ cd dumpdecrypted/
-$ make
-```
+| 
 
-执行完 make 命令之后，在当前目录下就会生成一个 dumpdecrypted.dylib，这个就是我们等下要使用到的砸壳工具。
+1
 
+ | 
 
+Uninstalling a distutils installed project (six) has been deprecated and will be removed in a future version. This is due to the fact that uninstalling a distutils project will only partially uninstall the project.
 
-### class-dump
+ |
 
+使用如下命令安装即可:
 
-### 使用 `Xcode` 调试第三方应用
+| 
 
+1
 
-#### get-task-allow
+ | 
 
-1. 提取`.mobileprovision`文件的`entitlements.plist`
+sudo pip install frida –upgrade –ignore-installed six
 
-![](http://oc98nass3.bkt.clouddn.com/2017-07-03-14990792796143.jpg)
+ |
 
-拷贝内容，新建一个`.plist`文件
-![](http://oc98nass3.bkt.clouddn.com/2017-07-03-14990793865052.jpg)
+然后将越狱设备通过USB连上电脑进行端口映射:
 
-拷贝到`wechat.app`文件夹中
+| 
 
+1
 
-![](http://oc98nass3.bkt.clouddn.com/2017-07-03-14990796280206.jpg)
+ | 
 
+iproxy 2222 22
 
-#### 解决问题
+ |
 
-这里会有一个问题，如果app中包含了扩展之类的东西就需要注意了，每个插件包里都会有一个info.plist文件，里面的Bundle identifier也需要做相应的修改，不然后导致安装失败。
+到此环境就配置好了，接下来就可以一键砸壳了！ (另当前python基于2.x的语法，先切换到python 2.x的环境
 
-另外即使改了所有相关的Bundle identifier，还需要对扩展插件进行砸壳才行。所以为了方便，我就把所有插件相关的东西都删了！
+### [](http://www.alonemonkey.com/2018/01/30/frida-ios-dump/#%E4%B8%80%E9%94%AE%E7%A0%B8%E5%A3%B3 "一键砸壳")一键砸壳
 
-![](http://oc98nass3.bkt.clouddn.com/2017-07-04-14991380843315.jpg)
+最简单的方式直接使用./dump + 应用显示的名字即可，如下:
 
-#### 整体流程
+| 
 
-1. 选好一个`mobileprovision`文件，可以运行真机得到。
-2. 查看mobileprovision的内容
+1
 
-```
-security cms -D -i    yourMobileprovisionName.mobileprovision
-```
+2
 
-3. 从 `mobileprovision` 导出 `plist`文件，命名为`entitlements.plist`
+3
 
-```
-/usr/libexec/PlistBuddy -c "Print :Entitlements" mobileprovisionName.plist -x > entitlements.plist
-```
+4
 
-4. 删除旧的资源签名
-```
-defaults delete CFBundleResourceSpe Info.plist
-```
-如果提示说 `Info.plist `中没有`CFBundleREsourceSpecification` 是正常的。
+5
 
-5. 查找证书
-```
-security find-identity -v -p codesigning
-```
+6
 
-6. 重新签名
-```
-codesign -vvv -fs “YourCertifierName” --entitlements=AppName.app/entitlements.plist --no-strict AppName.app
-```
+7
 
-6. 打包`ipa`文件
-```
-zip -ry AppName.ipa Payload
-```
+8
 
-#### 链接App，开始调试
+9
 
-2.Attach to Process
+10
 
-重签名后安装到越狱设备上，启动app，在Xcode中随便打开一个工程，选择越狱设备，就可以在Debug->Attach to Process中找到正在运行的进程名和进程id，点击后就会开始连接。大概过1分钟就会连接上。
+11
 
-3.查看UI
+12
 
-连接上后，就可以点击使用Xcode的Debug UI Hierarchy来查看界面布局：
+13
 
+14
 
-UI Hierarchy
-注意，Debug UI Hierarchy对Xcode版本似乎有要求，在调试重签名app时，Xcode8.3.2可以，而Xcode8.2就没有这个功能按钮。
+15
 
-4.查看内存信息
+16
 
-点击Debug Memory Graph按钮，可以查看当前内存中存在的数据。打印地址，查看引用关系，可以配合malloc stack进行追踪。如果打开了malloc stack，就可以直接在右边显示这个对象的创建堆栈。开启方法参考：iOS逆向：在任意app上开启malloc stack追踪内存来源
+17
 
+18
 
-Memory Graph
-5.查看正在使用的文件
+19
 
-debug gauges中的Disk工具可以查看app当前打开的文件。
+20
 
+21
 
-Open Files
-6.instrument调试
+22
 
-类似的，也可以用instrument调试重签名后的app，不过并不是所有工具都可以使用，对逆向的帮助不大。
+23
 
- 逆向工程
+24
 
+25
 
-## 参考
+26
 
-1. [iOS 逆向手把手教程之一：砸壳与class-dump · Swiftyper](http://www.swiftyper.com/2016/05/02/iOS-reverse-step-by-step-part-1-class-dump/)
-2. [iOS 逆向实战 - 钉钉签到远程“打卡”](https://www.instapaper.com/read/923533156)
-3. [iOS逆向工程-----class-dump - 简书](http://www.jianshu.com/p/2add936e8bdd)
+27
 
-###   使用 `Xcode` 调试第三方应用参考
-1. [使用 Xcode 调试第三方应用 · Swiftyper](http://swiftyper.com/2017/07/02/attach-third-app-using-xcode/)
-2. [iOS APP重签名 - 简书](http://www.jianshu.com/p/5bc225be6c03)
+28
 
+29
+
+30
+
+31
+
+32
+
+33
+
+34
+
+ | 
+
+➜  frida-ios-dump ./dump.py 微信
+
+open target app......
+
+Waiting for the application to open......
+
+start dump target app......
+
+start dump /var/containers/Bundle/Application/6665AA28-68CC-4845-8610-7010E96061C6/WeChat.app/WeChat
+
+WeChat                                        100%   68MB  11.4MB/s   00:05
+
+start dump /private/var/containers/Bundle/Application/6665AA28-68CC-4845-8610-7010E96061C6/WeChat.app/Frameworks/WCDB.framework/WCDB
+
+WCDB                                          100% 2555KB  11.0MB/s   00:00
+
+start dump /private/var/containers/Bundle/Application/6665AA28-68CC-4845-8610-7010E96061C6/WeChat.app/Frameworks/MMCommon.framework/MMCommon
+
+MMCommon                                      100%  979KB  10.6MB/s   00:00
+
+start dump /private/var/containers/Bundle/Application/6665AA28-68CC-4845-8610-7010E96061C6/WeChat.app/Frameworks/MultiMedia.framework/MultiMedia
+
+MultiMedia                                    100% 6801KB  11.1MB/s   00:00
+
+start dump /private/var/containers/Bundle/Application/6665AA28-68CC-4845-8610-7010E96061C6/WeChat.app/Frameworks/mars.framework/mars
+
+mars                                          100% 7462KB  11.1MB/s   00:00
+
+AppIcon60x60@2x.png                           100% 2253   230.9KB/s   00:00
+
+AppIcon60x60@3x.png                           100% 4334   834.8KB/s   00:00
+
+AppIcon76x76@2x~ipad.png                      100% 2659   620.6KB/s   00:00
+
+AppIcon76x76~ipad.png                         100% 1523   358.0KB/s   00:00
+
+AppIcon83.5x83.5@2x~ipad.png                  100% 2725   568.9KB/s   00:00
+
+Assets.car                                    100%   10MB  11.1MB/s   00:00
+
+.......
+
+AppIntentVocabulary.plist                     100%  197    52.9KB/s   00:00
+
+AppIntentVocabulary.plist                     100%  167    43.9KB/s   00:00
+
+AppIntentVocabulary.plist                     100%  187    50.2KB/s   00:00
+
+InfoPlist.strings                             100% 1720   416.4KB/s   00:00
+
+TipsPressTalk@2x.png                          100%   14KB   2.2MB/s   00:00
+
+mm.strings                                    100%  404KB  10.2MB/s   00:00
+
+network_setting.html                          100% 1695   450.4KB/s   00:00
+
+InfoPlist.strings                             100% 1822   454.1KB/s   00:00
+
+mm.strings                                    100%  409KB  10.2MB/s   00:00
+
+network_setting.html                          100% 1819   477.5KB/s   00:00
+
+InfoPlist.strings                             100% 1814   466.8KB/s   00:00
+
+mm.strings                                    100%  409KB  10.3MB/s   00:00
+
+network_setting.html                          100% 1819   404.9KB/s   00:00
+
+ |
+
+如果存在应用名称重复了怎么办呢？没关系首先使用如下命令查看安装的应用的名字和bundle id:
+
+| 
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+11
+
+12
+
+13
+
+14
+
+15
+
+16
+
+ | 
+
+➜  frida-ios-dump git:(master) ✗ ./dump.py -l
+
+  PID  Name                       Identifier
+
+-----  -------------------------  ----------------------------------------
+
+ 9661  App Store                  com.apple.AppStore
+
+16977  Moment                     com.kevinholesh.Moment
+
+ 1311  Safari                     com.apple.mobilesafari
+
+16586  信息                         com.apple.MobileSMS
+
+ 4147  微信                         com.tencent.xin
+
+10048  相机                         com.apple.camera
+
+ 7567  设置                         com.apple.Preferences
+
+    -  CrashReporter              crash-reporter
+
+    -  Cydia                      com.saurik.Cydia
+
+    -  通讯录                        com.apple.MobileAddressBook
+
+    -  邮件                         com.apple.mobilemail
+
+    -  音乐                         com.apple.Music
+
+    ......
+
+ |
+
+然后使用如下命令对指定的bundle id应用进行砸壳即可:
+
+| 
+
+1
+
+ | 
+
+➜  frida-ios-dump git:(master) ✗ ./dump.py -b com.tencent.xin
+
+ |
+
+等待自动砸壳传输完成之后便会到当前目录生成一个解密后的ipa文件，这个时候赶紧拖到[MonkeyDev](https://github.com/AloneMonkey/MonkeyDev)开始逆向之旅吧！
+
+ [](http://www.alonemonkey.com/images/wx-qrcode.jpg)

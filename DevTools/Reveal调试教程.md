@@ -1,12 +1,15 @@
 ## Reveal调试教程
 
 
-
 ## 进阶
 
 
 [进阶使用Reveal分析别人App的UI布局](http://chaosky.me/2016/07/27/iOS-Security-Defense-Reveal/)
 
+
+## MacOS上的Reveal
+
+[Interface Inspector](https://www.interface-inspector.com/index.html)
 
 ## 参考
 

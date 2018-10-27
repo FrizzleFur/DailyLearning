@@ -447,4 +447,4 @@ settings.png
 ## 参考
 
 1. [Postman使用手册1——导入导出和发送请求查看响应](http://www.jianshu.com/p/13c8017bb5c8)
-2. []()
+2. [基于Postman的API自动化测试 - 前沿开发团队 - SegmentFault 思否](https://segmentfault.com/a/1190000005055899)
