@@ -10,6 +10,13 @@
 
 > 一个简单的举例
 
+![](https://i.loli.net/2018/10/21/5bcc88930ebf8.jpg)
+
+通信方式
+
+![](https://i.loli.net/2018/10/21/5bcc88ba9690b.jpg)
+
+
 * 初期：依据`MVC`模式，把项目进行`Model`、`View`、`Controller`简单分类：
 
 ![](http://upload-images.jianshu.io/upload_images/225323-538dc5ac5e0c8a35.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -23,6 +30,7 @@
 ![](http://upload-images.jianshu.io/upload_images/225323-ee8cdb09cd5ca3db.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![](http://upload-images.jianshu.io/upload_images/225323-cc86545bb5394e2c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 
 ###  MVC-N
@@ -91,4 +99,5 @@
 1. [iOS Design Patterns - Part 2: Project Setup | Ray Wenderlich](https://videos.raywenderlich.com/courses/72-ios-design-patterns/lessons/2)
 
 2. [设计模式六大原则](http://www.uml.org.cn/sjms/201211023.asp)
+3. [前端你别闹](https://mp.weixin.qq.com/s?__biz=MzI5ODM3MjcxNQ==&mid=2247483943&idx=1&sn=d2b019ae41d8bd63d42f5abd0df64173&chksm=eca79923dbd01035b4038e8c513075ed5dcf201659cfca291125f45b4491fa96cf8b6f023a50&scene=21#wechat_redirect)
 
