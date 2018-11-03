@@ -1,6 +1,7 @@
 
 # Postman学习总结
 
+[前言 · API开发利器：Postman](https://crifan.github.io/api_tool_postman/website/)
 
 # Postman使用手册1——导入导出和发送请求查看响应
 
@@ -432,6 +433,12 @@ settings.png
 如果你登录了Postman，你的数据就会被同步更新到Postman的服务器上，者可以确保你再次使用Postman的时候可以同步自己的数据。
 你可以强制同步或者禁用他。
 
+
+## Mock测试
+
+[使用postman快速建立MOCK使用篇 - 云+社区 - 腾讯云](https://cloud.tencent.com/developer/article/1011852)
+
+
 ### Postman 使用手册系列教程：
 
 * * *
@@ -442,6 +449,29 @@ settings.png
 [Postman使用手册3——环境变量](https://www.jianshu.com/p/bffbc79b43f6)
 [Postman使用手册4——API test](https://www.jianshu.com/p/61cfcb436ee4)
 
+## 快捷键
+
+* [Speeding up workflows with keyboard shortcuts – Postman Blog](http://blog.getpostman.com/2017/05/03/speeding-up-workflows-with-keyboard-shortcuts/)
+
+![](https://i.loli.net/2018/11/01/5bda8a9dcb7fb.jpg)
+
+
+| 名称 | 快捷键 |  
+| --- | --- |
+| 发送request | Cmd + Enter |  
+
+![](https://i.loli.net/2018/11/01/5bdad8599f35b.jpg)
+
+[Navigating Postman](https://www.getpostman.com/docs/v6/postman/launching_postman/navigating_postman)
+
+![](https://i.loli.net/2018/11/01/5bdad87fe53f2.jpg)
+![](https://i.loli.net/2018/11/01/5bdad88e93385.jpg)
+
+
+##  进阶-接口测试
+
+
+[接口测试之postman - 简书](https://www.jianshu.com/p/87da60601aa6#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E8%BF%9B%E9%98%B6%E7%AF%87)
 
 
 ## 参考

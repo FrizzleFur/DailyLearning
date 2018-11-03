@@ -105,6 +105,18 @@
     [self.navigationController popViewControllerAnimated:true];
 ```
 
+## 隐藏导航的时候露出状态白线
+
+```objc
+ // 取消自动调整内容内间距
+    if (@available(iOS 11.0, *)) {
+        [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
+    } else {
+        // Fallback on earlier versions
+    」
+```
+
+
 ## 浮层的动画问题
 
 ```objc
@@ -180,6 +192,107 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 解决： [ios - VSTS Build Generation throwing Invalid bitcode version error - Stack Overflow](https://stackoverflow.com/questions/51128462/vsts-build-generation-throwing-invalid-bitcode-version-error)
 
+科普Bitcode: 
+
+说的是bitcode是被编译程序的一种中间形式的代码。包含bitcode配置的程序将会在App store上被编译和链接。bitcode允许苹果在后期重新优化程序的二进制文件，而不需要重新提交一个新的版本到App store上。
+当提交程序到App store上时，Xcode会将程序编译为一个中间表现形式(bitcode)。然后App store会再将这个botcode编译为可执行的64位或32位程序。
+
+所以，如果我们的工程需要支持bitcode，则必要要求所有引入的第三方库都支持bitcode。
+* [Xcode7新特性之bitcode - 雅香小筑 - CSDN博客](https://blog.csdn.net/mylizh/article/details/50499689)
+* [What is app thinning? (iOS, tvOS, watchOS) - Xcode Help](https://help.apple.com/xcode/mac/current/#/devbbdc5ce4f)
+
+    bitcode是什么鬼？以前咋没听过，在经过与度娘多次交涉之后终于有点明白了。
+
+    我们知道，计算机软件必须要经过编译和链接过程，生成可执行代码之后才能够在设备上运行，要想弄明白bitcode是什么，就需要从编译器入手。
+
+    传统的静态编译器工作过程可分为三个阶段：前端、优化和后端。
+
+
+    而iOS代码使用的编译器是LLVM（关于LLVM后面会有专门的文章详细介绍），LLVM的三个阶段如下图所示：
+
+    由上图可以看出，LLVM编译生成中间码IR（Intermediate Representation）,而非目标代码，这里所说的中间码IR就是我们想要知道的bitcode。
+
+
+    使用中间码有以下三个优点：
+
+
+    1. 如果需要支持一种新的编程语言，只需要实现一种新的前端；
+    2. 如果需要支持一种新的硬件，只需要实现一种新的后端；
+    3. 无论增加对新语言的支持，还是增加对新硬件的支持，中间的优化阶段都不需要改变；
+
+
+    这样就实现了前后端的分离。
+
+
+    由于上述优点，中间码已经被越来越多的编译器所采用，传统的编译器多采用汇编语言作为自己的中间语言，而现在大一些的编译器都有了自己专属的中间码。
+
+
+    弄明白了bitcode是何方神圣之后，错误原因就不难找出：
+    Xcode 7要求提交到AppStore的代码必须包含中间码（bitcode），而OpenCV属于第三方库，是之前从官网下     载的，在编译时并没有生成bitcode，所以链接时候找不到OpenCV的bitcode，因而报错。
+
+ 
+ ## NSMutableArray 深浅拷贝的类型问题
+
+ 把NSMutableArray用copy修饰有时就会crash，因为对这个数组进行了增删改操作，而copy后的数组变成了不可变数组NSArray，没有响应的增删改方法，所以对其进行增删改操作就会报错。
+
+
+```objc
+/** 商品列表 */
+@property (nonatomic, copy) NSMutableArray <ProductModel *>*productModelList;
+
+```
+
+NSMutableArray用copy修饰之后，在使用addObjectsFromArray方法时崩溃
+
+error：[__NSFrozenArrayM addObjectsFromArray:]: unrecognized selector
+
+这个错误误导点：ArrayM这个让开发者认为是可变数组。但是因为你是用copy修饰的，所以这个数组其实是一个不可变数组。
+
+这个问题主要是误写导致的，只需要把copy改成strong。
+
+参考 [copy修饰可变数组造成的问题 - 简书](https://www.jianshu.com/p/29641ab41a39)
+
+
+ 
+## 条件判断
+ 
+ 在比较数据的时候，一个判断条件
+
+```
+    if (lastList.count == currentList.count)
+
+```
+* 如果lastList.count为0. 就直接跳出了条件判断！
+ 
+ 
+``` objc
+/** 比较关注列表 */
+- (BOOL)compareFocusListByLastList:(NSArray<StarModel *> *)lastList currentList:(NSArray<StarModel *> *)currentList{
+    __block BOOL hasFocusListChanged = false;// 关注列表是否改变
+    // 比较关注数量
+    if (lastList.count == currentList.count){
+        //个数相同的情况，比较每个的id是否一样
+        [lastList enumerateObjectsUsingBlock:^(StarModel * _Nonnull lastModel, NSUInteger idx, BOOL * _Nonnull stop) {
+            // 使用starId判断是否是同一个明星
+            NSPredicate *starIdPredicate = [NSPredicate predicateWithFormat:@"starId = %@", lastModel.starId];
+            // 是否含有相同starId的StarModel
+            NSArray *sameStarModelArr = [currentList filteredArrayUsingPredicate:starIdPredicate];
+            // 当前列表找到不到该starId的StarModel --> 发生了改变
+            if (sameStarModelArr.count == 0){
+                hasFocusListChanged = true;
+                *stop = true;// 有变化则停止遍历
+            }
+        }];
+    }else{
+        // 关注数量发生变化
+        hasFocusListChanged = true;
+    }
+
+```
+ 
+ 
+ 
+ 
  
 ## 参考
 
