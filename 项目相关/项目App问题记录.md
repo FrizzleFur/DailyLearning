@@ -84,7 +84,15 @@
 
 参考 [Avenger-10-12首页滚动问题未改动备份](https://github.com/SPStore/HVScrollView)
 
-## 网页加载完返回的崩溃en
+### 首页滚动右侧范围点击失去焦点
+
+首页切换到明星主页，然后回到主页，往上滚动一点，右侧点击范围不到，点击左侧后又恢复了。修改了明星主页的Scroll特性后，发现是关闭全局的滚动调整后就会影响到滚动间距的问题`[[UIScrollView appearance] setContentInsetAdjustmentBehavior:(UIScrollViewContentInsetAdjustmentNever)];`
+
+用于确定调整后的内容偏移的行为。
+此属性指定如何使用安全区域insets来修改滚动视图的内容区域。此属性的默认值为UIScrollViewContentInsetAdjustmentAutomatic。
+
+
+## 网页加载完返回的崩溃
 
 原因：加载网页会调用多次，每次去pop造成页面崩溃。
 
