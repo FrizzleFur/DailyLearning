@@ -283,7 +283,141 @@ error：[__NSFrozenArrayM addObjectsFromArray:]: unrecognized selector
 ```
  
  
+## 重复设置代码
+
+发现首页第一个接口调用了2次，
+是因为第一次调用了设置接口又加载了一次
+![](https://i.loli.net/2018/11/02/5bdc25ec40877.jpg)
+
  
+ 
+ ##  iOS12系统Tabbar的问题
+ 
+ ![](https://i.loli.net/2018/11/06/5be140e2ec984.jpg)
+
+经过测试发现，如果使用系统OS12.1 UINavigationController + UITabBarController（ UITabBar 磨砂），在popViewControllerAnimated 会遇到tabbar布局错乱的问题：
+
+```objc
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+   
+   if (self.childViewControllers.count > 0) {
+       //如果没这行代码，是正常显示的
+       viewController.hidesBottomBarWhenPushed = YES;
+   }
+   
+   [super pushViewController:viewController animated:animated];
+}
+
+```
+
+这个问题是 iOS 12.1 Beta 2 引入的问题，只要 UITabBar 是磨砂的，并且 push viewController 时 hidesBottomBarWhenPushed = YES 则手势返回的时候就会触发，出现这个现象的直接原因是 tabBar 内的按钮 UITabBarButton 被设置了错误的 frame，frame.size 变为 (0, 0) 导致的。
+所以最简单的解决方案就是：
+
+```objc
+[UITabBar appearance].translucent = NO;
+```
+ 
+ 
+ 实测这个问题是 iOS 12.1 Beta 2 的问题，只要 UITabBar 是磨砂的，并且 push viewController 时 hidesBottomBarWhenPushed = YES 则手势返回的时候就会触发。
+
+出现这个现象的直接原因是 tabBar 内的按钮 UITabBarButton 被设置了错误的 frame，frame.size 变为 (0, 0) 导致的。
+
+如果需要，可以使用以下临时修补代码，待发布的 QMUI 新版里也会带上这部分代码，等到 iOS 12.1 正式版发布后如果这个问题被修复，我们也会把这段代码移除。
+
+```objc
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (@available(iOS 12.1, *)) {
+            OverrideImplementation(NSClassFromString(@"UITabBarButton"), @selector(setFrame:), ^id(__unsafe_unretained Class originClass, SEL originCMD, IMP originIMP) {
+                return ^(UIView *selfObject, CGRect firstArgv) {
+                    
+                    if ([selfObject isKindOfClass:originClass]) {
+                        // 如果发现即将要设置一个 size 为空的 frame，则屏蔽掉本次设置
+                        if (!CGRectIsEmpty(selfObject.frame) && CGRectIsEmpty(firstArgv)) {
+                            return;
+                        }
+                    }
+                    
+                    // call super
+                    void (*originSelectorIMP)(id, SEL, CGRect);
+                    originSelectorIMP = (void (*)(id, SEL, CGRect))originIMP;
+                    originSelectorIMP(selfObject, originCMD, firstArgv);
+                };
+            });
+        }
+    });
+}
+
+```
+* [iOS12.1 使用 UINavigationController + UITabBarController（ UITabBar 磨砂），设置hidesBottomBarWhenPushed后，在 pop 后，会引起TabBar布局异常 · Issue #3 · ChenYilong/iOS12AdaptationTips](https://github.com/ChenYilong/iOS12AdaptationTips/issues/3)
+* [ios12.1 tabBar 中的图标及文字出现位置偏移动画 - Longge_Li的博客 - CSDN博客](https://blog.csdn.net/Longge_Li/article/details/83654333)
+* [UITabBar layout is broken on iOS 12.1 · Issue #410 · QMUI/QMUI_iOS](https://github.com/QMUI/QMUI_iOS/issues/410)
+ 
+ 
+## 定时器单例
+ 
+ > App设置了一个全局的定时器，需求是App切换到后台时，需要保存计时进度，
+
+```objc
+#pragma mark -  Func
+
+// 创建全局队列计时器
+- (void)startGlobalTimer{
+    // 懒加载-创建一个定时器
+    if (!self.globalQueue) {
+    
+        // 获取一个全局并发队列
+        self.globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        
+        });
+        
+        // 首次启动定时器
+        dispatch_resume(self.flowTime);
+        self.isTimerStarted = YES;
+    }
+    
+    // 恢复启动定时器
+    if (!self.isTimerStarted) {
+
+        /** 展示存储的进度 */
+        // [self showStoredProgess]; // 无需调用
+
+        dispatch_resume(self.flowTime);
+        self.isTimerStarted = YES;
+    }
+}
+```
+
+### 说明
+
+* 我每次存储上次的时间进度，然后在恢复启动器的时候，调用展示存储的进度的方法；
+* **但是发现因为定时器是单例和App的生命周期几乎是一样的，所以它存储的时间作为它的属性也是自动保留的**，所以我觉得就无需调用这个`展示存储的进度`的方法了。
+* 除非App被杀掉进程后，定时器也随之结束，然后需要在重启的时候获取存储的进度。
+
+```objc
+#pragma mark - Function
+
+/** 展示存储的进度 */
+- (void)showStoredProgess{
+    // 获取上次缓存的进度时间
+    NSInteger lastTimeSecond = [[AppArchiver sharedInstance] getStoreLastStayTimeSecond];
+    if (lastTimeSecond >= TaskStayTimer_MaxCount || lastTimeSecond < 0) lastTimeSecond = 0;
+    // 减去上次缓存的进度时间
+    self.remainTime = self.remainTime - lastTimeSecond;
+    
+    // 初始化的时候显示进度动画
+    CGFloat ticketProgress = 1.0 * (TaskStayTimer_MaxCount - self.remainTime) / TaskStayTimer_MaxCount;
+    // 主线程设置按钮进度
+    dispatch_async(dispatch_get_main_queue(), ^{
+        BOOL isBtnHide = [TaskFloatBtn sharedInstanceBtn].isHidden;
+        if (!isBtnHide) {
+            [[TaskFloatBtn sharedInstanceBtn] setTicketProgress:ticketProgress animatied:true];
+        }
+    });
+}
+```
  
  
 ## 参考

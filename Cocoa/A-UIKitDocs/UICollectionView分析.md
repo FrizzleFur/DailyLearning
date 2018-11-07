@@ -48,3 +48,13 @@ Basically, we will have to subclass UICollectionViewLayoutAttributes, UICollecti
 ![](http://oc98nass3.bkt.clouddn.com/15397755573987.jpg)
 
 1. [ios - How to change background color of a whole section in UICollectionView? - Stack Overflow](https://stackoverflow.com/questions/13609204/how-to-change-background-color-of-a-whole-section-in-uicollectionview)
+
+
+
+##  NSIndexpath.item vs NSIndexpath.row
+
+在NSIndexPath中，索引存储在一个名为“_indexes”的简单c数组中，该数组定义为NSUInteger *，并且数组的长度存储在定义为NSUInteger的“_length”中。访问者“section”是“_indexes [0]”的别名，“item”和“row”都是“_indexes [1]”的别名。因此，这两者在功能上是相同的。
+
+在编程风格方面 - 也许是定义链 - 你最好在表的上下文中使用“row”，在集合的上下文中使用“item”。
+
+[ios - NSIndexpath.item vs NSIndexpath.row - Stack Overflow](https://stackoverflow.com/questions/14765730/nsindexpath-item-vs-nsindexpath-row)
