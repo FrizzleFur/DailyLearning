@@ -213,7 +213,7 @@ self.tableView.estimatedSectionFooterHeight = 0;
 _mTable.estimatedRowHeight = StarRankCell_CellHeight_Default;
 ```
 
-或者主动实现estimatedHeightForRowAtIndexPath代理
+或者主动实现estimatedHeightForRowAtIndexPath代理方法
 
 ```objc
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
