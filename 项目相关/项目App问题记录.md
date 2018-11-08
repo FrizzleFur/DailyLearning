@@ -231,9 +231,12 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
     Xcode 7要求提交到AppStore的代码必须包含中间码（bitcode），而OpenCV属于第三方库，是之前从官网下     载的，在编译时并没有生成bitcode，所以链接时候找不到OpenCV的bitcode，因而报错。
 
  
- ## NSMutableArray 深浅拷贝的类型问题
+## NSMutableArray 深浅拷贝的类型问题
 
- 把NSMutableArray用copy修饰有时就会crash，因为对这个数组进行了增删改操作，而copy后的数组变成了不可变数组NSArray，没有响应的增删改方法，所以对其进行增删改操作就会报错。
+**NSMutableArray用copy修饰之后，在使用addObjectsFromArray方法时崩溃**
+这个问题主要是误写导致的，只需要把copy改成strong。
+
+**把NSMutableArray用copy修饰有时就会crash，因为对这个数组进行了增删改操作，而copy后的数组变成了不可变数组NSArray，没有响应的增删改方法**，所以对其进行增删改操作就会报错。
 
 
 ```objc
@@ -242,7 +245,7 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 ```
 
-NSMutableArray用copy修饰之后，在使用addObjectsFromArray方法时崩溃
+**NSMutableArray用copy修饰之后，在使用addObjectsFromArray方法时崩溃**
 
 error：[__NSFrozenArrayM addObjectsFromArray:]: unrecognized selector
 
