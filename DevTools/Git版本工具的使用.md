@@ -77,6 +77,34 @@ git config --global credential.helper store
 
 
 
+##  多个email的删除
+
+![](https://i.loli.net/2018/11/11/5be81a195d4cd.jpg)
+
+
+1. 直接编辑 config文件
+
+Use git config -e and you should see something like:
+
+
+```
+[user]
+    name = Shani
+    name = shani
+    name = shani
+Delete the lines you don't want.
+
+```
+
+[git config - Delete username from a Git repository - Stack Overflow](https://stackoverflow.com/questions/6243407/delete-username-from-a-git-repository)
+
+
+2. 使用unset、replace-all命令
+
+```
+git config --local --unset-all user.name
+git config --local --replace-all user.name "New User Name"
+```
 
 ## Git 合并部分文件
 
