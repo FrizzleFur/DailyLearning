@@ -339,3 +339,78 @@ pod update --verbose --no-repo-update
 
 pod install
 ```
+
+
+2. 问题can't find gem cocoapods--ruby环境版本太低
+
+```
+/Library/Ruby/Site/2.0.0/rubygems.rb:250:in `find_spec_for_exe': can't find gem cocoapods (>= 0.a) (Gem::GemNotFoundException)
+from /Library/Ruby/Site/2.0.0/rubygems.rb:278:in `activate_bin_path'
+from /usr/local/bin/pod:22:in  '<main>''
+
+```如下图：
+![](https://i.loli.net/2018/11/09/5be586e655673.jpg)
+
+
+原因：是由于ruby环境太低导致。
+解决方法：（更新gem）
+
+```
+$ sudo gem update --system
+```
+
+
+如果不行，看能不能直接更新rubygems
+
+```
+sudo gem install rubygems-update
+```
+如果失败
+
+```
+ERROR:  While executing gem ... (Errno::EPERM)
+    Operation not permitted @ rb_sysopen - /System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/gem
+
+```
+则执行
+
+```
+sudo gem install -n /usr/local/bin cocoapods
+
+```
+[CocoaPods1.4.0 安装使用详解 - 简书](https://www.jianshu.com/p/1892aa0b97ea)
+
+3. 问题 unable to access 'https://github.com/CocoaPods/Specs.git/
+
+
+![](https://i.loli.net/2018/11/10/5be6655132a7d.jpg)
+1、查看下当前ruby版本
+ruby -v
+
+2、查看Gem源地址
+gem sources -l
+
+3、更换Gem源地址
+这一步需要根据上面的gem源地址来进行，如果你的源地址已经是
+http://gems.ruby-china.org/或者http://rubygems.org/就不用更换了，其他的地址可能不通，需要更换；
+https://ruby.taobao.org/ 已经不能使用了
+http://gems.ruby-china.org/ 可以使用
+http://rubygems.org/ Gem的官方地址，可以使用
+
+需要注意的是这里如果使用的是 https开头的可能会报错
+fatal: unable to access 'https://github.com/CocoaPods/Specs.git/': LibreSSL SSL_read: SSL_ERROR_SYSCALL, errno 60
+需要将Https换成http即可
+
+
+```
+  fatal: unable to access 'https://github.com/CocoaPods/Specs.git/': LibreSSL SSL_read: SSL_ERROR_SYSCALL, errno 54
+
+```
+
+4. AFNetworking.h 找不到
+
+今天遇到一个很奇怪的问题，在本地通过cocoapods引入AFNetworking包后，文件引入报错：“AFNetworking.h”file not found，但是拷贝到另一台电脑，能够重新运行，本以为是xcode出了问题，所以重新安装了xcode，但是问题依然存在。
+后来在网站上看到一个解决“AFNetworking.h”找不到的解决方案。原文的答案是：
+In XCode Go to Product -> Scheme -> Manage Schemes. There delete the project (maintaining the pods) and add the project again. It worked for me.
+
+[xcode文件找不到-－－“AFNetworking.h”file not found - wsh7365062的博客 - CSDN博客](https://blog.csdn.net/wsh7365062/article/details/53112723)
