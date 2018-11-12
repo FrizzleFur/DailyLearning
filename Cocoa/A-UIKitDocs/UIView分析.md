@@ -6,6 +6,55 @@
 
 > UIView的`setNeedsLayout`, `layoutIfNeeded` 和` layoutSubviews` 方法之间的关系解释
 
+
+## UIView的生命周期
+
+
+查看UIViewapi，常用的加载时机大概如下：
+
+```objc
+- (void)layoutSubviews
+
+// 当视图添加子视图时调用
+
+- (void)didAddSubview:(UIView *)subview;
+
+
+
+// 当子视图从本视图移除时调用
+
+- (void)willRemoveSubview:(UIView *)subview;
+
+
+
+// 当视图即将加入父视图时 / 当视图即将从父视图移除时调用
+
+- (void)willMoveToSuperview:(nullable UIView *)newSuperview;
+
+
+
+// 当试图加入父视图时 / 当视图从父视图移除时调用
+
+- (void)didMoveToSuperview;
+
+
+
+// 当视图即将加入父视图时 / 当视图即将从父视图移除时调用
+
+- (void)willMoveToWindow:(nullable UIWindow *)newWindow;
+
+
+// 当视图加入父视图时 / 当视图从父视图移除时调用
+
+- (void)didMoveToWindow;
+
+
+- (void)removeFromSuperview
+- (void)dealloc
+
+```
+
+
 ### `layoutSubviews`调用总结
 
 1. 自身的frame发生变化， 会重新布局`layoutSubviews`
@@ -85,7 +134,12 @@ Resizing a view will call layoutSubviews on its superview
 
 反过来的意思就是说：如果你想要在外部设置subviews的位置，就不要重写。
 
+
+
+
 ## 刷新子对象布局
+
+
 -layoutSubviews方法：这个方法，默认没有做任何事情，需要子类进行重写
 -setNeedsLayout方法： 标记为需要重新布局，异步调用layoutIfNeeded刷新布局，不立即刷新，但layoutSubviews一定会被调用
 -layoutIfNeeded方法：如果，有需要刷新的标记，立即调用layoutSubviews进行布局（如果没有标记，不会调用layoutSubviews）
