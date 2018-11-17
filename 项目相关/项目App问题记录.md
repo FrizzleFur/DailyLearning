@@ -261,7 +261,6 @@ _mTable.estimatedRowHeight = StarRankCell_CellHeight_Default;
 
 ###  浮点数精度问题
 
-
 * 用float类型接受服务端数据会有精度丢失的问题
 
 现在解决方式是：
