@@ -258,6 +258,35 @@ _mTable.estimatedRowHeight = StarRankCell_CellHeight_Default;
  
 ## 数据 
 
+
+###  浮点数精度问题
+
+
+* 用float类型接受服务端数据会有精度丢失的问题
+
+现在解决方式是：
+
+```objc
+/*
+ 修正浮点型精度丢失
+ @param serverStr 传入接口取到的数据
+ @return 修正精度后的数据
+ */
++  (NSString *)reviseFloatString:(NSString *)serverStr
+{
+    //直接传入精度丢失有问题的Double类型
+    double conversionValue = [serverStr doubleValue];
+    NSString *doubleString = [NSString stringWithFormat:@"%lf", conversionValue];
+    NSDecimalNumber *decNumber = [NSDecimalNumber decimalNumberWithString:doubleString];
+    return [decNumber stringValue];
+}
+```
+
+
+* [iOS 关于网络数据解析小数位精度丢失问题的修正 - txz_gray的博客 - CSDN博客](https://blog.csdn.net/txz_gray/article/details/53303918)
+* [深入浅出iOS浮点数精度问题 (上) - 简书](https://www.jianshu.com/p/9cbed21f37fe#%E6%B5%AE%E7%82%B9%E6%95%B0%E5%80%BC%20=%20(-1)%20^%20S%20*%20(%202%20^%20E)%20*%20M)
+
+
 ### NSMutableArray 深浅拷贝的类型问题
 
 **NSMutableArray用copy修饰之后，在使用addObjectsFromArray方法时崩溃**
