@@ -87,6 +87,45 @@
 
 参考 [Avenger-10-12首页滚动问题未改动备份](https://github.com/SPStore/HVScrollView)
 
+
+###  导航的懒加载问题
+
+##### 导航的懒加载：
+
+- 为了实现懒加载刷新，每次在点击tabbar的时候，实现添加方法，
+* 每个子页面添加MJ的下拉刷新，在初始化页面的时候调用`MJRefresh`的`beginRefreshing`方法实现请求API。
+* 在每个子页面初始化的时候，因为还未显示`MJRefresh`,所以`beginRefreshing`无法立即执行；
+* 当点击tabar展示对应的自控制器的view的时，就会调用`beginRefreshing`，从而实现懒加载
+
+> 首页选择第三个tab,下拉刷新到定义一个tab,然后滚动到底3个tab,发现第三个没有执行刷新
+> 问题是因为在点击第三个时候，记录当前点击为第三个，然后下拉刷新后强制改为0；
+
+```objc
+[self.mSlideView reloadData];
+self.mSlideView.selectedIndex = 0;
+```
+第一步： `self.mSlideView`在刷新的时候会默认选择当前index做添加，执行`addChildViewWithIndex`，使得当前所选的自控制器，也就是VC3得到刷新，然而整体刷新会让`self.mSlideView`滚动到第一页VC1,此时VC3已经刷新，就不会再次刷新。
+第二步： 为了纠正第一步的问题，强制调用选择到第一个的index,
+
+解决： 在重载数据时候，选择第一个，并将其滚动到第一个初始位置即可。
+
+```objc
+// 重载数据
+- (void)reloadData {
+    [_viewControllers removeAllObjects];
+
+    NSUInteger count = [self.delegate numberOfTabsInSlideView:self];
+    for (int i = 0; i < count; i++) {
+        UIViewController *viewController = [self.delegate slideView:self viewForTabIndex:i];
+        [_viewControllers addObject:viewController];
+    }
+    _scrollView.contentSize = CGSizeMake(self.frame.size.width * _viewControllers.count, 0);
+    [self setSelectedIndex:0];
+    [self addChildViewWithIndex:0];
+}
+```
+
+
 ### 首页滚动右侧范围点击失去焦点
 
 首页切换到明星主页，然后回到主页，往上滚动一点，右侧点击范围不到，点击左侧后又恢复了。修改了明星主页的Scroll特性后，发现是关闭全局的滚动调整后就会影响到滚动间距的问题`[[UIScrollView appearance] setContentInsetAdjustmentBehavior:(UIScrollViewContentInsetAdjustmentNever)];`
@@ -280,7 +319,6 @@ _mTable.estimatedRowHeight = StarRankCell_CellHeight_Default;
     return [decNumber stringValue];
 }
 ```
-
 
 * [iOS 关于网络数据解析小数位精度丢失问题的修正 - txz_gray的博客 - CSDN博客](https://blog.csdn.net/txz_gray/article/details/53303918)
 * [深入浅出iOS浮点数精度问题 (上) - 简书](https://www.jianshu.com/p/9cbed21f37fe#%E6%B5%AE%E7%82%B9%E6%95%B0%E5%80%BC%20=%20(-1)%20^%20S%20*%20(%202%20^%20E)%20*%20M)
