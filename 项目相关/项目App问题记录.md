@@ -20,8 +20,6 @@
 
 这里使用了通知来监听内外层ScrollView滚动的偏移量
 
-1. 
-
 在用户点击内层scrollView进行拉去的时候，需要让外层也获取到滚动，所以外层的scrollView需要接受到内层的滚动范围。
 
 ```objc
@@ -85,7 +83,17 @@
 
 ```
 
-参考 [Avenger-10-12首页滚动问题未改动备份](https://github.com/SPStore/HVScrollView)
+-------
+
+* 还有种思路就是tabbar交给table的`sectionHeader`,子视图放在一个横向滚动的tableViewCell中,就比较简单，[liuzhongning/NNJaneBookView: 仿简书个人主页多页面滑动视图。](https://github.com/liuzhongning/NNJaneBookView/tree/fa7c984710a13f6431a5d5bba12292e5a9c3f2b5)
+
+参考 
+
+
+* [JXPageListView](https://github.com/pujiaxin33/JXPageListView)
+* [iOS:高仿闲鱼、京东等列表底部分页视图 | iOSCaff - 专业的 iOS 开发者社区](https://ioscaff.com/articles/215)
+* [HVScrollView](https://github.com/SPStore/HVScrollView)
+* [liuzhongning/NNJaneBookView: 仿简书个人主页多页面滑动视图。](https://github.com/liuzhongning/NNJaneBookView/tree/fa7c984710a13f6431a5d5bba12292e5a9c3f2b5)
 
 
 ###  导航的懒加载问题
