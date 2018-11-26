@@ -366,7 +366,7 @@ error：[__NSFrozenArrayM addObjectsFromArray:]: unrecognized selector
 * indexOfObjectIdenticalTo： Returns the lowest index whose corresponding array value is **identical** to a given object.
 
 
-indexOfObjectIdenticalTo更加精确反应对象在数组中位置，而indexOfObject只是判断是否相等。
+indexOfObjectIdenticalTo更加精确反应对象在数组中位置，而indexOfObject只是判断是否相等。如果没有刷新数组的赋值，建议用`indexOfObjectIdenticalTo`
 
 
 ```
