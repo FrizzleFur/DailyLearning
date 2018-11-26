@@ -527,6 +527,22 @@ Block
 代码中，通过 `objc_setAssociatedObject` 关联对象的方法，给 `UIImageView` 动态添加了一个 `NSMutableDictionary` 的属性。通过 `key-value` 维护这个 `ImageView` 已经有了哪些下载操作，如果是数组就是 `UIImageViewAnimationImages` 否则就是 `UIImageViewImageLoad` 。最后获得的都是遵从了 `<SDWebImageOperation>` 协议的对象，可以统一调用定义好的方法 `cancel`，达到取消下载操作的目的，如果 `operation` 都被取消了，则删除对应 `key` 的值。
 
 
+
+##  GIF
+
+[SDWebImage4.0.0 加载本地gif之空白问题小结 - 简书](https://www.jianshu.com/p/2195abec1efb)
+
+```objc
+FLAnimatedImageView *imgView = [FLAnimatedImageView new];
+    imgView.contentMode = UIViewContentModeScaleAspectFit;
+    imgView.frame = CGRectMake(30, 20, w, h);
+    NSString  *filePath = [[NSBundle bundleWithPath:[[NSBundle mainBundle] bundlePath]]pathForResource:@"loading" ofType:@"gif"];
+    NSData  *imageData = [NSData dataWithContentsOfFile:filePath];
+    imgView.backgroundColor = [UIColor clearColor];
+    imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imageData];
+    [loadingView addSubview:imgView];
+```
+
 ### 参考
 
 1. [SDWebImage 源码解析](https://juejin.im/post/5a4080d16fb9a0451969d0aa)

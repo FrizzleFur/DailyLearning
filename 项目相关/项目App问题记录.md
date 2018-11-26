@@ -357,6 +357,22 @@ error：[__NSFrozenArrayM addObjectsFromArray:]: unrecognized selector
 参考 [copy修饰可变数组造成的问题 - 简书](https://www.jianshu.com/p/29641ab41a39)
 
 
+### 可变数组的对象位置
+
+`indexOfObject vs. indexOfObjectIdenticalTo`
+[objective c - indexOfObject vs. indexOfObjectIdenticalTo - Stack Overflow](https://stackoverflow.com/questions/3167849/indexofobject-vs-indexofobjectidenticalto)
+在一个可变数组中，indexOfObject 和 indexOfObjectIdenticalTo是不同的
+* indexOfObject： Returns the lowest index whose corresponding array value is **equal** to a given object.
+* indexOfObjectIdenticalTo： Returns the lowest index whose corresponding array value is **identical** to a given object.
+
+
+indexOfObjectIdenticalTo更加精确反应对象在数组中位置，而indexOfObject只是判断是否相等。
+
+
+```
+indexOfObjectIdenticalTo checks for the exact same id (same address).  indexOfObject checks that isEqual: returns YES.
+```
+
 ## 条件判断
  
  在比较数据的时候，一个判断条件
