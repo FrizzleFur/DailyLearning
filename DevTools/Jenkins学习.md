@@ -144,6 +144,46 @@ echo "+++++++++++++++++蒲公英++++++++++++++++++"
 curl -F "file=@/Users/next_mac_mini/Desktop/Package/${APP_NAME}.ipa" -F "uKey=d81326899dd50c3382e2f5e99f3a7495" -F "_api_key=495642f9b1336a64ceb2d5cb44d93183" http://www.pgyer.com/apiv1/app/upload
 ```
 
+
+## Jenkins
+
+
+```
+#bin/bsah - l
+
+export LANG=en_US.UTF-8
+
+export LANGUAGE=en_US.UTF-8
+
+export LC_ALL=en_US.UTF-8
+
+cd $WORKSPACE/$PROJECTNAME
+
+/usr/local/bin/pod update --verbose --no-repo-update
+
+export LANG=en_US.UTF-8
+
+export LANGUAGE=en_US.UTF-8
+```
+
+### Ipa Name
+
+```
+${JOB_NAME}_V${SHORT_VERSION}_${BUILD_TIMESTAMP}
+```
+
+### output dir
+
+```
+${WORKSPACE}/build
+```
+
+* Xcode Scheme File: 关于这个其实对应的就是xcodebuild命令中的-scheme的参数
+
+如果您不知道要填写什么的话， 可以通过xcodebuild -list来查询。是不是觉得这条命令很熟悉，没错前面查找target的时候也是用这个命令！
+
+
+
 ### Error 
 ```
 FATAL: No global development team or local team ID was configured.
@@ -156,6 +196,7 @@ FATAL: No global development team or local team ID was configured.
 
 ## 参考
 
+1. [jenkins+xcode+蒲公英实现ipa自动化打包 - CocoaChina_让移动开发更简单](http://www.cocoachina.com/ios/20170811/20218.html)
 1. [手把手教你利用Jenkins持续集成iOS项目](http://www.jianshu.com/p/41ecb06ae95f)
 2. [Mac下Jenkins+SVN+Xcode构建持续导出环境](http://www.jianshu.com/p/c0955ff67c91)
 3. [mac jenkins iOS持续集成中的坑](https://my.oschina.net/u/2359371/blog/804357)
