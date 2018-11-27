@@ -17,6 +17,19 @@
 
 ## rubygems镜像
 
+[RubyGems 镜像 - Ruby China](https://gems.ruby-china.com/)
+
+```
+$ gem update --system # 这里请翻墙一下
+$ gem -v
+2.6.3
+$ gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+$ gem sources -l
+https://gems.ruby-china.com
+# 确保只有 gems.ruby-china.com
+```
+
+
 通俗地来讲RubyGems就像是一个仓库，里面包含了各种软件的包(如Cocoapods、MySql)，可以通过命令行的方式来安装这些软件包，最为方便的是自动帮你配置好软件依赖的环境，整个安装过程仅仅只需要几行命令行。
 
 我们在安装CocoaPods的时候，就是通过rubygems来安装的，由于在国内访问rubygems非常慢，所以替换rubygems镜像源就显得十分必要了。在替换rubygems镜像源的时候，先检查一下rubygems的版本，建议在2.6.x以上，如果没有的话，建议先升级一下，升级命令行如下：

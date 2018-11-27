@@ -256,6 +256,38 @@ self.mSlideView.selectedIndex = 0;
     return s;
 }
 ```
+#### 方法二
+
+还没有试用过
+
+```objc
+兼容iPhoneX的话可以在Block里面添加下面代码：
+
+
+static CGFloat const kIPhoneXTabbarButtonErrorHeight = 33;
+static CGFloat const kIPhoneXTabbarButtonHeight = 48;
+
+return ^(UIView *selfObject, CGRect firstArgv) {
+
+        if ([selfObject isKindOfClass:originClass]) {
+            // 如果发现即将要设置一个 size 为空的 frame，则屏蔽掉本次设置
+            if (!CGRectIsEmpty(selfObject.frame) && CGRectIsEmpty(firstArgv)) {
+                return;
+            }
+        }
+        
+        //兼容IphoneX
+        if (firstArgv.size.height == kIPhoneXTabbarButtonErrorHeight) {
+            firstArgv.size.height = kIPhoneXTabbarButtonHeight;
+        }
+        
+        // call super
+        void (*originSelectorIMP)(id, SEL, CGRect);
+        originSelectorIMP = (void (*)(id, SEL, CGRect))originIMP;
+        originSelectorIMP(selfObject, originCMD, firstArgv);
+
+ };
+```
 
 #### iphoneX的push偏移问题
 
