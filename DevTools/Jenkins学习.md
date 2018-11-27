@@ -185,6 +185,8 @@ ${WORKSPACE}/build
 
 
 ### Error 
+[iOS持续集成简述 - 简书](https://www.jianshu.com/p/f44d746ff8a9)
+
 ```
 FATAL: No global development team or local team ID was configured.
 ```

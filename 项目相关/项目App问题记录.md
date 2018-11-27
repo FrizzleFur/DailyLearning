@@ -154,7 +154,7 @@ self.mSlideView.selectedIndex = 0;
     」
 ```
 
-###  iOS12系统Tabbar的问题
+###  iOS11系统Tabbar的问题
  
  ![](https://i.loli.net/2018/11/06/5be140e2ec984.jpg)
 
@@ -213,10 +213,54 @@ self.mSlideView.selectedIndex = 0;
 }
 
 ```
+
+
 * [iOS12.1 使用 UINavigationController + UITabBarController（ UITabBar 磨砂），设置hidesBottomBarWhenPushed后，在 pop 后，会引起TabBar布局异常 · Issue #3 · ChenYilong/iOS12AdaptationTips](https://github.com/ChenYilong/iOS12AdaptationTips/issues/3)
 * [ios12.1 tabBar 中的图标及文字出现位置偏移动画 - Longge_Li的博客 - CSDN博客](https://blog.csdn.net/Longge_Li/article/details/83654333)
 * [UITabBar layout is broken on iOS 12.1 · Issue #410 · QMUI/QMUI_iOS](https://github.com/QMUI/QMUI_iOS/issues/410)
  
+
+### Push的偏移
+
+在UINavigationController的基类重写pushViewController代理方法，在Push的时候修正一下TabBar的frame
+
+[适配iPhone X Push过程中TabBar位置上移 - 简书](https://www.jianshu.com/p/719ab369d011)
+
+```objc
+@property (nonatomic) UIEdgeInsets oldSafeAreaInsets;
+
+- (void) safeAreaInsetsDidChange{
+    [super safeAreaInsetsDidChange];
+    if(self.oldSafeAreaInsets.left != self.safeAreaInsets.left ||
+       self.oldSafeAreaInsets.right != self.safeAreaInsets.right ||
+       self.oldSafeAreaInsets.top != self.safeAreaInsets.top ||
+       self.oldSafeAreaInsets.bottom != self.safeAreaInsets.bottom)
+    {
+        self.oldSafeAreaInsets = self.safeAreaInsets;
+        [self invalidateIntrinsicContentSize];
+        [self.superview setNeedsLayout];
+        [self.superview layoutSubviews];
+    }
+    
+}
+
+- (CGSize) sizeThatFits:(CGSize) size{
+    CGSize s = [super sizeThatFits:size];
+    if(@available(iOS 11.0, *))
+    {
+        CGFloat bottomInset = self.safeAreaInsets.bottom;
+        if( bottomInset > 0 && s.height < 50) {
+            s.height += bottomInset;
+        }
+    }
+    return s;
+}
+```
+
+#### iphoneX的push偏移问题
+
+* [适配iPhone X Push过程中TabBar位置上移 - 简书](https://www.jianshu.com/p/719ab369d011)
+* [iOS 11 iPhone X simulator UITabBar icons and titles being rendered on top covering eachother - Stack Overflow](https://stackoverflow.com/questions/46214740/ios-11-iphone-x-simulator-uitabbar-icons-and-titles-being-rendered-on-top-coveri)
 
 ### hitTest方法的调用
 
