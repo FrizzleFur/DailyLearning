@@ -533,6 +533,25 @@ return [[NSAttributedString alloc] initWithData:data options:options documentAtt
     [self.navigationController popViewControllerAnimated:true];
 ```
 
+
+### Web加载JS
+
+不需要加载Html的方式
+
+[xcode - Loading javascript into a UIWebView from resources - Stack Overflow](https://stackoverflow.com/questions/5733883/loading-javascript-into-a-uiwebview-from-resources)
+
+```objc
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSString *jsFile = @"jquery-1.8.2.min.js";
+    NSString *jsFilePath = [[NSBundle mainBundle] pathForResource:jsFile ofType:nil];
+    NSURL *jsURL = [NSURL fileURLWithPath:jsFilePath];
+    NSString *javascriptCode = [NSString stringWithContentsOfFile:jsURL.path encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:javascriptCode];
+    // ...
+}
+```
+
+
 ## Xcode问题 
 
 
