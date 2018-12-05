@@ -3,9 +3,18 @@
 
 “连线”是xib中最为重要的东西，在讲“连线”之前，先说一个很重要、但又不容易说清的东西：Files Owner。
 
-
 Files Owner指这个xib文件的所属文件是谁，简单的说是xib文件和谁建立起交互，用户通与该xib呈现的页面进行交互的时候，谁来处理背后的逻辑。具体来讲xib文件能拖动“连线”到哪个源文件中去建立IBAction、IBOutlet、delegate、datasource等。
 一般基于View创建的xib的Files Owner都指定为一个VC。基于VC创建的xib，创建的时候系统就已经把该xib文件的Files Owner指向了该VC，一般这种情况就不对Files Owner做修改了。
+
+
+## 分类方法
+
+```objc
++(id)viewFromNibNamed:(NSString*)nibName owner:(id)owner{
+    NSArray* nibView = [[NSBundle mainBundle] loadNibNamed:nibName owner:owner options:nil];
+    return [nibView firstObject];
+}
+```
 
 ## Xib的加载
 
@@ -17,14 +26,15 @@ Files Owner指这个xib文件的所属文件是谁，简单的说是xib文件和
 
 1. NSBundle 方式
 
-　　NSArray *objs = [[NSBundle mainBundle]loadNibNamed:@"XibView" owner:nil options:nil];
+```objc
+NSArray *objs = [[NSBundle mainBundle] loadNibNamed:@"XibView" owner:nil options:nil];
 
-    UIView *xibView = objs[0];
+UIView *xibView = objs[0];
 
-    xibView.backgroundColor = [UIColor redColor];
+xibView.backgroundColor = [UIColor redColor];
 
-    [self.view addSubview:xibView];
-
+[self.view addSubview:xibView];
+```
  
 
 2. UINib
