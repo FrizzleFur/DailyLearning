@@ -521,8 +521,30 @@ return [[NSAttributedString alloc] initWithData:data options:options documentAtt
 
 ## 网络
 
+> 我需要在我们的应用程序中阻止一个HTTP请求的一个参数值的URL编码，因为它在传递给AFNetworking之前已经被编码
+
+[ios - How to invoke default behaviour when using AFNetworking's setQueryStringSerializationWithBlock - Stack Overflow](https://stackoverflow.com/questions/26675591/how-to-invoke-default-behaviour-when-using-afnetworkings-setquerystringserializ)
+
 `AFNetworking`的序列化,请求 AFHTTPRequestSerializer 会默认序列化一次，可以自定义序列化。
 
+
+```objc
+/**
+ 设置序列化类型的方法，代表遵循什么样的规则进行queryString转换。
+ 参数是个枚举，但是这个枚举只有一个值 AFHTTPRequestQueryStringDefaultStyle
+ */
+- (void)setQueryStringSerializationWithStyle:(AFHTTPRequestQueryStringSerializationStyle)style;
+
+/**
+ 提供了以 block 形式自定义 queryString 转换的接口，
+ 也就是说可以通过block回调的方式让调用者以自己的方式完成 queryString 的转换。
+ */
+- (void)setQueryStringSerializationWithBlock:(nullable NSString * (^)(NSURLRequest *request, id parameters, 
+                                             NSError * __autoreleasing *error))block;
+
+```
+
+返回值是拼接好的query string
 
 ```objc
     // 序列化自定义
