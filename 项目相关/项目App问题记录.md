@@ -518,6 +518,20 @@ return [[NSAttributedString alloc] initWithData:data options:options documentAtt
     - 2. [iOS 开发_NSAtrributeString与HTML之间的相互转换 - 简书](https://www.jianshu.com/p/aa92f597ed55)
  
  
+
+## 网络
+
+`AFNetworking`的序列化,请求 AFHTTPRequestSerializer 会默认序列化一次，可以自定义序列化。
+
+
+```objc
+    // 序列化自定义
+    [self.requestSerializer setQueryStringSerializationWithBlock:^NSString * _Nonnull(NSURLRequest * _Nonnull request, id  _Nonnull parameters, NSError * _Nullable __autoreleasing * _Nullable error) {
+        return hitsHttpRqsModel.paramStr;
+    }];
+
+```
+ 
 ## Web
 
 ### 网页加载完返回的崩溃
