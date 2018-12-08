@@ -1,3 +1,53 @@
+## awakeFromNib 和 initWithCoder
+
+* initWithCoder ：do init stuff
+    *  使用文件加载的对象调用（如从xib或stroyboard中创建）
+    *  为了同时**兼顾从文件和从代码解析的对象初始化，要同时在initWithCoder: 和 initWithFrame: 中进行初始化**
+
+* awakeFromNib ： Prepares the receiver for service after it has been loaded from an Interface Builder archive, or nib file.    
+    * nib加载基础结构将awakeFromNib消息发送到从nib归档重新创建的每个对象，但仅在归档中的所有对象都已加载并初始化之后。当一个对象收到一个awakeFromNib消息时，它保证已经建立了所有的插座和动作连接。
+    * 从xib或者storyboard加载完毕就会调用
+
+
+[ios - Should I be using awakeFromNib or initWithCoder here? - Stack Overflow](https://stackoverflow.com/questions/15508041/should-i-be-using-awakefromnib-or-initwithcoder-here)
+
+
+## loadNibNamed 和 UINib
+
+在table中加载xib的对比
+
+![](https://i.loli.net/2018/12/08/5c0b73f4c4029.jpg)
+
+
+## Xib的嵌套
+
+* 在xib中加载另一个xib，书上说貌似不能直接指定子xib的Class来关联，所以可以使用loadNib方式来加载子xib。
+
+
+## IBOutlet属性用weak还是strong
+
+Apple目前推荐的最佳做法是IBOutlets强劲，除非特别需要弱以避免保留周期
+
+## 1.知识点
+
+如果IBOutlet对象是nib/storyboard scene的拥有者（File’s owner）所直接持有的对象，那么很显然拥有者必须直接拥有对象的指针，因此属性应设置为strong。而其他的IBOutlet对象的属性需要设置为weak，因为拥有者并不需要直接拥有它们的指针。控制器需要直接控制某一个子视图并且将子视图添加到其他的view tree上去，此时需要strong。
+
+#### 1.IBOutlet属性是Weak还是Strong？
+
+1）我们将控件subview拖到xib/storyboard的view上，view持有了subview（强引用）。
+2）当我们使用IBOutlet属性控件的时候，我们是在viewController里面使用，而这个IBOutlet属性控件并不一定直接归控制器所有。当他属于VC的时候，我们要用Strong修饰符；当他属于View时，我们要用Weak修饰**（避免View和VC同时拥有控件的强引用**）。
+即使使用Strong，也不会出现循环引用。在一般场景下，也不会发生内存泄露。VC释放的时候，**view也会被释放，它们2个持有的subView也会被释放。但是，涉及到多层View的场景时，这么做是非常容易引起bug的。所以，请根据实际场景，确认IBOutlet属性的修饰符。
+**
+
+#### 2.控件和IBOutlet的对应关系是？
+
+1）一个控件可以对应多个IBOutlet，所以他也可以对应多个Action事件
+场景：一个基类的xib中有一个通用性的控件，所有的子类中都有一个IBOutlet连接到该控件
+2）一个IBOutlet只能对应一个控件
+
+[iOS日记10-IBOutlet属性用weak还是strong - 简书](https://www.jianshu.com/p/4663fe7ef0b8)
+
+
 ## IOS AutoLayout 详解
 
 看到以上视图咱们可以看出它分为两个而且这两种除了名字不一样，选项是一摸一样的额。Selected Views 这个说的就是你要处理的约束问题是当前你选中的View，而All Views in View Controller，则是说明要解决的约束问题是这个ViewController所有的VIew的(这个可得慎重的)。
