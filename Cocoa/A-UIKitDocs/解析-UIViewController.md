@@ -117,6 +117,119 @@ If the view controller has a valid navigation item or tab-bar item, assigning a 
     * 4.1 在对应的位置添加子控制器view
     * 4.2 选中子控制器对应的标题
     
+    
+    
+[willMoveToParentViewController和didMoveToParentViewController - yongyinmg的专栏 - CSDN博客](https://blog.csdn.net/yongyinmg/article/details/40619727)
+    
+```objc
+- (void)addChildViewController:(UIViewController *)childController
+
+- (void) removeFromParentViewController
+
+- (void)transitionFromViewController：：：：：：
+
+- (void)willMoveToParentViewController:(UIViewController *)parent
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
+
+```
+    
+[父视图控制器 addChildViewController:子视图控制器];
+
+在此，**图控制器A**添加了另一个**图控制器B**，那么A充当父视图控制器，B充当子视图控制器。父视图控制器充当了视图控制器容器的角色。
+
+#### addChildViewController
+
+- (void)addChildViewController:(UIViewController *)childController
+
+向视图控制器容器中添加子视图控制器
+
+childController：子视图控制器
+
+当要添加的子视图控制器已经包含在视图控制器容器中，那么，相当于先从父视图控制器中删除，然后重新添加到父视图控制器中。
+
+#### removeFromParentViewController 
+
+- (void)removeFromParentViewController
+
+从父视图控制器中删除。
+
+#### transitionFromViewController 
+
+- (void)transitionFromViewController:(UIViewController *)fromViewControllertoViewController:(UIViewController *)toViewController duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion
+
+交换两个子视图控制器的位置（由于添加的顺序不同，所以子试图控制器在父视图控制器中存在层次关系）
+
+fromViewController：当前显示的子试图控制器，将被替换为非显示状态
+
+toViewController：将要显示的子视图控制器
+
+duration：交换动画持续的时间，单位秒
+
+options：动画的方式
+
+animations：动画Block
+
+completion：完成后执行的Block
+
+#### willMoveToParentViewController
+
+- (void)willMoveToParentViewController:(UIViewController *)parent
+
+当一个视图控制器从视图控制器容器中被添加或者被删除之前，该方法被调用
+
+parent：父视图控制器，如果没有父视图控制器，将为nil
+
+注意点：
+
+1. **当我们向我们的视图控制器容器中调用removeFromParentViewController方法时，必须要先调用该方法，且parent参数为nil**：
+
+[将要删除的视图控制器 willMoveToParentViewController:nil];
+
+2. 当我们调用addChildViewController方法时，在添加子视图控制器之前将自动调用该方法。所以，就不需要我们显示调用了。
+
+#### didMoveToParentViewController 
+
+```objc
+- (void)didMoveToParentViewController:(UIViewController *)parent
+```
+
+* 当从一个视图控制容器中添加或者移除viewController后，该方法被调用。
+
+parent：父视图控制器，如果没有父视图控制器，将为nil
+
+* 当我们向我们的视图控制器容器（就是父视图控制器，它调用addChildViewController方法加入子视图控制器，它就成为了视图控制器的容器）中添加（或者删除）子视图控制器后，必须调用该方法，告诉iOS，已经完成添加（或删除）子控制器的操作。
+
+removeFromParentViewController 方法会自动调用了该方法，所以，删除子控制器后，不需要在显示的调用该方法了。
+
+其实，这几个方法中的API说明，看的还懂。
+
+最后，
+
+#### 关于willMoveToParentViewController方法和 didMoveToParentViewController方法的使用
+
+1. 这两个方法用在子试图控制器交换的时候调用！即调用transitionFromViewController 方法时，调用。
+
+2. 当调用willMoveToParentViewController方法或didMoveToParentViewController方法时，要注意他们的参数使用：
+
+当某个子视图控制器将从父视图控制器中删除时，parent参数为nil。
+
+即：[将被删除的子试图控制器 willMoveToParentViewController:nil];
+
+当某个子试图控制器将加入到父视图控制器时，parent参数为父视图控制器。
+
+即：[将被加入的子视图控制器 didMoveToParentViewController:父视图控制器];
+
+3. 无需调用[子视图控制器 willMoveToParentViewController:父视图控制器]方法。因为我们调用[父视图控制器 addChildViewController:子视图控制器]时，已经默认调用了。
+
+只需要在transitionFromViewController方法后，调用[子视图控制器didMoveToParentViewController:父视图控制器];
+
+4. 无需调用[子视图控制器 didMoveToParentViewController:父视图控制器]方法。因为我们调用
+
+[子视图控制器 removeFromParentViewController]时，已经默认调用了。
+
+只需要在transitionFromViewController方法之前调用：[子视图控制器 willMoveToParentViewController:nil]。
+    
 ## 参考
 
 1. [View Controller Programming Guide for iOS: The Role of View Controllers](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html#//apple_ref/doc/uid/TP40007457)
