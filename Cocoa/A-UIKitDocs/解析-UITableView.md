@@ -73,6 +73,95 @@ Changing UITableView section header without tableView:titleForHeaderInSection
     」
 ```
 
+
+## prepareForReuse
+
+The table view's delegate in tableView(_:cellForRowAt:) should always reset all content when reusing a cell.
+
+
+* prepareForReuse调用时机
+* 在重用cell的时候，如果每个cell中都有不同的子视图或者是需要发送不同的网络请求，此时在应用`dequeueReusableCellWithIdentifier:`方法时就会出现视图重叠的情况，针对于此种情况，我们就需要在自定义的cell中重写`prepareForReuse`方法。因为当屏幕滚动导致一个cell消失，另外一个cell显示时，系统就会发出prepareForReuse的通知，此时，我们需要在重载的prepareForReuse方法中，将所有的子视图隐藏，并且将内容置空。这样就不会出现重叠现象。
+
+So basically the following is not suggested:
+
+```objc
+
+override func prepareForReuse() {
+    super.prepareForReuse()
+    imageView?.image = nil
+}
+instead the following is recommended:
+
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+    let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+
+     cell.imageView?.image = image ?? defaultImage // unexpected situation is also handled. 
+     // We could also avoid coalescing the `nil` and just let it stay `nil`
+     cell.label = yourText
+     cell.numberOfLines = yourDesiredNumberOfLines
+
+    return cell
+}
+```
+
+Additionally default non-content related items as below is recommended:
+
+```objc
+
+
+override func prepareForReuse() {
+    super.prepareForReuse()
+    isHidden = false
+    isSelected = false
+    isHighlighted = false
+
+}
+
+override func prepareForReuse() {
+    super.prepareForReuse()
+
+    imageView.cancelImageRequest() // this should send a message to your download handler and have it cancelled.
+    imageView.image = nil
+}
+
+```
+
+
+## UITableViewCell高度计算
+
+rowHeight
+UITableView是我们再熟悉不过的视图了，它的 delegate 和 data source 回调不知写了多少次，也不免遇到 UITableViewCell 高度计算的事。UITableView 询问 cell 高度有两种方式。
+一种是针对所有 Cell 具有固定高度的情况，通过：
+
+self.tableView.rowHeight = 88;
+上面的代码指定了一个所有 cell 都是 88 高度的 UITableView，对于定高需求的表格，强烈建议使用这种（而非下面的）方式保证不必要的高度计算和调用。rowHeight属性的默认值是 44，所以一个空的 UITableView 显示成那个样子。
+
+另一种方式就是实现 UITableViewDelegate 中的：
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // return xxx
+}
+需要注意的是，实现了这个方法后，rowHeight 的设置将无效。所以，这个方法适用于具有多种 cell 高度的 UITableView。
+
+
+
+[优化UITableViewCell高度计算的那些事 · sunnyxx的技术博客](http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/)
+
+
+## 优化TableView
+
+[VVeboTableView 源码解析 - 掘金](https://juejin.im/post/5a38604b5188252bca04f9fb)
+
+
+1. 减少CPU／GPU计算量
+1.1 cell的重用机制
+1.2 将cell高度和 cell里的控件的frame缓存在model里
+1.3 减少cell内部控件的层级
+
+2. 按需加载cell
+
+
 ## 参考 
 
 [UITableView - UIKit | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableview#//apple_ref/occ/cl/UITableView)
