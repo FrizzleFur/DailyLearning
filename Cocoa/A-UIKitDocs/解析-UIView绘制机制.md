@@ -8,9 +8,10 @@
 2 | 2018-05-28 | 整理目录，完善标题
 
 > UIView的`setNeedsLayout`, `layoutIfNeeded` 和` layoutSubviews` 方法之间的关系解释
-·
+
 ## UIView绘制机制
 
+![](https://i.loli.net/2018/12/09/5c0c787cce502.jpg)
 ```
 - (CGSize)sizeThatFits:(CGSize)size
 - (void)sizeToFit
@@ -196,7 +197,25 @@ drawRect在以下情况下会被调用：
 
 ### ConvertRect
 
+UIKit提供了一下几种坐标转换的方法：
+
+```objc
+- (CGPoint)convertPoint:(CGPoint)point toView:(nullable UIView *)view;
+- (CGPoint)convertPoint:(CGPoint)point fromView:(nullable UIView *)view;
+- (CGRect)convertRect:(CGRect)rect toView:(nullable UIView *)view;
+- (CGRect)convertRect:(CGRect)rect fromView:(nullable UIView *)view;
+```
+
+```objc
+[fromView convertPoint:point toView:toView];
+[toView convertPoint:point fromView:fromView];
+```
+
 ##### fromView
+
+注意返回值：The point converted to the local coordinate system (bounds) of the receiver. 是返回依据点在给定view的bounds坐标系的坐标
+
+![](https://i.loli.net/2018/12/09/5c0c705689914.jpg)
 
 ```objc
   CGRect newRect = [self.view convertRect:self.blueView.frame fromView:self.redView];
@@ -205,10 +224,16 @@ toView
 
   CGRect newRect = [self.blueView convertRect:CGRectMake(50, 50, 100, 100) toView:self.greenView];
 ```
+##### toView
 
 **调用视图 `convertRect`: 调用视图相对于目标视图的frame toview目标视图**
 
 目标视图为`nil`的时候指的是Window本身。
+
+```objc
+- (CGPoint)convertPoint:(CGPoint)point toView:(nullable UIView *)view;
+```
+
 
 ### Runloop与UIView的绘制
 

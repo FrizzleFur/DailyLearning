@@ -138,8 +138,27 @@ xibView.backgroundColor = [UIColor redColor];
 
 ```
 
+### Constrain to margin
 
 
+What is Margins in iOS8
+
+![](https://i.loli.net/2018/12/09/5c0beab9b0052.png)
+
+By default, a UIView has layout margins of 8 points on each side, and this can not be changed in Interface Builder. However, by setting the UIView.layoutMargins property in the code, which is only available on iOS8, you are able to adjust these values.
+
+
+[ios - What is "Constrain to margin" in Storyboard in Xcode 6 - Stack Overflow](https://stackoverflow.com/questions/25807545/what-is-constrain-to-margin-in-storyboard-in-xcode-6)
+
+
+
+
+## 小技巧
+
+预览Xib
+
+![](https://i.loli.net/2018/12/09/5c0c65029cd2b.jpg)
+![](https://i.loli.net/2018/12/09/5c0c6589f21ff.jpg)
 
 ## 参考
 
