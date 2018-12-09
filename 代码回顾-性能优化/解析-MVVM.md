@@ -4,6 +4,13 @@
 
 ![](http://oc98nass3.bkt.clouddn.com/15235264488103.jpg)
 
+
+> 之前对MVVM的理解太浅，以为只是把VC请求放在了VM中，其实VM可以绑定View,并将Model变化的情况，通过ViewModel更新所绑定的view.
+
+[不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
+
+
+
 ## MVC
 
 ![](http://oc98nass3.bkt.clouddn.com/15359950245553.jpg)
@@ -314,9 +321,11 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 ## 参考
 
+* [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
+* [不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
+
 * [How not to get desperate with MVVM implementation – Flawless App Stories – Medium](https://medium.com/flawless-app-stories/how-to-use-a-model-view-viewmodel-architecture-for-ios-46963c67be1b)
 * [leichunfeng/MVVMReactiveCocoa: GitBucket iOS App](https://github.com/leichunfeng/MVVMReactiveCocoa)
-* [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
 * [对于MVVM，多一些思考总是没差的 - 简书](https://www.jianshu.com/p/fbfbdfba117f)
 * [ObjC 中国 - MVVM 介绍](https://objccn.io/issue-13-1/)
 
