@@ -12,6 +12,9 @@
 ## UIView绘制机制
 
 ![](https://i.loli.net/2018/12/09/5c0c787cce502.jpg)
+
+![](https://i.loli.net/2018/12/09/5c0c78c541bbb.jpg)
+
 ```
 - (CGSize)sizeThatFits:(CGSize)size
 - (void)sizeToFit
