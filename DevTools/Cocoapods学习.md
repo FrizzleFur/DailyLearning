@@ -427,3 +427,110 @@ fatal: unable to access 'https://github.com/CocoaPods/Specs.git/': LibreSSL SSL_
 In XCode Go to Product -> Scheme -> Manage Schemes. There delete the project (maintaining the pods) and add the project again. It worked for me.
 
 [xcode文件找不到-－－“AFNetworking.h”file not found - wsh7365062的博客 - CSDN博客](https://blog.csdn.net/wsh7365062/article/details/53112723)
+
+
+
+### Pod install & Pod update 
+
+[使用 pod install 还是 pod update ？ - 简书](https://www.jianshu.com/p/a977c0a03bf4)
+
+## 介绍：
+
+许多人开始使用CocodPods的时候认为pod install只是你第一次用CocoaPods建立工程的时候使用，而之后都是使用pod update，但实际上并不是那会事。
+
+简单来说，就是：
+
+1.使用pod install来安装新的库，即使你的工程里面已经有了Podfile，并且已经执行过pod install命令了；所以即使你是添加或移除库，都应该使用pod install。
+
+2.使用pod update [PODNAME] 只有在你需要更新库到更新的版本时候用。
+
+## 详细介绍：
+
+* * *
+
+#### pod install ：
+
+这个是第一次在工程里面使用pods的时候使用，并且，也是每次你编辑你的Podfile（添加、移除、更新）的时候使用。
+
+每次运行pod install命令的时候，在下载、安装新的库的同时，也会把你安装的每个库的版本都写在了Podfile.lock文件里面。这个文件记录你每个安装库的版本号，并且锁定了这些版本。
+
+当你使用pod install它只解决了pods里面，但不在Podfile.lock文件里面的那些库之间的依赖。对于在Podfile.lock里面所列出的那些库，会下载在Podfile.lock里面明确的版本，并不会去检查是否该库有新的版本。对于还不在Podfile.lock里面的库，会找到Podfile里面描述对应版本（例如：pod "MyPod", "~>1.2"）。
+
+* * *
+
+#### pod outdated：
+
+当你运行pod outdated命令，CocoaPods会列出那些所有较Podfile.lock里面有新版本的库（那些当前被安装着的库的版本）。这个意思就是，如果你运行pod update PODNAME，如果这个库有新的版本，并且新版本仍然符合在Podfile里的限制，它就会被更新。
+
+* * *
+
+#### pod update：
+
+当你运行 pod update PODNAME 命令时，CocoaPods会帮你更新到这个库的新版本，而不需要考虑Podfile.lock里面的限制，它会更新到这个库尽可能的新版本，只要符合Podfile里面的版本限制。
+
+如果你运行pod update，后面没有跟库的名字，CocoaPods就会更新每一个Podfile里面的库到尽可能的最新版本。
+
+## 正确用法：
+
+你应该使用pod update PODNAME去只更新某个特定的库（检查是否有新版本，并尽可能更新到新的版本）。对应的，你应该使用pod install，这个命令不会更新那些已经安装了的库。
+
+当你在你的Podfile里面添加了一个库的时候，你应该使用pod install，而不是pod update，这样既安装了这个库，也不需要去更新其它的已安装库。
+
+你应该使用pod update去更新某个特定的库，或者所有的库（在Podfile的限制中）。
+
+## 提交你的Podfile.lock文件：
+
+在此提醒，即使你一向以来，不commit你的Pods文件夹到远程仓库，你也应该commit并push到远程仓库中。
+
+要不然，就会破坏整个逻辑，没有了Podfile.lock限制你的Pods中的库的版本。
+
+## 举例：
+
+以下会举例说明在各个场景下的使用。
+
+#### 场景1：User1创建了一个工程
+
+User1创建了一个工程，并且想使用A、B、C这三个库，所以他就创建了一个含有这个三个库的Podfile，并且运行了pod intall。
+
+这样就会安装了A、B、C三个库到这个工程里面，假设我们的版本都为1.0.0。
+
+因此Podfile.lock跟踪并记录A、B、C这三个库以及版本号1.0.0。
+
+顺便说一下：由于这个工程是第一次运行pod install，并且Pods.xcodeproj工程文件还不存在，所以这个命令也会同时创建Pods.xcodeproj以及.xcworkspace工程文件，这只是这个命令的一个副作用，并不是主要目的。
+
+#### 场景2：User1添加了一个库
+
+之后，User1添加了一个库D到Podfile文件中。
+
+然后他就应该运行pod install命令了。所以即使库B的开发者发布了B的一个新版本1.1.0。但只要是在第一次执行pod install之后发布的，那么B的版本仍然是1.0.0。因为User1只是希望添加一个新库D，不希望更新库B。
+
+这就是很多人容易出错的地方，因为他们在这里使用了pod update，因为想着“更新我的工程一个新的库而已”。这里要注意！
+
+#### 场景3：User2加入到这个工程中
+
+然后，User2，一个之前没有参与到这个工程的人，加入了。他clone了一份仓库，然后使用pod install命令。
+
+Podfile.lock的内容就会保证User1和User2会得到完全一样的pods，前提是Podfile.lock被提交到git仓库中。
+
+即使库C的版本已经更新到了1.2.0，User2仍然会使用C的1.0.0版本，因为C已经在Podfile.lock里面注册过了，C的1.0.0版本已经被Podfile.lock锁住了。
+
+#### 场景4：检查某个库的新版本
+
+之后，User1想检查pods里面是否有可用的更新时，他执行了pod outdated，这个命令执行后，会列出来：B有了1.1.0版本，C有了1.2.0版本。
+
+这时候，User1打算更新库B，但不更新库C，所以执行pod update B，这样就把B从1.0.0更新到1.1.0（同时更新Podfile.lock里面对B的版本记录），此时，C仍然是1.0.0版本，不会更新。
+
+### 在Podfile中使用明确版本还不够
+
+有些人认为在Podfile中明确某个库的版本，例如：pod 'A', '1.0.0' ,足以保证所有项目里面的人都会使用完全一样的版本。
+
+这个时候，他们可能会觉得，此时如果添加一个新库的时候，我使用pod update并不会去更新其它的库，因为其它的库已经被限定了固定的版本号。
+
+但事实上，这不足以保证User1和User2的pods中库的版本会完全一样。
+
+一个典型的例子是，如果库A有一个对库A2的依赖（声明在A.podspec中：dependency 'A2', '~> 3.0'），如果这样的话，使用 pod 'A', '1.0.0' 在你的Podfile中，的确会让User1和User2都使用同样版本的库A（1.0.0），然而：
+
+最后User1可能使用A的依赖库A2的版本为3.4（因为3.4是当时User1使用的最新版本），但User2使用的库A2版本是3.5（假设A2的开发者刚刚发布了A2的新版本3.5）。
+
+所以只有一个方法来保证某项目的每个开发者都使用相同版本的库，就是每个电脑中都使用同样的Podfile.lock，并且合理使用pod install 和 pod update。
+
