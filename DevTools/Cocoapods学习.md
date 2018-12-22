@@ -3,6 +3,9 @@
 
 [CocoaPods 都做了什么？](https://draveness.me/cocoapods.html)
 
+最后想说的是 pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，其中前者并不会修改 Podfile.lock 中显示指定的版本，而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
+
+
 ## pod install
 
 `pod install`参考的是podfile.lock文件的版本
