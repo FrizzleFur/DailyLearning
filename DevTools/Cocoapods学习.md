@@ -1,6 +1,8 @@
 
 # CocoaPods 问题
 
+[CocoaPods 都做了什么？](https://draveness.me/cocoapods.html)
+
 ## pod install
 
 `pod install`参考的是podfile.lock文件的版本
