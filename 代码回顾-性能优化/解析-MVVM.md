@@ -121,6 +121,8 @@ func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -
 
 
 ## MVVM
+
+
 ![](http://oc98nass3.bkt.clouddn.com/15359952531157.jpg)
 
 为了解决这个问题，我们的首要任务是清理视图控制器的视图控制器，分为两部分：视图和视图模型。具体地说，我们要：
@@ -131,6 +133,10 @@ func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -
 因此，我们可以将UI组件抽象为一组规范表示：
 
 ![](http://oc98nass3.bkt.clouddn.com/15235279133274.jpg)
+
+### ViewModel
+
+MVVM 中的 viewModel 的主要职责就是从 model 层获取 view 所需的数据，并且将这些数据转换成 view 能够展示的形式。
 
 ### ViewModel Binding
 
