@@ -119,6 +119,9 @@ setNeedDisplay在receiver标上一个需要被重新绘图的标记，在下一�
 * drawRect
 * sizeThatFits
 * sizeToFit
+* setNeedsUpdateConstraints
+* updateConstraintsIfNeeded
+
 大概常用的上面几个 ， 具体的应该还有别的。
 
 ### layoutSubviews
@@ -172,6 +175,36 @@ UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSp
 ```
 
 所以上面不管写多少约束的改变，只需要在动画里动用 一次`self.view.layoutIfNeeded()`,所有的都会已动画的方式 。如果一些变化不想动画 。在动画前执行`self.view.layoutIfNeeded()`
+
+
+### setNeedsUpdateConstraints
+
+Controls whether the view’s constraints need updating.
+
+### updateConstraintsIfNeeded
+
+Updates the constraints from the bottom up for the view hierarchy rooted at the receiver. UIWindow's implementation creates a layout engine if necessary first
+
+setNeedsUpdateConstraints 保证之后肯定会调用 updateConstraintsIfNeeded .
+
+SetNeedsLayout 保证之后肯定会调用 layoutIfNeeded .
+
+AutoLayout 的本质
+
+[ios - Why calling setNeedsUpdateConstraints isn't needed for constraint changes or animations? - Stack Overflow](https://stackoverflow.com/questions/47823639/why-calling-setneedsupdateconstraints-isnt-needed-for-constraint-changes-or-ani)
+This is a common misunderstanding among iOS developers.
+
+Here's one of my "golden rules" for Auto Layout:
+
+Don't bother about "updating constraints".
+You never need to call any of these methods:
+
+* setNeedsUpdateConstraints()
+* updateConstraintsIfNeeded()
+* updateConstraints()
+* updateViewConstraints()
+
+
 
 ### drawRect
 
