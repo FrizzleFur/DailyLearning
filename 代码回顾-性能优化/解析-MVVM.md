@@ -4,6 +4,16 @@
 
 ![](http://oc98nass3.bkt.clouddn.com/15235264488103.jpg)
 
+
+> 之前对MVVM的理解太浅，以为只是把VC请求放在了VM中，其实VM可以绑定View,并将Model变化的情况，通过ViewModel更新所绑定的view.
+
+[不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
+
+对于 MVVM 来说，我们可以把 view 看作是 viewModel 的可视化形式，viewModel 提供了 view 所需的数据和命令。因此，viewModel 的可测试性可以帮助我们极大地提高应用的质量。
+
+[MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
+
+
 ## MVC
 
 ![](http://oc98nass3.bkt.clouddn.com/15359950245553.jpg)
@@ -111,6 +121,8 @@ func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -
 
 
 ## MVVM
+
+
 ![](http://oc98nass3.bkt.clouddn.com/15359952531157.jpg)
 
 为了解决这个问题，我们的首要任务是清理视图控制器的视图控制器，分为两部分：视图和视图模型。具体地说，我们要：
@@ -121,6 +133,10 @@ func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -
 因此，我们可以将UI组件抽象为一组规范表示：
 
 ![](http://oc98nass3.bkt.clouddn.com/15235279133274.jpg)
+
+### ViewModel
+
+MVVM 中的 viewModel 的主要职责就是从 model 层获取 view 所需的数据，并且将这些数据转换成 view 能够展示的形式。
 
 ### ViewModel Binding
 
@@ -314,9 +330,11 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 ## 参考
 
+* [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
+* [不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
+
 * [How not to get desperate with MVVM implementation – Flawless App Stories – Medium](https://medium.com/flawless-app-stories/how-to-use-a-model-view-viewmodel-architecture-for-ios-46963c67be1b)
 * [leichunfeng/MVVMReactiveCocoa: GitBucket iOS App](https://github.com/leichunfeng/MVVMReactiveCocoa)
-* [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
 * [对于MVVM，多一些思考总是没差的 - 简书](https://www.jianshu.com/p/fbfbdfba117f)
 * [ObjC 中国 - MVVM 介绍](https://objccn.io/issue-13-1/)
 

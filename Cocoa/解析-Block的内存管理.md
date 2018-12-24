@@ -611,6 +611,57 @@ self --> _observer --> block --> self 显然这也是一个循环引用。
 ```
 
 
+```objc
+#import "ViewController.h"
+#import "Student.h"
+
+@interface ViewController ()
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+  
+    Student *student = [[Student alloc]init];
+    student.name = @"Hello World";
+
+    student.study = ^{
+        NSLog(@"my name is = %@",student.name);
+    };
+}
+```
+
+到这里，大家应该看出来了，这里肯定出现了循环引用了。**student的study的Block里面强引用了student自身。根据上篇文章的分析，可以知道，_NSConcreteMallocBlock捕获了外部的对象，会在内部持有它**。retainCount值会加一。
+
+
+```objc
+#import "ViewController.h"
+#import "Student.h"
+
+@interface ViewController ()
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    Student *student = [[Student alloc]init];
+    student.name = @"Hello World";
+
+    student.study = ^(NSString * name){
+        NSLog(@"my name is = %@",name);
+    };
+    student.study(student.name);
+}
+```
+
+我把block新传入一个参数，传入的是student.name。这个时候会引起循环引用么？
+答案肯定是不会。
+并不会出现内存泄露。原因是因为，student是作为形参传递进block的，**block并不会捕获形参到block内部进行持有**。所以肯定不会造成循环引用。
+
+
 ## 探寻block的本质
 
 首先写一个简单的block
