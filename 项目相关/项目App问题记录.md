@@ -354,6 +354,68 @@ _mTable.estimatedRowHeight = StarRankCell_CellHeight_Default;
 *  [ios-tableViewcell展开与收缩动画处理 - 布尔- - 博客园](https://www.cnblogs.com/buerjj/p/8613676.html)
 
 
+
+### 导航栏的显示问题
+
+> 之前定义导航栏在每个VC是否隐藏是，通过在VC的分类中利用`Runtime`添加一个`Bool`属性，结合自定义的Navi的`willShowViewController`方法中，对将要展示的每个VC设限制导航是否显示。
+> 但是有一个页面在执行返回事件时候需要回到栈底的根VC，调用`popToRootViewControllerAnimated`时候，发现Navi不会执行`willShowViewController`方法：
+
+```objc
+
+// BaseNaviController
+#pragma mark - UINavigationControllerDelegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    // 判断要显示的控制器是否是自身控制器
+    [self setNavigationBarHidden:viewController.isHideNavBar animated:YES];
+}
+
+#import "UIViewController+Category.h"
+
+// 属性绑定
+#pragma mark ---------- 是否隐藏导航条 ----------
+- (void)setIsHideNavBar:(BOOL)isHideNavBar
+{
+    /*
+     objc_AssociationPolicy参数使用的策略：
+     OBJC_ASSOCIATION_ASSIGN;            //assign策略
+     OBJC_ASSOCIATION_COPY_NONATOMIC;    //copy策略
+     OBJC_ASSOCIATION_RETAIN_NONATOMIC;  // retain策略
+     
+     OBJC_ASSOCIATION_RETAIN;
+     OBJC_ASSOCIATION_COPY;
+     */
+    /*
+     关联方法：
+     objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy);
+     
+     参数：
+     * id object 给哪个对象的属性赋值
+     const void *key 属性对应的key
+     id value  设置属性值为value
+     objc_AssociationPolicy policy  使用的策略，是一个枚举值，和copy，retain，assign是一样的，手机开发一般都选择NONATOMIC
+     */
+    objc_setAssociatedObject(self, &isHiddenKey, @(isHideNavBar), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)isHideNavBar
+{
+    return [objc_getAssociatedObject(self, &isHiddenKey) boolValue];
+}
+
+```
+
+
+* From documentation:  popToRootViewControllerAnimated: Pops all the view controllers on the stack except the root view controller and updates the display.
+
+* popViewControllerAnimated: Pops the top view controller from the navigation stack and updates the display.
+
+[ios - navigationController:willShowViewController:animated: is not called after popToRootViewControllerAnimated in presented view controller - Stack Overflow](https://stackoverflow.com/questions/51825238/navigationcontrollerwillshowviewcontrolleranimated-is-not-called-after-poptor)
+
+**原因：**
+其实是会调用一次的，后来发现是以为该页面改成Feed流形式后，继承UINavigationControllerDelegate，自定义了转场动画,调用PushVC的时候，其实没有走原来的Push方法，造成不调用navi代理。
+
+
+
 ## 动画
 
 ### 浮层的动画问题

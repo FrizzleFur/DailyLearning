@@ -13,7 +13,22 @@
 表格视图是由零个或多个部分，每一个都有自己的行。部分确定的表格视图的索引号，和行确定一个段中的索引。任何部分可以选择之前一段标题，也可以跟随一段尾。
 
 
+### 获取Table中view的坐标
+
+```objc
+- (CGRect)rectForSection:(NSInteger)section;                                    // includes header, footer and all rows
+- (CGRect)rectForHeaderInSection:(NSInteger)section;
+- (CGRect)rectForFooterInSection:(NSInteger)section;
+- (CGRect)rectForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (nullable NSIndexPath *)indexPathForRowAtPoint:(CGPoint)point;                         // returns nil if point is outside of any row in the table
+- (nullable NSIndexPath *)indexPathForCell:(UITableViewCell *)cell;                      // returns nil if cell is not visible
+- (nullable NSArray<NSIndexPath *> *)indexPathsForRowsInRect:(CGRect)rect;                              // returns nil if rect not valid
+
+```
+
 ### UITableViewStyle
+
 当你创建一个表格实例必须指定表的风格，这种风格是无法改变的:
 
 `UITableViewStylePlain`
