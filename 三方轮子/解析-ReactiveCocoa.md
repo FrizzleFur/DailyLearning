@@ -13,6 +13,15 @@
 ## ReactiveCocoa 的问题
 
 RAC 在应用中大量使用了 block，由于 Objective-C 语言的内存管理是基于引用计数 的，为了避免循环引用问题，在 block 中如果要引用 self，需要使用@weakify(self)和@strongify(self)来避免强引用。另外，在使用时应该注意 block 的嵌套层数，不恰当的滥用多层嵌套 block 可能给程序的可维护性带来灾难。
+ee
+有些地方很容易被忽略，比如RACObserve(thing, keypath)，看上去并没有引用self，所以在subscribeNext时就忘记了weakify/strongify。但事实上RACObserve总是会引用self，即使target不是self，所以只要有RACObserve的地方都要使用weakify/strongify。
+
+## ReactiveCocoa 的理解
+
+[leezhong博客](http://limboy.me/ios/2013/06/19/frp-reactivecocoa.html)
+
+　 可以把信号想象成水龙头，只不过里面不是水，而是玻璃球(value)，直径跟水管的内径一样，这样就能保证玻璃球是依次排列，不会出现并排的情况(数据都是线性处理的，不会出现并发情况)。水龙头的开关默认是关的，除非有了接收方(subscriber)，才会打开。这样只要有新的玻璃球进来，就会自动传送给接收方。可以在水龙头上加一个过滤嘴(filter)，不符合的不让通过，也可以加一个改动装置，把球改变成符合自己的需求(map)。也可以把多个水龙头合并成一个新的水龙头(combineLatest:reduce:)，这样只要其中的一个水龙头有玻璃球出来，这个新合并的水龙头就会得到这个球。　
+
 
 
 ```objc
@@ -180,6 +189,10 @@ tail ：指的是序列中除第一个对象外的其它所有对象，同样的
 
 ![](https://i.loli.net/2018/12/22/5c1e104d85f5d.png)
 
+## RACSubject的使用场景
+ 
+一般不推荐使用RACSubject，因为它过于灵活，滥用的话容易导致复杂度的增加。但有一些场景用一下还是比较方便的，比如ViewModel的errors。
+
 
 
 ## 使用场景
@@ -231,6 +244,155 @@ tail ：指的是序列中除第一个对象外的其它所有对象，同样的
 
 [iOS RAC学习之路（一） - 简书](https://www.jianshu.com/p/3331588c16ca)
 
+
+## RAC的作用
+
+而RAC为MVVM带来很大的便利，比如RACCommand, UIKit的RAC Extension等等。**使用MVVM不一定能减少代码量，但能降低代码的复杂度。**
+**
+
+
+
+## 白话理解RAC
+
+初学者总是容易被一堆概念搞得晕头转向，我想其实无非是这几种：
+
+```objc
+RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber){
+            [subscriber sendNext:@(1)];
+            [subscriber sendCompleted];
+            return nil;
+        }];
+
+```
+
+  1、createSignal好难啊；2、subscriber是什么？3、这个block什么时候调用？
+
+```objc
+[signal subscribeNext:^(id x) {
+        if ([x boolValue]) {
+            _navView.hidden = YES;
+        } else {
+            _navView.hidden = NO;
+            [UIView animateWithDuration:.5 animations:^{
+                _navView.alpha = 1;
+            }];
+        }
+    }];
+
+```
+
+  4、subscribeNext又是什么？5、这个block什么时候调用？
+
+  6、看起来上面两段代码有关系，但是具体怎么作用的？
+
+让我们先来解决上面的困惑吧！
+
+### 第一部分 订阅者和信号
+
+  1、隐藏的订阅者
+
+  平时我们打交道的就是信号，但是总是说订阅，却不知道订阅到底是如何进行的，也无法解答上面的问题，让我们根据源码分析一下订阅过程。
+
+  首先来认识一个对象：订阅者(RACSubscriber)。
+订阅者订阅信号，就是这么简单的一件事情。只不过框架隐藏了这个对象，我们也不必要和订阅者打交道，只需要告诉信号一件事情，那就是如果发送了数据（三种事件：next、complete、error），我们需要做什么事情（类似回调的概念）。
+
+  第一步是创建信号，看一下上面的第一段代码，createSignal类方法：
+这里要说一下，信号RACSignal有一些子类，我们常用的是RACDynamicSignal和RACSubject，先不理会RACSubject。createSignal类方法创建的就是RACDynamicSignal对象。
+
+```objc
+-----RACDynamicSignal.h-----
+@property (nonatomic, copy, readonly) RACDisposable * (^didSubscribe)(id<RACSubscriber> subscriber);
+
+-----RACSignal.m-----
++ (RACSignal *)createSignal:(RACDisposable * (^)(id<RACSubscriber> subscriber))didSubscribe {
+    return [RACDynamicSignal createSignal:didSubscribe];
+}
+
+-----RACDynamicSignal.m-----
++ (RACSignal *)createSignal:(RACDisposable * (^)(id<RACSubscriber> subscriber))didSubscribe {
+    RACDynamicSignal *signal = [[self alloc] init];
+    signal->_didSubscribe = [didSubscribe copy];
+    return [signal setNameWithFormat:@"+createSignal:"];
+}
+
+```
+
+  我们可以发现，RACDynamicSignal有一个属性，名字叫didSubscribe的block对象。createSignal方法传递的block参数，就是赋值给didSubscribe属性。
+  **对于问题1，我们可以暂时这么回答，createSignal的意义是，创建一个signal对象，并且把参数赋值给signal的名为didSubscribe的属性，这个block的参数是subscriber，返回RACDisposable。**
+
+  第二步是订阅信号，看一下第二段代码subscribeNext：
+
+```objc
+-----RACSubscriber.m-----
+@property (nonatomic, copy) void (^next)(id value);
+
+-----RACSignal.m-----
+- (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock {
+    NSCParameterAssert(nextBlock != NULL);
+
+    RACSubscriber *o = [RACSubscriber subscriberWithNext:nextBlock error:NULL completed:NULL];
+    return [self subscribe:o];
+}
+
+-----RACDynamicSignal.m-----
+
+- (RACDisposable *)subscribe:(id<RACSubscriber>)subscriber {
+    NSCParameterAssert(subscriber != nil);
+
+    RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];
+    subscriber = [[RACPassthroughSubscriber alloc] initWithSubscriber:subscriber signal:self disposable:disposable];
+
+    if (self.didSubscribe != NULL) {
+        RACDisposable *schedulingDisposable = [RACScheduler.subscriptionScheduler schedule:^{
+            RACDisposable *innerDisposable = self.didSubscribe(subscriber);
+            [disposable addDisposable:innerDisposable];
+        }];
+
+        [disposable addDisposable:schedulingDisposable];
+    }
+
+    return disposable;
+}
+
+```
+
+  我们可以看到，subscribeNext方法第一步是创建了一个RACSubscriber，也就是创建了一个订阅者，而且把subscribeNext的参数传递给RACSubscriber对象，RACSubscriber会把参数赋值给自己一个名为next的Block类型的属性，**这里，我们可以回答上面第4个问题，subscribeNext方法创建一个订阅者，并且把block参数，传递给订阅者一个名字叫next的属性，block参数接收的是id类型，返回的是RACDisposable对象。**接下来执行［self subscribe：o］，也就是订阅操作。我们在看看订阅方法subscribe的实现：上面的代码很清晰，直接是self.didSubscribe(subscriber),我们可以知道，刚刚创建的subscriber对象，直接传递给上文中我们提到的signal的didSubscribe属性。**这样，我们可以解释上面的第二个和第三个问题，subscriber就是didSubscribe的形参，block对象是在subscribeNext的时候执行的，刚刚的订阅者对象作为参数传入，就是subscriber对象。**
+
+  那么createSignal方法中，[subscriber sendNext:@(1)]是什么意思呢？
+  看一下sendNext方法吧：
+
+```objc
+- (void)sendNext:(id)value {
+    @synchronized (self) {
+        void (^nextBlock)(id) = [self.next copy];
+        if (nextBlock == nil) return;
+
+        nextBlock(value);
+    }
+}
+
+```
+
+  我们可以发现，sendNext的实现，也就是直接执行上文中的nextBlock。**也就是回答了上面第五个问题。**
+
+  总结一下，signal持有didSubscribe参数（createSignal传进来的那个block），subscriber持有nextBlock（就是subscribeNext传进来的那个block），当执行［signal subscribe：subscriber］的时候，signal的didSubscribe执行，内部有subscriber sendNext的调用，触发了subscriber的nextBlock的调用。到这里，我们基本把信号和订阅者，以及订阅过程分析完毕。
+
+### 第二部分 信号和事件
+
+  刚才我们说过，signal有几个子类，每一个类型的signal订阅过程其实大同小异，而且初期常见的也就是RACDynamicSignal，其实我们不需要太关心这个问题，因为无论是自定义信号，还是框架定义的一些category，例如，textFiled的rac_textSignal属性，大多数都是RACDynamicSignal。另一个常见的类型RACSubject可以以后理解。
+
+  还有就是，我们刚刚谈到了三种事件，分别是next、error、complete，和分析next的订阅过程一样，举个例子，我们发送网络请求，希望在出错的时候，能给用户提示，那么首先，创建信号的时候，在网络请求失败的回调中，我们要[subscriber sendError:netError],也就是发送错误事件。然后在订阅错误事件，也就是subscriberError:...这样就完成了错误信号的订阅。
+
+  complete事件比较特殊，它有终止订阅关系的意味，我们先大致了解一下RACDispoable对象吧，我们知道，订阅关系需要有终止的时候，比如，在tableViewCell的复用的时候，cell会订阅model类产生一个信号，但是当cell被复用的时候，如果不把之前的订阅关系取消掉，就会出现同时订阅了2个model的情况。我们可以发现，subscribeNext、subscribeError、subscribeComplete事件返回的都是RACDisopable对象，当我们希望终止订阅的时候，调用［RACDisposable dispose］就可以了。complete也是这个原理。
+
+### 第三部分 进一步的深入
+
+  RAC是一个非常庞大的框架，平时的一些教程会误导大家纠结flattenMap和map的区别，这些问题，让人找不到头绪，导致入门更加的困难。实际上，学习它需要一个循循渐进的过程，RAC有很多作用，解耦合，更高效的解决一类问题等等，总之，他是对常规的面向对象编程很好的补充。所以，在理解完订阅的过程之后，重要的是，投入实际的运用中，我观察了不少开源的项目，并结合自己的实践发现，其实flattenMap这样的操作，非常少，几乎没有，常用的无非就是以下几个：手动构建信号（createSignal）、订阅信号（subscribeNext）、使用框架的一些宏定义（RACObserve、RAC）、然后就是学习几个最简单的操作，例如map、merge等就可以开始了。如果希望深入研究，一定要把这些基础的东西吃透，然后在学习更多的操作，例如flattenMap，了解side effect和多播的概念，学会RACSubject的用法（这个也是非常重要的对象）等等。如果把这些操作比作武器的话，可能更重要的是内功，也就是理解他的思想，我们如何通过实战，知道恰当的利用他的强大，慢慢的熟悉和深入是水到渠成的事情。
+
+
 ## 参考
 
 1. [标签归档 | ReactiveCocoa - 美团点评技术团队](https://tech.meituan.com/tag/ReactiveCocoa)
+2. [『状态』驱动的世界：ReactiveCocoa](https://draveness.me/racsignal)
+3. [RAC基础学习一:信号和订阅者模式 - 简书](https://www.jianshu.com/p/4fee21fb05b3)
+
