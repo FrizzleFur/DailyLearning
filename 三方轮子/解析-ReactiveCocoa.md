@@ -228,30 +228,6 @@ tail ：指的是序列中除第一个对象外的其它所有对象，同样的
 ![](https://i.loli.net/2018/12/22/5c1e145311a2d.jpg)
 
 
-## 总结
-
-
-至此，我们介绍完了 `ReactiveCocoa` 的四大核心组件，对它的架构有了宏观上的认识。它建立于 Monad 的概念之上，然后围绕其搭建了一系列完整的配套组件，它们共同支撑了 `ReactiveCocoa` 的强大功能。尽管，`ReactiveCocoa` 是一个重型的函数式响应式框架，但是它并不会对我们现有的代码构成侵略性，我们完全可以在一个单独的类中使用它，哪怕只是简单的一行代码，也是没有问题的。所以，如果你对 ReactiveCocoa 感兴趣的话，不妨就从现在开始尝试吧，Let’s go ！
-
-
-### 信号总结
-
-
-首先在创建信号的时候，带进去一个已经订阅的Block（didSubscribe），把它保存在信号中，并没有执行；
-在订阅信号的时候，带进去一个发送信号的Block（nextBlock），然后创建一个订阅者（RACSubscriber对象），订阅者会把nextBlock进行保存，接着执行之前信号保存的didSubscribe这个Block，并将订阅者传递过去；
-然后在didSubscribe回调里面，由订阅者发送信号，也就是执行之前保存的nextBlock；
-最后在nextBlock（订阅回调）里面监听到发送的内容。
-
-[iOS RAC学习之路（一） - 简书](https://www.jianshu.com/p/3331588c16ca)
-
-
-## RAC的作用
-
-而RAC为MVVM带来很大的便利，比如RACCommand, UIKit的RAC Extension等等。**使用MVVM不一定能减少代码量，但能降低代码的复杂度。**
-**
-
-
-
 ## 白话理解RAC
 
 初学者总是容易被一堆概念搞得晕头转向，我想其实无非是这几种：
@@ -388,6 +364,29 @@ RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> s
 ### 第三部分 进一步的深入
 
   RAC是一个非常庞大的框架，平时的一些教程会误导大家纠结flattenMap和map的区别，这些问题，让人找不到头绪，导致入门更加的困难。实际上，学习它需要一个循循渐进的过程，RAC有很多作用，解耦合，更高效的解决一类问题等等，总之，他是对常规的面向对象编程很好的补充。所以，在理解完订阅的过程之后，重要的是，投入实际的运用中，我观察了不少开源的项目，并结合自己的实践发现，其实flattenMap这样的操作，非常少，几乎没有，常用的无非就是以下几个：手动构建信号（createSignal）、订阅信号（subscribeNext）、使用框架的一些宏定义（RACObserve、RAC）、然后就是学习几个最简单的操作，例如map、merge等就可以开始了。如果希望深入研究，一定要把这些基础的东西吃透，然后在学习更多的操作，例如flattenMap，了解side effect和多播的概念，学会RACSubject的用法（这个也是非常重要的对象）等等。如果把这些操作比作武器的话，可能更重要的是内功，也就是理解他的思想，我们如何通过实战，知道恰当的利用他的强大，慢慢的熟悉和深入是水到渠成的事情。
+
+
+## 总结
+
+
+至此，我们介绍完了 `ReactiveCocoa` 的四大核心组件，对它的架构有了宏观上的认识。它建立于 Monad 的概念之上，然后围绕其搭建了一系列完整的配套组件，它们共同支撑了 `ReactiveCocoa` 的强大功能。尽管，`ReactiveCocoa` 是一个重型的函数式响应式框架，但是它并不会对我们现有的代码构成侵略性，我们完全可以在一个单独的类中使用它，哪怕只是简单的一行代码，也是没有问题的。所以，如果你对 ReactiveCocoa 感兴趣的话，不妨就从现在开始尝试吧，Let’s go ！
+
+
+### 信号总结
+
+
+首先在创建信号的时候，带进去一个已经订阅的Block（didSubscribe），把它保存在信号中，并没有执行；
+在订阅信号的时候，带进去一个发送信号的Block（nextBlock），然后创建一个订阅者（RACSubscriber对象），订阅者会把nextBlock进行保存，接着执行之前信号保存的didSubscribe这个Block，并将订阅者传递过去；
+然后在didSubscribe回调里面，由订阅者发送信号，也就是执行之前保存的nextBlock；
+最后在nextBlock（订阅回调）里面监听到发送的内容。
+
+[iOS RAC学习之路（一） - 简书](https://www.jianshu.com/p/3331588c16ca)
+
+
+## RAC的作用
+
+而RAC为MVVM带来很大的便利，比如RACCommand, UIKit的RAC Extension等等。**使用MVVM不一定能减少代码量，但能降低代码的复杂度。**
+**
 
 
 ## 参考
