@@ -374,13 +374,26 @@ RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> s
 
 ### 信号总结
 
-
-首先在创建信号的时候，带进去一个已经订阅的Block（didSubscribe），把它保存在信号中，并没有执行；
-在订阅信号的时候，带进去一个发送信号的Block（nextBlock），然后创建一个订阅者（RACSubscriber对象），订阅者会把nextBlock进行保存，接着执行之前信号保存的didSubscribe这个Block，并将订阅者传递过去；
-然后在didSubscribe回调里面，由订阅者发送信号，也就是执行之前保存的nextBlock；
+* 首先在创建信号的时候，带进去一个已经订阅的Block（didSubscribe），把它保存在信号中，并没有执行；
+* 在订阅信号的时候，带进去一个发送信号的Block（nextBlock），然后创建一个订阅者（RACSubscriber对象），订阅者会把nextBlock进行保存，
+* 接着执行之前信号保存的didSubscribe这个Block，并将订阅者传递过去；
+* 然后在didSubscribe回调里面，由订阅者发送信号，也就是执行之前保存的nextBlock；
 最后在nextBlock（订阅回调）里面监听到发送的内容。
 
 [iOS RAC学习之路（一） - 简书](https://www.jianshu.com/p/3331588c16ca)
+
+RACSignal的2个方法
+
+* 1. 创建信号: createSignal, 创建一个signal对象
+    * 并且把createSignal方法的`didSubscribe`Block赋值给所创建的signal的`didSubscribe`属性，这个`didSubscribe`的入参是subscriber，返回RACDisposable。
+    * RACSignal使用`didSubscribe`属性，封装了订阅者对这个信号的处理
+    * RACSignal的类方法
+* 2. 订阅信号: subscribeNext, 创建了一个RACSubscriber订阅者
+    * 订阅者会把nextBlock赋值给自己的next的属性，
+    * 然后，执行订阅操作［self subscribe：o］
+    * didSubscribe是信号的invoke每个订阅者的Block属性, 订阅方法subscribe的实现：上面的代码很清晰，直接是self.didSubscribe(subscriber),
+    * 我们可以知道，刚刚创建的subscriber对象，直接传递给上文中我们提到的signal的didSubscribe属性。这样，我们可以解释上面的第二个和第三个问题，subscriber就是didSubscribe的形参，block对象是在subscribeNext的时候执行的，刚刚的订阅者对象作为参数传入，就是subscriber对象。
+    * RACSignal的实例方法
 
 
 ## RAC的作用
