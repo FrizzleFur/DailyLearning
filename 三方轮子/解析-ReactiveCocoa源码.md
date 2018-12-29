@@ -85,21 +85,15 @@ ReactiveCocoa结合了几种编程风格：
 
 *   在执行`[RACSubject subject]`时,`RACSubject`会在初始化时创建`disposable`对象属性和`subscribers`订阅者数组.
 
-![](//upload-images.jianshu.io/upload_images/1444844-7eff1016f615b48e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/762/format/webp)
-
-image.png
+![](https://i.loli.net/2018/12/29/5c27487be121a.jpg)
 
 *   在执行`subscribeNext`订阅信号时,会创建一个订阅者`RACSubscriber`,并将订阅者`RACSubscriber`添加到`subscribers`订阅者数组.
 
-![](//upload-images.jianshu.io/upload_images/1444844-bcc1aa287c6184a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
-
-image.png
+![](https://i.loli.net/2018/12/29/5c274894e81be.jpg)
 
 *   在执行`sendNext`发送信号时,会遍历`subscribers`订阅者数组,执行`sendNext`
 
-![](//upload-images.jianshu.io/upload_images/1444844-eec0a2267fa4a4bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/826/format/webp)
-
-image.png
+![](https://i.loli.net/2018/12/29/5c27489c99585.jpg)
 
 5.`RACReplaySubject`
 `RACReplaySubject`重复提供信号类，`RACSubject`的子类.由于`RACReplaySubject`的底层实现和`RACSubject`不同,**`RACReplaySubject`可以先发送数据,再订阅信号**.
@@ -122,21 +116,17 @@ image.png
 
 *   在执行`[RACReplaySubject subject]`时,创建一个`valuesReceived`数组
 
-![](//upload-images.jianshu.io/upload_images/1444844-e11464101524a438.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
+![](https://i.loli.net/2018/12/29/5c2748aa5e5ef.jpg)
 
-image.png
 
 *   在执行`subscribeNext`时,创建订阅者,遍历valuesReceived数组,利用订阅者执行`sendNext`发送`valuesReceived`中的数据.
 
-![](//upload-images.jianshu.io/upload_images/1444844-751dfd1b1bf2bf85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
-
-image.png
+![](https://i.loli.net/2018/12/29/5c2748b22e8f2.jpg)
 
 *   在执行`sendNext`时,将要发送的数据保存到valuesReceived数组中,执行`sendNext`
 
-![](//upload-images.jianshu.io/upload_images/1444844-c9a82f3c8be9777b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
+![](https://i.loli.net/2018/12/29/5c2748bb80817.jpg)
 
-image.png
 
 6.`RACMulticastConnection`
 我们在使用`RACsignal`,`RACReplaySubject`或者`RACReplaySubject`时,当一个信号被多个订阅者订阅时,在信号内部的`block`或被调用多次,有时这样并不能满足我们的需求,我们想要信号被多个订阅者订阅时,**信号内部的`block`只被执行一次**,那么`RACMulticastConnection`就能帮助我们完成需求.
