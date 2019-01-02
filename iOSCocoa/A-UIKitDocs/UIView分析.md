@@ -265,17 +265,20 @@ sizeToFit
 
 ##### fromView
 
+```objc
   CGRect newRect = [self.view convertRect:self.blueView.frame fromView:self.redView];
+```
+
 这段代码的意思算出在红色控件里的蓝色控件在控制器view中的位置（其实就是算x和y的值，因为宽高不变）
 toView
 
+```objc
   CGRect newRect = [self.blueView convertRect:CGRectMake(50, 50, 100, 100) toView:self.greenView];
-
+```
 
 **调用视图 `convertRect`: 调用视图相对于目标视图的frame toview目标视图**
 
-目标视图为`nil`的时候指的是Window/
-
+目标视图为`nil`的时候指的是Window.
 
 
 [理解UIView的绘制](http://vizlabxt.github.io/blog/2012/10/22/UIView-Rendering/)
