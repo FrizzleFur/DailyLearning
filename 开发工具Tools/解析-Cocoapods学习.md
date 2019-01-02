@@ -6,6 +6,30 @@
 最后想说的是 pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，其中前者并不会修改 Podfile.lock 中显示指定的版本，而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
 
 
+## pod版本
+
+一个简单的podfile:
+ 
+pod 'AFNetworking', '~> 1.0' 版本号可以是1.0，可以是1.1，1.9，但必须小于2
+ 
+－个更简单的podfile:
+pod 'AFNetworking', '1.0' // 版本号指定为1.0
+ 
+一个更更简单的podfile:
+pod 'AFNetworking',  // 不指定版本号，任何版本都可以
+
+Besides no version, or a specific one, it is also possible to use logical operators:
+
+'> 0.1' Any version higher than 0.1 0.1以上
+'>= 0.1' Version 0.1 and any higher version 0.1以上，包括0.1
+'< 0.1' Any version lower than 0.1 0.1以下
+'<= 0.1' Version 0.1 and any lower version 0.1以下，包括0.1
+In addition to the logic operators CocoaPods has an optimisic operator ~>:
+
+'~> 0.1.2' Version 0.1.2 and the versions up to 0.2, not including 0.2 and higher 0.2以下(不含0.2)，0.1.2以上（含0.1.2）
+'~> 0.1' Version 0.1 and the versions up to 1.0, not including 1.0 and higher 1.0以下(不含1.0)，0.1以上（含0.1）
+'~> 0' Version 0 and higher, this is basically the same as not having it. 0和以上，等于没有此约束
+
 ## pod install
 
 `pod install`参考的是podfile.lock文件的版本
