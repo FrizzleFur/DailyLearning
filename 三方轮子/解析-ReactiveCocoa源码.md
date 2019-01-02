@@ -1,5 +1,5 @@
 
-## ReactiveCocoa
+## 解析-ReactiveCocoa源码
 
 > 作为iOS开发人员，您编写的几乎所有代码都是对某些事件的反应;按钮点击，收到的网络消息，属性更改（通过键值观察）或通过CoreLocation更改用户位置都是很好的例子。但是，这些事件都以不同的方式编码;作为行动，代表，KVO，回调等。 ReactiveCocoa定义了事件的标准接口，因此可以使用一组基本工具更轻松地链接，过滤和组合它们。
 
@@ -9,13 +9,14 @@ ReactiveCocoa结合了几种编程风格：
 * 函数式编程，即以其他函数作为参数的函数
 * 响应式编程，重点关注数据流和变化传播
 
-#### 二.ReactiveCocoa常见类
+#### ReactiveCocoa常见类
 
-1.`RACSignal`信号类
+1. `RACSignal`信号类
+
 `RACSignal`信号类表示当数据改变时,在信号内部会利用订阅者发送数据.`RACSignal`默认是一个`冷信号`,只有被订阅以后才会变成热信号.
 `RACSignal`信号类的简单使用:
 
-```
+```objc
     // 1.创建信号
     RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         // 3.利用订阅者发送数据
@@ -31,11 +32,12 @@ ReactiveCocoa结合了几种编程风格：
 
 ```
 
-2.`RACSubscriber`订阅者
+2. `RACSubscriber`订阅者
+
 `RACSubscriber`是一个协议,任何遵循`RACSubscriber`协议的对象并且实现协议方法都可以是一个订阅者,订阅者可以帮助信号发送数据.
 `RACSubscriber`协议中有四个方法.
 
-```
+```objc
 - (void)sendNext:(id)value;
 - (void)sendError:(NSError *)error;
 - (void)sendCompleted;
@@ -43,10 +45,11 @@ ReactiveCocoa结合了几种编程风格：
 
 ```
 
-3.`RACDisposable`
+3. `RACDisposable`
+
 `RACDisposable`用于取消订阅和清理资源,当信号发送完成或发送错误时会自动调用.
 
-```
+```objc
     // 1.创建信号
     RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         // 3.利用订阅者发送数据
@@ -64,10 +67,11 @@ ReactiveCocoa结合了几种编程风格：
 
 ```
 
-4.`RACSubject`信号提供者
+4. `RACSubject`信号提供者
+
 `RACSubject`继承`RACSignal`,又遵循了`RACSubscriber`协议,所以既可以充当信号,又可以发送信号,通常用它代替代理.
 
-```
+```objc
     // 1.创建信号
     RACSubject *subject = [RACSubject subject];
 
@@ -85,26 +89,21 @@ ReactiveCocoa结合了几种编程风格：
 
 *   在执行`[RACSubject subject]`时,`RACSubject`会在初始化时创建`disposable`对象属性和`subscribers`订阅者数组.
 
-![](//upload-images.jianshu.io/upload_images/1444844-7eff1016f615b48e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/762/format/webp)
-
-image.png
+![](https://i.loli.net/2018/12/29/5c27487be121a.jpg)
 
 *   在执行`subscribeNext`订阅信号时,会创建一个订阅者`RACSubscriber`,并将订阅者`RACSubscriber`添加到`subscribers`订阅者数组.
 
-![](//upload-images.jianshu.io/upload_images/1444844-bcc1aa287c6184a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
-
-image.png
+![](https://i.loli.net/2018/12/29/5c274894e81be.jpg)
 
 *   在执行`sendNext`发送信号时,会遍历`subscribers`订阅者数组,执行`sendNext`
 
-![](//upload-images.jianshu.io/upload_images/1444844-eec0a2267fa4a4bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/826/format/webp)
+![](https://i.loli.net/2018/12/29/5c27489c99585.jpg)
 
-image.png
+5. `RACReplaySubject`
 
-5.`RACReplaySubject`
 `RACReplaySubject`重复提供信号类，`RACSubject`的子类.由于`RACReplaySubject`的底层实现和`RACSubject`不同,**`RACReplaySubject`可以先发送数据,再订阅信号**.
 
-```
+```objc
     // 1.创建信号
     RACReplaySubject *replaySubject = [RACReplaySubject subject];
 
@@ -122,26 +121,23 @@ image.png
 
 *   在执行`[RACReplaySubject subject]`时,创建一个`valuesReceived`数组
 
-![](//upload-images.jianshu.io/upload_images/1444844-e11464101524a438.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
+![](https://i.loli.net/2018/12/29/5c2748aa5e5ef.jpg)
 
-image.png
 
 *   在执行`subscribeNext`时,创建订阅者,遍历valuesReceived数组,利用订阅者执行`sendNext`发送`valuesReceived`中的数据.
 
-![](//upload-images.jianshu.io/upload_images/1444844-751dfd1b1bf2bf85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
-
-image.png
+![](https://i.loli.net/2018/12/29/5c2748b22e8f2.jpg)
 
 *   在执行`sendNext`时,将要发送的数据保存到valuesReceived数组中,执行`sendNext`
 
-![](//upload-images.jianshu.io/upload_images/1444844-c9a82f3c8be9777b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
+![](https://i.loli.net/2018/12/29/5c2748bb80817.jpg)
 
-image.png
 
-6.`RACMulticastConnection`
+6. `RACMulticastConnection`
+
 我们在使用`RACsignal`,`RACReplaySubject`或者`RACReplaySubject`时,当一个信号被多个订阅者订阅时,在信号内部的`block`或被调用多次,有时这样并不能满足我们的需求,我们想要信号被多个订阅者订阅时,**信号内部的`block`只被执行一次**,那么`RACMulticastConnection`就能帮助我们完成需求.
 
-```
+```objc
     // 1.创建信号
     RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         // 3.发送数据
@@ -167,18 +163,19 @@ image.png
 
 在`log`中的打印如下
 
-```
+```objc
 2017-06-20 16:55:50.809 MVVMRACDemoOC[2848:856666] 发送数据
 2017-06-20 16:55:50.810 MVVMRACDemoOC[2848:856666] 接收到数据1:发送数据
 2017-06-20 16:55:50.810 MVVMRACDemoOC[2848:856666] 接收到数据2:发送数据
 
 ```
 
-7.`RACCommand`
+7. `RACCommand`
+
 `RACCommand`是处理事件的类,可以把事件如何处理,事件中的数据如何传递，包装到这个类中.
 使用一个`demo`说明`RACCommand`:`监听按钮的点击,发送网络请求.`
 
-```
+```objc
     // 1.创建命令
     RACCommand *command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
         NSLog(@"接收到命令:%@", input);
@@ -213,7 +210,7 @@ image.png
 
 在`log`中的打印
 
-```
+```objc
 2017-06-20 17:26:28.013 MVVMRACDemoOC[3166:970238] 接收到命令:1
 2017-06-20 17:26:28.016 MVVMRACDemoOC[3166:970238] 正在执行
 2017-06-20 17:26:28.016 MVVMRACDemoOC[3166:970238] 接收到信号中的信号发送的数据:信号中的信号发送的数据
@@ -225,7 +222,7 @@ image.png
 
 1.  `RAC(TARGET, [KEYPATH, [NIL_VALUE]])`给某个对象的某个属性做绑定.
 
-```
+```objc
 // 只要passwordTextField内容变化,accountTextField的text就会跟着改变
 RAC(self.accountTextField, text) = self.passwordTextField.rac_textSignal;
 
@@ -233,7 +230,7 @@ RAC(self.accountTextField, text) = self.passwordTextField.rac_textSignal;
 
 1.  `RACObserve(self, name)`监听某个对象的某个属性,返回信号
 
-```
+```objc
     // 监听passwordTextField背景色的改变
     [RACObserve(self.passwordTextField, backgroundColor) subscribeNext:^(id x) {
         NSLog(@"%@",x);
@@ -244,15 +241,14 @@ RAC(self.accountTextField, text) = self.passwordTextField.rac_textSignal;
 1.  `@weakify(Obj)`和`@strongify(Obj)`一般用来防止循环引用,组合使用.
 2.  `RACTuplePack`把数据包装成RACTuple（元组类）
 
-```
+```objc
     // 把参数中的数据包装成元组
     RACTuple *tuple = RACTuplePack(@1,@2);
-
 ```
 
 1.  `RACTupleUnpack`把RACTuple（元组类）解包成对应的数据
 
-```
+```objc
     // 把参数中的数据包装成元组
     RACTuple *tuple = RACTuplePack(@"OneAlon",@"HangZhou");
 
@@ -269,24 +265,25 @@ RAC(self.accountTextField, text) = self.passwordTextField.rac_textSignal;
     如果不使用`RAC`,在红色的`view`中定义一个代理属性,点击按钮的时候通知代理做事情.
     如果使用`RAC`,直接让红色的`view`调用`rac_signalForSelector`方法即可.
 
-```
+```objc
     [[self.redView rac_signalForSelector:@selector(buttonClick:)] subscribeNext:^(id x) {
         NSLog(@"%@",x);
     }];
 
 ```
 
-2.代替KVO
+2. 代替KVO
+
 监听红色`view`的背景色的改变
 
-```
+```objc
     [[self.redView rac_valuesAndChangesForKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew observer:nil] subscribeNext:^(id x) {
         NSLog(@"%@",x);
     }];
 
 ```
 
-3.监听事件
+3. 监听事件
 
 ```
     [[self.button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -295,7 +292,7 @@ RAC(self.accountTextField, text) = self.passwordTextField.rac_textSignal;
 
 ```
 
-4.代替通知
+4. 代替通知
 
 ```
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil] subscribeNext:^(id x) {
@@ -304,9 +301,9 @@ RAC(self.accountTextField, text) = self.passwordTextField.rac_textSignal;
 
 ```
 
-5.监听文本框文字改变
+5. 监听文本框文字改变
 
-```
+```objc
    [_textField.rac_textSignal subscribeNext:^(id x) {
 
        NSLog(@"文字改变了%@",x);
@@ -314,7 +311,7 @@ RAC(self.accountTextField, text) = self.passwordTextField.rac_textSignal;
 
 ```
 
-6.处理当界面有多次请求时，需要都获取到数据时，才能展示界面,`rac_liftSelector:withSignalsFromArray:Signals`
+6. 处理当界面有多次请求时，需要都获取到数据时，才能展示界面,`rac_liftSelector:withSignalsFromArray:Signals`
 
 
 ## 参考

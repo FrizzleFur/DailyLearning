@@ -121,7 +121,7 @@ package manager
 
 
 
-## 只会左键断点？是时候试试这样那样断点了
+### 只会左键断点？是时候试试这样那样断点了
 
 2015-08-05 09:28 编辑： [suiling](http://www.cocoachina.com/ios/20150805/12842.html) 分类：[iOS开发](http://www.cocoachina.com/ios/) 来源：[空之境界投稿](http://supermao.cn/duan-dian-shen-ru-liao-jie/)
 
@@ -288,6 +288,18 @@ Symbol的内容，可以有如下几种： 
 [https://stackoverflow.com/questions/40743713/command-line-tool-error-xcrun-error-unable-to-find-utility-xcodebuild-n](https://stackoverflow.com/questions/40743713/command-line-tool-error-xcrun-error-unable-to-find-utility-xcodebuild-n)
 
 [https://www.jianshu.com/p/97ff0728362b](https://www.jianshu.com/p/97ff0728362b)
+
+
+
+## 三方项目的编译证书问题
+
+之前发现下的三方库，编译的证书问题，后面发现，其实在所有的target中检查证书和`develop Team`是否为自己的，即可。
+
+
+![](https://i.loli.net/2018/12/31/5c29e8fc312d4.jpg)
+
+
+
 
 
 

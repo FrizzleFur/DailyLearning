@@ -1,6 +1,29 @@
 # iOS逆向
 
+## 逆向网易云音乐
 
+运行报错：动态库加载不成功。
+
+用insert_dylib，手动插入一下编译好的动态库
+
+![](https://i.loli.net/2018/12/31/5c29f1b5cf22f.jpg)
+
+注入成功后将app目录中的 neteasemusic 删除，将 neteasemusic_patched 改为neteasemusic。
+
+
+warn ：使用 insert_dylib 时若出现 error 记得修改权限， chmod 777 insert_dylib
+
+
+### ipa工具
+
+[DanTheMan827/ios-app-signer: This is an app for OS X that can (re)sign apps and bundle them into ipa files that are ready to be installed on an iOS device.](https://github.com/DanTheMan827/ios-app-signer)
+
+
+## 参考
+
+1. [sunweiliang/NeteaseMusicCrack: iOS网易云音乐 免VIP下载、去广告、去更新 无需越狱...](https://github.com/sunweiliang/NeteaseMusicCrack)
+2. [iOS逆向-微信helloWorld | TKkk Notes](http://tkkk.fun/2017/03/19/%E9%80%86%E5%90%91-%E5%BE%AE%E4%BF%A1helloWorld/)
+3. [Tyilo/insert_dylib: Command line utility for inserting a dylib load command into a Mach-O binary](https://github.com/Tyilo/insert_dylib)
 
 # 一条命令完成砸壳
 
