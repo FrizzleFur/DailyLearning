@@ -20,6 +20,14 @@ git log --author="username" --pretty=tformat: --numstat | awk '{ add += $1; 
 added lines: 120745, removed lines: 71738, total lines: 49007
 ```
 
+
+1.显示所有贡献者及其commit数
+
+git shortlog --numbered --summary
+2.只看某作者提交的commit：
+
+git log --author="eisneim" --oneline --shortstat
+
 ### 统计每个人增删行数
 
 ```
@@ -272,11 +280,11 @@ cat(
 
 ## [](https://github.com/hrbrmstr/cloc#cloc-metrics)
 
-[hrbrmstr/cloc: 🔢 R package to the perl cloc script (which counts blank lines, comment lines, and physical lines of source code in source files/trees/archives)](https://github.com/hrbrmstr/cloc)
-
 
 ## 参考文章
 
-[git代码行统计命令集](http://www.jianshu.com/p/8fd14064c201)
-[统计本地Git仓库中不同贡献者的代码行数的一些方法](http://www.94joy.com/archives/115#comment-319)
-[使用Git工具统计代码](http://blog.cyeam.com/kaleidoscope/2015/01/17/gitstats)
+* [AlDanial/cloc: cloc counts blank lines, comment lines, and physical lines of source code in many programming languages.](https://github.com/AlDanial/cloc)
+* [hrbrmstr/cloc: 🔢 R package to the perl cloc script (which counts blank lines, comment lines, and physical lines of source code in source files/trees/archives)](https://github.com/hrbrmstr/cloc)
+* [git代码行统计命令集](http://www.jianshu.com/p/8fd14064c201)
+* [统计本地Git仓库中不同贡献者的代码行数的一些方法](http://www.94joy.com/archives/115#comment-319)
+* [使用Git工具统计代码](http://blog.cyeam.com/kaleidoscope/2015/01/17/gitstats)
