@@ -6,10 +6,6 @@
 
 *   [git](https://segmentfault.com/t/git/blogs)
 
- 14.8k 次阅读  ·  读完需要 9 分钟
-
-17
-
 ## 命令行
 
 ### 查看git上的个人代码量：
