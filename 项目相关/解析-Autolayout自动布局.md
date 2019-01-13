@@ -37,6 +37,35 @@ Clear Constraints 清除约束，会删除选中的视图的所有的约束。�
 由于设置了imgView宽高比为16:9,所以宽度动态变化时,其高度也会根据设置的宽高比做相应变化.
 
 
+## Content Hugging Priority
+
+许多开发者可能对这个属性比较陌生,同样这个属性对有intrinsic content size的控件（例如button，label）非常重要. 注:具有intrinsic content size的控件当你设置内容后,它可以根据内容多少来调整自己大小
+
+1. Content Hugging Priority:
+抗拉伸优先级, 值越小,视图越容易被拉伸
+
+2. 使用场景:
+当一个视图上有多个intrinsic content size的控件动态尺寸,在这几个视图内容总和,不够填充父视图区域时,此属性可以控制优先拉伸哪个视图内容.
+
+
+![](https://i.loli.net/2019/01/08/5c346c1e3bf6d.jpg)
+
+[AutoLayout进阶(二)Content Hugging Priority — it7090.com](http://it7090.com/2017/11/19/AutoLayout%E8%BF%9B%E9%98%B6(%E4%BA%8C)Content-Hugging-Priority/#1--content-hugging-priority)
+S
+## Content Compression Resistance Priority
+
+
+1. Content Compression Resistance Priority:
+视图抗压缩优先级, 值越小,视图越容易被压缩
+
+2. 使用场景:
+当一个视图上有多个intrinsic content size的子视图动态尺寸,并且子视图可能超出父视图区域时,此属性可控制哪些视图被内容被优先压缩.使其不超出父视图区域.
+
+![](https://i.loli.net/2019/01/08/5c346c4dd23e5.jpg)
+
+![](https://i.loli.net/2019/01/08/5c346c3e19b92.jpg)
+
+
 
 ## 参考
 

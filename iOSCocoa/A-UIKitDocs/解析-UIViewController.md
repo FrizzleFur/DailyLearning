@@ -19,7 +19,119 @@
 
 * 注意到其中的viewWillLayoutSubviews和viewDidLayoutSubviews，调用情况视具体的viewDidLoad和viewWillAppear等方法中的代码而定。
 
+## load
+
+Apple文档是这样描述的
+
+```
+Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.
+
+当类（Class）或者类别（Category）加入Runtime中时（就是被引用的时候）。
+实现该方法，可以在加载时做一些类特有的操作。
+
+Discussion
+
+The load message is sent to classes and categories that are both dynamically loaded and statically linked, but only if the newly loaded class or category implements a method that can respond.
+
+The order of initialization is as follows:
+
+All initializers in any framework you link to.
+调用所有的Framework中的初始化方法
+
+All +load methods in your image.
+调用所有的+load方法
+
+All C++ static initializers and C/C++ attribute(constructor) functions in your image.
+调用C++的静态初始化方及C/C++中的attribute(constructor)函数
+
+All initializers in frameworks that link to you.
+调用所有链接到目标文件的framework中的初始化方法
+
+In addition:
+
+A class’s +load method is called after all of its superclasses’ +load methods.
+一个类的+load方法在其父类的+load方法后调用
+
+A category +load method is called after the class’s own +load method.
+一个Category的+load方法在被其扩展的类的自有+load方法后调用
+
+In a custom implementation of load you can therefore safely message other unrelated classes from the same image, but any load methods implemented by those classes may not have run yet.
+在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。
+
+```
+
+文档地址:[https://developer.apple.com/reference/objectivec/nsobject/1418815-load?language=objc](https://developer.apple.com/reference/objectivec/nsobject/1418815-load?language=objc)
+
+#### load函数调用特点如下:
+
+> 当类被引用进项目的时候就会执行load函数(在main函数开始执行之前）,与这个类是否被用到无关,每个类的load函数只会自动调用一次.由于load函数是系统自动加载的，因此不需要调用父类的load函数，否则父类的load函数会多次执行。
+
+*   1.当父类和子类都实现load函数时,父类的load方法执行顺序要优先于子类
+*   2.当子类未实现load方法时,不会调用父类load方法
+*   3.类中的load方法执行顺序要优先于类别(Category)
+*   4.当有多个类别(Category)都实现了load方法,这几个load方法都会执行,但执行顺序不确定(其执行顺序与类别在Compile Sources中出现的顺序一致)
+*   5.当然当有多个不同的类的时候,每个类load 执行顺序与其在Compile Sources出现的顺序一致
+
+
+## initialize:
+
+Apple文档是这样描述的
+
+```
+Initializes the class before it receives its first message.
+
+在这个类接收第一条消息之前调用。
+
+Discussion
+
+The runtime sends initialize to each class in a program exactly one time just before the class, or any class that inherits from it, is sent its first message from within the program. (Thus the method may never be invoked if the class is not used.) The runtime sends the initialize message to classes in a thread-safe manner. Superclasses receive this message before their subclasses.
+
+Runtime在一个程序中每一个类的一个程序中发送一个初始化一次，或是从它继承的任何类中，都是在程序中发送第一条消息。（因此，当该类不使用时，该方法可能永远不会被调用。）运行时发送一个线程安全的方式初始化消息。父类的调用一定在子类之前。
+
+```
+
+文档地址:[https://developer.apple.com/reference/objectivec/nsobject/1418639-initialize?language=objc](https://developer.apple.com/reference/objectivec/nsobject/1418639-initialize?language=objc)
+
+#### initialize函数调用特点如下:
+
+> initialize在类或者其子类的第一个方法被调用前调用。即使类文件被引用进项目,但是没有使用,initialize不会被调用。由于是系统自动调用，也不需要再调用 [super initialize] ，否则父类的initialize会被多次执行。假如这个类放到代码中，而这段代码并没有被执行，这个函数是不会被执行的。
+
+*   1.父类的initialize方法会比子类先执行
+*   2.当子类未实现initialize方法时,会调用父类initialize方法,子类实现initialize方法时,会覆盖父类initialize方法.
+*   3.当有多个Category都实现了initialize方法,会覆盖类中的方法,只执行一个(会执行Compile Sources 列表中最后一个Category 的initialize方法
+ 
+### load和initialize的共同点
+
+1.如果父类和子类都被调用,父类的调用一定在子类之前
+
+#### +load方法要点
+
+当类被引用进项目的时候就会执行load函数(在main函数开始执行之前）,与这个类是否被用到无关,每个类的load函数只会自动调用一次.由于load函数是系统自动加载的，因此不需要再调用[super load]，否则父类的load函数会多次执行。
+
+*   1.当父类和子类都实现load函数时,父类的load方法执行顺序要优先于子类
+*   2.当一个类未实现load方法时,不会调用父类load方法
+*   3.类中的load方法执行顺序要优先于类别(Category)
+*   4.当有多个类别(Category)都实现了load方法,这几个load方法都会执行,但执行顺序不确定(其执行顺序与类别在Compile Sources中出现的顺序一致)
+*   5.当然当有多个不同的类的时候,每个类load 执行顺序与其在Compile Sources出现的顺序一致
+
+注意: load调用时机比较早,当load调用时,其他类可能还没加载完成,运行环境不安全. load方法是线程安全的，它使用了锁，我们应该避免线程阻塞在load方法.
+
+* * *
+
+#### +initialize方法要点
+
+initialize在类或者其子类的第一个方法被调用前调用。即使类文件被引用进项目,但是没有使用,initialize不会被调用。由于是系统自动调用，也不需要显式的调用父类的initialize，否则父类的initialize会被多次执行。假如这个类放到代码中，而这段代码并没有被执行，这个函数是不会被执行的。
+
+*   1.父类的initialize方法会比子类先执行
+*   2.当子类不实现initialize方法，会把父类的实现继承过来调用一遍。在此之前，父类的方法会被优先调用一次
+*   3.当有多个Category都实现了initialize方法,会覆盖类中的方法,只执行一个(会执行Compile Sources 列表中最后一个Category 的initialize方法)
+
+注意: 在initialize方法收到调用时,运行环境基本健全。 initialize内部也使用了锁，所以是线程安全的。但同时要避免阻塞线程，不要再使用锁
+
+
 ## isViewLoaded
+
+
 
 控制器的View是否已经加载完，在判断子控制器view加载的时候使用。
 A Boolean value indicating whether the view is currently loaded into memory.
