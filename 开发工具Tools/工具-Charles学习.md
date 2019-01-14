@@ -174,6 +174,24 @@ Charles 是一个强大的抓包调试工具，它的功能远不止这些，但
 `Charles`搭配`Postman`更好用噢~
 `Postman`是`Chrome`浏览器中的一个小应用，可以在`Chrome`应用商城中找到。是居家旅行测试`Web API`的好帮手！
 
+
+### 安装证书
+
+Deploying license keys during installation
+In order to deploy license keys during installation you need to copy a Charles preferences file into the appropriate location. Please configure a copy of Charles with the correct license key and then make a copy of the preferences file to use as the source file.
+
+Please ensure that you have sufficient Charles licenses for your installation.
+
+The Charles preferences file is found in different locations on each OS:
+
+```
+Windows: %APPDATA%\Charles\charles.config
+Mac OS X: ~/Library/Preferences/com.xk72.charles.config
+Linux: ~/.charles.config
+```
+
+[Deploying license keys during installation • Charles Web Debugging Proxy](https://www.charlesproxy.com/documentation/faqs/deploying-license-keys-during-installation/)
+
 ## Todo
 
 学习[Postman](https://www.getpostman.com/)
