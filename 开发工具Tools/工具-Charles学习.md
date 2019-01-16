@@ -129,7 +129,7 @@
 
 ![Throttle Setting.jpg](http://oc98nass3.bkt.clouddn.com/15274446735157.jpg)
 
-### SSL 代理
+### HTTPS 代理
 
 在使用 `Charles` 的过程中，我们会发现，只有未加密的 `Http` 请求才能被`Charles` 正确的解析出数据，其余的`Https` 请求都处于加锁的状态，但我们不可避免的需要抓取 `Https` 的包。`SSL`代理就可以完美解决这个问题。
 
@@ -191,6 +191,37 @@ Linux: ~/.charles.config
 ```
 
 [Deploying license keys during installation • Charles Web Debugging Proxy](https://www.charlesproxy.com/documentation/faqs/deploying-license-keys-during-installation/)
+
+## charles与shadowsocks共存
+
+在mac下开发常用charles这个抓包工具，同时希望开着ss翻墙。如果都使用默认配置，两者都挂系统代理，会产生冲突：
+
+两者同时打开时，proxy pac用的是ss的，系统优先使用pac代理，这时所有流量都走ss了，不通过charles。
+
+解决方法：
+让请求先通过charles，charles再转发给ss。
+指定http(s)代理端口为charles，charles设置外部代理为ss。最终访问网络的是ss，charles作为前置代理。
+
+### 步骤：
+
+1.  获取charles监听端口
+
+    charles监听端口
+
+2.  打开系统Network配置，advanced，proxies，配置HTTP(S)的代理服务器为charles：
+
+    ![](https://i.loli.net/2019/01/14/5c3c2b579ba34.jpg)
+
+
+3.  打开ss，打开preference，复制http代理地址：
+
+![](https://i.loli.net/2019/01/14/5c3c2b5e5ba42.jpg)
+
+
+4.  打开charles的external proxy settings，配置http(s)的外部代理地址为ss：
+
+![](https://i.loli.net/2019/01/14/5c3c2b64986f0.jpg)
+
 
 ## Todo
 
