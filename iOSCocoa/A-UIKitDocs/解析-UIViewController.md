@@ -128,10 +128,13 @@ initialize在类或者其子类的第一个方法被调用前调用。即使类�
 
 注意: 在initialize方法收到调用时,运行环境基本健全。 initialize内部也使用了锁，所以是线程安全的。但同时要避免阻塞线程，不要再使用锁
 
+## viewDidLoad
+
+* viewDidLoad用于配置您未在XIB或Storyboard中配置的任何内容。在视图控制器将其视图层次结构从XIB或Storyboard加载到内存后调用它。当在loadView方法中以编程方式创建视图时也会调用它，但是在使用loadView时，您不需要使用viewDidLoad，因为您已经以编程方式创建了视图，并且不需要将该代码的一部分分成viewDidLoad。
+* 调用此方法时，**您知道IBOutlets现在已连接，但视图尚未布局**，因此此时您应该在Interface Builder中执行任何无法完成的视图自定义
+* 重要的是要记住，一旦您的视图被加载并在导航堆栈中，从视图移动到另一个屏幕并再次返回不会导致再次调用viewDidLoad，因此不要在此处放置需要在视图时更新的代码控制器即将变得活跃。
 
 ## isViewLoaded
-
-
 
 控制器的View是否已经加载完，在判断子控制器view加载的时候使用。
 A Boolean value indicating whether the view is currently loaded into memory.
@@ -139,6 +142,12 @@ A Boolean value indicating whether the view is currently loaded into memory.
 ```objc
 ViewController.isViewLoaded
 ```
+
+
+## viewWillAppear
+
+调用此方法以告知视图控制器使其视图准备好在屏幕上显示。您应该覆盖此方法以执行与应用程序状态和将为视图显示的数据相关的任何设置。一些示例包括控件的数据值，UI自定义（如依赖于数据的颜色或文本）以及控件的选择状态。
+
 
 ## viewWillLayoutSubviews
 
@@ -149,12 +158,12 @@ viewWillLayoutSubviews在视图控制器的视图边界发生更改时调用（�
 只要视图控制器的视图更改了边界，就会调用viewWillLayoutSubviews。加载视图，发生旋转事件或子视图控制器的大小由其父级更改时，会发生这种情况。 （也可能还有其他一些情况）。如果在视图自行放置之前需要更新任何内容（并且在重新应用约束之前），则应在此处执行此操作。你通常不应该在这里更新约束，因为更新约束会导致另一个布局传递。
 
 
-[ios - Difference between layoutSubviews() and viewWillLayoutSubviews() - Stack Overflow](https://stackoverflow.com/questions/39606077/difference-between-layoutsubviews-and-viewwilllayoutsubviews?rq=1)
-
 ## viewDidLayoutSubviews
 
+通过前面两个方法（viewDidLoad，viewWillAppear）我们可以实现的一切，viewDidLayoutSubviews的原因是什么，为什么我们会覆盖它？当视图控制器的视图边界发生变化时，在子视图的位置和大小发生变化后调用此方法。这是我们在布局子视图之后但在屏幕上显示之前对视图进行更改的机会。**这里的关键是改变边界**。依赖于需要对视图执行的边界的任何内容都必须在此方法中，而不是在viewDidLoad或viewWillAppear中，因为在Auto Layout完成布局主视图的工作之前，视图的边框和边界才会完成。子视图，然后调用此方法。
 
 布局完所有子视图后，将调用viewDidLayoutSubviews。例如，如果您需要通过手动调整框架来微调该布局，那么这就是完成它的地方。
+
 
 ## layoutSubviews调用情况分析
 
@@ -345,3 +354,5 @@ removeFromParentViewController 方法会自动调用了该方法，所以，删
 ## 参考
 
 1. [View Controller Programming Guide for iOS: The Role of View Controllers](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html#//apple_ref/doc/uid/TP40007457)
+2. [When Should You Override viewDidLayoutSubviews? | iOS Insight](http://www.iosinsight.com/override-viewdidlayoutsubviews/)
+3. [ios - Difference between layoutSubviews() and viewWillLayoutSubviews() - Stack Overflow](https://stackoverflow.com/questions/39606077/difference-between-layoutsubviews-and-viewwilllayoutsubviews?rq=1)
