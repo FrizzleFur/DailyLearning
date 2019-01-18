@@ -5,8 +5,6 @@
 
 [开放平台-文档中心](https://open.taobao.com/doc.htm?docId=104829&docType=1)
 
-
-
 ```
 Undefined symbols for architecture x86_64:
   "_OBJC_CLASS_$_SRWebSocket", referenced from:
@@ -16,6 +14,8 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
 
 添加SocketRocket依赖：copy 这里 SRWebSocket.h/m 到自己的工程 （如果你的工程使用了cocoaPods，添加 pod 'SocketRocket' 到Podfie 中即可）
+
+
 
 ## Weex模块
 
