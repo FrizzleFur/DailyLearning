@@ -189,6 +189,11 @@ If the view controller has a valid navigation item or tab-bar item, assigning a 
 * self.tabBarItem.title: 设置 VC 底部标签栏的标题
 * self.title: 同时修改上述两处的标题
 
+### window
+
+其实显示或者旋转的回调的触发的源头来自于window,一个app首先有一个主window，初始化的时候需要给这个主window指定一个rootViewController，window会将显示相关的回调(viewWillAppear:, viewWillDisappear:, viewDidAppear:, or viewDidDisappear: )以及旋转相关的回调(willRotateToInterfaceOrientation:duration: ,willAnimateRotationToInterfaceOrientation:duration:, didRotateFromInterfaceOrientation:)传递给rootViewController。rootViewController需要再将这些callbacks的调用传递给它的Child View Controllers。
+
+
 ## 子控制器
 
 * 控制器的view在,控制器被销毁。
@@ -201,6 +206,40 @@ If the view controller has a valid navigation item or tab-bar item, assigning a 
 由于创建的VC都是局部变量，因此在创建方法走完之后，局部变量VC被销毁，但是VC的view加入到self.view的subviews数组中，被当前VC强引用。因此没有被释放。
 
 ### 建立“父子关系”
+
+[Custom Container View Controller - CocoaChina 苹果开发中文站 - 最热的iPhone开发社区 最热的苹果开发社区 最热的iPad开发社区](http://www.cocoachina.com/industry/20140523/8528.html)
+
+一. 父子关系范式
+
+实现一个Custom Container View Controller并不是一个简单的事情，主要分为两个阶段：父子关系的建立以及父子关系的解除。如果pVC将cVC的view添加为自己的subview，那么cVC必须为pVC的Child View Controller，而反过来则不一定成立，比如UINavigationController，一个View Controller被push进来后便和navigationController建立父子关系了,但是只有最上面的View Controller 是显示着的，底下的View Controller的view则被移出了容器的view的显示层级，当一个View Controller被pop之后，便和navigationController解除了父子关系了。
+
+ 
+
+展示一个名为content的child view controller：
+
+[self addChildViewController:content];  //1 
+content.view.frame = [self frameForContentController];  
+[self.view addSubview:self.currentClientView]; //2 
+[content didMoveToParentViewController:self]; //3 
+1.将content添加为child view controller，addChildViewController:接口建立了逻辑上的父子关系，子可以通过parentViewController，访问其父VC，addChildViewController:接口的逻辑中会自动调用 [content willMoveToParentViewController:self];
+
+2.建立父子关系后，便是将content的view加入到父VC的view hierarchy上，同时要决定的是 content的view显示的区域范围。 
+
+3.调用child的 didMoveToParentViewController: ，以通知child，完成了父子关系的建立
+
+ 
+
+移除一个child view controller：
+
+[content willMoveToParentViewController:nil]; //1 
+[content.view removeFromSuperview]; //2 
+[content removeFromParentViewController]; //3 
+1.通知child，即将解除父子关系，从语义上也可以看出 child的parent即将为nil
+
+2.将child的view从父VC的view的hierarchy中移除 
+
+3.通过removeFromParentViewController的调用真正的解除关系，removeFromParentViewController会自动调用 [content didMoveToParentViewController:nil]
+
 
 ```objc
     [self addChildViewController:childVc];
@@ -351,6 +390,24 @@ removeFromParentViewController 方法会自动调用了该方法，所以，删
 
 只需要在transitionFromViewController方法之前调用：[子视图控制器 willMoveToParentViewController:nil]。
     
+
+### appearance callbacks的传递
+
+上面的实现中有一个问题，就是没看到那些appearance callbacks是如何传递的，答案就是appearance callbacks默认情况下是自动调用的，苹果框架底层帮你实现好了，也就是在上面的addSubview的时候，在subview真正加到父view之前，child的viewWillAppear将被调用，真正被add到父view之后，viewDidAppear会被调用。移除的过程中viewWillDisappear，viewDidDisappear的调用过程也是类似的。
+
+ 
+
+有时候自动的appearance callbacks的调用并不能满足需求，比如child view的展示有一个动画的过程，这个时候我们并不想viewDidAppear的调用在addSubview的时候进行，而是等展示动画结束后再调用viewDidAppear。
+
+ 
+
+也许你可能会提到 transitionFromViewController:toViewController:duration:options:animations:completion: 这个方法，会帮你自动处理view的add和remove，以及支持animations block，也能够保证在动画开始前调用willAppear或者willDisappear，在调用结束的时候调用didAppear，didDisappear，但是此方式也存在局限性，必须是两个新老子VC的切换，都不能为空，因为要保证新老VC拥有同一个parentViewController，且参数中的viewController不能是系统中的container，比如不能是UINavigationController或者UITabbarController等。
+
+ 
+
+所以如果你要自己写一个界面容器往往用不了appearence callbacks自动调用的特性，需要将此特性关闭，然后自己去精确控制appearance callbacks的调用时机。
+
+
 ## 参考
 
 1. [View Controller Programming Guide for iOS: The Role of View Controllers](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html#//apple_ref/doc/uid/TP40007457)
