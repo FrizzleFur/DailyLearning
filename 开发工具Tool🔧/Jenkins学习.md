@@ -1,5 +1,21 @@
 ## Jenkins
 
+[Jenkins自动打包代替Xcode的Archive - 简书](https://www.jianshu.com/p/91e8f571fc2b)
+
+5、接着新建一个终端窗口 输入命令行 open /Users/管理员用户名/Library/Keychains
+
+![](https://i.imgur.com/Zo06F08.jpg)
+
+
+## Keychains and Provisioning Profiles Management
+
+![](https://i.imgur.com/9fGMxcz.jpg)
+![](https://i.imgur.com/FC1uH2Z.jpg)
+
+Keychains 管理
+[Keychains and Provisioning Profiles Plugin - Jenkins - Jenkins Wiki](https://wiki.jenkins.io/display/JENKINS/Keychains+and+Provisioning+Profiles+Plugin)
+
+
 ### 密码修改
 
 If you have installed Jenkins through HomeBrew, check
@@ -145,26 +161,6 @@ curl -F "file=@/Users/next_mac_mini/Desktop/Package/${APP_NAME}.ipa" -F "uKey=d8
 ```
 
 
-## Jenkins
-
-
-```
-#bin/bsah - l
-
-export LANG=en_US.UTF-8
-
-export LANGUAGE=en_US.UTF-8
-
-export LC_ALL=en_US.UTF-8
-
-cd $WORKSPACE/$PROJECTNAME
-
-/usr/local/bin/pod update --verbose --no-repo-update
-
-export LANG=en_US.UTF-8
-
-export LANGUAGE=en_US.UTF-8
-```
 
 ### Ipa Name
 
@@ -196,8 +192,102 @@ FATAL: No global development team or local team ID was configured.
 
 
 
+## Jenkins配置
+
+```
+#bin/bsah - l
+
+export LANG=en_US.UTF-8
+
+export LANGUAGE=en_US.UTF-8
+
+export LC_ALL=en_US.UTF-8
+
+cd $WORKSPACE/$PROJECTNAME
+
+/usr/local/bin/pod update --verbose --no-repo-update
+
+export LANG=en_US.UTF-8
+
+export LANGUAGE=en_US.UTF-8
+```
+
+
+#### ipa名称
+
+```
+${JOB_NAME}_V${SHORT_VERSION}_${BUILD_TIMESTAMP}
+```
+
+
+### Cocoapod
+
+项目用到cocoapods，所以要先在构建这里选执行脚本，在里面输入
+
+### Pod脚本
+![](https://i.imgur.com/eUeiX0i.jpg)
+
+
+```
+#bin/bsah - l
+
+export LANG=en_US.UTF-8
+
+export LANGUAGE=en_US.UTF-8
+
+export LC_ALL=en_US.UTF-8
+
+cd $WORKSPACE/$PROJECTNAME
+
+/usr/local/bin/pod update --verbose --no-repo-update
+
+export LANG=en_US.UTF-8
+
+export LANGUAGE=en_US.UTF-8
+```
+
+```
+#bin/bsah - lexport LANG=en_US.UTF-8export LANGUAGE=en_US.UTF-8export LC_ALL=en_US.UTF-8cd $WORKSPACE/你的项目名称/usr/local/bin/pod update --verbose --no-repo-update注意：没有#bin/bsah - lexport LANG=en_US.UTF-8export LANGUAGE=en_US.UTF-8export LC_ALL=en_US.UTF-8   /usr/local/bin/  
+```
+这几句可能会造成编译器读不懂pod语句。当你构建的时候提示pod语句出错，百分之九十都是这个错误。
+
+
+## Xcode Plugin参数解析
+
+[Xcode Plugin - Jenkins - Jenkins Wiki](https://wiki.jenkins.io/display/JENKINS/Xcode+Plugin)
+[jenkins+xcode+蒲公英实现ipa自动化打包 - 简书](https://www.jianshu.com/p/6bab38e569a5)
+
+Advanced Xcode build options(xcodebuild命令的配置)
+•   Clean test report?:这个是如果要用到xcode测试的时候才用到，意思就跟英语一样
+•   Xcode Scheme File: 关于这个其实对应的就是xcodebuild命令中的-scheme的参数
+如果您不知道要填写什么的话， 可以通过xcodebuild -list来查询。是不是觉得这条命令很熟悉，没错前面查找target的时候也是用这个命令！
+•   SDK：这里是xcodebuild命令中的-sdk的参数，指定编译和打包的sdk号。如果不懂可以填写哪些可以通过xcodebuild -showsdks来查看。
+•   SYMROOT:该变量是编译和打包产生结果的输出目录（ .a, .zip, .ipa, .hmap等产生文件的位置），其中该目录其实是包括了CONFIGURATION BUILD DIR和OBJROOT这两个目录，默认的路径是所编译的xcodeproj所在目录，如主项目和POD项目整合后，则会在主项目的和POD项目的XCODEPROJ所在目录
+如果在指定了OBJROOT的位置后，编译过程中产生的文件不会在该目录体现 如果在指定CONFIGURATION_BUILD_DIR的位置后，该变量则变成无效化
+•   Custom xcodebuild arguments:这个就是xcodebuild命令中的指定buildsetting的命令的参数，至于可以指定哪些参数请不要问我，可以找度娘或者谷哥
+•   Xcode Workspace File:该配置是指明了xcodebuild中的-workspace的变量，其实就是如果您需要编译打包一个workspace时候的时候指定那个后缀名为xcworkspace的文件， 如果指定了该配置，那么Xcode project file配置项将无效
+•   Xcode Project Directory：该目录是指明了包含xcodeproj文件的目录（这个我是没用用到如果用了该参数可能最开始第一步的构建就没用了------不过我还没证实，欢迎小伙伴证实后告诉我）
+•   Xcode Project File: 如果需要构建一个project而不是一个workspace的话则指定文件的名称（后缀名为xcodeproj的文件）
+•   Build output directory：该参数只是指明了最终需要产生的动态包，ipa，app等文件默认路径为所编译的xcodeproj所在目录，如主项目和POD项目整合后，则会在主项目的和POD项目的XCODEPROJ所在目录（编译产生的相关文件所在目录，默认为$SYMROOT/$CONFIGURATION）
+•   值得说的是有一个参数也是挺常用的就是OBJROOT，该参数是产生 .a和 .hmap文件的目录，默认路径为所编译的xcodeproj所在目录，如主项目和POD项目整合后，则会在主项目的和POD项目的XCODEPROJ所在目录，关于OBJROOT、CONFIGURATION BUILD DIR以及SYMROOT三个路径之间的关系大家可以去查看官方的文档。
+
+
+## FirIm插件
+
+[fir.im Jenkins 插件使用方法](http://blog.fir.im/jenkins/)
+
+## 问题
+
+1. No global keychain or local keychain path/password was configured.
+
+![](https://i.imgur.com/6uAp95h.jpg)
+解决
+![](https://i.imgur.com/Z9eX5cP.jpg)
+
+
 ## 参考
 
+1. [IOS 自动化部署 - 最新Jenkins + git +cocoapods + fir - 简书](http://www.jianshu.com/p/ccc97e7ecf15)
 1. [jenkins+xcode+蒲公英实现ipa自动化打包 - CocoaChina_让移动开发更简单](http://www.cocoachina.com/ios/20170811/20218.html)
 1. [手把手教你利用Jenkins持续集成iOS项目](http://www.jianshu.com/p/41ecb06ae95f)
 2. [Mac下Jenkins+SVN+Xcode构建持续导出环境](http://www.jianshu.com/p/c0955ff67c91)
@@ -206,4 +296,3 @@ FATAL: No global development team or local team ID was configured.
 5. [**Jenkins:”ResourceRules.plist: cannot read resources” error after Xcode 6.1**](http://stackoverflow.com/questions/26516442/how-do-we-manually-fix-resourcerules-plist-cannot-read-resources-error-after)
 6. [--resource-rules has been deprecated in mac os x >= 10.10](http://stackoverflow.com/questions/26459911/resource-rules-has-been-deprecated-in-mac-os-x-10-10)
 7. [installing-jenkins-os-x-homebrew](http://flummox-engineering.blogspot.com/2016/01/installing-jenkins-os-x-homebrew.html)
-8. [IOS 自动化部署 - 最新Jenkins + git +cocoapods + fir - 简书](http://www.jianshu.com/p/ccc97e7ecf15)
