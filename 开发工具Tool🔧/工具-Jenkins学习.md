@@ -12,8 +12,24 @@
 ![](https://i.imgur.com/9fGMxcz.jpg)
 ![](https://i.imgur.com/FC1uH2Z.jpg)
 
-Keychains 管理
+### Keychains 管理
 [Keychains and Provisioning Profiles Plugin - Jenkins - Jenkins Wiki](https://wiki.jenkins.io/display/JENKINS/Keychains+and+Provisioning+Profiles+Plugin)
+
+### Provisioning Profiles Directory Path	
+```
+~/Library/MobileDevice/Provisioning Profiles
+```
+
+
+### login.keychain
+
+login.keychain的路径是
+
+```
+~/library/keychains/login.keychain
+```
+
+解锁密码是电脑锁定密码
 
 
 ### 密码修改
