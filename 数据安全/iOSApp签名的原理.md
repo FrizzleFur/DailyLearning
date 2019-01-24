@@ -1,4 +1,5 @@
-# iOS App签名的原理
+## iOS App签名的原理
+
 
 > iOS 签名机制挺复杂，各种证书，Provisioning Profile，entitlements，CertificateSigningRequest，p12，AppID，概念一堆，也很容易出错，本文尝试从原理出发，一步步推出为什么会有这么多概念，希望能有助于理解 iOS App 签名的原理和流程。
 
@@ -156,8 +157,39 @@ P.S.一些疑问
 
 能想到的一个原因是 Provisioning Profile 在非 AppStore 安装时会打包进安装包，第三方拿到这个 Provisioning Profile 文件就能直接用起来给他自己的 App 签名了。但这种问题也挺好解决，只需要打包时去掉文件里的私钥就行了，所以仍不明白为什么这样设计。
 
+
+## 配置文件profile
+
+### develop provisioning profile
+
+开发配置文件允许您的应用在设备上启动并在开发期间使用某些应用服务。对于个人而言，开发配置文件允许您签名的应用程序在您注册的设备上运行。对于组织，开发配置文件允许团队开发的应用程序由团队中的任何成员签名并安装在其设备上。
+
+开发配置文件包含：
+
+* 一个通配符应用程序ID，它匹配您所有团队的应用程序或与单个应用程序匹配的显式应用程序ID
+
+* 与团队关联的指定设备
+
+* 与团队关联的指定开发证书
+
+
+### ad hoc provisioning profile
+
+An ad hoc provisioning profile is a distribution provisioning profile that allows your app to be installed on designated devices and to use app services without the assistance of Xcode.
+临时配置文件是分发配置文件，允许您的应用程序安装在指定的设备上，并在没有Xcode协助的情况下使用应用程序服务。它是您可以为应用程序创建的两种类型的分发配置文件之一。 （您可以使用其他类型的分发配置文件将应用程序上载到App Store Connect。）临时配置文件可确保在您不知情的情况下不会复制和分发应用程序的测试版本。
+
+临时配置文件可确保在您不知情的情况下不会复制和分发应用程序的测试版本。
+
+![](https://i.imgur.com/wC5VqwY.jpg)
+![](https://i.imgur.com/meOgM54.jpg)
+
+## App Store provisioning profile
+
+
+
 ## 参考
 
 * [iOS App 签名的原理 | WeRead团队博客](http://wereadteam.github.io/2017/03/13/Signature/)
+* [development provisioning profile - Developer Account Help](https://help.apple.com/developer-account/#/dev41f6af664)
 
 

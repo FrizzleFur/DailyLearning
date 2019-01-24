@@ -62,14 +62,6 @@ I found $SHORT_VERSION by searching the XCode Plugin source code.
 ${JOB_NAME}_V${SHORT_VERSION}_${BUILD_TIMESTAMP}
 ```
 
-### 查找IP
-
-```
-lsof -i:8080
-
-kill pid
-```
-
 ### Jenkins启动关闭
 
 #### 在浏览器中：URL Options
@@ -252,7 +244,7 @@ export LANGUAGE=en_US.UTF-8
 这几句可能会造成编译器读不懂pod语句。当你构建的时候提示pod语句出错，百分之九十都是这个错误。
 
 
-## Xcode Plugin参数解析
+## Xcode Plugin配置参数
 
 [Xcode Plugin - Jenkins - Jenkins Wiki](https://wiki.jenkins.io/display/JENKINS/Xcode+Plugin)
 [jenkins+xcode+蒲公英实现ipa自动化打包 - 简书](https://www.jianshu.com/p/6bab38e569a5)
@@ -275,6 +267,20 @@ Advanced Xcode build options(xcodebuild命令的配置)
 ## FirIm插件
 
 [fir.im Jenkins 插件使用方法](http://blog.fir.im/jenkins/)
+
+
+## 配置
+
+![1-构建设置](https://i.imgur.com/5bTFNkz.jpg)
+![2-打包设置](https://i.imgur.com/tH17OOc.jpg)
+![3-构建脚本](https://i.imgur.com/sgS6Vsc.jpg)
+![4-通用设置](https://i.imgur.com/ZeCWcAD.jpg)
+![5-Keychain](https://i.imgur.com/ZSJMIFz.jpg)
+![6-Xcode设置](https://i.imgur.com/9hNKTyP.jpg)
+![7-构建后Fir设置](https://i.imgur.com/FEMyzUg.jpg)
+![8-Fir插件](https://i.imgur.com/2IIrVCU.jpg)
+
+
 
 ## 问题
 
