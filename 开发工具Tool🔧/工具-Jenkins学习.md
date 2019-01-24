@@ -73,6 +73,8 @@ If you are using the Xcode Plugin, you have CFBundleVersion available as $VER
 I found $SHORT_VERSION by searching the XCode Plugin source code.
 
 #### .ipa 命名格式
+
+
 注意下载`Build Timestamp Plugin`插件
 ```
 ${JOB_NAME}_V${SHORT_VERSION}_${BUILD_TIMESTAMP}
@@ -297,14 +299,17 @@ Advanced Xcode build options(xcodebuild命令的配置)
 ![8-Fir插件](https://i.imgur.com/2IIrVCU.jpg)
 
 
-
 ## 问题
 
 1. No global keychain or local keychain path/password was configured.
 
 ![](https://i.imgur.com/6uAp95h.jpg)
-解决
+解决：
 ![](https://i.imgur.com/Z9eX5cP.jpg)
+
+2. Will not set default: file /Users/Shared/Jenkins/Library/Keychains/login.keychain-db is owned by UID=0, but we have UID=262 security: SecKeychainSetDomainDefault user: write permissions error
+
+解决：进入mac 系统偏好设置 — 用户与群组 — 其他用户 — jenkins ，勾选允许用户管理这台电脑
 
 
 ## 参考
