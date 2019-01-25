@@ -1,5 +1,7 @@
 ## Jenkins
 
+![](https://i.imgur.com/Axb92E7.jpg)
+
 [Jenkins自动打包代替Xcode的Archive - 简书](https://www.jianshu.com/p/91e8f571fc2b)
 
 5、接着新建一个终端窗口 输入命令行 open /Users/管理员用户名/Library/Keychains
@@ -87,9 +89,9 @@ ${JOB_NAME}_V${SHORT_VERSION}_${BUILD_TIMESTAMP}
 `http://[jenkins-server]/[command]`
 [command] can be
 
-* exit shutdown jenkins
-* restart restart jenkins
-* reload to reload the configuration
+* exit: shutdown jenkins
+* restart: restart jenkins
+* reload: to reload the configuration
 
 URL:
 ```
@@ -170,14 +172,6 @@ echo "+++++++++++++++++蒲公英++++++++++++++++++"
 curl -F "file=@/Users/next_mac_mini/Desktop/Package/${APP_NAME}.ipa" -F "uKey=d81326899dd50c3382e2f5e99f3a7495" -F "_api_key=495642f9b1336a64ceb2d5cb44d93183" http://www.pgyer.com/apiv1/app/upload
 ```
 
-
-
-### Ipa Name
-
-```
-${JOB_NAME}_V${SHORT_VERSION}_${BUILD_TIMESTAMP}
-```
-
 ### output dir
 
 ```
@@ -226,7 +220,7 @@ export LANGUAGE=en_US.UTF-8
 #### ipa名称
 
 ```
-${JOB_NAME}_V${SHORT_VERSION}_${BUILD_TIMESTAMP}
+${JOB_NAME}_V${SHORT_VERSION}_${BUILD_DATE}
 ```
 
 

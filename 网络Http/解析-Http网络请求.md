@@ -538,6 +538,30 @@ Localhost是指“此计算机本身”的特殊地址 - 用于客户端（如�
 ![](http://oc98nass3.bkt.clouddn.com/15235259440725.jpg)
 
 
+## Http简历持久链接
+
+
+HTTP Persistent Connections(HTTP keep alive)
+持久连接的特点是，只要任意一端没有明确提出断开连接，则保持TCP连接状态。
+
+
+持久连接的好处在于减少了TCP连接的重复建立和断开所造成的
+额外开销，减轻了服务器端的负载。另外，减少开销的那部分时间，使
+HTTP请求和响应能够更早地结束，这样Web页面的显示速度也就相应
+提高了
+
+
+
+## cookie 状态管理
+
+* HTTP是无状态协议，它不对之前发生过的请求和响应的状态进行管理。也就是说，无法根据之前的状态进行本次的请求处理。
+
+* 假设要求登录认证的Web页面本身无法进行状态的管理(不记录
+* 已登录的状态),那么每次跳转新页面不是要再次登录，就是要在每次请求报文中附加参数来管理登录状态。
+
+* Cookie 技术通过在请求和响应报文中写人Cookie信息来控制客户端的状态。
+* Cookie会根据从服务器端发送的响应报文内的-一个叫做Set-Cookie的首部字段信息，通知客户端保存Cookie。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入Cookie值后发送出去。
+* 服务器端发现客户端发送过来的Cookie后，会去检查究竟是从哪-个客户端发来的连接请求，然后对比服务器上的记录，最后得到之前的状态信息。
 
 ## Http缓存
 
@@ -681,11 +705,15 @@ http协议是应用层的协义
 ## HTTPS
 
 HTTPS加密过程
+
 ![](http://oc98nass3.bkt.clouddn.com/15359240544677.jpg)
 ![](http://oc98nass3.bkt.clouddn.com/15359242716342.jpg)
 
 ### 1.https简单说明
 
+HTTPS并非是应用层的一种新协议。只是HTTP通信接口部分用
+SSL ( Secure Socket Layer )和TLS ( Transport Layer Security)协议代替
+而已。
     HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，简单讲是HTTP的安全版。
     即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。 它是一个URI scheme（抽象标识符体系），句法类同http:体系。用于安全的HTTP数据传输。
     https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间）。
