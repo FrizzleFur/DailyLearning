@@ -299,7 +299,7 @@ UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行drawR
 
 上面提到的从CPU到GPU的过程可用下图表示：
 
-![](http://oc98nass3.bkt.clouddn.com/15212684646463.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15212684646463.jpg)
 
 下面具体来讨论下这个过程
 
@@ -318,7 +318,7 @@ label.text = @"test";
 这个时候不会发生任何操作，由于UILabel重写了drawRect，因此，这个view会被marked as “dirty”：
 
 类似这个样子：
-![](http://oc98nass3.bkt.clouddn.com/15212684345666.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15212684345666.jpg)
 
 然后一个新的Runloop到来，上面说道在这个Runloop中需要将界面渲染上去，对于UIKit的渲染，Apple用的是它的Core Animation。
 
@@ -388,7 +388,7 @@ Core Animation对OpenGL的api有一层封装，当我们的要渲染的layer已�
 这个对应关系建立起来之后，剩下的任务就是GPU如何将Texture渲染到屏幕上了。
 
 GPU大致的工作模式如下：
-![](http://oc98nass3.bkt.clouddn.com/15212685103262.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15212685103262.jpg)
 
 整个过程也就是一件事：CPU将准备好的bitmap放到RAM里，GPU去搬这快内存到VRAM中处理。
 

@@ -22,12 +22,12 @@
 > Maximize the information gained per fix!
 
 
-![](http://oc98nass3.bkt.clouddn.com/2017-05-21-14953337356733.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-05-21-14953337356733.jpg)
 
 
 ### Print Debugging
 
-![](http://oc98nass3.bkt.clouddn.com/2017-05-21-14953347612931.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-05-21-14953347612931.jpg)
 
 ## TOOL
 
@@ -73,12 +73,12 @@ Objective-C
 `expression` 可以支持多行输入，输入`expression`后回车，会显示行号，每行输入后换行，双击回车代表完成输入，过掉断言即刻看到表达式的效果。
 
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-03-14964589170284.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-06-03-14964589170284.jpg)
 
 
 #### BreakPoint
 
-![](http://oc98nass3.bkt.clouddn.com/2017-05-23-14955445977510.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-05-23-14955445977510.jpg)
 
 
 
@@ -109,7 +109,7 @@ Enter your debugger command(s).  Type 'DONE' to end.
 
 ##### breakpoints添加通过条件
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-03-14964707712015.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-06-03-14964707712015.jpg)
 
 breakpoint
 
@@ -291,7 +291,7 @@ Watchpoint
 `watchpoint set v (变量名)`
 跟踪变量的值的变化，如果变量地址变成`0x0000000000000000`就说明变量被释放，指向了`nil`
 
-![](http://oc98nass3.bkt.clouddn.com/2017-08-15-15027669682910.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-08-15-15027669682910.jpg)
 
 
 #### Chisel

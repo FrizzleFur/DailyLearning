@@ -2,6 +2,8 @@
 
 参考 ：[浅析collectionView的item间距 - 简书](https://www.jianshu.com/p/1e12a2b8f53c)
 
+[定制自己的瀑布流 - sindrilin的小巢](http://sindrilin.com/tips/2015/09/18/%E5%AE%9A%E5%88%B6%E8%87%AA%E5%B7%B1%E7%9A%84%E7%80%91%E5%B8%83%E6%B5%81.html)
+
 
 ### 一、创建collectionView（collectionView控制器）
 (collectionView)
@@ -147,4 +149,24 @@ Basically, we will have to subclass UICollectionViewLayoutAttributes, UICollecti
 [ios - NSIndexpath.item vs NSIndexpath.row - Stack Overflow](https://stackoverflow.com/questions/14765730/nsindexpath-item-vs-nsindexpath-row)
 
 
+### API
 
+_- (void)prepareLayout_
+
+系统在准备对`item`进行布局前会调用这个方法，我们重写这个方法之后可以在方法里面预先设置好需要用到的变量属性等。比如在瀑布流开始布局前，我们可以对存储瀑布流高度的数组进行初始化。有时我们还需要将布局属性对象进行存储，比如卡片动画式的定制，也可以在这个方法里面进行初始化数组。切记要调用`[super prepareLayout];`
+
+_- (CGSize)collectionViewContentSize_
+
+由于`collectionView`将`item`的布局任务委托给`layout`对象，那么滚动区域的大小对于它而言是不可知的。自定义的布局对象必须在这个方法里面计算出显示内容的大小，包括`supplementaryView`和`decorationView`在内。
+
+_- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect_
+
+个人觉得完成定制布局最核心的方法，没有之一。`collectionView`调用这个方法并将自身坐标系统中的矩形传过来，这个矩形代表着当前`collectionView`可视的范围。我们需要在这个方法里面返回一个包括`UICollectionViewLayoutAttributes`对象的数组，这个布局属性对象决定了当前显示的`item`的大小、层次、可视属性在内的布局属性。同时，这个方法还可以设置`supplementaryView`和`decorationView`的布局属性。合理使用这个方法的前提是不要随便返回所有的属性，除非这个`view`处在当前`collectionView`的可视范围内，又或者大量额外的计算造成的用户体验下降——你加班的原因。
+
+_- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath_
+
+相当重要的方法。`collectionView`可能会为了某些特殊的`item`请求特殊的布局属性，我们可以在这个方法中创建并且返回特别定制的布局属性。根据传入的indexPath调用`[UICollectionViewLayoutAttributes layoutAttributesWithIndexPath: ]`方法来创建属性对象，然后设置创建好的属性，包括定制形变、位移等动画效果在内
+
+_- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds_
+
+当`collectionView`的`bounds`改变的时候，我们需要告诉`collectionView`是否需要重新计算布局属性，通过这个方法返回是否需要重新计算的结果。简单的返回`YES`会导致我们的布局在每一秒都在进行不断的重绘布局，造成额外的计算任务。

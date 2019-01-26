@@ -4,7 +4,7 @@
 * Core Foundation中的CFRunLoopRef
 * NSRunLoop是基于CFRunLoopRef的一层OC包装，所以要了解RunLoop内部结构，需要多研究CFRunLoopRef层面的API（Core Foundation层面）
 
-![RunLoop结构](http://oc98nass3.bkt.clouddn.com/15359081423883.png)
+![RunLoop结构](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15359081423883.png)
 
 ### CFRunLoop
 
@@ -215,7 +215,7 @@ struct __CFRunLoop {
 
 ## RunLoop 的内部逻辑
 
-![RunLoop 的内部逻辑](http://oc98nass3.bkt.clouddn.com/15132230299202.png)
+![RunLoop 的内部逻辑](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15132230299202.png)
 
 应用场景举例：主线程的 RunLoop 里有两个预置的 Mode：kCFRunLoopDefaultMode 和 UITrackingRunLoopMode。这两个 Mode 都已经被标记为”Common”属性。DefaultMode 是 App 平时所处的状态，TrackingRunLoopMode 是追踪 ScrollView 滑动时的状态。当你创建一个 Timer 并加到 DefaultMode 时，Timer 会得到重复回调，但此时滑动一个TableView时，RunLoop 会将 mode 切换为 TrackingRunLoopMode，这时 Timer 就不会被回调，并且也不会影响到滑动操作。
 
@@ -243,7 +243,7 @@ struct __CFRunLoop {
 * 如果 run loop 被手动唤醒，并且没有超时，完成后跳转到第2步
 * 通知 observes run loop 已经退出
 
-![](http://oc98nass3.bkt.clouddn.com/15359105264831.png)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15359105264831.png)
 
 注意：
 

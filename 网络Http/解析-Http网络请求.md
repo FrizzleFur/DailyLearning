@@ -25,7 +25,7 @@ if ([images count] == 0) {
 * 我们在传输数据时，可以只使用(传输层)TCP/IP协议，但是那样的话，如果没有应用层，便无法识别数据内容。
 * socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口(API).通过Socket，我们才能使用TCP/IP协议。TCP/IP只是一个协议栈，就像操作系统的运行机制一样，必须要具体实现，同时还要提供对外的操作接口。
 
-![ISO模型的七个分层](http://oc98nass3.bkt.clouddn.com/15166637371115.gif)
+![ISO模型的七个分层](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15166637371115.gif)
 
 #### HTTP请求方法
 
@@ -47,11 +47,11 @@ TRACE     回显服务器收到的请求，主要用于测试或诊断。
 ## HTTP请求 Request
 
 HTTP 的请求报文分为三个部分 请求行、请求头和请求体，格式如图：
-![](http://oc98nass3.bkt.clouddn.com/15357999658842.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15357999658842.jpg)
 
 一个典型的请求消息头域，如下所示：
 
-![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045083200378.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-09-04-15045083200378.jpg)
 
 
 ```
@@ -81,7 +81,7 @@ HTTP/1.1 定义的请求方法有8种：GET、POST、PUT、DELETE、PATCH、HEAD
 
 ## HTTP响应 Response
 
-![](http://oc98nass3.bkt.clouddn.com/15358006676079.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15358006676079.jpg)
 
 ```
 HTTP/1.1 200 OK
@@ -130,7 +130,7 @@ Content-Length: 122
 ### HTTP之状态码
 
 状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:
-![](http://oc98nass3.bkt.clouddn.com/15358008791376.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15358008791376.jpg)
 
 * 200 - 请求成功
 * 301 - 资源（网页等）被永久转移到其它URL
@@ -141,7 +141,7 @@ Content-Length: 122
 * 502	Bad Gateway	充当网关或代理的服务器，从远端服务器接收到了一个无效的请求
 * 505	HTTP Version not supported	服务器不支持请求的HTTP协议的版本，无法完成处理
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-08-14969148476130.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-06-08-14969148476130.jpg)
 
 ## GET请求
 
@@ -161,7 +161,7 @@ GET请求有3各部分：
 2. `/readme.png` 是被请求资源的路径。注意，客户端没有在这里发送资源的整个URI。这并不是说，`https://localhost:8000/readme.png`。它只发送路径。
 
 3. 最后，HTTP / 1.1是请求的协议。多年来，HTTP的工作方式发生了一些变化。客户必须告诉服务器他们说的是哪一种方言。HTTP / 1.1是当今最常见的版本。
-![](http://oc98nass3.bkt.clouddn.com/15236304256994.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15236304256994.jpg)
 
 由于浏览器和服务器对URL长度有限制，因此在URL后面附带的参数是有限制的，
 通常不能超过1KB
@@ -235,15 +235,15 @@ GET方式提交数据，会带来安全问题，比如一个登录页面，通�
 
 通过TCP三次握手建立链接 ——> 在此链接基础上进行Http的请求和响应 ——> 通过TCP四次挥手进行链接的释放
 
-![](http://oc98nass3.bkt.clouddn.com/15343911190241.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15343911190241.jpg)
 
-![](http://oc98nass3.bkt.clouddn.com/15343910887788.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15343910887788.jpg)
 
 ## TCP协议详解
 
 ### TCP/IP协议分层
 
-![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045091458482.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-09-04-15045091458482.jpg)
 
 [TCP协议详解](http://www.jianshu.com/p/ef892323e68f)
 
@@ -257,7 +257,7 @@ GET方式提交数据，会带来安全问题，比如一个登录页面，通�
 
 所谓三次握手（Three-Way Handshake）即建立TCP连接，就是指建立一个TCP连接时，需要客户端和服务端总共发送3个包以确认连接的建立。在socket编程中，这一过程由客户端执行connect来触发，整个流程如下图所示：
 
-![](http://oc98nass3.bkt.clouddn.com/15357980816024.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15357980816024.jpg)
 
 * TCP服务器进程先创建传输控制块TCB，时刻准备接受客户进程的连接请求，此时服务器就进入了LISTEN（监听）状态；
 * TCP客户进程也是先创建传输控制块TCB，然后向服务器发出连接请求报文，这是报文首部中的同部位SYN=1，同时选择一个初始序列号 seq=x ，此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定，SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。
@@ -273,8 +273,8 @@ GET方式提交数据，会带来安全问题，比如一个登录页面，通�
 
 #### 三次握手解析
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-08-14969143989779.jpg)
-![](http://oc98nass3.bkt.clouddn.com/2017-06-08-14969144404963.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-06-08-14969143989779.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-06-08-14969144404963.jpg)
 
 * 为什么TCP客户端最后还要发送一次确认呢？
 
@@ -295,7 +295,7 @@ GET方式提交数据，会带来安全问题，比如一个登录页面，通�
 
 ### TCP四次挥手
 
-![](http://oc98nass3.bkt.clouddn.com/15357985879750.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15357985879750.jpg)
 
 数据传输完毕后，双方都可释放连接。最开始的时候，客户端和服务器都是处于ESTABLISHED状态，然后客户端主动关闭，服务器被动关闭。
 
@@ -312,7 +312,7 @@ GET方式提交数据，会带来安全问题，比如一个登录页面，通�
 
 **而关闭连接时，当收到Client的FIN报文时，仅仅表示Client不再发送数据了但是还能接收数据，Server方也未必全部数据都发送给Client方了，所以Server方可以立即close，也可以发送一些数据给Client对方后，再发送FIN报文给Client方来表示同意现在关闭连接**，因此，Server方ACK和FIN一般都会分开发送。
 
-![](http://oc98nass3.bkt.clouddn.com/15357990111865.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15357990111865.jpg)
 
     TIME_WAIT的状态是为了等待连接上所有的分组的消失。单纯的想法，发送端只需要等待一个MSL就足够了。这是不够的，假设现在一个MSL的时候，接收端需要发送一个应答，这时候，我们也必须等待这个应答的消失，这个应答的消失也是需要一个MSL，所以我们需要等待2MSL。（更多的内容参考 《UNIX 网络编程》第3版 2.7 节）
 
@@ -366,10 +366,10 @@ CP/IP 使用 32 个比特来编址。一个计算机字节是 8 比特。所以 
 * 在一个文件目录中启动Python 本地服务器，端口`8000`
 
 您的浏览器发送的每个请求的条目的服务器日志：
-![](http://oc98nass3.bkt.clouddn.com/15234622040759.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15234622040759.jpg)
 
 然后在浏览器中访问：`http://localhost:8000/ `
-![](http://oc98nass3.bkt.clouddn.com/15234622850793.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15234622850793.jpg)
 
 这就是Python演示服务器，在自己的计算机上运行。它提供本地磁盘上的文件，以便您可以在浏览器中查看它们。
 
@@ -401,7 +401,7 @@ DNS（Domain Name System，域名系统），因特网上作为**域名和IP地�
 
 #### content-type
 
-![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045100047341.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-09-04-15045100047341.jpg)
 
 [HTTP 请求头与请求体 - 某熊的全栈之路 - SegmentFault](https://segmentfault.com/a/1190000006689767)
 
@@ -416,14 +416,14 @@ title=test&sub%5B%5D=1&sub%5B%5D=2&sub%5B%5D=3
 ```
 首先，Content-Type 被指定为 application/x-www-form-urlencoded；这里的格式要求就是URL中Query String的格式要求：多个键值对之间用&连接，键与值之前用=连接，且只能用ASCII字符，非ASCII字符需使用UrlEncode编码。大部分服务端语言都对这种方式有很好的支持。例如 PHP 中，$_POST['title'] 可以获取到 title 的值，$_POST['sub'] 可以得到 sub 数组。
 
-![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045099311373.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-09-04-15045099311373.jpg)
 
 
 #### 文件分割
 
 第三种请求体的请求体被分成为多个部分，文件上传时会被使用，这种格式最先应该是被用于邮件传输中，每个字段/文件都被boundary（Content-Type中指定）分成单独的段，每段以-- 加 boundary开头，然后是该段的描述头，描述头之后空一行接内容，请求结束的标制为boundary后面加--，结构见下图：
 
-![](http://oc98nass3.bkt.clouddn.com/2017-09-04-15045099842386.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-09-04-15045099842386.jpg)
 
 ### HTML
 
@@ -441,7 +441,7 @@ Hypertext Markup Language 超文本链接标示语言
 
 * 您的浏览器向Web服务器发送HTTP请求，服务器将响应发送回浏览器。
 
-![](http://oc98nass3.bkt.clouddn.com/15234610574722.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15234610574722.jpg)
 
 * 浏览器拥有所有的用户界面、动画和图形内容。
 
@@ -474,7 +474,7 @@ URL是网络上资源的URI。由于URI稍微精确一些，不要过分担心�
     
 URI的第一部分是该方案，它告诉客户如何访问资源。您以前见过的一些URI方案包括HTTP、HTTPS和File。File的URI告诉客户端访问本地文件系统中的文件。HTTP和HTTPS URI指向资源由Web服务器提供。
 
-![](http://oc98nass3.bkt.clouddn.com/15236036510993.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15236036510993.jpg)
 
 ### Hostname主机名
 
@@ -535,7 +535,7 @@ Localhost是指“此计算机本身”的特殊地址 - 用于客户端（如�
 
 那时候前端只是后端 MVC 的 V。
 
-![](http://oc98nass3.bkt.clouddn.com/15235259440725.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15235259440725.jpg)
 
 
 ## Http简历持久链接
@@ -569,10 +569,10 @@ HTTP请求和响应能够更早地结束，这样Web页面的显示速度也就�
 对于比较缓存，将缓存信息中的Etag和Last-Modified通过请求发送给服务器，由服务器校验，返回304状态码时，浏览器直接使用缓存。
 
 浏览器第一次请求时：
-![](http://oc98nass3.bkt.clouddn.com/15357959994287.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15357959994287.jpg)
 
 浏览器再次请求时：
-![](http://oc98nass3.bkt.clouddn.com/15357960028738.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15357960028738.jpg)
 
 
 
@@ -594,7 +594,7 @@ HTTP请求和响应能够更早地结束，这样Web页面的显示速度也就�
 
 
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-08-14969149972962.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-06-08-14969149972962.jpg)
 
 
 ### 公钥加密，私钥解密。私钥数字签名，公钥验证。
@@ -624,7 +624,7 @@ HTTP请求和响应能够更早地结束，这样Web页面的显示速度也就�
 我们知道两个进程如果需要进行通讯最基本的一个前提能能够唯一的标示一个进程，在本地进程通讯中我们可以使用PID来唯一标示一个进程，但PID只在本地唯一，网络中的两个进程PID冲突几率很大，这时候我们需要另辟它径了，我们知道IP层的ip地址可以唯一标示主机，而TCP层协议和端口号可以唯一标示主机的一个进程，这样我们可以利用ip地址＋协议＋端口号唯一标示网络中的一个进程。
 
 能够唯一标示网络中的进程后，它们就可以利用socket进行通信了，什么是socket呢？我们经常把socket翻译为套接字，socket是在应用层和传输层之间的一个抽象层，它把TCP/IP层复杂的操作抽象为几个简单的接口供应用层调用已实现进程在网络中通信。
-![](http://oc98nass3.bkt.clouddn.com/15166639010683.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15166639010683.jpg)
 
 ### 一.TCP/IP连接
 
@@ -706,8 +706,8 @@ http协议是应用层的协义
 
 HTTPS加密过程
 
-![](http://oc98nass3.bkt.clouddn.com/15359240544677.jpg)
-![](http://oc98nass3.bkt.clouddn.com/15359242716342.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15359240544677.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15359242716342.jpg)
 
 ### 1.https简单说明
 
@@ -931,7 +931,7 @@ AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
 首先检测，google浏览器请求，Charles抓包是否成功，若失败，解决方法如下（cmd+, 快捷键进入浏览器设置界面）
 
 
-![](http://oc98nass3.bkt.clouddn.com/15343913264534.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15343913264534.jpg)
 
 * 连接建立过程中使用非对称加密，很耗时
 
@@ -947,7 +947,7 @@ AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
 ```
 HTTPS =  HTTP+SSL/TLS+TCP 
 ```
-![](http://oc98nass3.bkt.clouddn.com/15335338411873.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15335338411873.jpg)
 
 Apple让你的HTTP采用SSL/TLS协议，就是让你从HTTP转到HTTPS。而这一做法，官方文档称为ATS，全称为App Transport Security。
 

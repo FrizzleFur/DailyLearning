@@ -7,9 +7,6 @@
 
 [![96](https://upload.jianshu.io/users/upload_avatars/1873530/fa8b549bc587.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96)](https://www.jianshu.com/u/f95d015c62ad) 
 
-[常大鹏](https://www.jianshu.com/u/f95d015c62ad) ![22d8d123 271c 4d80 9c59 6990844a9e37](https://upload.jianshu.io/user_badge/22d8d123-271c-4d80-9c59-6990844a9e37) 关注
-
-2016.06.03 15:13* 字数 2923 阅读 57231评论 15喜欢 116
 
 ## 导读：
 

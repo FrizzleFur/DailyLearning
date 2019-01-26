@@ -6,7 +6,7 @@
 NSString *str = [[NSString alloc] initWithString:@"This is a string"];
 ```
 常说的实例对象其实是指向对象内存地址的指针。
-![实例对象.png](http://oc98nass3.bkt.clouddn.com/15112506999252.png)
+![实例对象.png](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15112506999252.png)
 
 ### 命名规范
 
@@ -17,7 +17,7 @@ OC的方法名可能很长，但是是为了避免歧义，在命名方面，先
 OC是一门极其动态语言，在编译器定义好的方法在运行期系统会查找、调用某方法的实现代码，才能真正确定所调用的方法，如果类无法立即响应某个Selector，就会启动消息转发流程。
 
 1. objc_msgSend传递消息
-![objc_msgSend](http://oc98nass3.bkt.clouddn.com/15112512635482.png)
+![objc_msgSend](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15112512635482.png)
 
 ```
 id returnValue = [someObject messageName: parameter];
@@ -58,13 +58,13 @@ method_imp->调用函数 通过函数指针调用函数
 2. 消息转发
 2.1 “动态方法解析”(`dynamic method resolution`) 查看所属的类是否能动态添加方法，已处理当前的未知选择子（unknown selector）.
 2.2 “完整的消息转发机制”（`full forwatding mechanism`）请接受者看看有没有其他对象能处理这个消息，如果可以就把消息转发给那个对象，如果没有”备援接受者”（`replacement receiver`）则启动完整的消息转发机制，运行期系统会把消息有关的全部细节封装到`NSInvocation`对象中，给receiver最后一次机会，设法解决这条未处理的消息.
-![消息转发](http://oc98nass3.bkt.clouddn.com/15112511322781.png)
+![消息转发](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15112511322781.png)
 `Selector`是方法选择器，里面存放的是方法的名字。对应方法的映射列表。
 `objc_msgSend`函数会一句及守着与Selector的类型来调用适当的方法，他会在方法接受者所属类中搜寻方法列表，如果找到了与Selector名称相符的方法。
 
 3. Method Swizzing
 使用`method_exchangeImplemetations`(`originalMethod, swappedMethod`);实现运行时的`Selector`交换
-![methodSwizzing](http://oc98nass3.bkt.clouddn.com/15112511121054.png)
+![methodSwizzing](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15112511121054.png)
 
 ## 类和元类
 
@@ -91,18 +91,18 @@ class对象在内存中存储的信息主要包括：
 2. superclass指针
 3. 类的属性信息（@property），类的成员变量信息（ivar）
 4. 类的对象方法信息（instance method），类的协议信息（protocol）
-![](http://oc98nass3.bkt.clouddn.com/15340396676516.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15340396676516.jpg)
 
 ### 1. 理解类的概念
 
 比起类，可能对象的概念更熟悉一点，这是对象的定义：
-![对象的结构体](http://oc98nass3.bkt.clouddn.com/15112508168734.png)
+![对象的结构体](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15112508168734.png)
 
 你会发现有一个定义成`Class`类型的`isa`，这是实例对象用以表明其所属类型的，指向`Class`对象的指针。通过`Class`搭建了类的继承体系(`class hirerarchy`)。
 
 其实类也是对象，打开定义的头文件，发现是用一个结构体来存储类的信息。
 
-![类的结构体](http://oc98nass3.bkt.clouddn.com/15112508358881.png)
+![类的结构体](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15112508358881.png)
 
 ```objc
 typedef struct objc_class *Class;
@@ -123,7 +123,7 @@ struct objc_class {
 类的结构体存放着该类的信息：类的方法列表，实例变量，协议，父类等信息。
 每个类的`isa`指针指向该类的所属类型元类(`metaClass`),用来表述类对象的数据。每个类仅有一个类对象，而每个类对象仅有一个与之相关的”元类”。
 比如一个继承`NSObjct`名叫SomeClass的类，其继承体系如下:
-![类的继承体系](http://oc98nass3.bkt.clouddn.com/15112508819933.png)
+![类的继承体系](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15112508819933.png)
 在`Objective-C`中任何的类定义都是对象。即在程序启动的时候任何类定义都对应于一块内存。在编译的时候，编译器会给每一个类生成一个且只生成一个”描述其定义的对象”,也就是水果公司说的类对象(`class object`),它是一个单例(`singleton`).
 因此,程序里的所有实例对象(`instance object`)都是在运行时由`Objective-C`的运行时库生成的，而这个类对象(`class object`)就是运行时库用来创建实例对象(`instance object`)的依据。
 
@@ -175,7 +175,7 @@ if ([objct class] == [SomeClass class]) {
 在这样的继承体系下，所有实例、类以及元类（`meta class`）都继承自一个基类。
 这意味着对于继承于`NSObject`的所有实例、类和元类，他们可以使用`NSObject`的所有实例方法，类和元类可以使用`NSObject`的所有类方法
 这些文字看起来莫名其妙难以理解，可以用一份图谱来展示这些关系：
-![类和元类](http://oc98nass3.bkt.clouddn.com/15112504019864.jpg)
+![类和元类](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15112504019864.jpg)
 
 如上图，对象是由按照类所定义的各个属性和方法“制造”的，类作为对象的模板，也可看成是对象。正如工厂里面的模子也是要专门制作模子的机器生产，`元类` (`meta class`)就是设计、管理 `类` (class)的角色。所以图上直观的表现出类和元类平行的父类链，表明实例方法和类方法都是并行继承的，每个对象都响应了根类的方法。
 
@@ -280,7 +280,7 @@ MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @"someString");
 Objective-C 对象都是 C 语言结构体，所有的对象都包含一个类型为  isa 的指针，
 所有继承自 NSObject 的类实例化后的对象都会包含一个类型为 isa_t 的结构体。
 
-![](http://oc98nass3.bkt.clouddn.com/15340400765116.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15340400765116.jpg)
 
 从上图中可以看出，不只是实例会包含一个 isa 结构体，所有的类也有这么一个 isa。在 ObjC 中 Class 的定义也是一个名为 objc_class 的结构体，如下：
 
@@ -311,7 +311,7 @@ struct objc_class : objc_object {
 
 * class的isa指向meta-class
 当调用类方法时，通过class的isa找到meta-class，最后找到类方法的实现进行调用
-![](http://oc98nass3.bkt.clouddn.com/15340403445496.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15340403445496.jpg)
 
 * 当对象调用其父类对象方法的时候，又是怎么找到父类对象方法的呢？，此时就需要使用到class类对象superclass指针。
 
@@ -330,7 +330,7 @@ struct objc_class : objc_object {
 * 实例方法调用时，通过对象的 `isa` 在类中获取方法的实现
 * 类方法调用时，通过类的 `isa` 在**元类**中获取方法的实现
 
-![](http://oc98nass3.bkt.clouddn.com/15328565624560.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15328565624560.jpg)
 
 [从 NSObject 的初始化了解 isa](https://draveness.me/isa)
 
@@ -601,7 +601,7 @@ typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
 @end  
 ```
 
-![](http://oc98nass3.bkt.clouddn.com/15335755081498.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15335755081498.jpg)
 
 从以上图中可以看出
 

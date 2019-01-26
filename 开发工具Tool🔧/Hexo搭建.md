@@ -13,12 +13,12 @@
     - [ ] [http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置](http://moxfive.xyz/2016/05/31/hexo-local-search/#搜索重置)
 
 - [ ] 去除底部多余样式
-![](http://oc98nass3.bkt.clouddn.com/14938557402763.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/14938557402763.jpg)
 
 - [ ] 参考[泊学网](https://boxueio.com/series/ios-101/ebook/110)优化背景色和代码高亮显示
 
 - [ ] [添加版权申明](https://creativecommons.org/licenses/by-nc-sa/3.0/)(版权声明： 本博客所有文章除特别声明外，均采用 CC BY-NC-SA 3.0   许可协议。转载请注明出处！)
-![](http://oc98nass3.bkt.clouddn.com/2017-05-15-14948183164436.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/2017-05-15-14948183164436.jpg)
 参考[为博客文章添加版权声明](http://qimingyu.com/2016/06/05/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E5%A3%B0%E6%98%8E/)
 用记事本打开，把上面代码写进去，然后保存成copyright.js文件，注意编码格式为UTF-8，否则为乱码，放在文件hexo–>themes–>next–>scripts中。
 然后用MarkDown语法写一段版权声明相关的文字，同样也为UTF-8编码格式，保存为tail.md,放在文件hexo的根目录中即可，注意如果是其他地方，上面的脚本可能会找不到该文件。

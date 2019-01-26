@@ -72,7 +72,7 @@ struct Block_layout {
 * reserved，保留变量。
 * invoke，函数指针，指向具体的 block 实现的函数调用地址。
 * descriptor， 表示该 block 的附加描述信息，主要是 size 大小，以及 copy 和 dispose 函数的指针。
-* variables，capture 过来的变量，block 能够访问它外部的局部变量，就是因为将这些变量（或变量的地址）复制到了结构体中。
+* variables，capture 过来的变量，block 能够访问它外部的**局部变量**，就是因为将这些**变量（或变量的地址）复制到了结构体中**。
 
 ## block源码探究
 

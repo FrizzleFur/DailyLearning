@@ -32,7 +32,7 @@
 5. [一个合格的程序员应该读过哪些书](http://justjavac.com/other/2012/05/15/qualified-programmer-should-read-what-books.html)
 6. [The best FRP iOS resources.](https://gist.github.com/JaviLorbada/4a7bd6129275ebefd5a6) iOS学习资源
 7. [NJHu/iOSProject](https://github.com/NJHu/iOSProject) 虽然也是iOS的Demo集合，但是看README后感觉很想学，整理的比较好吧。作者对`issue`的回复也很有范：
-![](http://oc98nass3.bkt.clouddn.com/15210858045247.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15210858045247.jpg)
 8. [iOS interview](https://hit-alibaba.github.io/interview/iOS/Cocoa-Touch/UIView-Basic.html) iOS面试知识点
 9. [trip-to-iOS](https://github.com/Aufree/trip-to-iOS)| 6000多个star的iOS学习资料整理
 
@@ -84,6 +84,7 @@
 [Front-End Skills Cheklist_ZH.pdf](https://github.com/FrizzleFur/DailyLearning/blob/master/Resource/Front-End%2BSkills%2BCheklist_ZH.pdf)
 
 [10大顶级公开课，带你入门Web前端开发](https://zhuanlan.zhihu.com/p/22700195)
+
 
 很多微信小程序的文章分析指出，可能会让前端开发程序员更抢手。而不仅仅是程序员能从中受益，对于产品经理、营销运营和自媒体作者，学习前端开发也是非常有益的。（冯大辉的 如何把握「微信小程序」这一波红利？ 李笑来的 微信小程序是谁的“通往财富自由之路”？）
 

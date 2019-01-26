@@ -92,7 +92,7 @@ NSAssert/NSCAssert 和 NSParameterAssert/NSCparameterAssert 的区别是前者�
 
 Xcode 已经默认将release环境下的断言取消了, 免除了忘记关闭断言造成的程序不稳定. 所以不用担心 在开发时候大胆使用。
 
-![](//upload-images.jianshu.io/upload_images/550988-b32c25336fe6c94e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/584/format/webp)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/124331.jpg)
 
 release下是不用担心的.png
 

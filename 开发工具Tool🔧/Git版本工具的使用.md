@@ -3,9 +3,9 @@
 
 ## git 为不同的项目设置不同的用户名和邮箱
 
-![](oc98nass3.bkt.clouddn.com/15380102461500.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15380102461500.jpg)
 
-![](oc98nass3.bkt.clouddn.com/15380102181054.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15380102181054.jpg)
 
 1. 到`.git`文件夹📂中查看config文件。
 ```
