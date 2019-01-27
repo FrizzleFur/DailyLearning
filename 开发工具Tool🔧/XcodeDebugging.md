@@ -22,12 +22,12 @@
 > Maximize the information gained per fix!
 
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-05-21-14953337356733.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//2017-05-21-14953337356733.jpg)
 
 
 ### Print Debugging
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-05-21-14953347612931.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//2017-05-21-14953347612931.jpg)
 
 ## TOOL
 
@@ -73,12 +73,12 @@ Objective-C
 `expression` 可以支持多行输入，输入`expression`后回车，会显示行号，每行输入后换行，双击回车代表完成输入，过掉断言即刻看到表达式的效果。
 
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-06-03-14964589170284.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//2017-06-03-14964589170284.jpg)
 
 
 #### BreakPoint
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-05-23-14955445977510.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//2017-05-23-14955445977510.jpg)
 
 
 
@@ -109,7 +109,7 @@ Enter your debugger command(s).  Type 'DONE' to end.
 
 ##### breakpoints添加通过条件
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-06-03-14964707712015.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//2017-06-03-14964707712015.jpg)
 
 breakpoint
 
@@ -291,7 +291,7 @@ Watchpoint
 `watchpoint set v (变量名)`
 跟踪变量的值的变化，如果变量地址变成`0x0000000000000000`就说明变量被释放，指向了`nil`
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-08-15-15027669682910.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//2017-08-15-15027669682910.jpg)
 
 
 #### Chisel
@@ -372,77 +372,199 @@ Listening for INJECTION_BUNDLE_NOTIFICATION, allowing other classes to listen ou
 
 ### LLDB cheatsheet
 
->A cheatsheet for commands and ideas on how to use LLDB.### Getting help
-`(lldb) help`
+>A cheatsheet for commands and ideas on how to use LLDB.
+
+### Getting help
+
+`(lldb) help`
 List all commands and aliases.
 
 
-`(lldb) help po`Get help documentation for po (expression) command. 
+`(lldb) help po`
+Get help documentation for po (expression) command. 
 
 
-`(lldb) help break set`Get help documentation for breakpoint set. 
+`(lldb) help break set`
+Get help documentation for breakpoint set. 
 
 
-`(lldb) apropos step-in`Search through help documentation containing step-in.
-
-### Finding code
-
-  `(lldb) image lookup -rn UIAlertController`Look up all code containing UIAlertController that's compiled or loaded into an executable.
-
-`  (lldb) image lookup -rn (?i)hosturl`Case insensitive search for any code that contains "hosturl".
+`(lldb) apropos step-in`
+Search through help documentation containing step-in.
 
 
-`   (lldb) image lookup -rn 'UIViewController\ set\w+:\]'`Look up all setter property methods UIViewController implements or overrides. 
+### Finding code
+
+
+  `(lldb) image lookup -rn UIAlertController`
+Look up all code containing UIAlertController that's compiled or loaded into an executable.
+
+
+`  (lldb) image lookup -rn (?i)hosturl`
+Case insensitive search for any code that contains "hosturl".
+
+
+`   (lldb) image lookup -rn 'UIViewController\ set\w+:\]'`
+Look up all setter property methods UIViewController implements or overrides. 
 
 
 `(lldb) image lookup -rn . Security`
 Look up all code located within the Security module. 
 
 
-`(lldb) image lookup -a 0x10518a720`Look up code based upon address 0x10518a720. 
+`(lldb) image lookup -a 0x10518a720`
+Look up code based upon address 0x10518a720. 
 
 
-`(lldb) image lookup -s mmap`Look up code for the symbol named mmap.
+`(lldb) image lookup -s mmap`
+Look up code for the symbol named mmap.
 
-### Breakpoints
 
-`  (lldb) b viewDidLoad`Creates a breakpoint on all methods named viewDidLoad for both Swift and Objective-C.
-`  (lldb) b setAlpha:`Creates a breakpoint on either the setAlpha: Objective-C method or the setter of the Objective-C alpha property.
+### Breakpoints
 
-`  (lldb) b -[CustomViewControllerSubclass viewDidLoad]`Creates a breakpoint on the Objective-C method [CustomViewControllerSubclass viewDidLoad].
 
-`  (lldb) rbreak CustomViewControllerSubclass.viewDidLoad`Creates a regex breakpoint to match either an Objective-C or Swift class CustomViewControllerSubclass which contains viewDidLoad. Could be Objective-C - [CustomViewControllerSubclass viewDidLoad] or could be Swift ModuleName.CustomViewControllerSubclass.viewDidLoad () -> ().
+`  (lldb) b viewDidLoad`
+Creates a breakpoint on all methods named viewDidLoad for both Swift and Objective-C.
 
-`  (lldb) breakpoint delete`Deletes all breakpoints.
+`  (lldb) b setAlpha:`
+Creates a breakpoint on either the setAlpha: Objective-C method or the setter of the Objective-C alpha property.
 
-`  (lldb) breakpoint delete 2`Deletes breakpoint ID 2.
 
-`  (lldb) breakpoint list`List all breakpoints and their IDs.
+`  (lldb) b -[CustomViewControllerSubclass viewDidLoad]`
+Creates a breakpoint on the Objective-C method [CustomViewControllerSubclass viewDidLoad].
 
-`  (lldb) rbreak viewDid`Creates a regex breakpoint on .*viewDid.*. 
 
-`(lldb) rbreak viewDid -s SwiftRadio`Creates a breakpoint on .*viewDid.*, but restricts the breakpoint(s) to the SwiftRadio module.
+`  (lldb) rbreak CustomViewControllerSubclass.viewDidLoad`
+Creates a regex breakpoint to match either an Objective-C or Swift class CustomViewControllerSubclass which contains viewDidLoad. Could be Objective-C - [CustomViewControllerSubclass viewDidLoad] or could be Swift ModuleName.CustomViewControllerSubclass.viewDidLoad () -> ().
 
-`  (lldb) rbreak viewDid(Appear|Disappear) -s SwiftHN`Creates a breakpoint on viewDidAppear or viewDidDisappear inside the SwiftHN module.
 
-`  (lldb) rb "\-\[UIViewController\ set" -s UIKit`Creates a breakpoint on any Objective-C style breakpoints containing - [UIViewController set within the UIKit module.
+`  (lldb) breakpoint delete`
+Deletes all breakpoints.
 
-`  (lldb) rb . -s SwiftHN -o`Create a breakpoint on every function in the SwiftHN module, but remove all breakpoints once the breakpoint is hit.
-`  (lldb) rb . -f ViewController.m`Create a breakpoint on every function found in ViewController.m.
 
-### Expressions
+`  (lldb) breakpoint delete 2`
+Deletes breakpoint ID 2.
 
-`  (lldb) po "hello, debugger"`Prints "hello, debugger" regardless of the debugging context.
 
-`(lldb) expression -lobjc -O -- [UIApplication sharedApplication]`Print the shared UIApplication instance in an Objective-C context. 
+`  (lldb) breakpoint list`
+List all breakpoints and their IDs.
+
+
+`  (lldb) rbreak viewDid`
+Creates a regex breakpoint on .*viewDid.*. 
+
+`(lldb) rbreak viewDid -s SwiftRadio`
+Creates a breakpoint on .*viewDid.*, but restricts the breakpoint(s) to the SwiftRadio module.
+
+
+`  (lldb) rbreak viewDid(Appear|Disappear) -s SwiftHN`
+Creates a breakpoint on viewDidAppear or viewDidDisappear inside the SwiftHN module.
+
+
+`  (lldb) rb "\-\[UIViewController\ set" -s UIKit`
+Creates a breakpoint on any Objective-C style breakpoints containing - [UIViewController set within the UIKit module.
+
+
+`  (lldb) rb . -s SwiftHN -o`
+Create a breakpoint on every function in the SwiftHN module, but remove all breakpoints once the breakpoint is hit.
+
+`  (lldb) rb . -f ViewController.m`
+Create a breakpoint on every function found in ViewController.m.
+
+
+### Expressions
+
+
+`  (lldb) po "hello, debugger"`
+Prints "hello, debugger" regardless of the debugging context.
+
+
+`(lldb) expression -lobjc -O -- [UIApplication sharedApplication]`
+Print the shared UIApplication instance in an Objective-C context. 
 
 `(lldb) expression -lswift -O -- UIApplication.shared`
 Print the shared UIApplication instance in a Swift context.
 
-Creates a breakpoint on getenv, executes the getenv function, and stops at the beginning of the getenv function.          (lldb) b getenv(lldb) expression -i0 -- getenv("HOME") raywenderlich.com 361
- Advanced Apple Debugging & Reverse Engineering Appendix A: LLDB Cheatsheet (lldb) expression -u0 -O -- [UIApplication test]Don't let LLDB unwind the stack if you’re executing a method that will cause the program to crash.Declares a global NSString* called globalString. (lldb) expression -g -O -lobjc -- [NSObject new]Debug the debugger that's parsing the [NSObject new] Objective-C expression.Stepping  (lldb) thread return falseReturn early from code with false.Step in.Step over.Step out of a function.Step in if about to execute a function. Step an assembly instruction otherwise.GDB formatting  (lldb) p/x 128Print value in hexadecimal.  (lldb) expression -p -- NSString *globalString = [NSStringstringWithUTF8String: "Hello, Debugger"];(lldb) po globalStringHello, Debugger   (lldb) thread step-in(lldb) s (lldb) thread step-over(lldb) n (lldb) thread step-out(lldb) finish (lldb) thread step-inst(lldb) ni  raywenderlich.com 362
- Advanced Apple Debugging & Reverse EngineeringAppendix A: LLDB Cheatsheet   (lldb) p/d 128Print value in decimal.  (lldb) p/t 128Print value in binary.  (lldb) p/a 128Print value as address.  (lldb) x/gx 0x000000010fff6c40Get the value pointed at by 0x000000010fff6c40 and display in 8 bytes. (lldb) x/wx 0x000000010fff6c40Get the value pointed at by 0x000000010fff6c40 and display in 4 bytes.Memory  (lldb) memory read 0x000000010fff6c40Read memory at address 0x000000010fff6c40.Grab an instance of a remote file and write it to /tmp/file on your computer.Registers & assembly  (lldb) register read -aDisplay all registers on the system.  (lldb) register read rdi rsiRead the RSI and the RDI register in x64 assembly. (lldb) register write rsi 0x0Set the RSI register to 0x0 in x64 assembly. (lldb) register write rflags `$rflags ^ 64`      (lldb) po id $d = [NSData dataWithContentsOfFile:@"..."](lldb) mem read `(uintptr_t)[$d bytes]` `(uintptr_t)[$d bytes] +(uintptr_t)[$d length]` -r -b -o /tmp/file     raywenderlich.com 363
-Advanced Apple Debugging & Reverse Engineering Appendix A: LLDB CheatsheetToggle the zero flag in x64 assembly (augment if condition logic).  (lldb) register write rflags `$rflags | 64`Set the zero flag (set to 1) in x64 assembly (augment if condition logic).  (lldb) register write rflags `$rflags & ~64`Clear the zero flag (set to 0) in x64 assembly (augment if condition logic).  (lldb) register write pc `$pc+4`Increments the program counter by 4.  (lldb) disassembleDisplay assembly for function in which you’re currently stopped.  (lldb) disassemble -pDisassemble around current location; useful if in the middle of a function.  (lldb) disassemble -bDisassemble function while showing opcodes; useful for learning what is responsible for what.  (lldb) disassemble -n '-[UIViewController setTitle:]'Disassemble the Objective-C -[UIViewController setTitle:] method. (lldb) disassemble -a 0x000000010b8d972dDisassemble the function that contains the address 0x000000010b8d972d.Modules  (lldb) image listList all modules loaded into the executable's process space.  (lldb) image list -bGet the names of all the modules loaded into the executable's process space.  (lldb) process load /Path/To/Module.framework/ModuleLoad the module located at path into the executable's process space.
+
+Creates a breakpoint on getenv, executes the getenv function, and stops at the beginning of the getenv function.
+          (lldb) b getenv
+(lldb) expression -i0 -- getenv("HOME")
+ raywenderlich.com 361
+ Advanced Apple Debugging & Reverse Engineering Appendix A: LLDB Cheatsheet (lldb) expression -u0 -O -- [UIApplication test]
+Don't let LLDB unwind the stack if you’re executing a method that will cause the program to crash.
+Declares a global NSString* called globalString. (lldb) expression -g -O -lobjc -- [NSObject new]
+Debug the debugger that's parsing the [NSObject new] Objective-C expression.
+Stepping
+  (lldb) thread return false
+Return early from code with false.
+Step in.
+Step over.
+Step out of a function.
+Step in if about to execute a function. Step an assembly instruction otherwise.
+GDB formatting
+  (lldb) p/x 128
+Print value in hexadecimal.
+  (lldb) expression -p -- NSString *globalString = [NSString
+stringWithUTF8String: "Hello, Debugger"];
+(lldb) po globalString
+Hello, Debugger
+   (lldb) thread step-in
+(lldb) s
+ (lldb) thread step-over
+(lldb) n
+ (lldb) thread step-out
+(lldb) finish
+ (lldb) thread step-inst
+(lldb) ni
+  raywenderlich.com 362
+ Advanced Apple Debugging & Reverse Engineering
+Appendix A: LLDB Cheatsheet
+   (lldb) p/d 128
+Print value in decimal.
+  (lldb) p/t 128
+Print value in binary.
+  (lldb) p/a 128
+Print value as address.
+  (lldb) x/gx 0x000000010fff6c40
+Get the value pointed at by 0x000000010fff6c40 and display in 8 bytes. (lldb) x/wx 0x000000010fff6c40
+Get the value pointed at by 0x000000010fff6c40 and display in 4 bytes.
+Memory
+  (lldb) memory read 0x000000010fff6c40
+Read memory at address 0x000000010fff6c40.
+Grab an instance of a remote file and write it to /tmp/file on your computer.
+Registers & assembly
+  (lldb) register read -a
+Display all registers on the system.
+  (lldb) register read rdi rsi
+Read the RSI and the RDI register in x64 assembly. (lldb) register write rsi 0x0
+Set the RSI register to 0x0 in x64 assembly. (lldb) register write rflags `$rflags ^ 64`
+      (lldb) po id $d = [NSData dataWithContentsOfFile:@"..."]
+(lldb) mem read `(uintptr_t)[$d bytes]` `(uintptr_t)[$d bytes] +
+(uintptr_t)[$d length]` -r -b -o /tmp/file
+     raywenderlich.com 363
+Advanced Apple Debugging & Reverse Engineering Appendix A: LLDB Cheatsheet
+Toggle the zero flag in x64 assembly (augment if condition logic).
+  (lldb) register write rflags `$rflags | 64`
+Set the zero flag (set to 1) in x64 assembly (augment if condition logic).
+  (lldb) register write rflags `$rflags & ~64`
+Clear the zero flag (set to 0) in x64 assembly (augment if condition logic).
+  (lldb) register write pc `$pc+4`
+Increments the program counter by 4.
+  (lldb) disassemble
+Display assembly for function in which you’re currently stopped.
+  (lldb) disassemble -p
+Disassemble around current location; useful if in the middle of a function.
+  (lldb) disassemble -b
+Disassemble function while showing opcodes; useful for learning what is responsible for what.
+  (lldb) disassemble -n '-[UIViewController setTitle:]'
+Disassemble the Objective-C -[UIViewController setTitle:] method. (lldb) disassemble -a 0x000000010b8d972d
+Disassemble the function that contains the address 0x000000010b8d972d.
+Modules
+  (lldb) image list
+List all modules loaded into the executable's process space.
+  (lldb) image list -b
+Get the names of all the modules loaded into the executable's process space.
+  (lldb) process load /Path/To/Module.framework/Module
+Load the module located at path into the executable's process space.
 
 
 

@@ -32,7 +32,7 @@
 5. [一个合格的程序员应该读过哪些书](http://justjavac.com/other/2012/05/15/qualified-programmer-should-read-what-books.html)
 6. [The best FRP iOS resources.](https://gist.github.com/JaviLorbada/4a7bd6129275ebefd5a6) iOS学习资源
 7. [NJHu/iOSProject](https://github.com/NJHu/iOSProject) 虽然也是iOS的Demo集合，但是看README后感觉很想学，整理的比较好吧。作者对`issue`的回复也很有范：
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15210858045247.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15210858045247.jpg)
 8. [iOS interview](https://hit-alibaba.github.io/interview/iOS/Cocoa-Touch/UIView-Basic.html) iOS面试知识点
 9. [trip-to-iOS](https://github.com/Aufree/trip-to-iOS)| 6000多个star的iOS学习资料整理
 

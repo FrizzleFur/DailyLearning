@@ -6,10 +6,10 @@
 
 ### XCUITest
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-05-24-14955849765268.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//2017-05-24-14955849765268.jpg)
 
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//2017-05-24-14955847860610.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//2017-05-24-14955847860610.jpg)
 
 
 ### Helpful Links

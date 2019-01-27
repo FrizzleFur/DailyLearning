@@ -175,13 +175,13 @@ grep "match_pattern" file_name
 
 1. 在文件 myfile 中查找包含字符串 mystr的行，并显示匹配行后面n行
 `grep -A n mystr myfile`
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15294920651127.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15294920651127.jpg)
 2. -r 遍历搜索结果的目录
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15294928022804.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15294928022804.jpg)
 
 3. 在文件 myfile 中查找包含字符串 mystr的行
 `grep -n mystr myfile`
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15294929663492.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15294929663492.jpg)
 
 4. 显示 myfile 中第一个字符为字母的所有行
 `grep '^[a-zA-Z]' myfile`
@@ -193,7 +193,7 @@ grep "match_pattern" file_name
 `grep -lr root /etc/*`
 
 7. 用grep查找/etc/passwd文件中以a开头的行，要求显示行号；查找/etc/passwd文件中以login结束的行；
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15294922956650.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15294922956650.jpg)
 
 8.  -m 数字N最多匹配N个后停止
 ```
@@ -265,11 +265,11 @@ Mac底层是Unix内核，可以登入登出Unix。
 
 ### 正则表达式
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15294676296816.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15294676296816.jpg)
 
 ### `Zsh` 命令
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15301106716847.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301106716847.jpg)
 
 #### `ls` 命令
 
@@ -397,7 +397,7 @@ mv /a /b/c
  mkdir -v directoryName
 ```
    结果： 操作成功后都会有提示信息。
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15130866514954.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15130866514954.jpg)
    
 2. 一次删除两个目录，用空格分开： 空目录1、空目录2
 
@@ -471,7 +471,7 @@ sudo rm -rf -v /Volumes/macOSSierra/Backups.backupdb/xxx/xxxx
 
 ## 命令附图
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15294936556226.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15294936556226.jpg)
 
 ## Bash 命令
 
@@ -625,7 +625,7 @@ Control + t	 | 交换光标和之前的字符
 
 > Powerline是vim的状态行插件，并为其他几个应用程序提供状态和提示，包括zsh，bash，tmux，IPython，Awesome和Qtile。
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15307861284844.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15307861284844.jpg)
 
 ```
 //没有安装pip先安装pip
@@ -657,7 +657,7 @@ Powerline fonts installed to /Users/WENBO/Library/Fonts
 
 ### Powerlevel9k  
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15309458898475.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15309458898475.jpg)
 
 [Install Instructions · bhilburn/powerlevel9k Wiki](https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#option-2-install-for-oh-my-zsh)
 
@@ -697,7 +697,7 @@ POWERLEVEL9K_MODE='awesome-fontconfig'
 [Install Instructions · bhilburn/powerlevel9k Wiki](https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#option-3-install-awesome-powerline-fonts)
 
 
-![DefaultFontFallbacks](http://pic-mike.oss-cn-hongkong.aliyuncs.com/DefaultFontFallbacks.jpg)
+![DefaultFontFallbacks](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/DefaultFontFallbacks.jpg)
 
 参考
 * [install-awesome-powerline-fonts](https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#option-3-install-awesome-powerline-fonts)
@@ -855,12 +855,12 @@ Elegant iTerm2 theme with bright colors
 ### Resource其他资源
 
 #### `Zsh`插件 Plugins
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15129592017167.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15129592017167.jpg)
 [Awesome-Zsh-Plugins](https://github.com/unixorn/awesome-zsh-plugins)插件库
 
 ####  IDE
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15129591787875.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15129591787875.jpg)
 
 [Hyper](https://hyper.is/)一个轻量简洁的终端
 

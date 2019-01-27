@@ -20,7 +20,7 @@ NSKVONotifying_ Person
 
 > **当你观察一个对象时，一个新的类会被动态创建。这个类继承自该对象的原本的类，并重写了被观察属性的 setter 方法。重写的 setter 方法会负责在调用原 setter 方法之前和之后，通知所有观察对象值的更改**。最后通过 `isa 混写（isa-swizzling）` 把这个对象的 isa 指针 ( isa 指针告诉 Runtime 系统这个对象的类是什么 ) 指向这个新创建的子类，对象就神奇的变成了新创建的子类的实例。我画了一张示意图，如下所示：
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com//15335303051090.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//15335303051090.jpg)
 
 # 一、KVO是什么？
 
@@ -172,7 +172,8 @@ typedef NS_OPTIONS(NSUInteger, NSKeyValueObservingOptions) {
 ## 键值监听KVO
 
 
-	• KVO提供一种机制，指定一个被观察对象(例如A类)，当对象某个属性(例如A中的字符串name)发生更改时，监听对象会获得通知，并作出相应处理；【且不需要给被观察的对象添加任何额外代码，就能使用KVO机制】在MVC设计架构下的项目，KVO机制很适合实现mode模型和view视图之间的通讯。
+	• KVO提供一种机制，指定一个被观察对象(例如A类)，当对象某个属性(例如A中的字符串name)发生更改时，监听对象会获得通知，并作出相应处理；【且不需要给被观察的对象添加任何额外代码，就能使用KVO机制】
+在MVC设计架构下的项目，KVO机制很适合实现mode模型和view视图之间的通讯。
 
 我们知道在WPF、Silverlight中都有一种双向绑定机制，如果数据模型修改了之后会立即反映到UI视图上，类似的还有如今比较流行的基于 MVVM设计模式的前端框架，例如Knockout.js。其实在ObjC中原生就支持这种机制，它叫做Key Value Observing（简称KVO）。KVO其实是一种观察者模式，利用它可以很容易实现视图组件和数据模型的分离，当数据模型的属性值改变之后作为监听器 的视图组件就会被激发，激发时就会回调监听器自身。在ObjC中要实现KVO则必须实现NSKeyValueObServing协议，不过幸运的是 NSObject已经实现了该协议，因此几乎所有的ObjC对象都可以使用KVO。
 在ObjC中使用KVO操作常用的方法如下：
