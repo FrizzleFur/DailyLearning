@@ -26,7 +26,7 @@ Windows是应用程序的一个基本部分，但在代码中只与它们进行�
 
 你应该很少需要UIWindow类。您可能在窗口中实现的各种行为通常更容易在更高级别的视图控制器中实现。你可能想子几次是覆盖becomekeywindow或resignkeywindow方法来实现自定义行为当一个窗口的关键地位的变化。
 
-![](http://oc98nass3.bkt.clouddn.com/2017-08-16-15028741926601.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-08-16-15028741926601.jpg)
 
 
 
@@ -60,7 +60,6 @@ alertView是怎么弹出的？网上查找资料说是，每次执行[alertView 
 ```
 
 测试结果：
-
 
 ```alert1.window = <_UIAlertControllerShimPresenterWindow: 0x7f9ee8c07940; frame = (0 0; 414 736); opaque = NO; gestureRecognizers = <NSArray: 0x618000056aa0>; layer = <UIWindowLayer: 0x6180000240a0>>   alert1.window.windowLevel = 2001.000000
 app.window = <UIWindow: 0x7f9ee8f03f80; frame = (0 0; 414 736); autoresize = W+H; gestureRecognizers = <NSArray: 0x608000052f60>; layer = <UIWindowLayer: 0x608000022100>>

@@ -201,7 +201,7 @@ If the view controller has a valid navigation item or tab-bar item, assigning a 
 * 当控制器view存在,控制器不存在，会导致控制器view上面的所有事件都不能处理
 * ARC管理原则;只要一个对象没有被强引用,就会被销毁
 
-![](http://oc98nass3.bkt.clouddn.com/15388740190329.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15388740190329.jpg)
 
 由于创建的VC都是局部变量，因此在创建方法走完之后，局部变量VC被销毁，但是VC的view加入到self.view的subviews数组中，被当前VC强引用。因此没有被释放。
 
