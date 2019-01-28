@@ -202,16 +202,18 @@ Blocks 同样支持其他两种类型的变量:
 2. 引入 const。
 3. 最后，在实现方法里面，blocks 也许会引用 Objective-C 的实例变量。参阅“对象
 和 Block 变量”部分。
+
+
  在 block 里面使用变量遵循以下规则:
 1. 全局变量可访问，包括在相同作用域范围内的静态变量。
 2. 传递给 block 的参数可访问（和函数的参数一样）。
-3. 程序里面属于同一作用域范围的堆（非静态的）变量作为 const 变量(即只读)。
+3. **程序里面属于同一作用域范围的堆（非静态的）变量作为 const 变量(即只读)。
 它们的值在程序里面的 block 表达式内使用。在嵌套 block 里面，该值在最近的
-封闭范围内被捕获。
-4. 属于同一作用域范围内并被__block 存储修饰符标识的变量作为引用传递因此是
+封闭范围内被捕获。**
+4. **属于同一作用域范围内并被__block 存储修饰符标识的变量作为引用传递**因此是
 可变的。
 5. 属于同一作用域范围内 block 的变量，就和函数的局部变量操作一样。
- 每次调用 block 都提供了变量的一个拷贝。这些变量可以作为 const 来使用，或在
+6. 每次调用 block 都提供了变量的一个拷贝。这些变量可以作为 const 来使用，或在
 block 封闭范围内作为引用变量。 
 
 ## Block截获自动变量
@@ -321,7 +323,7 @@ NSConcreteGlobalBlock类型的Block要么是空的Block，要么是不访问任�
 
 ### _NSConcreteStackBlock
 
-* _NSConcreteStackBlock: 当引入了外部变量时，这种Block就是栈block了
+* _NSConcreteStackBlock: **当引入了外部变量时，这种Block就是栈block了**
     - NSConcreteStackBlock内部会有一个结构体__main_block_impl_0，这个结构体会保存外部变量，使其体积变大。而这就导致了NSConcreteStackBlock并不像宏一样，而是一个动态的对象。而它由于没有被持有，所以在它的内部，它也不会持有其外部引用的对象。（注意，栈Block是不会持有外部变量的）
 * 只要block没有引用外部局部变量，block放在全局区。
 * 在ARC下
@@ -573,6 +575,12 @@ __strong typeof(self)strongSelf = weakSelf; ARC
 ```
 
 ### __block
+
+在引用计数的环境里面，默认情况下当你在 block 里面引用一个 Objective-C 对象的时
+候，该对象会被 retain。当你简单的引用了一个对象的实例变量时，它同样被 retain。
+但是被__block 存储类型修饰符标记的对象变量不会被 retain.
+注意:在垃圾回收机制里面，如果你同时使用__weak 和__block 来标识一个变量，那么该 block将不会保证它是一直是有效的。
+
 
 * __weak 是ARC下使用
 * __block 在ARC和MRC下都可以使用
@@ -828,6 +836,16 @@ _block = ^{
 _block();
 ```
 
+
+## block拷贝
+
+
+当你拷贝一个 block 时，任何在该 block 里面对其他 blocks 的引用都会在需要的
+时候被拷贝，即拷贝整个目录树(从顶部开始)。如果你有 block 变量并在该 block 里
+面引用其他的 block，那么那个其他的 block 会被拷贝一份。
+ 当你拷贝一个基于栈的 block 时，你会获得一个新的 block。但是如果你拷贝一个
+基于堆的 block，你只是简单的递增了该 block 的引用数，并把原始的 block 作为函数
+或方法的返回值。
 
 ## 总结
 
