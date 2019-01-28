@@ -325,7 +325,7 @@ NSConcreteGlobalBlock类型的Block要么是空的Block，要么是不访问任�
 
 * _NSConcreteStackBlock: **当引入了外部变量时，这种Block就是栈block了**
     - NSConcreteStackBlock内部会有一个结构体__main_block_impl_0，这个结构体会保存外部变量，使其体积变大。而这就导致了NSConcreteStackBlock并不像宏一样，而是一个动态的对象。而它由于没有被持有，所以在它的内部，它也不会持有其外部引用的对象。（注意，栈Block是不会持有外部变量的）
-* 只要block没有引用外部局部变量，block放在全局区。
+* **只要block没有引用外部局部变量，block放在全局区。**
 * 在ARC下
     - 只要Block引用外部局部变量, block放在堆里面（因为ARC的局部变量都是强指针，都放在堆里面）
 * 在MRC下
@@ -403,7 +403,7 @@ void exampleB() {
     ```
 
 然而，从clang编译结果来看，这两个block的isa的指针值都是_NSConcreteStackBlock。
-Block作为返回值时，编译器会自动将变量拷贝至堆，有时候编译器无法判断，需要手动调用copy方法，将Block拷贝至堆
+**Block作为返回值时，编译器会自动将变量拷贝至堆**，有时候编译器无法判断，需要手动调用copy方法，将Block拷贝至堆
 
 ```
 
