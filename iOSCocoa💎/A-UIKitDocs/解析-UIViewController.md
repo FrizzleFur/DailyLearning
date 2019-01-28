@@ -2,7 +2,7 @@
 
 ### 生命周期
 
-![](http://oc98nass3.bkt.clouddn.com/15370956857629.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15370956857629.jpg)
 
 单个viewController的生命周期
 * initWithCoder:(NSCoder *)aDecoder：（如果使用storyboard或者xib）
