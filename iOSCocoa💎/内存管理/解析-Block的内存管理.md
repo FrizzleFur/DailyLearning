@@ -6,7 +6,7 @@ block本质上也是一个oc对象，他内部也有一个isa指针。block是�
 
 block是iOS4.0+ 和Mac OS X 10.6+ 引进的对C语言的扩展，用来实现匿名函数的特性。
 
-![](http://oc98nass3.bkt.clouddn.com/15321623412835.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15321623412835.jpg)
 
 * 等号左侧的代码表示了这个Block的类型：它接受一个int参数，返回一个int值。
 * 等号右侧的代码是这个Block的值：它是等号左侧定义的block类型的一种实现。
@@ -203,7 +203,7 @@ __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int *_static_k, 
 > 在 ARC 开启的情况下，将只会有 NSConcreteGlobalBlock 和 NSConcreteMallocBlock 类型的 block。
 
 我们知道，Block可以截获自动变量，但是实现原理是什么呢？我们先把Block截获自动变量源代码通过clang转换一下。
-![](http://oc98nass3.bkt.clouddn.com/15341973496169.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15341973496169.jpg)
 
 转换后的代码：
 
@@ -296,7 +296,7 @@ NSConcreteGlobalBlock类型的Block要么是空的Block，要么是不访问任�
 
 * _NSConcreteStackBlock: 当引入了外部变量时，这种Block就是栈block了
     - NSConcreteStackBlock内部会有一个结构体__main_block_impl_0，这个结构体会保存外部变量，使其体积变大。而这就导致了NSConcreteStackBlock并不像宏一样，而是一个动态的对象。而它由于没有被持有，所以在它的内部，它也不会持有其外部引用的对象。（注意，栈Block是不会持有外部变量的）
-* 只要block没有引用外部局部变量，block放在全局区。
+* **只要block没有引用外部局部变量，block放在全局区。**
 * 在ARC下
     - 只要Block引用外部局部变量, block放在堆里面（因为ARC的局部变量都是强指针，都放在堆里面）
 * 在MRC下
@@ -374,7 +374,7 @@ void exampleB() {
     ```
 
 然而，从clang编译结果来看，这两个block的isa的指针值都是_NSConcreteStackBlock。
-Block作为返回值时，编译器会自动将变量拷贝至堆，有时候编译器无法判断，需要手动调用copy方法，将Block拷贝至堆
+**Block作为返回值时，编译器会自动将变量拷贝至堆**，有时候编译器无法判断，需要手动调用copy方法，将Block拷贝至堆
 
 ```
 
@@ -454,7 +454,7 @@ int main(int argc, const char * argv[]) {
 ```
 
 运行结果 
-![](http://oc98nass3.bkt.clouddn.com/15342032355709.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15342032355709.jpg)
 代码转换后如下：
 
 
@@ -515,22 +515,22 @@ int main(int argc, const char * argv[]) {
 
 局部变量因为跨函数访问所以需要捕获，全局变量在哪里都可以访问 ，所以不用捕获。
 
-![](http://oc98nass3.bkt.clouddn.com/15342294438554.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15342294438554.jpg)
 
 总结：局部变量都会被block捕获，自动变量是值捕获，静态变量为地址捕获。全局变量则不会被block捕获
 
 不论对象方法还是类方法都会默认将self作为参数传递给方法内部，既然是作为参数传入，那么self肯定是局部变量。上面讲到局部变量肯定会被block捕获。
 
 // __NSGlobalBlock__ : __NSGlobalBlock : NSBlock : NSObject
-![](http://oc98nass3.bkt.clouddn.com/15342314010039.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15342314010039.jpg)
 
 ### block变量的复制
 
 对于 block 外的变量引用，block 默认是将其复制到其数据结构中来实现访问的，如下图所示（图片来自 这里）：
-![](http://oc98nass3.bkt.clouddn.com/15342438003584.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15342438003584.jpg)
 
 对于用 __block 修饰的外部变量引用，block 是复制其引用地址来实现访问的，如下图所示（图片来自 这里）：
-![](http://oc98nass3.bkt.clouddn.com/15342438036044.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15342438036044.jpg)
 
 ### __weak
 
@@ -558,7 +558,7 @@ __strong typeof(self)strongSelf = weakSelf; ARC
 * __block修饰对象会增加引用(ARC)
 * __weak修饰对象不会增加引用
 * MRC下__block不会增加引用计数，但ARC会，ARC下必须用__weak指明不增加引用计数
-![](http://oc98nass3.bkt.clouddn.com/15359389595221.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359389595221.jpg)
 
 #### _Block_object_assign函数调用时机及作用
 
@@ -683,7 +683,7 @@ int main(int argc, const char * argv[]) {
 xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m
 ```
 
-![block的c++代码与oc代码对比](http://oc98nass3.bkt.clouddn.com/15341516793332.jpg)
+![block的c++代码与oc代码对比](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15341516793332.jpg)
 
 
 
@@ -698,7 +698,7 @@ void(*block)(int ,int) = ((void (*)(int, int))&__main_block_impl_0((void *)__mai
 
 #### __main_block_imp_0结构体
 
-![__main_block_imp_0结构体](http://oc98nass3.bkt.clouddn.com/15341517504423.jpg)
+![__main_block_imp_0结构体](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15341517504423.jpg)
 
 __main_block_imp_0结构体内有一个同名构造函数__main_block_imp_0，构造函数中对一些变量进行了赋值最终会返回一个结构体。
 
@@ -708,7 +708,7 @@ __main_block_impl_0结构体内可以发现__main_block_impl_0构造函数中传
 
 #### (void *)__main_block_func_0
 
-![](http://oc98nass3.bkt.clouddn.com/15341520265815.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15341520265815.jpg)
 
 在__main_block_func_0函数中首先取出block中age的值，紧接着可以看到两个熟悉的NSLog，可以发现这两段代码恰恰是我们在block块中写下的代码。
 
@@ -735,12 +735,12 @@ void(^block)(int ,int) = ^(int a, int b){
 因为block在定义的之后**已经将age的值传入存储在__main_block_imp_0结构体中**，并在调用的时候将age从block中取出来使用，因此在block定义之后对局部变量进行改变是无法被block捕获的。
 
 此时回过头来查看__main_block_impl_0结构体
-![__main_block_impl_0结构体](http://oc98nass3.bkt.clouddn.com/15341524633892.jpg)
+![__main_block_impl_0结构体](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15341524633892.jpg)
 
 首先我们看一下__block_impl第一个变量就是__block_impl结构体。
 来到__block_impl结构体内部
 
-![__block_impl结构体内部](http://oc98nass3.bkt.clouddn.com/15341550978667.jpg)
+![__block_impl结构体内部](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15341550978667.jpg)
 
 我们可以发现__block_impl结构体内部就有一个isa指针。因此可以证明block本质上就是一个oc对象。而在构造函数中将函数中传入的值分别存储在__main_block_impl_0结构体实例中，最终将结构体的地址赋值给block。
 
@@ -765,7 +765,7 @@ void(^block)(int ,int) = ^(int a, int b){
 
 上面我们知道，FunPtr中存储着通过代码块封装的函数地址，那么调用此函数，也就是会执行代码块中的代码。并且回头查看__main_block_func_0函数，可以发现第一个参数就是__main_block_impl_0类型的指针。也就是说将block传入__main_block_func_0函数中，便于重中取出block捕获的值。
 
-![](http://oc98nass3.bkt.clouddn.com/15341565978735.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15341565978735.jpg)
 
 
 ### 优劣简介
