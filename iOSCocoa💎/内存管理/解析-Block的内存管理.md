@@ -854,7 +854,7 @@ _block();
 }]; 
 
 ```
-3. GCD
+3. NSOperationQueue
 
 ```objc
 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
