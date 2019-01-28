@@ -836,9 +836,35 @@ _block = ^{
 _block();
 ```
 
+### 不会造成循环引用的情况
+
+1. UIView动画
+
+```objc
+[UIView animateWithDuration:duration animations:^{ [self.superview layoutIfNeeded]; }]; 
+
+```
+2. NSNotification
+
+```objc
+[[NSNotificationCenter defaultCenter] addObserverForName:@"someNotification" object:nil 
+                          queue:[NSOperationQueue mainQueue]
+                                             usingBlock:^(NSNotification * notification) {
+        self.someProperty = xyz; 
+}]; 
+
+```
+3. GCD
+
+```objc
+[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+ self.someProperty = xyz;
+}]; 
+```
+
+以上三种情况都是单向“强引用”，只是Block持有self，但self并没有持有block，所以不用考虑“循环引用”的问题。
 
 ## block拷贝
-
 
 当你拷贝一个 block 时，任何在该 block 里面对其他 blocks 的引用都会在需要的
 时候被拷贝，即拷贝整个目录树(从顶部开始)。如果你有 block 变量并在该 block 里
