@@ -187,6 +187,35 @@ __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
 
 这里，block的类型用_NSConcreteStackBlock来表示，表明这个block位于栈中。同样地，还有_NSConcreteMallocBlock和_NSConcreteGlobalBlock。
 
+
+## Block 变量类型
+
+ 在 block 的主体代码里面，变量可以被使用五种方法来处理。
+ 你可以引用三种标准类型的变量，就像你在函数里面引用那样:
+z 全局变量，包括静态局部变量。
+z 全局函数（在技术上而言这不是变量）。
+z 封闭范围内的局部变量和参数。
+
+Blocks 同样支持其他两种类型的变量:
+1. 在函数级别是__block 变量。这些在 block 里面是可变的(和封闭范围)，并任何引
+用 block 的都被保存一份副本到堆里面。
+2. 引入 const。
+3. 最后，在实现方法里面，blocks 也许会引用 Objective-C 的实例变量。参阅“对象
+和 Block 变量”部分。
+
+
+ 在 block 里面使用变量遵循以下规则:
+1. 全局变量可访问，包括在相同作用域范围内的静态变量。
+2. 传递给 block 的参数可访问（和函数的参数一样）。
+3. **程序里面属于同一作用域范围的堆（非静态的）变量作为 const 变量(即只读)。
+它们的值在程序里面的 block 表达式内使用。在嵌套 block 里面，该值在最近的
+封闭范围内被捕获。**
+4. **属于同一作用域范围内并被__block 存储修饰符标识的变量作为引用传递**因此是
+可变的。
+5. 属于同一作用域范围内 block 的变量，就和函数的局部变量操作一样。
+6. 每次调用 block 都提供了变量的一个拷贝。这些变量可以作为 const 来使用，或在
+block 封闭范围内作为引用变量。 
+
 ## Block截获自动变量
 
 ```objc
@@ -294,7 +323,7 @@ NSConcreteGlobalBlock类型的Block要么是空的Block，要么是不访问任�
 
 ### _NSConcreteStackBlock
 
-* _NSConcreteStackBlock: 当引入了外部变量时，这种Block就是栈block了
+* _NSConcreteStackBlock: **当引入了外部变量时，这种Block就是栈block了**
     - NSConcreteStackBlock内部会有一个结构体__main_block_impl_0，这个结构体会保存外部变量，使其体积变大。而这就导致了NSConcreteStackBlock并不像宏一样，而是一个动态的对象。而它由于没有被持有，所以在它的内部，它也不会持有其外部引用的对象。（注意，栈Block是不会持有外部变量的）
 * **只要block没有引用外部局部变量，block放在全局区。**
 * 在ARC下
@@ -546,6 +575,12 @@ __strong typeof(self)strongSelf = weakSelf; ARC
 ```
 
 ### __block
+
+在引用计数的环境里面，默认情况下当你在 block 里面引用一个 Objective-C 对象的时
+候，该对象会被 retain。当你简单的引用了一个对象的实例变量时，它同样被 retain。
+但是被__block 存储类型修饰符标记的对象变量不会被 retain.
+注意:在垃圾回收机制里面，如果你同时使用__weak 和__block 来标识一个变量，那么该 block将不会保证它是一直是有效的。
+
 
 * __weak 是ARC下使用
 * __block 在ARC和MRC下都可以使用
@@ -801,6 +836,46 @@ _block = ^{
 _block();
 ```
 
+### 不会造成循环引用的情况
+
+UIView的动画block不会造成循环引用的原因就是，这是个类方法，当前控制器不可能强引用一个类，所以循环无法形成。
+不需要，之所以需要弱引用本身，是因为怕对象之间产生循环引用，引起程序的崩溃！
+所谓“引用循环”是指双向的强引用，所以那些“单向的强引用”（block 强引用 self ）没有问题，比如这些：
+
+1. UIView动画
+
+```objc
+[UIView animateWithDuration:duration animations:^{ [self.superview layoutIfNeeded]; }]; 
+
+```
+2. NSNotification
+
+```objc
+[[NSNotificationCenter defaultCenter] addObserverForName:@"someNotification" object:nil 
+                          queue:[NSOperationQueue mainQueue]
+                                             usingBlock:^(NSNotification * notification) {
+        self.someProperty = xyz; 
+}]; 
+
+```
+3. NSOperationQueue
+
+```objc
+[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+ self.someProperty = xyz;
+}]; 
+```
+
+以上三种情况都是单向“强引用”，只是Block持有self，但self并没有持有block，所以不用考虑“循环引用”的问题。
+
+## block拷贝
+
+当你拷贝一个 block 时，任何在该 block 里面对其他 blocks 的引用都会在需要的
+时候被拷贝，即拷贝整个目录树(从顶部开始)。如果你有 block 变量并在该 block 里
+面引用其他的 block，那么那个其他的 block 会被拷贝一份。
+ 当你拷贝一个基于栈的 block 时，你会获得一个新的 block。但是如果你拷贝一个
+基于堆的 block，你只是简单的递增了该 block 的引用数，并把原始的 block 作为函数
+或方法的返回值。
 
 ## 总结
 
