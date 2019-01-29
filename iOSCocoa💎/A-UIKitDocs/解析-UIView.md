@@ -7,6 +7,15 @@
 > UIView的`setNeedsLayout`, `layoutIfNeeded` 和` layoutSubviews` 方法之间的关系解释
 
 
+
+## UIView属性
+
+1. window
+获得当前控件所在的window
+```objc
+@property(nullable, nonatomic,readonly) UIWindow     *window;
+```
+
 ## UIView的生命周期
 
 
@@ -20,11 +29,9 @@
 - (void)didAddSubview:(UIView *)subview;
 
 
-
 // 当子视图从本视图移除时调用
 
 - (void)willRemoveSubview:(UIView *)subview;
-
 
 
 // 当视图即将加入父视图时 / 当视图即将从父视图移除时调用
@@ -32,11 +39,9 @@
 - (void)willMoveToSuperview:(nullable UIView *)newSuperview;
 
 
-
 // 当试图加入父视图时 / 当视图从父视图移除时调用
 
 - (void)didMoveToSuperview;
-
 
 
 // 当视图即将加入父视图时 / 当视图即将从父视图移除时调用
