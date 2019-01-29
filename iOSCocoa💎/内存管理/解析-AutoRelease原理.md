@@ -115,6 +115,28 @@ for (NSURL *url in urls) {
                     └── id *add(id obj)
 ```
 
+## 总结
+
+
+**1.autorelease 基本用法**
+
+对象执行autorelease方法时会将对象添加到自动释放池中
+
+当自动释放池销毁时自动释放池中所有对象作release操作
+
+对象执行autorelease方法后自身引用计数器不会改变，而且会返回对象本身
+
+**2.autorelease 的优点**
+
+autorelease实际上只是把对release的调用延迟了，对于每一次autorelease系统只是把该对象放入了当前的autorelease pool中，当该pool被释放时，该pool中的所有对象会被调用Release
+
+因为只有在自动释放池销毁的时候它里面的对象才销毁，因此不用关心对象销毁的时间也就不用关心什么时候调用release
+
+**3.autorelease 使用注意**
+
+操作占用内存比较大的对象的时候不要随便使用，担心对象释放的时间太迟
+
+操作占用内存比较小的对象可以使用
 
 ## 参考
 
@@ -122,3 +144,4 @@ for (NSURL *url in urls) {
 2. [Objective-C Autorelease Pool 的实现原理 - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2015/05/31/objective-c-autorelease-pool-implementation-principle/)
 3. [iOS基础 - autorelease 和 autoreleasepool - 简书](https://www.jianshu.com/p/97dd0ae27108)
 4. [自动释放池的前世今生 ---- 深入解析 autoreleasepool](https://draveness.me/autoreleasepool)
+5. [AutoReleasePool的使用 - 简书](https://www.jianshu.com/p/b46864c7ed95)
