@@ -296,7 +296,46 @@ void _object_remove_assocations(id object) {
 
 ```
 
-### 例子🌰
+
+### 例子🌰1
+
+给VC添加HUD的属性
+
+### objc_setAssociatedObject
+
+使用给定的键和关联策略设置给定对象的关联值。
+
+```
+#import "UIViewController+CustomHUD.h"
+#import <objc/runtime.h>
+
+@implementation UIViewController (CustomHUD)
+
+static char customHUDKey;
+- (CustomHUD *)hud {
+    CustomHUD *hud = objc_getAssociatedObject(self, &customHUDKey);
+    if (hud == nil) {
+        hud = [[CustomHUD alloc] init];
+        objc_setAssociatedObject(self, &customHUDKey, hud, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    [hud removeHUD];
+    return hud;
+}
+
+@end
+```
+#### objc_getAssociatedObject
+
+返回给定对象与给定对象相关联的值。
+
+```
+id objc_getAssociatedObject(id object, const void *key);
+```
+
+
+### 例子🌰2
+
+
 > 为了在点击按钮的时候添加自定义事件间隔，使用分类的方式，交换`sendAction:to:forEvent:`的方法实现，然后使用属性绑定添加`acceptEventTime`属性。
 
 ```

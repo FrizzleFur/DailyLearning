@@ -14,6 +14,7 @@
 
 
 ### UITableViewStyle
+
 当你创建一个表格实例必须指定表的风格，这种风格是无法改变的:
 
 `UITableViewStylePlain`
@@ -34,7 +35,7 @@ Many methods of UITableView take NSIndexPath objects as parameters and return va
 一个UITableView对象必须有一个对象，作为一个数据源和一个对象作为代表；通常这些对象是应用程序的代理或更频繁，一个自定义UITableViewController对象。数据源必须采用uitableviewdatasource协议和委托必须采用uitableviewdelegate协议。数据源提供的信息，表格需要构建表和管理数据模型时，一个表的行插入，删除或重新排序。委托管理表行配置和选择、行重新排序、突出显示、附件视图和编辑操作。
 
 
-### 刷新
+### UITableView 刷新
 
 Changing UITableView section header without tableView:titleForHeaderInSection
 
@@ -55,127 +56,7 @@ Changing UITableView section header without tableView:titleForHeaderInSection
 [iphone - Changing UITableView section header without tableView:titleForHeaderInSection - Stack Overflow](https://stackoverflow.com/questions/1586420/changing-uitableview-section-header-without-tableviewtitleforheaderinsection)
 
 
-## cell分割线 设置间距
-
-```objc
-// 分割线左间距
-    cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
-```
-
-## 隐藏导航的时候露出状态白线
-
-```objc
- // 取消自动调整内容内间距
-    if (@available(iOS 11.0, *)) {
-        [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
-    } else {
-        // Fallback on earlier versions
-    」
-```
-
-
-## prepareForReuse
-
-The table view's delegate in tableView(_:cellForRowAt:) should always reset all content when reusing a cell.
-
-
-* prepareForReuse调用时机
-* 在重用cell的时候，如果每个cell中都有不同的子视图或者是需要发送不同的网络请求，此时在应用`dequeueReusableCellWithIdentifier:`方法时就会出现视图重叠的情况，针对于此种情况，我们就需要在自定义的cell中重写`prepareForReuse`方法。因为当屏幕滚动导致一个cell消失，另外一个cell显示时，系统就会发出prepareForReuse的通知，此时，我们需要在重载的prepareForReuse方法中，将所有的子视图隐藏，并且将内容置空。这样就不会出现重叠现象。
-
-So basically the following is not suggested:
-
-```objc
-
-override func prepareForReuse() {
-    super.prepareForReuse()
-    imageView?.image = nil
-}
-instead the following is recommended:
-
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-    let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-
-     cell.imageView?.image = image ?? defaultImage // unexpected situation is also handled. 
-     // We could also avoid coalescing the `nil` and just let it stay `nil`
-     cell.label = yourText
-     cell.numberOfLines = yourDesiredNumberOfLines
-
-    return cell
-}
-```
-
-Additionally default non-content related items as below is recommended:
-
-```objc
-
-
-override func prepareForReuse() {
-    super.prepareForReuse()
-    isHidden = false
-    isSelected = false
-    isHighlighted = false
-
-}
-
-override func prepareForReuse() {
-    super.prepareForReuse()
-
-    imageView.cancelImageRequest() // this should send a message to your download handler and have it cancelled.
-    imageView.image = nil
-}
-
-```
-
-
-## UITableViewCell高度计算
-
-rowHeight
-UITableView是我们再熟悉不过的视图了，它的 delegate 和 data source 回调不知写了多少次，也不免遇到 UITableViewCell 高度计算的事。UITableView 询问 cell 高度有两种方式。
-一种是针对所有 Cell 具有固定高度的情况，通过：
-
-self.tableView.rowHeight = 88;
-上面的代码指定了一个所有 cell 都是 88 高度的 UITableView，对于定高需求的表格，强烈建议使用这种（而非下面的）方式保证不必要的高度计算和调用。rowHeight属性的默认值是 44，所以一个空的 UITableView 显示成那个样子。
-
-另一种方式就是实现 UITableViewDelegate 中的：
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // return xxx
-}
-需要注意的是，实现了这个方法后，rowHeight 的设置将无效。所以，这个方法适用于具有多种 cell 高度的 UITableView。
-
-
-
-[优化UITableViewCell高度计算的那些事 · sunnyxx的技术博客](http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/)
-
-
-## TableView 优化
-
-[VVeboTableView 源码解析 - 掘金](https://juejin.im/post/5a38604b5188252bca04f9fb)
-
-
-1. 减少CPU／GPU计算量
-1.1 cell的重用机制
-1.2 将cell高度和 cell里的控件的frame缓存在model里
-1.3 减少cell内部控件的层级
-
-2. 按需加载cell
-
-## UITableView 复用技术原理分析
-
-[Guardia · 瓜地](https://www.desgard.com/TableView-Reuse/)
-
-在现在很多公司的 app 中，许多展示页面为了多条数据内容，而采用 `UITableView` 来设计页面。在滑动 `UITableView` 的时候，并不会因为数据量大而产生卡顿的情况，这正是因为其**复用机制**的特点。但是其复用机制是如何实现的？我决定来探索一番。
-
-### Chameleon PROJECT
-
-[_Chameleon_](https://github.com/BigZaphod/Chameleon) 是我长期以来一直关注的一个项目。接触过 macOS 开发的人肯定多少有写了解。（虽然这个项目在三年以前就已经停更，但是在原理上还是有很高的参考价值。）_Chameleon_ 用于将 iOS 的功能迁移到 macOS 上，并且在其中为 macOS 实现了一套与 iOS UIKit 同名的框架，并且其代码都为开源。由于 _Chameleon_ 属于对苹果早期源码的逆向工程项目，所以我们可以据此来对 iOS 一些闭源库展开学习和思路的借鉴。
-
-> _Chameleon_ 所迁移的 iOS 版本为 `3.2` ，如今已经没有人使用，所以其代码和思路我们只能用来了解。例如在 iOS 8 之后推出的根据 `autoLayout` 自动计算 `cell` 高度的功能，在其中无法体现。
-
-![工程结构截图](http://7xwh85.com1.z0.glb.clouddn.com/14921391544358.jpg)
-
-### UITableView 的初始化方法
+## UITableView 的初始化方法
 
 当我们定义一个 `UITableView` 对象的时候，需要对这个对象进行初始化。最常用的方法莫过于 `- (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)theStyle`。下面跟着这个初始化入口，逐渐来分析代码：
 
@@ -447,7 +328,228 @@ self.tableView.rowHeight = 88;
 
 如果你已经对 `UITableView` 的缓存机制有所了解，那么你在阅读完代码之后会对其有更深刻的认识。如果看完代码还是一头雾水，那么请继续看下面的分析。
 
-### Cell 复用场景三个阶段
+### 常用属性
+
+
+## backgroudView
+
+可以作为没有数据的空态视图使用
+
+```objc
+@property (nonatomic, strong, nullable) UIView *backgroundView NS_AVAILABLE_IOS(3_2); // the background view will be automatically resized to track the size of the table view.  this will be placed as a subview of the table view behind all cells and headers/footers.  default may be non-nil for some devices.
+```
+## tableView编辑
+
+- 对tableView进行操作的时候分两步
+* 1.操作数据(增删改)
+* 2.刷新表格
+
+## UITableView 复用技术原理分析
+
+[Guardia · 瓜地](https://www.desgard.com/TableView-Reuse/)
+
+在现在很多公司的 app 中，许多展示页面为了多条数据内容，而采用 `UITableView` 来设计页面。在滑动 `UITableView` 的时候，并不会因为数据量大而产生卡顿的情况，这正是因为其**复用机制**的特点。但是其复用机制是如何实现的？我决定来探索一番。
+
+### prepareForReuse
+
+The table view's delegate in tableView(_:cellForRowAt:) should always reset all content when reusing a cell.
+
+
+* prepareForReuse调用时机
+* 在重用cell的时候，如果每个cell中都有不同的子视图或者是需要发送不同的网络请求，此时在应用`dequeueReusableCellWithIdentifier:`方法时就会出现视图重叠的情况，针对于此种情况，我们就需要在自定义的cell中重写`prepareForReuse`方法。因为当屏幕滚动导致一个cell消失，另外一个cell显示时，系统就会发出prepareForReuse的通知，此时，我们需要在重载的prepareForReuse方法中，将所有的子视图隐藏，并且将内容置空。这样就不会出现重叠现象。
+
+So basically the following is not suggested:
+
+```objc
+
+override func prepareForReuse() {
+    super.prepareForReuse()
+    imageView?.image = nil
+}
+instead the following is recommended:
+
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+    let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+
+     cell.imageView?.image = image ?? defaultImage // unexpected situation is also handled. 
+     // We could also avoid coalescing the `nil` and just let it stay `nil`
+     cell.label = yourText
+     cell.numberOfLines = yourDesiredNumberOfLines
+
+    return cell
+}
+```
+
+Additionally default non-content related items as below is recommended:
+
+```objc
+
+
+override func prepareForReuse() {
+    super.prepareForReuse()
+    isHidden = false
+    isSelected = false
+    isHighlighted = false
+
+}
+
+override func prepareForReuse() {
+    super.prepareForReuse()
+
+    imageView.cancelImageRequest() // this should send a message to your download handler and have it cancelled.
+    imageView.image = nil
+}
+
+```
+
+### UITableView 的其他细节优化
+
+#### 复用容器数据类型 `NSMutableSet`
+
+在三个重要的容器中，只有 `_reusableCells` 使用了 `NSMutableSet`。这是因为我们在每一次对于 `_cachedCells` 中的 Cell 进行遍历并在屏幕上渲染时，都需要在 `_reusableCells` 进行一次扫描。而且当一个页面反复的上下滑动时，`_reusableCells` 的检索复杂度是相当庞大的。为了确保这一情况下滑动的流畅性，Apple 在设计时不得不将检索复杂度最小化。并且这个复杂度要是非抖动的，不能给体验造成太大的不稳定性。
+
+在 C++ 的 STL 标准库中也有 `multiset` 数据类型，其中实现的方法是通过构建**红黑树**来实现。因为红黑树具有高效检索的性质，这也是 `set` 的一个普遍特点。也许是 `NSMutableSet` 是 _Foundation_ 框架的数据结构，构造其主要目的是为了更快的检索。所以 `NSMutableSet` 的实现并没有使用红黑树，而是暴力的使用 **Hash 表**实现。从 _Core Foundation_ 中的 [CFSet.c](https://opensource.apple.com/source/CF/CF-1151.16/CFSet.c.auto.html) 可以清晰的看见其底层实现。在很久之前的 [Cocoa Dev](https://lists.apple.com/archives/Cocoa-dev/2004/Feb/msg01658.html) 的提问帖中也能发现答案。
+
+#### 高度缓存容器 _sections
+
+在每次布局方法触发阶段，由于 Cell 的状态发生了变化。在对 Cell 复用容器的修改之前，首先要做的一件事是以 Section 为单位对所有的 Cell 进行缓存高度。从这里可以看出 `UITableView` 设计师的细节。 Cell 的高度在 `UITableView` 中充当着十分重要的角色，一下列表是需要使用高度的方法：
+
+*   `- (CGFloat)_offsetForSection:(NSInteger)index`：计算指定 Cell 的滑动偏移量。
+*   `- (CGRect)rectForSection:(NSInteger)section`：返回某个 Section 的整体 Rect。
+*   `- (CGRect)rectForHeaderInSection:(NSInteger)section`：返回某个 Header 的 Rect。
+*   `- (CGRect)rectForFooterInSection:(NSInteger)section`：返回某个 Footer 的 Rect。
+*   `- (CGRect)rectForRowAtIndexPath:(NSIndexPath *)indexPath`：返回某个 Cell 的 Rect。
+*   `- (NSArray *)indexPathsForRowsInRect:(CGRect)rect`：返回 Rect 列表。
+*   `- (void)_setContentSize`：根据高度计算 `UITableView` 中实际内容的 Size。
+
+### 一次有拓展性的源码研究
+
+在阅读完 Chameleon 工程中的 `UITableView` 源码，进一步可以去查看 `FDTemplateLayoutCell` 的优化方案。Apple 的工程师对于细节的处理和方案值得各位开发者细细寻味。多探求、多阅读以写出更优雅的代码。😄
+
+## TableView 优化
+
+[VVeboTableView 源码解析 - 掘金](https://juejin.im/post/5a38604b5188252bca04f9fb)
+
+1. 减少CPU／GPU计算量
+    - cell的重用机制
+    - 将cell高度和 cell里的控件的frame缓存在model里
+    - 减少cell内部控件的层级
+    
+2. 按需加载cell
+
+## UITableViewCell
+
+## UITableViewCell结构
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202115822.png)
+
+
+### UITableViewCell contentView
+
+
+我们向cell中添加子视图，有两种方式
+
+1 [cell addSubview:]
+2 [cell.contentView addSubview:]
+
+区别在于进行cell编辑时，比如cell内容向左移或者右移时，第一种方式子视图不会移动，第二可以，所以这种情况一般使用第二种方式。
+
+还有在设置backgroundColor时，使用cell时左移或者右移颜色是不会变的，而用cell.contentView时，移动后的空白会显示cell的默认颜色，这种情况视实际情况选择。
+
+总结：cell.contentView添加子控件的时候，**相当于直接往cell上方添加子控件，独立于cell的存在的,而cell添加子控件相当于往cell上添加，跟cell是一体的.**
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202115733.png)
+
+[uitableview - On iOS, what is the difference between adding a subview to a UITableViewCell object "cell" vs to "cell.contentView"? - Stack Overflow](https://stackoverflow.com/questions/12084087/on-ios-what-is-the-difference-between-adding-a-subview-to-a-uitableviewcell-obj)
+
+
+### UITableViewCell backgroundView
+
+```objc
+// Default is nil for cells in UITableViewStylePlain, and non-nil for UITableViewStyleGrouped. The 'backgroundView' will be added as a subview behind all other views.
+@property (nonatomic, strong, nullable) UIView *backgroundView;
+```
+
+创建一个View(也可以设置UIImageView作为cell的背景颜色)
+```objc
+UIView *selectedView = [[UIView alloc] init];
+```
+设置view的颜色,然后间接的赋值给cell
+```objc
+selectedView.backgroundColor = [UIColor redColor];
+```
+
+
+### UITableViewCell分割线 设置间距
+
+```objc
+// 分割线左间距
+    cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
+```
+
+### UITableViewCell 高度计算
+
+#### rowHeight
+
+UITableView是我们再熟悉不过的视图了，它的 delegate 和 data source 回调不知写了多少次，也不免遇到 UITableViewCell 高度计算的事。UITableView 询问 cell 高度有两种方式。
+一种是针对所有 Cell 具有固定高度的情况，通过：
+
+```objc
+self.tableView.rowHeight = 88;
+```
+
+上面的代码指定了一个所有 cell 都是 88 高度的 UITableView，对于定高需求的表格，强烈建议使用这种（而非下面的）方式保证不必要的高度计算和调用。rowHeight属性的默认值是 44，所以一个空的 UITableView 显示成那个样子。
+
+另一种方式就是实现 UITableViewDelegate 中的：
+
+```objc
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // return xxx
+}
+
+```
+需要注意的是，实现了这个方法后，rowHeight 的设置将无效。所以，这个方法适用于具有多种 cell 高度的 UITableView。
+
+[优化UITableViewCell高度计算的那些事 · sunnyxx的技术博客](http://blog.sunnyxx.com/2015/05/17/cell-height-calculation/)
+
+### 减少高度计算
+
+
+- 在模型Model中新增属性cellH
+```objc
+@property (nonatomic, assign) CGFloat cellH; /**< cell的高度 */
+```
+- 重写get方法,懒加载中计算
+
+懒加载
+
+```objc
+- (CGFloat)cellH
+{
+    if (!_cellH) {
+         在这里先计算好cell的高度,然后返回呢?
+        NSLog(@"%s, line = %d", __FUNCTION__, __LINE__);
+        ...
+        _cellH = (self.picture)? CGRectGetMaxY(picture_Ima_frame) + margin: CGRectGetMaxY(text_Lab_frame) + margin;
+    }
+    return _cellH;
+}
+ ```
+
+
+- 此时控制器中代理方法知道的很少
+
+```objc
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    XMGStatus *status = self.statuses[indexPath.row];
+    return status.cellH;
+}
+```
+
+### UITableViewCell 复用场景三个阶段
 
 #### 布局方法触发阶段
 
@@ -475,29 +577,19 @@ self.tableView.rowHeight = 88;
 
 当到状态 ② 的时候，我们发现 `_reusableCells` 容器中，已经出现了状态 ① 中已经退出屏幕的 Cell 0。而当我们重新将 Cell 0 滑入界面的时候，在系统 `addView` 渲染阶段，会直接将 `_reusableCells` 中的 Cell 0 立即取出进行渲染，从而代替创建新的实例再进行渲染，简化了时间与性能上的开销。
 
-### UITableView 的其他细节优化
 
-#### 复用容器数据类型 `NSMutableSet`
+## 问题
 
-在三个重要的容器中，只有 `_reusableCells` 使用了 `NSMutableSet`。这是因为我们在每一次对于 `_cachedCells` 中的 Cell 进行遍历并在屏幕上渲染时，都需要在 `_reusableCells` 进行一次扫描。而且当一个页面反复的上下滑动时，`_reusableCells` 的检索复杂度是相当庞大的。为了确保这一情况下滑动的流畅性，Apple 在设计时不得不将检索复杂度最小化。并且这个复杂度要是非抖动的，不能给体验造成太大的不稳定性。
+### 隐藏导航的时候露出状态白线
 
-在 C++ 的 STL 标准库中也有 `multiset` 数据类型，其中实现的方法是通过构建**红黑树**来实现。因为红黑树具有高效检索的性质，这也是 `set` 的一个普遍特点。也许是 `NSMutableSet` 是 _Foundation_ 框架的数据结构，构造其主要目的是为了更快的检索。所以 `NSMutableSet` 的实现并没有使用红黑树，而是暴力的使用 **Hash 表**实现。从 _Core Foundation_ 中的 [CFSet.c](https://opensource.apple.com/source/CF/CF-1151.16/CFSet.c.auto.html) 可以清晰的看见其底层实现。在很久之前的 [Cocoa Dev](https://lists.apple.com/archives/Cocoa-dev/2004/Feb/msg01658.html) 的提问帖中也能发现答案。
-
-#### 高度缓存容器 _sections
-
-在每次布局方法触发阶段，由于 Cell 的状态发生了变化。在对 Cell 复用容器的修改之前，首先要做的一件事是以 Section 为单位对所有的 Cell 进行缓存高度。从这里可以看出 `UITableView` 设计师的细节。 Cell 的高度在 `UITableView` 中充当着十分重要的角色，一下列表是需要使用高度的方法：
-
-*   `- (CGFloat)_offsetForSection:(NSInteger)index`：计算指定 Cell 的滑动偏移量。
-*   `- (CGRect)rectForSection:(NSInteger)section`：返回某个 Section 的整体 Rect。
-*   `- (CGRect)rectForHeaderInSection:(NSInteger)section`：返回某个 Header 的 Rect。
-*   `- (CGRect)rectForFooterInSection:(NSInteger)section`：返回某个 Footer 的 Rect。
-*   `- (CGRect)rectForRowAtIndexPath:(NSIndexPath *)indexPath`：返回某个 Cell 的 Rect。
-*   `- (NSArray *)indexPathsForRowsInRect:(CGRect)rect`：返回 Rect 列表。
-*   `- (void)_setContentSize`：根据高度计算 `UITableView` 中实际内容的 Size。
-
-### 一次有拓展性的源码研究
-
-在阅读完 Chameleon 工程中的 `UITableView` 源码，进一步可以去查看 `FDTemplateLayoutCell` 的优化方案。Apple 的工程师对于细节的处理和方案值得各位开发者细细寻味。多探求、多阅读以写出更优雅的代码。😄
+```objc
+ // 取消自动调整内容内间距
+    if (@available(iOS 11.0, *)) {
+        [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
+    } else {
+        // Fallback on earlier versions
+    」
+```
 
 ## 参考 
 

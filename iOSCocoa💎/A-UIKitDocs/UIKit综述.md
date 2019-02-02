@@ -6,11 +6,17 @@
 
 [通过实现一个TableView来理解IOS UI编程](https://yishuiliunian.gitbooks.io/implementate-tableview-to-understand-ios/content/index.html)
 
+
+## UIKit 常用控件
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202110907.png)
+
 ### UIKit提供的基础
 
 这里会牵扯到一个另外一个问题，可能有些读者会问可不可以从最最底层的开始做起，来实现一个TableView呢，比如从写一个图形界面库开始。这个从技术上来说，完全可以实现，但是仔细想想在Apple为我们提供了UIKit之后，如果我们不是写游戏的话，貌似完全没有必要重新造这个轮子啊。当然你要写游戏的话，那令当别论，请出门左转有开源的Cocoa2d，作者要是针对从最底层开始构建感兴趣可以看一下Cocoa2d的开源代码，想必肯定大有收获。
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212689869106.jpg)
+
 
 ## UIApplication
 

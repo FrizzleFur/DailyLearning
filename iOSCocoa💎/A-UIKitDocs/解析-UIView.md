@@ -491,6 +491,41 @@ That’s all
 
 [iOS文档补完计划--UIView - 简书](https://www.jianshu.com/p/ea3d2970a892)
 
+## CALayer
+
+#### UIView和CALayer的选择
+
+
+通过CALayer，就能做出跟UIView一样的界面效果
+ 
+既然CALayer和UIView都能实现相同的显示效果，那究竟该选择谁好呢？
+其实，对比CALayer，UIView多了一个事件处理的功能。也就是说，CALayer不能处理用户的触摸事件，而UIView可以
+所以，如果显示出来的东西需要跟用户进行交互的话，用UIView；如果不需要跟用户进行交互，用UIView或者CALayer都可以
+当然，CALayer的性能会高一些，因为它少了事件处理的功能，更加轻量级
+
+在iOS中，你能看得见摸得着的东西基本上都是UIView，比如一个按钮、一个文本标签、一个文本输入框、一个图标等等，这些都是UIView
+ 
+其实UIView之所以能显示在屏幕上，完全是因为它内部的一个图层
+ 
+在创建UIView对象时，UIView内部会自动创建一个图层(即CALayer对象)，通过UIView的layer属性可以访问这个层
+```objc
+@property(nonatomic,readonly,retain) CALayer *layer; 
+``` 
+当UIView需要显示到屏幕上时，会调用drawRect:方法进行绘图，并且会将所有内容绘制在自己的图层上，绘图完毕后，系统会将图层拷贝到屏幕上，于是就完成了UIView的显示
+ 
+换句话说，UIView本身不具备显示的功能，是它内部的层才有显示功能
+ 
+### CALayer的基本使用
+
+
+通过操作CALayer对象，可以很方便地调整UIView的一些外观属性，比如：
+阴影
+圆角大小
+边框宽度和颜色
+… …
+ 
+还可以给图层添加动画，来实现一些比较炫酷的效果
+
 ## UIView属性目录
 
 **创建视图对象**

@@ -1,11 +1,17 @@
 ##  UIWindow
 
-```
-inherits From
+### UIWindow 父类
+
+inherits From UIView
+
+```objc
 UIView
   UIResponder
     NSObject
 ```
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202131147.png)
+
 
 >一个`UIWindow`对象为您的应用程序的用户界面提供了背景，提供了重要的事件处理行为。Windows没有自己的可视化外观，但它们对于显示应用程序的视图至关重要。屏幕上出现的每一个视图都被一个`UIWindow`所包围，每个`UIWindow`与应用程序中的其他`UIWindow`无关。应用程序接收到的事件最初路由到相应的`UIWindow`对象，然后将这些事件转发到相应的视图中。`UIWindow`与视图控制器一起工作，以实现方向更改和执行许多其他对应用程序操作至关重要的任务。
 
@@ -13,6 +19,8 @@ Windows是应用程序的一个基本部分，但在代码中只与它们进行�
 
 * 提供一个主窗口来显示应用程序的内容。
 * 创建附加窗口（如需要）显示附加内容。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202131704.png)
 
 大多数应用程序只需要一个窗口，它在设备的主屏幕上显示应用程序的内容。您可以创建额外的窗口，并显示在设备的主屏幕上，但额外的窗口通常用于显示附加外部显示器上的内容。
 
@@ -25,9 +33,6 @@ Windows是应用程序的一个基本部分，但在代码中只与它们进行�
 * 更改显示窗口的屏幕。
 
 你应该很少需要UIWindow类。您可能在窗口中实现的各种行为通常更容易在更高级别的视图控制器中实现。你可能想子几次是覆盖becomekeywindow或resignkeywindow方法来实现自定义行为当一个窗口的关键地位的变化。
-
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-08-16-15028741926601.jpg)
-
 
 
 alertView是怎么弹出的？网上查找资料说是，每次执行[alertView show]，这个方法的时候是新建了一个window，将alertView显示在了window上面。代码验证的确是这样的。
@@ -73,6 +78,27 @@ app.window = <UIWindow: 0x7f9ee8f03f80; frame = (0 0; 414 736); autoresize = W+H
 
 搞懂了alertView显示的大致原理了，那么往我们的需求上靠
 
+## 程序启动原理
+
+
+- 程序启动原理
+
+一. 首先找到程序入口,执行main函数
+
+
+main() -> UIApplicationMain
+
+
+二. UIApplicationMain底层做事情
+
+
+1. 创建UIApplication对象
+2. 创建UIApplication的代理对象,而且给UIApplication对象代理属性赋值
+3. 开启主运行循环,作用接收事件,让程序一直运行
+4. 加载info.plist,判断下有木有指定main.storyboard,如果指定就会去加载
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202131704.png)
+
 
 ## UIScreen
 
@@ -86,38 +112,15 @@ NSObject
 当用户连接或断开一个显示iOS设备，系统发出适当的通知你的应用程序。始终注意应用程序的长寿命对象的通知，比如应用程序委托。连接和断开通知可以随时出现，即使您的应用程序在后台暂停。如果您的应用程序在通知到达时被挂起，通知将一直排队，直到您的应用程序在前台或后台再次运行，此时将它交付给您的观察对象。
 
 
-### objc_setAssociatedObject
 
-使用给定的键和关联策略设置给定对象的关联值。
-
-```
-#import "UIViewController+CustomHUD.h"
-#import <objc/runtime.h>
-
-@implementation UIViewController (CustomHUD)
-
-static char customHUDKey;
-- (CustomHUD *)hud {
-    CustomHUD *hud = objc_getAssociatedObject(self, &customHUDKey);
-    if (hud == nil) {
-        hud = [[CustomHUD alloc] init];
-        objc_setAssociatedObject(self, &customHUDKey, hud, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    [hud removeHUD];
-    return hud;
-}
-
-@end
-```
-#### objc_getAssociatedObject
-
-返回给定对象与给定对象相关联的值。
-
-```
-id objc_getAssociatedObject(id object, const void *key);
-```
+### 四.窗口补充
 
 
+1. 应用程序中那些控件属于窗口,1.状态栏 2.键盘
+2. 窗口层级关系
+
+UIWindowLevelAlert > UIWindowLevelStatusBar > UIWindowLevelNormal
+设置窗口的层级,层级谁大就显示在最外面
 
 
 
