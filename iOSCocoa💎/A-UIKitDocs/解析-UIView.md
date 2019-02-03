@@ -526,6 +526,13 @@ That’s all
  
 还可以给图层添加动画，来实现一些比较炫酷的效果
 
+
+
+## 自定义View
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190203101219.png)
+
+
 ## UIView属性目录
 
 **创建视图对象**

@@ -1,10 +1,23 @@
 ## RunLoop解析
 
+### RunLoop的作用
+
+
+如果没有RunLoop
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190203173545.png)
+
+有了RunLoop
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190203173638.png)
+
 ### Foundation中的NSRunLoop
+
+
 * Core Foundation中的CFRunLoopRef
 * NSRunLoop是基于CFRunLoopRef的一层OC包装，所以要了解RunLoop内部结构，需要多研究CFRunLoopRef层面的API（Core Foundation层面）
 
-![RunLoop结构](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//15359081423883.png)
+![RunLoop结构](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359081423883.png)
 
 ### CFRunLoop
 
@@ -215,7 +228,7 @@ struct __CFRunLoop {
 
 ## RunLoop 的内部逻辑
 
-![RunLoop 的内部逻辑](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//15132230299202.png)
+![RunLoop 的内部逻辑](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15132230299202.png)
 
 应用场景举例：主线程的 RunLoop 里有两个预置的 Mode：kCFRunLoopDefaultMode 和 UITrackingRunLoopMode。这两个 Mode 都已经被标记为”Common”属性。DefaultMode 是 App 平时所处的状态，TrackingRunLoopMode 是追踪 ScrollView 滑动时的状态。当你创建一个 Timer 并加到 DefaultMode 时，Timer 会得到重复回调，但此时滑动一个TableView时，RunLoop 会将 mode 切换为 TrackingRunLoopMode，这时 Timer 就不会被回调，并且也不会影响到滑动操作。
 
@@ -223,6 +236,8 @@ struct __CFRunLoop {
 
 
 ## 执行过程
+
+
 执行过程大致描述如下：
 
 * 通知 observers 即将进入 run loop
@@ -243,7 +258,7 @@ struct __CFRunLoop {
 * 如果 run loop 被手动唤醒，并且没有超时，完成后跳转到第2步
 * 通知 observes run loop 已经退出
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//15359105264831.png)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359105264831.png)
 
 注意：
 
@@ -252,6 +267,9 @@ CFRunLoopDoBlocks 是执行 perform block 中的 block
 第一次循环 CFRunLoopServiceMachPort 是不走的
 handle_msg 处理 timer 事件，处理 main queue block 事件，处理 source1 事件
 中间的红色CFRunLoopServiceMachPort是监听 GCD 的端口事件，只监听一个端口，左下角的CFRunLoopServiceMachPort是坚挺 source1,timer 的，是一个 MutableSet
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190203193235.png)
+
 
 ### NSTimer 与 GCD Timer
 
@@ -268,6 +286,109 @@ handle_msg 处理 timer 事件，处理 main queue block 事件，处理 source1
 
 ## RunLoop的应用
 
+[RunLoop在实际开发过程中的应用(二) - 简书](https://www.jianshu.com/p/46d91ae65f60)
+
+1. UIImageView延迟加载照片
+2. 线程保活
+3. 子线程中执行NSTimer
+4. performSelector
+5. 自动释放池
+
+  
+## 让UITableView、UICollectionView等延迟加载图片。
+
+下面就拿UITableView来举例说明： 
+
+UITableView 的 cell 上显示网络图片，一般需要两步，第一步下载网络图片；第二步，将网络图片设置到UIImageView上。 
+
+* 第一步，我们一般都是放在子线程中来做，这个不做赘述。 
+* 第二步，一般是回到主线程去设置。有了前两篇文章关于Mode的切换，想必你已经知道怎么做了。 
+就是在为图片视图设置图片时，在主线程设置，并调用performSelector:withObject:afterDelay:inModes:方法。最后一个参数，仅设置一个NSDefaultRunLoopMode。
+
+```objc
+UIImage *downloadedImage = ....;
+[self.myImageView performSelector:@selector(setImage:) withObject:downloadedImage afterDelay:0 inModes:@[NSDefaultRunLoopMode]];
+
+```
+当然，即使是读取沙盒或者bundle内的图片，我们也可以运用这一点来改善视图的滑动。但是如果UITableView上的图片都是默认图，似乎也不是很好，你需要自己来权衡了。
+
+
+
+#### 二.线程保活
+
+可能你的项目中需要一个线程，一直在后台做些耗时操作，但是不影响主线程，我们不要一直大量的创建和销毁线程，因为这样太浪费性能了，我们只要保留这个线程，只要对他进行“保活”就行
+
+```
+//继承了一个NSTread 线程，然后使用vc中创建和执行某个任务，查看线程的情况
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    WXThread *thread = [[WXThread alloc] initWithTarget:self
+                                               selector:@selector(doSomeThing)
+                                                 object:nil];
+    [thread start];
+}
+- (void)doSomeThing{
+    NSLog(@"doSomeThing");
+}
+
+```
+
+```
+//每一次点击屏幕的时候，线程执行完方法，直接释放掉了，下一次创建了一个新的线程；
+//子线程存活的时间很短，只要执行完毕任务，就会被释放
+2017-04-19 16:03:10.686 WXAllTest[14928:325108] doSomeThing
+2017-04-19 16:03:10.688 WXAllTest[14928:325108] WXTread - dealloc - <WXThread: 0x600000276780>{number = 3, name = (null)}
+2017-04-19 16:03:18.247 WXAllTest[14928:325194] doSomeThing
+2017-04-19 16:03:18.249 WXAllTest[14928:325194] WXTread - dealloc - <WXThread: 0x608000271340>{number = 4, name = (null)}
+2017-04-19 16:03:23.780 WXAllTest[14928:325236] doSomeThing
+2017-04-19 16:03:23.781 WXAllTest[14928:325236] WXTread - dealloc - <WXThread: 0x608000270e00>{number = 5, name = (null)}
+
+```
+
+如果我每隔一段时间就像在线程中执行某个操作，好像现在不行
+如果我们将线程对象强引用，也是不行的，会崩溃
+
+```objc
+1.成为基本属性
+/** 线程对象 */
+@property(strong,nonatomic)  WXThread *thread;
+
+2.创建线程之后，直接将入到RunLoop中
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _thread = [[WXThread alloc] initWithTarget:self
+                                      selector:@selector(doSomeThing)
+                                        object:nil];
+    [_thread start];
+}
+
+3.执行doSomeThing函数
+- (void)doSomeThing{
+    //一定要加入一个timer，port，或者是obervers，否则RunLoop启动不起来
+    [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop currentRunLoop] run];
+}
+
+4.在点击屏幕的时候，执行一个方法，线程之间的数据通信
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self performSelector:@selector(test) onThread:_thread withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
+}
+
+5.将test方法写清楚
+- (void)test{
+    NSLog(@"current thread - %@",[NSThread currentThread]);
+}
+
+//打印结果:同一个线程，线程保活成功
+2017-04-19 18:21:07.660 WXAllTest[16145:382366] current thread - <WXThread: 0x60800007c180>{number = 3, name = (null)}
+2017-04-19 18:21:07.843 WXAllTest[16145:382366] current thread - <WXThread: 0x60800007c180>{number = 3, name = (null)}
+2017-04-19 18:21:08.015 WXAllTest[16145:382366] current thread - <WXThread: 0x60800007c180>{number = 3, name = (null)}
+2017-04-19 18:21:08.194 WXAllTest[16145:382366] current thread - <WXThread: 0x60800007c180>{number = 3, name = (null)}
+2017-04-19 18:21:08.398 WXAllTest[16145:382366] current thread - <WXThread: 0x60800007c180>{number = 3, name = (null)}
+2017-04-19 18:21:08.598 WXAllTest[16145:382366] current thread - <WXThread: 0x60800007c180>{number = 3, name = (null)}
+2017-04-19 18:21:08.770 WXAllTest[16145:382366] current thread - <WXThread: 0x60800007c180>{number = 3, name = (null)}
+
+```
 ### AutoreleasePool
 
 ####自动释放池的创建和释放，销毁的时机如下所示
@@ -276,7 +397,7 @@ handle_msg 处理 timer 事件，处理 main queue block 事件，处理 source1
 *   kCFRunLoopBeforeWaiting; // 休眠之前，销毁自动释放池，创建一个新的自动释放池
 *   kCFRunLoopExit; // 退出runloop之前，销毁自动释放池
 
-###事件响应
+### 事件响应
 
 * 苹果注册了一个 Source1 (基于 mach port 的) 用来接收系统事件，当一个硬件事件(触摸/锁屏/摇晃等)发生后，首先由 IOKit.framework 生成一个 IOHIDEvent 事件并由 SpringBoard 接收。SpringBoard 只接收按键(锁屏/静音等)，触摸，加速，接近传感器等几种 Event，随后用 mach port 转发给需要的App进程。
 
@@ -379,7 +500,7 @@ RunLoop 启动前内部必须要有至少一个 Timer/Observer/Source，所以�
 
 比如我们点击了一个按钮，在ui关联的事件开始执行之前，我们需要执行一些其他任务，可以在observer中实现
 
-[![btnClikc](https://github.com/miaoqiu/RunLoop/raw/master/883F2856-D3FD-4093-84AF-00BD3C35917F.png)](https://github.com/miaoqiu/RunLoop/blob/master/883F2856-D3FD-4093-84AF-00BD3C35917F.png)
+![btnClikc](https://github.com/miaoqiu/RunLoop/raw/master/883F2856-D3FD-4093-84AF-00BD3C35917F.png)
 
 可以看到在按钮点击之前，先执行的observe方法里面的代码。这样可以拦截事件，让我们的代码先UI事件之前执行。
 
@@ -529,7 +650,6 @@ class ViewController: UIViewController {
     }
 
 }
-
 ```
 
 
