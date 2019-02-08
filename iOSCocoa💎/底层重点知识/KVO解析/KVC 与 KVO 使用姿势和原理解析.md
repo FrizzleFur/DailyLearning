@@ -139,7 +139,7 @@ NSLog(@"male: %d", [[teacher valueForKey:@"isMale"] boolValue]);
 
 2. 相比点语法用 KVC 方式 KVC 的效率会稍低一点，但是灵活，可以在程序运行时决定访问哪些属性。
 
-3. 用 KVC 可以访问对象的私有成员变量。
+3. 用 `KVC` **可以访问对象的私有成员变量**。
 
 ### KVC 应用
 
@@ -222,7 +222,9 @@ All book price : (
 ```     
 
 ### KVC 总结 
-键值编码是一种间接访问对象的属性使用字符串来标识属性，而不是通过调用存取方法直接或通过实例变量访问的机制，非对象类型的变量将被自动封装或者解封成对象，很多情况下会简化程序代码。
+
+
+**键值编码是一种间接访问对象的属性使用字符串来标识属性，而不是通过调用存取方法直接或通过实例变量访问的机制，非对象类型的变量将被自动封装或者解封成对象，很多情况下会简化程序代码。**
 
 **优点：**
 
@@ -237,6 +239,8 @@ All book price : (
 2. 执行效率要低于 setter 和 getter 方法。因为使用 KVC 键值编码，它必须先解析字符串，然后在设置或者访问对象的实例变量。
 
 3. 使用 KVC 会破坏类的封装性。
+
+
 
 ## KVO
 
@@ -267,7 +271,8 @@ All book price : (
 ```
 
 KVO 在 Apple 中的 API 文档如下： 
->Automatic key-value observing is implemented using a technique called isa-swizzling… When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class …
+
+> Automatic key-value observing is implemented using a technique called isa-swizzling… When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class …
 
 Apple 使用了 isa 搅拌技术（isa-swizzling）来实现的 KVO 。当一个观察者注册对象的一个属性 isa 观察对象的指针被修改，指着一个中间类而不是在真正的类。
 
@@ -325,9 +330,9 @@ _person = [[Person alloc] init];
 
 ### KVO 实现原理
 
-当某个类的对象第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的 setter 方法。
-派生类在被重写的 setter 方法实现真正的通知机制，就如前面手动实现键值观察那样。这么做是基于设置属性会调用 setter 方法，而通过重写就获得了 KVO 需要的通知机制。当然前提是要通过遵循 KVO 的属性设置方式来变更属性值，如果仅是直接修改属性对应的成员变量，是无法实现 KVO 的。
-同时派生类还重写了 class 方法以“欺骗”外部调用者它就是起初的那个类。然后系统将这个对象的 isa 指针指向这个新诞生的派生类，因此这个对象就成为该派生类的对象了，因而在该对象上对 setter 的调用就会调用重写的 setter，从而激活键值通知机制。此外，派生类还重写了 dealloc 方法来释放资源。
+* 当某个类的对象**第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的 setter 方法**。
+* 派生类在被重写的 setter 方法实现真正的通知机制，就如前面手动实现键值观察那样。这么做是基于设置属性会调用 setter 方法，而通过**重写就获得了 KVO 需要的通知机制**。当然前提是要通过遵循 KVO 的属性设置方式来变更属性值，如果仅是直接修改属性对应的成员变量，是无法实现 KVO 的。
+* 同时派生类还重写了 class 方法以“欺骗”外部调用者它就是起初的那个类。然后系统将这个对象的 isa 指针指向这个新诞生的派生类，因此这个对象就成为该派生类的对象了，因而在该对象上对 setter 的调用就会调用重写的 setter，从而激活键值通知机制。此外，派生类还重写了 dealloc 方法来释放资源。
 
 **派生类 NSKVONotifying_Person 剖析：**
 
@@ -402,12 +407,10 @@ KVO 是一个对象能观察另一个对象属性的值，KVO 适合任何对象
 [《招聘一个靠谱的 iOS》—参考答案（三）](http://www.jianshu.com/p/20655f394736)
 
 ## 最后
+
 由于笔者水平有限，文中如果有错误的地方，还望大神指出。或者有更好的方法和建议，我们可以一起交流。
 
 附上本文的所有 demo 下载链接[【GitHub】](https://github.com/leejayID/KVC-KVO)，配合 demo 一起看文章，效果会更佳。
-
-如果你看完后觉得对你有所帮助，还望在 GitHub 上点个 star。赠人玫瑰，手有余香。
-
 
 
 ## 参考
