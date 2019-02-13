@@ -319,7 +319,7 @@ void(^p)() = ^(){
     printf("Hello, World!\n"); 
  } 
 ```
-NSConcreteGlobalBlock类型的Block要么是空的Block，要么是不访问任何外部变量的block。它既不在栈中，也不在堆中，我理解为它可能在内存的全局区。
+NSConcreteGlobalBlock类型的Block要么是空的Block，要么是不访问任何外部变量的block。它既不在栈中，也不在堆中，我理解为它可˙能在内存的全局区。
 
 ### _NSConcreteStackBlock
 
@@ -343,10 +343,11 @@ void(^p)() = ^(){
 * _NSConcreteStackBlock类型的block有闭包行为，也就是有访问外部变量，并且该block只且只有有一次执行，因为栈中的空间是可重复使用的，所以当栈中的block执行一次之后就被清除出栈了，所以无法多次使用。
 
 * NSStackBlock在函数返回后，Block内存将被回收。即使retain也没用。容易犯的错误是[[mutableArray addObject:stackBlock]，在函数出栈后，从mutableAarry中取到的stackBlock已经被回收，变成了野指针。正确的做法是先将stackBlock copy到堆上，然后加入数组：
+* 在生成Block以后，如果这个Block不是全局Block，那么它就是_NSConcreteStackBlock对象，但是如果其所属的变量作用域名结束，该block就被废弃。在栈上的__block变量也是如此。但是，如果Block变量和__block变量复制到了堆上以后，则不再会受到变量作用域结束的影响了，因为它变成了堆Block：
 
 ### _NSConcreteMallocBlock
 
-* _NSConcreteMallocBlock：	堆Block就是一个Block被copy到堆上，堆Block会持有外部引用对象，所以会导致可能的对象延迟释放，或者循环引用的问题。（在MRC下，局部变量如果没有用_Block，在Block中会对其进行copy操作，而用了__block则只会引用其地址，这也就是为什么改变局部变量需要用__block修饰了）
+* _NSConcreteMallocBlock：	堆Block就是一个Block被copy到堆上，堆Block会持有外部引用对象，所以会导致可能的对象延迟释放，或者循环引用的问题。（在MRC下，局部变量如果没有用`__block`，在Block中会对该变量进行copy操作，而用了`__block`则只会引用其地址，这也就是为什么改变局部变量需要用`__block`修饰了）
 
 例子：
 
@@ -371,7 +372,7 @@ void exampleB() {
 
 * **Block作为返回值，超出了变量作用域，Block被拷贝至堆，那么Block也将配置为_NSConcreteMallocBlock**
 
-*   在函数栈上创建但没有截获自动变量
+* 在函数栈上创建但没有截获自动变量
 
     ```objc
     int glo_a = 1;
@@ -601,26 +602,10 @@ __strong typeof(self)strongSelf = weakSelf; ARC
 
 `_Block_object_assign`函数会自动根据`__main_block_impl_0`结构体内部的`person`是什么类型的指针，对`person`对象产生强引用或者弱引用。可以理解为`_Block_object_assign`函数内部会对`person`进行引用计数器的操作，如果`__main_block_impl_0`结构体内`person`指针是`__strong`类型，则为强引用，引用计数+1，如果`__main_block_impl_0`结构体内`person`指针是`__weak`类型，则为弱引用，引用计数不变。
 
-### 循环引用
+## 循环引用
 
-系统的某些block api中，UIView的block版本写动画时不需要考虑，但也有一些api 需要考虑：
 
-所谓“引用循环”是指双向的强引用，所以那些“单向的强引用”（block 强引用 self ）没有问题，比如这些：
-
-```objc
-[UIView animateWithDuration:duration animations:^{ [self.superview layoutIfNeeded]; }]; 
-[[NSOperationQueue mainQueue] addOperationWithBlock:^{ self.someProperty = xyz; 
-}]; 
-[[NSNotificationCenter defaultCenter]               addObserverForName:@"someNotification"  
- object:nil 
-                          queue:[NSOperationQueue mainQueue]                                         usingBlock:^(NSNotification * notification) {
-    self.someProperty = xyz; 
-}]; 
-```
-
-这些情况不需要考虑“引用循环”。
-
-但如果你使用一些参数中可能含有 ivar 的系统 api ，如 GCD 、NSNotificationCenter就要小心一点：比如GCD 内部如果引用了 self，而且 GCD 的其他参数是 ivar，则要考虑到循环引用：
+如果你使用一些参数中可能含有 ivar 的系统 api ，如 GCD 、NSNotificationCenter就要小心一点：比如GCD 内部如果引用了 self，而且 GCD 的其他参数是 ivar，则要考虑到循环引用：
 
 ```objc
 __weak __typeof__(self) weakSelf = self;
@@ -696,6 +681,63 @@ self --> _observer --> block --> self 显然这也是一个循环引用。
 答案肯定是不会。
 并不会出现内存泄露。原因是因为，student是作为形参传递进block的，**block并不会捕获形参到block内部进行持有**。所以肯定不会造成循环引用。
 
+
+block造成循环利用: Block会对里面所有强指针变量都强引用一次
+
+```objc
+__weak typeof(self) weakSelf = self;
+_block = ^{
+     NSLog (@"weakSelf = %@" ,weakSelf);
+};
+
+_block();
+```
+
+### 不会造成循环引用的情况
+
+UIView的动画block不会造成循环引用的原因就是，这是个类方法，当前控制器不可能强引用一个类，所以循环无法形成。
+不需要，之所以需要弱引用本身，是因为怕对象之间产生循环引用，引起程序的崩溃！
+所谓“引用循环”是指双向的强引用，所以那些“单向的强引用”（block 强引用 self ）没有问题，比如这些：
+
+1. UIView动画
+
+```objc
+[UIView animateWithDuration:duration animations:^{ [self.superview layoutIfNeeded]; }]; 
+
+```
+2. NSNotification
+
+```objc
+[[NSNotificationCenter defaultCenter] addObserverForName:@"someNotification" object:nil 
+                          queue:[NSOperationQueue mainQueue]
+                                             usingBlock:^(NSNotification * notification) {
+        self.someProperty = xyz; 
+}]; 
+
+```
+3. NSOperationQueue
+
+```objc
+[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+ self.someProperty = xyz;
+}]; 
+```
+
+以上三种情况都是单向“强引用”，只是Block持有self，但self并没有持有block，所以不用考虑“循环引用”的问题。
+
+## Block copy操作
+
+当你拷贝一个 block 时，任何在该 block 里面对其他 blocks 的引用都会在需要的
+时候被拷贝，即拷贝整个目录树(从顶部开始)。如果你有 block 变量并在该 block 里
+面引用其他的 block，那么那个其他的 block 会被拷贝一份。
+ 当你拷贝一个基于栈的 block 时，你会获得一个新的 block。但是如果你拷贝一个
+基于堆的 block，你只是简单的递增了该 block 的引用数，并把原始的 block 作为函数
+或方法的返回值。
+
+* _NSConcreteGlobalBlock  程序的数据区域 什么也不做 
+* _NSConcreteStackBlock   栈   从栈拷贝到堆 
+* _NSConcreteMallocBlock  堆   引用计数增加 
+* 而大多数情况下，编译器会进行判断，自动将block从栈上复制到堆：
 
 ## 探寻block的本质
 
@@ -814,7 +856,6 @@ void(^block)(int ,int) = ^(int a, int b){
     c.使⽤方便，inline声明。
 
 
-
 ####  block的劣势:
 
     a.容易造成内存循环引⽤；
@@ -823,60 +864,6 @@ void(^block)(int ,int) = ^(int a, int b){
 
     c.__block带来的野指针问题。
     
-## 循环利用
-
-block造成循环利用: Block会对里面所有强指针变量都强引用一次
-
-```objc
-__weak typeof(self) weakSelf = self;
-_block = ^{
-     NSLog (@"weakSelf = %@" ,weakSelf);
-};
-
-_block();
-```
-
-### 不会造成循环引用的情况
-
-UIView的动画block不会造成循环引用的原因就是，这是个类方法，当前控制器不可能强引用一个类，所以循环无法形成。
-不需要，之所以需要弱引用本身，是因为怕对象之间产生循环引用，引起程序的崩溃！
-所谓“引用循环”是指双向的强引用，所以那些“单向的强引用”（block 强引用 self ）没有问题，比如这些：
-
-1. UIView动画
-
-```objc
-[UIView animateWithDuration:duration animations:^{ [self.superview layoutIfNeeded]; }]; 
-
-```
-2. NSNotification
-
-```objc
-[[NSNotificationCenter defaultCenter] addObserverForName:@"someNotification" object:nil 
-                          queue:[NSOperationQueue mainQueue]
-                                             usingBlock:^(NSNotification * notification) {
-        self.someProperty = xyz; 
-}]; 
-
-```
-3. NSOperationQueue
-
-```objc
-[[NSOperationQueue mainQueue] addOperationWithBlock:^{
- self.someProperty = xyz;
-}]; 
-```
-
-以上三种情况都是单向“强引用”，只是Block持有self，但self并没有持有block，所以不用考虑“循环引用”的问题。
-
-## block拷贝
-
-当你拷贝一个 block 时，任何在该 block 里面对其他 blocks 的引用都会在需要的
-时候被拷贝，即拷贝整个目录树(从顶部开始)。如果你有 block 变量并在该 block 里
-面引用其他的 block，那么那个其他的 block 会被拷贝一份。
- 当你拷贝一个基于栈的 block 时，你会获得一个新的 block。但是如果你拷贝一个
-基于堆的 block，你只是简单的递增了该 block 的引用数，并把原始的 block 作为函数
-或方法的返回值。
-
 ## 总结
 
 * Block执行的代码，这是在编译的时候已经生成好的；

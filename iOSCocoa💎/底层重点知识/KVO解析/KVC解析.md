@@ -2,7 +2,7 @@
 
 > KVC全称是Key Value Coding，定义在NSKeyValueCoding.h文件中，是一个非正式协议。KVC提供了一种间接访问其属性方法或成员变量的机制，可以通过字符串来访问对应的属性方法或成员变量。
 
-![](http://oc98nass3.bkt.clouddn.com/15359757363122.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/15359757363122.jpg)
 
 ### 基础操作
 

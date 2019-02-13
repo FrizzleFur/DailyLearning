@@ -1,6 +1,6 @@
 ## UIViewController分析
 
-### 生命周期
+### VC生命周期
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15370956857629.jpg)
 
@@ -19,46 +19,55 @@
 
 * 注意到其中的viewWillLayoutSubviews和viewDidLayoutSubviews，调用情况视具体的viewDidLoad和viewWillAppear等方法中的代码而定。
 
-## load
+
+## 控制器的view创建
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202132610.png)
+
+
+## +load()
+
+* 什么时候调用:当第一次使用控制器的view的时候就会调用
+* 作用:加载控制器的view,自定义控制器的view
+
 
 Apple文档是这样描述的
 
-```
-Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.
 
-当类（Class）或者类别（Category）加入Runtime中时（就是被引用的时候）。
-实现该方法，可以在加载时做一些类特有的操作。
+* Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.
 
-Discussion
+* 当类（Class）或者类别（Category）加入Runtime中时（就是被引用的时候）。
+* 实现该方法，可以在加载时做一些类特有的操作。
 
-The load message is sent to classes and categories that are both dynamically loaded and statically linked, but only if the newly loaded class or category implements a method that can respond.
+* Discussion
 
-The order of initialization is as follows:
+* The load message is sent to classes and categories that are both dynamically loaded and statically linked, but only if the newly loaded class or category implements a method that can respond.
 
-All initializers in any framework you link to.
-调用所有的Framework中的初始化方法
+* The order of initialization is as follows:
 
-All +load methods in your image.
-调用所有的+load方法
+* All initializers in any framework you link to.
+* 调用所有的Framework中的初始化方法
 
-All C++ static initializers and C/C++ attribute(constructor) functions in your image.
-调用C++的静态初始化方及C/C++中的attribute(constructor)函数
+* All +load methods in your image.
+* 调用所有的+load方法
 
-All initializers in frameworks that link to you.
-调用所有链接到目标文件的framework中的初始化方法
+* All C++ static initializers and C/C++ attribute(constructor) functions in your image.
+* 调用C++的静态初始化方及C/C++中的attribute(constructor)函数
 
-In addition:
+* All initializers in frameworks that link to you.
+* 调用所有链接到目标文件的framework中的初始化方法
 
-A class’s +load method is called after all of its superclasses’ +load methods.
-一个类的+load方法在其父类的+load方法后调用
+* In addition:
+* A class’s +load method is called after all of its superclasses’ +load methods.
+* 一个类的+load方法在其父类的+load方法后调用
 
-A category +load method is called after the class’s own +load method.
-一个Category的+load方法在被其扩展的类的自有+load方法后调用
+* A category +load method is called after the class’s own +load method.
+* 一个Category的+load方法在被其扩展的类的自有+load方法后调用
 
-In a custom implementation of load you can therefore safely message other unrelated classes from the same image, but any load methods implemented by those classes may not have run yet.
-在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。
+* In a custom implementation of load you can therefore safely message other unrelated classes from the same image, but any load methods implemented by those classes may not have run yet.
+* 在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。
 
-```
+
 
 文档地址:[https://developer.apple.com/reference/objectivec/nsobject/1418815-load?language=objc](https://developer.apple.com/reference/objectivec/nsobject/1418815-load?language=objc)
 
@@ -66,12 +75,30 @@ In a custom implementation of load you can therefore safely message other unrela
 
 > 当类被引用进项目的时候就会执行load函数(在main函数开始执行之前）,与这个类是否被用到无关,每个类的load函数只会自动调用一次.由于load函数是系统自动加载的，因此不需要调用父类的load函数，否则父类的load函数会多次执行。
 
-*   1.当父类和子类都实现load函数时,父类的load方法执行顺序要优先于子类
-*   2.当子类未实现load方法时,不会调用父类load方法
-*   3.类中的load方法执行顺序要优先于类别(Category)
-*   4.当有多个类别(Category)都实现了load方法,这几个load方法都会执行,但执行顺序不确定(其执行顺序与类别在Compile Sources中出现的顺序一致)
-*   5.当然当有多个不同的类的时候,每个类load 执行顺序与其在Compile Sources出现的顺序一致
+1. 当父类和子类都实现load函数时,父类的load方法执行顺序要优先于子类
+2. 当子类未实现load方法时,**不会**调用父类load方法
+3. 类中的load方法执行顺序要优先于类别(Category)
+4. 当有多个类别(Category)都实现了load方法,这几个load方法都会执行,但执行顺序不确定(其执行顺序与类别在Compile Sources中出现的顺序一致)
+5. 当然当有多个不同的类的时候,每个类load 执行顺序与其在Compile Sources出现的顺序一致
 
+
+### 三.xib加载控制器的view
+
+init底层会调用initWithNibName:bundle:
+ 通过xib创建XMGViewController控制器的view
+ 1. 判断下nibName有没有值,如果有值,就会去加载nibName指定的xib
+ 2. 如果nibName为空,会先去查找有没有XMGView.xib,如果有就去加载
+ 3. 如果没有XMGView.xib,就会去加载根类名同名的xib:XMGViewController.xib
+ 4. 如果还没有找到,就生成一个空的view 
+
+initWithNibName:底层做了一些事情
+
+
+1. 判断有没有指定nibName,指定了,就会加载
+2. 判断下有没有跟控制器类名同名的xib但是不带controller,如果有,就直接加载
+3. 判断下有没有跟控制器类名同名的xib,如果有,就直接加载
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202132922.png)
 
 ## initialize:
 
@@ -94,25 +121,26 @@ Runtime在一个程序中每一个类的一个程序中发送一个初始化一�
 
 #### initialize函数调用特点如下:
 
-> initialize在类或者其子类的第一个方法被调用前调用。即使类文件被引用进项目,但是没有使用,initialize不会被调用。由于是系统自动调用，也不需要再调用 [super initialize] ，否则父类的initialize会被多次执行。假如这个类放到代码中，而这段代码并没有被执行，这个函数是不会被执行的。
+> initialize**在类或者其子类的第一个方法被调用前**调用。即使类文件被引用进项目,但是没有使用,initialize不会被调用。
+> 由于是系统自动调用，也不需要再调用 [super initialize] ，否则父类的initialize会被多次执行。假如这个类放到代码中，而这段代码并没有被执行，这个函数是不会被执行的。
 
-*   1.父类的initialize方法会比子类先执行
-*   2.当子类未实现initialize方法时,会调用父类initialize方法,子类实现initialize方法时,会覆盖父类initialize方法.
-*   3.当有多个Category都实现了initialize方法,会覆盖类中的方法,只执行一个(会执行Compile Sources 列表中最后一个Category 的initialize方法
+1.父类的initialize方法会比子类先执行
+2.当子类未实现initialize方法时,会调用父类initialize方法,子类实现initialize方法时,会覆盖父类initialize方法.
+3.当有多个Category都实现了initialize方法,会覆盖类中的方法,只执行一个(会执行Compile Sources 列表中最后一个Category 的initialize方法
  
 ### load和initialize的共同点
 
-1.如果父类和子类都被调用,父类的调用一定在子类之前
+1. 如果父类和子类都被调用, 父类的调用一定在子类之前
 
 #### +load方法要点
 
 当类被引用进项目的时候就会执行load函数(在main函数开始执行之前）,与这个类是否被用到无关,每个类的load函数只会自动调用一次.由于load函数是系统自动加载的，因此不需要再调用[super load]，否则父类的load函数会多次执行。
 
-*   1.当父类和子类都实现load函数时,父类的load方法执行顺序要优先于子类
-*   2.当一个类未实现load方法时,不会调用父类load方法
-*   3.类中的load方法执行顺序要优先于类别(Category)
-*   4.当有多个类别(Category)都实现了load方法,这几个load方法都会执行,但执行顺序不确定(其执行顺序与类别在Compile Sources中出现的顺序一致)
-*   5.当然当有多个不同的类的时候,每个类load 执行顺序与其在Compile Sources出现的顺序一致
+1. 当父类和子类都实现load函数时,父类的load方法执行顺序要优先于子类
+2. 当一个类未实现load方法时,不会调用父类load方法
+3. 类中的load方法执行顺序要优先于类别(Category)
+4. 当有多个类别(Category)都实现了load方法,这几个load方法都会执行,但执行顺序不确定(其执行顺序与类别在Compile Sources中出现的顺序一致)
+5. 当然当有多个不同的类的时候,每个类load 执行顺序与其在Compile Sources出现的顺序一致
 
 注意: load调用时机比较早,当load调用时,其他类可能还没加载完成,运行环境不安全. load方法是线程安全的，它使用了锁，我们应该避免线程阻塞在load方法.
 
@@ -122,14 +150,15 @@ Runtime在一个程序中每一个类的一个程序中发送一个初始化一�
 
 initialize在类或者其子类的第一个方法被调用前调用。即使类文件被引用进项目,但是没有使用,initialize不会被调用。由于是系统自动调用，也不需要显式的调用父类的initialize，否则父类的initialize会被多次执行。假如这个类放到代码中，而这段代码并没有被执行，这个函数是不会被执行的。
 
-*   1.父类的initialize方法会比子类先执行
-*   2.当子类不实现initialize方法，会把父类的实现继承过来调用一遍。在此之前，父类的方法会被优先调用一次
-*   3.当有多个Category都实现了initialize方法,会覆盖类中的方法,只执行一个(会执行Compile Sources 列表中最后一个Category 的initialize方法)
+1. 父类的initialize方法会比子类先执行
+2. 当子类不实现initialize方法，**会把父类的实现继承过来调用一遍**。在此之前，父类的方法会被优先调用一次
+3. 当有多个Category都实现了initialize方法,会覆盖类中的方法,只执行一个(会执行Compile Sources 列表中最后一个Category 的initialize方法)
 
-注意: 在initialize方法收到调用时,运行环境基本健全。 initialize内部也使用了锁，所以是线程安全的。但同时要避免阻塞线程，不要再使用锁
+注意: 在initialize方法收到调用时,运行环境基本健全。 initialize内部也使用了锁，所以是线程安全的。但同时要避免阻塞线程，不要再使用锁。
 
 ## viewDidLoad
 
+* 控制器的view加载完成的时候调用
 * viewDidLoad用于配置您未在XIB或Storyboard中配置的任何内容。在视图控制器将其视图层次结构从XIB或Storyboard加载到内存后调用它。当在loadView方法中以编程方式创建视图时也会调用它，但是在使用loadView时，您不需要使用viewDidLoad，因为您已经以编程方式创建了视图，并且不需要将该代码的一部分分成viewDidLoad。
 * 调用此方法时，**您知道IBOutlets现在已连接，但视图尚未布局**，因此此时您应该在Interface Builder中执行任何无法完成的视图自定义
 * 重要的是要记住，一旦您的视图被加载并在导航堆栈中，从视图移动到另一个屏幕并再次返回不会导致再次调用viewDidLoad，因此不要在此处放置需要在视图时更新的代码控制器即将变得活跃。
@@ -175,24 +204,76 @@ viewWillLayoutSubviews在视图控制器的视图边界发生更改时调用（�
 *   改变一个UIView大小的时候也会触发父UIView上的layoutSubviews事件
 
 
-##  UIViewController 设置导航栏和标签栏不同 title 的问题
-
-查了苹果文档中关于 UIViewController 中 title 属性的定义，有如下一段描述：
-
-If the view controller has a valid navigation item or tab-bar item, assigning a value to this property updates the title text of those objects.
-
-也就是说，如果一个 VC 同时有导航栏和标签栏，那么当给 title 赋值时，会同时修改这两个地方的标题。所以如果我们只想设置导航栏的标题，可以通过 self.navigationItem.title = xxx 的方式来实现。
-
-因此，在一个 VC 中设置相关标题简单总结如下：
-
-* self.navigationItem.title: 设置 VC 顶部导航栏的标题
-* self.tabBarItem.title: 设置 VC 底部标签栏的标题
-* self.title: 同时修改上述两处的标题
 
 ### window
 
 其实显示或者旋转的回调的触发的源头来自于window,一个app首先有一个主window，初始化的时候需要给这个主window指定一个rootViewController，window会将显示相关的回调(viewWillAppear:, viewWillDisappear:, viewDidAppear:, or viewDidDisappear: )以及旋转相关的回调(willRotateToInterfaceOrientation:duration: ,willAnimateRotationToInterfaceOrientation:duration:, didRotateFromInterfaceOrientation:)传递给rootViewController。rootViewController需要再将这些callbacks的调用传递给它的Child View Controllers。
 
+## 导航控制器
+
+1. 导航控制器永远显示的是栈顶控制器的view
+2. 导航控制器中做界面之间的跳转必须拿到导航控制器
+3. 调用pop方法并不会马上销毁当前控制器,记住!
+4. popToViewController使用注意点,传入进去的控制器必须是导航控制器栈里面的控制器
+5. **导航条的内容由栈顶控制器决定**,一个导航控制器只有一个导航条,因此只能由一个控制器决定,谁先显示在最外面,谁就是栈顶控制器. 
+6. 在iOS7之后,默认会把导航条上的按钮的图片渲染成蓝色. 
+7. 导航条上的子控件位置不需要我们管理,只需要管理尺寸
+8. UINavigationItem:是一个模型,决定导航条的内容(左边内容,中间,右边内容)
+9. UIBarButtonItem:是一个模型,决定导航条上按钮的内容
+10. 以后只要看到item,通常都是苹果提供的模型,只要改模型就能修改苹果的某些控件.
+
+3.1> 怎么添加导航控制器的子控制器,push,或者一创建的时候就给一个 根控制器,默认第一个子控制器叫根控制器。
+4> UINavgationViewController子控制器管理原理
+4.1> 导航控制器是通过栈管理子控制器,PPT分析,栈是先进后出 4.2> push把控制器压入栈,然后创建控制器的view,把控制器的view在 添加到导航控制器上
+4.3> 什么是栈顶和栈底控制器,栈底也叫导航控制器的根控制器。
+4.4> 显示到导航控制器的永远是栈顶控制器的view,栈底控制器的view 不会被销毁,只是移除父视图。 
+4.5>点击返回,移除栈顶控制器,移除的控制器会被销毁
+
+• 首先了解topViewController和viewControllers和childViewControllers,出栈
+的时候可能用到。
+5.0. topViewController获取栈顶控制器。
+5.1 viewControllers和childViewControllers:压入栈的控制器都会作为导航 控制器的子控制器。
+5.2 通过pop手动出栈,之前都是点击back自动出栈。
+5.3 主动出栈,要求出栈的控制器必须是栈里面的控制器,不能自己创建 一个控制器出栈,会报出栈的控制器不存在的错误,这时候可以用
+viewControllers或者childViewControllers拿到根控制器。
+5.4 pop控制器,不会马上销毁栈顶控制器,而是告诉导航控制器需要把 栈顶控制器出栈,等到恰当的时间就会把栈顶控制器出栈,并且销
+5.2 通过pop手动出栈,之前都是点击back自动出栈。
+5.3 主动出栈,要求出栈的控制器必须是栈里面的控制器,不能自己创建 一个控制器出栈,会报出栈的控制器不存在的错误,这时候可以用
+viewControllers或者childViewControllers拿到根控制器。
+5.4 pop控制器,不会马上销毁栈顶控制器,而是告诉导航控制器需要把 栈顶控制器出栈,等到恰当的时间就会把栈顶控制器出栈,并且销 毁。(断点演示)
+6.设置导航条的内容
+6.1> 一个导航控制器只有一个导航条,子控制器共用一个导航条。 6.2>如何设置导航条的内容,导航条的内容由栈顶控制器的 navigationItem决定,因此导航控制器必须要有一个根控制器,本身不具 备完整的显示功能,因为他的导航条他自己不能决定。
+6.3> 设置one控制器的导航条标题,显示one的时候,one就是栈顶控制器,直接拿到navigationItem设置title.
+6.4 设置navigationItem的titleView为UISegmentedControl,不需要设置位置,只需要设置尺寸。
+6.5 设置导航条左右两边按钮,按钮必须是 UIBarButtonItem.leftBarButtonItem, rightBarButtonItem,rightBarButtonItems
+6.6 导航条上的返回按钮由上一个控制器决定。
+1> 如果上一个控制器没有设置标题,默认back
+2> 如果上一个控制器设置标题,并且没有超过12个字符,默认返 回标题和上一个控制器一致,如果超过12个字符,就会变成back。3> 还可以主动直接设置下一个界面的返回按钮,设置上一个控制 器的backBarButtonItem属性
+7.验证导航条的frame和导航控制器的内部结构,用一个UIView的分类。
+1> 导航条的的高度是44
+2> 利用UIView的分类,生成导航控制器view的内部结构的xml,写入桌面。
+3> ios6和ios7导航控制器的区别。
+8.导航控制器-利用storyboard创建
+8.1> 程序一启动,就加载导航控制器,设置storyboard箭头指向导航控制器
+8.2> 设置导航控制器的根控制器为UIViewController
+8.3> 设置导航条的内容,还有下一个控制器的返回按钮
+8.4> 利用storyboard做跳转,选中按钮拖线
+8.5> 利用按钮,回到上一个控制器,不能回拖,会新创建一个控制器, 只能通过代码。 
+.在非ARC中viewDidUnload系统方法,经常用来清空界面上的数据
+
+### 修改导航栏的内容
+
+```objc
+ UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:cusBtn];
+ 
+self.navigationItem.rightBarButtonItem = item;
+```
+
+### 导航控制器数据传递
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202133841.png)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190202133853.png)
 
 ## 子控制器
 
@@ -406,6 +487,22 @@ removeFromParentViewController 方法会自动调用了该方法，所以，删
  
 
 所以如果你要自己写一个界面容器往往用不了appearence callbacks自动调用的特性，需要将此特性关闭，然后自己去精确控制appearance callbacks的调用时机。
+
+## 问题
+
+##  UIViewController 设置导航栏和标签栏不同 title 的问题
+
+查了苹果文档中关于 UIViewController 中 title 属性的定义，有如下一段描述：
+
+If the view controller has a valid navigation item or tab-bar item, assigning a value to this property updates the title text of those objects.
+
+也就是说，如果一个 VC 同时有导航栏和标签栏，那么当给 title 赋值时，会同时修改这两个地方的标题。所以如果我们只想设置导航栏的标题，可以通过 self.navigationItem.title = xxx 的方式来实现。
+
+因此，在一个 VC 中设置相关标题简单总结如下：
+
+* self.navigationItem.title: 设置 VC 顶部导航栏的标题
+* self.tabBarItem.title: 设置 VC 底部标签栏的标题
+* self.title: 同时修改上述两处的标题
 
 
 ## 参考

@@ -268,25 +268,25 @@ sizeToFit
 
 ### ConvertRect
 
-##### fromView
+##### ConvertRect fromView
 
 ```objc
-  CGRect newRect = [self.view convertRect:self.blueView.frame fromView:self.redView];
+CGRect newRect = [self.view convertRect:self.blueView.frame fromView:self.redView];
 ```
 
 这段代码的意思算出在红色控件里的蓝色控件在控制器view中的位置（其实就是算x和y的值，因为宽高不变）
-toView
+
+##### ConvertRect toView
 
 ```objc
-  CGRect newRect = [self.blueView convertRect:CGRectMake(50, 50, 100, 100) toView:self.greenView];
+CGRect newRect = [self.blueView convertRect:CGRectMake(50, 50, 100, 100) toView:self.greenView];
 ```
 
-**调用视图 `convertRect`: 调用视图相对于目标视图的frame toview目标视图**
+* 调用视图 `convertRect`: 调用视图相对于目标视图的frame 
+* toview:目标视图
+* 目标视图为`nil`的时候指的是Window
 
-目标视图为`nil`的时候指的是Window.
-
-
-[理解UIView的绘制](http://vizlabxt.github.io/blog/2012/10/22/UIView-Rendering/)
+## [理解UIView的绘制](http://vizlabxt.github.io/blog/2012/10/22/UIView-Rendering/)
 
 也许要先从Runloop开始说，iOS的mainRunloop是一个60fps的回调，也就是说每16.7ms会绘制一次屏幕，这个时间段内要完成view的缓冲区创建，view内容的绘制（如果重写了drawRect），这些CPU的工作。然后将这个缓冲区交给GPU渲染，这个过程又包括多个view的拼接(compositing)，纹理的渲染（Texture）等，最终显示在屏幕上。因此，如果在16.7ms内完不成这些操作，比如，CPU做了太多的工作，或者view层次过于多，图片过于大，导致GPU压力太大，就会导致“卡”的现象，也就是丢帧。
 
@@ -296,11 +296,11 @@ toView
 
 总的来说，UIView从绘制到Render的过程有如下几步：
 
-每一个UIView都有一个layer，每一个layer都有个content，这个content指向的是一块缓存，叫做backing store。
+* 每一个UIView都有一个layer，每一个layer都有个content，这个content指向的是一块缓存，叫做backing store。
 
-UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行drawRect，通过context将数据写入backing store
+* UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行drawRect，通过context将数据写入backing store
 
-当backing store写完后，通过render server交给GPU去渲染，将backing store中的bitmap数据显示在屏幕上
+* 当backing store写完后，通过render server交给GPU去渲染，将backing store中的bitmap数据显示在屏幕上
 
 上面提到的从CPU到GPU的过程可用下图表示：
 
@@ -308,7 +308,7 @@ UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行drawR
 
 下面具体来讨论下这个过程
 
-CPU bound：
+#### CPU bound：
 
 假设我们创建一个UILabel：
 
@@ -323,35 +323,38 @@ label.text = @"test";
 这个时候不会发生任何操作，由于UILabel重写了drawRect，因此，这个view会被marked as “dirty”：
 
 类似这个样子：
+
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212684345666.jpg)
 
 然后一个新的Runloop到来，上面说道在这个Runloop中需要将界面渲染上去，对于UIKit的渲染，Apple用的是它的Core Animation。
 
 做法是在Runloop开始的时候调用：
 
-1
-[CATransaction begin]
+```objc
+[CATransaction begin];
+```
+
 在Runloop结束的时候调用
 
-1
-[CATransaction commit]
+```objc
+[CATransaction commit];
+```
+
 在begin和commit之间做的事情是将view增加到view hierarchy中，这个时候也不会发生任何绘制的操作。
 
-当[CATransaction commit]执行完后，CPU开始绘制这个view：
+* 当[CATransaction commit]执行完后，CPU开始绘制这个view：
 
+* 首先CPU会为layer分配一块内存用来绘制bitmap，叫做backing store
 
+* 创建指向这块bitmap缓冲区的指针，叫做CGContextRef
 
-首先CPU会为layer分配一块内存用来绘制bitmap，叫做backing store
+* 通过Core Graphic的api，也叫Quartz2D，绘制bitmap
 
-创建指向这块bitmap缓冲区的指针，叫做CGContextRef
+* 将layer的content指向生成的bitmap
 
-通过Core Graphic的api，也叫Quartz2D，绘制bitmap
+* 清空dirty flag标记
 
-将layer的content指向生成的bitmap
-
-清空dirty flag标记
-
-这样CPU的绘制基本上就完成了。
+* 这样CPU的绘制基本上就完成了。
 
 通过time profiler 可以完整的看到个过程：
 
@@ -393,18 +396,18 @@ Core Animation对OpenGL的api有一层封装，当我们的要渲染的layer已�
 这个对应关系建立起来之后，剩下的任务就是GPU如何将Texture渲染到屏幕上了。
 
 GPU大致的工作模式如下：
+
+
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212685103262.jpg)
 
 整个过程也就是一件事：CPU将准备好的bitmap放到RAM里，GPU去搬这快内存到VRAM中处理。
-
 
 而这个过程GPU所能承受的极限大概在16.7ms完成一帧的处理，所以最开始提到的60fps其实就是GPU能处理的最高频率。
 
 因此，GPU的挑战有两个：
 
-将数据从RAM搬到VRAM中
-
-将Texture渲染到屏幕上
+1. 将数据从RAM搬到VRAM中
+2. 将Texture渲染到屏幕上
 
 这两个中瓶颈基本在第二点上。渲染Texture基本要处理这么几个问题：
 
@@ -412,14 +415,16 @@ Compositing：
 
 Compositing是指将多个纹理拼到一起的过程，对应UIKit，是指处理多个view合到一起的情况，如
 
-1
-[self.view addsubview : subview]。
+```objc
+[self.view addSubview: subview];
+```
 如果view之间没有叠加，那么GPU只需要做普通渲染即可。 如果多个view之间有叠加部分，GPU需要做blending。
 
 加入两个view大小相同，一个叠加在另一个上面，那么计算公式如下：
 
-1
+```
 R = S+D*(1-Sa)
+```
 R: 为最终的像素值
 
 S: 代表 上面的Texture（Top Texture）
@@ -444,18 +449,23 @@ Offscreen Rendering And Mask
 
 如果我们对layer做这样的操作：
 
-1
-2
+```objc
 label.layer.cornerRadius = 5.0f;
 label.layer.masksToBounds = YES;
+```
+
 会产生offscreen rendering,它带来的最大的问题是，当渲染这样的layer的时候，需要额外开辟内存，绘制好radius，mask，然后再将绘制好的bitmap重新赋值给layer。
 
 因此继续性能的考虑，Quartz提供了优化的api：
 
-    label.layer.cornerRadius = 5.0f;
-	label.layer.masksToBounds = YES;
-	label.layer.shouldRasterize = YES;
-	label.layer.rasterizationScale = label.layer.contentsScale;
+
+```objc
+label.layer.cornerRadius = 5.0f;
+label.layer.masksToBounds = YES;
+label.layer.shouldRasterize = YES;
+label.layer.rasterizationScale = label.layer.contentsScale;
+```
+
 
 简单的说，这是一种cache机制。
 
@@ -481,108 +491,150 @@ That’s all
 
 [iOS文档补完计划--UIView - 简书](https://www.jianshu.com/p/ea3d2970a892)
 
-## 目录
+## CALayer
 
-*   **创建视图对象**
-*   **配置视图的视觉外观**
-    *   **backgroundColor**
-    *   **hidden**
-    *   **alpha**
-    *   _opaque_
-    *   tintColor
-    *   _tintAdjustmentMode_
-    *   **clipsToBounds**
-    *   _clearsContextBeforeDrawing_
-    *   **maskView**
-    *   layerClass
-    *   layer
-*   **配置与事件相关的行为**
-    *   **userInteractionEnabled**
-    *   multipleTouchEnabled
-    *   exclusiveTouch
-*   **配置边界和框架矩形**
-    *   **frame**
-    *   **bounds**
-    *   center
-    *   **transform**
-*   **管理视图层次结构**
-    *   **superview**
-    *   **subviews**
-    *   _window_
-    *   **addSubview**
-    *   **removeFromSuperview**
-    *   bringSubviewToFront
-    *   sendSubviewToBack
-    *   insertSubview:atIndex:
-    *   insertSubview:aboveSubview:
-    *   insertSubview: belowSubview:
-    *   exchangeSubviewAtIndex:withSubviewAtIndex:
-    *   **isDescendantOfView:**
-*   观察与视图层级的更改
-    *   didAddSubview/willRemoveSubview等六个方法
-*   配置内容边距
-    *   _LayoutMargins相关_
-*   **屏幕的安全区域**
-    *   **safeAreaInsets**
-    *   **safeAreaLayoutGuide**
-    *   safeAreaInsetsDidChange
-    *   insetsLayoutMarginsFromSafeArea
-*   **测量Auto Layout**
-    *   **systemLayoutSizeFittingSize**
-    *   systemLayoutSizeFittingSize:withHorizontalFittingPriority:verticalFittingPriority
-    *   **intrinsicContentSize**
-    *   **invalidateIntrinsicContentSize**
-    *   **Compression Resistance priority(抗压缩)**
-    *   **Hugging priority(抗拉伸)**
-*   **触发自动布局**
-    *   needsUpdateConstraints
-    *   **setNeedsUpdateConstraints**
-    *   **updateConstraints**
-    *   **updateConstraintsIfNeeded**
-*   **配置调整大小行为**
-    *   **contentMode**
-    *   **UIViewContentMode**
-    *   **sizeThatFits**
-    *   sizeToFit
-    *   autoresizesSubviews
-    *   autoresizingMask
-*   **布局子视图**
-    *   **layoutSubviews**
-    *   **setNeedsLayout**
-    *   **layoutIfNeeded**
-    *   _requiresConstraintBasedLayout_
-    *   _translatesAutoresizingMaskIntoConstraints_
-*   **绘制和更新视图**
-    *   **drawRect**
-    *   **setNeedsDisplay**
-    *   **setNeedsDisplayInRect**
-    *   _contentScaleFactor_
-    *   tintColorDidChange
-*   **管理手势识别器**
-    *   **添加删除和获取**
-    *   **gestureRecognizerShouldBegin**
-*   _观察焦点_
-    *   _canBecomeFocused_
-    *   _focused_
-*   _运动视觉效果_
-    *   _添加删除和获取_
-*   **后台启动恢复**
-*   捕获视图快照
-*   **识别视图**
-    *   **tag**
-    *   **viewWithTag**
-*   **坐标系转换**
-    *   **convertPoint**
-    *   **convertRect**
-    *   **超出父视图的View可以被点击**
-*   **命中测试(Hit-Testing)**
-    *   **hitTest:withEvent**
-    *   **pointInside:withEvent**
-    *   **为响应链寻找最合适的FirstView**
-*   **结束视图编辑**
-    *   **endEditing:**
-*   Block动画
-*   首尾式动画
+#### UIView和CALayer的选择
+
+
+通过CALayer，就能做出跟UIView一样的界面效果
+ 
+既然CALayer和UIView都能实现相同的显示效果，那究竟该选择谁好呢？
+其实，对比CALayer，UIView多了一个事件处理的功能。也就是说，CALayer不能处理用户的触摸事件，而UIView可以
+所以，如果显示出来的东西需要跟用户进行交互的话，用UIView；如果不需要跟用户进行交互，用UIView或者CALayer都可以
+当然，CALayer的性能会高一些，因为它少了事件处理的功能，更加轻量级
+
+在iOS中，你能看得见摸得着的东西基本上都是UIView，比如一个按钮、一个文本标签、一个文本输入框、一个图标等等，这些都是UIView
+ 
+其实UIView之所以能显示在屏幕上，完全是因为它内部的一个图层
+ 
+在创建UIView对象时，UIView内部会自动创建一个图层(即CALayer对象)，通过UIView的layer属性可以访问这个层
+```objc
+@property(nonatomic,readonly,retain) CALayer *layer; 
+``` 
+当UIView需要显示到屏幕上时，会调用drawRect:方法进行绘图，并且会将所有内容绘制在自己的图层上，绘图完毕后，系统会将图层拷贝到屏幕上，于是就完成了UIView的显示
+ 
+换句话说，UIView本身不具备显示的功能，是它内部的层才有显示功能
+ 
+### CALayer的基本使用
+
+
+通过操作CALayer对象，可以很方便地调整UIView的一些外观属性，比如：
+阴影
+圆角大小
+边框宽度和颜色
+… …
+ 
+还可以给图层添加动画，来实现一些比较炫酷的效果
+
+
+
+## 自定义View
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190203101219.png)
+
+
+## UIView属性目录
+
+**创建视图对象**
+**配置视图的视觉外观**
+    **backgroundColor**
+    **hidden**
+    **alpha**
+    _opaque_
+    tintColor
+    _tintAdjustmentMode_
+    **clipsToBounds**
+    _clearsContextBeforeDrawing_
+    **maskView**
+    layerClass
+    layer
+**配置与事件相关的行为**
+    **userInteractionEnabled**
+    multipleTouchEnabled
+    exclusiveTouch
+**配置边界和框架矩形**
+    **frame**
+    **bounds**
+    center
+    **transform**
+**管理视图层次结构**
+    **superview**
+    **subviews**
+    _window_
+    **addSubview**
+    **removeFromSuperview**
+    bringSubviewToFront
+    sendSubviewToBack
+    insertSubview:atIndex:
+    insertSubview:aboveSubview:
+    insertSubview: belowSubview:
+    exchangeSubviewAtIndex:withSubviewAtIndex:
+    **isDescendantOfView:**
+观察与视图层级的更改
+    didAddSubview/willRemoveSubview等六个方法
+配置内容边距
+    _LayoutMargins相关_
+**屏幕的安全区域**
+    **safeAreaInsets**
+    **safeAreaLayoutGuide**
+    safeAreaInsetsDidChange
+    insetsLayoutMarginsFromSafeArea
+**测量Auto Layout**
+    **systemLayoutSizeFittingSize**
+    systemLayoutSizeFittingSize:withHorizontalFittingPriority:verticalFittingPriority
+    **intrinsicContentSize**
+    **invalidateIntrinsicContentSize**
+    **Compression Resistance priority(抗压缩)**
+    **Hugging priority(抗拉伸)**
+**触发自动布局**
+    needsUpdateConstraints
+    **setNeedsUpdateConstraints**
+    **updateConstraints**
+    **updateConstraintsIfNeeded**
+**配置调整大小行为**
+    **contentMode**
+    **UIViewContentMode**
+    **sizeThatFits**
+    sizeToFit
+    autoresizesSubviews
+    autoresizingMask
+**布局子视图**
+    **layoutSubviews**
+    **setNeedsLayout**
+    **layoutIfNeeded**
+    _requiresConstraintBasedLayout_
+    _translatesAutoresizingMaskIntoConstraints_
+**绘制和更新视图**
+    **drawRect**
+    **setNeedsDisplay**
+    **setNeedsDisplayInRect**
+    _contentScaleFactor_
+    tintColorDidChange
+**管理手势识别器**
+    **添加删除和获取**
+    **gestureRecognizerShouldBegin**
+_观察焦点_
+    _canBecomeFocused_
+    _focused_
+_运动视觉效果_
+    _添加删除和获取_
+**后台启动恢复**
+捕获视图快照
+**识别视图**
+    **tag**
+    **viewWithTag**
+**坐标系转换**
+    **convertPoint**
+    **convertRect**
+    **超出父视图的View可以被点击**
+**命中测试(Hit-Testing)**
+    **hitTest:withEvent**
+    **pointInside:withEvent**
+    **为响应链寻找最合适的FirstView**
+**结束视图编辑**
+    **endEditing:**
+Block动画
+首尾式动画
 
 * * *
 
@@ -590,7 +642,7 @@ That’s all
 
 > 包含了UIView的基本功能
 
-*   ##### userInteractionEnabled
+##### userInteractionEnabled
 
 > 设置用户交互，默认YES允许用户交互
 
@@ -599,7 +651,7 @@ That’s all
 
 ```
 
-*   ##### tag
+##### tag
 
 > 控件标记(父控件可以通过tag找到对应的子控件)，默认为0
 
@@ -608,9 +660,9 @@ That’s all
 
 ```
 
-*   ##### 观察焦点
+##### 观察焦点
 
-*   ##### 管理用户界面方向
+##### 管理用户界面方向
 
 **semanticContentAttribute(翻转效果)**
 
@@ -642,7 +694,7 @@ That’s all
 
 ### UIViewGeometry(几何分类)
 
-*   ##### multipleTouchEnabled
+##### multipleTouchEnabled
 
 > 是否允许多点触摸 默认NO
 
@@ -667,7 +719,7 @@ That’s all
 
 ### 配置视图的视觉外观
 
-*   ##### backgroundColor
+##### backgroundColor
 
 > 视图背景色
 
@@ -678,7 +730,7 @@ That’s all
 
 默认值nil、也就是透明。
 
-*   ##### hidden
+##### hidden
 
 > 是否隐藏视图
 
@@ -689,7 +741,7 @@ That’s all
 
 父视图的隐藏会导致子视图被隐藏。并且不能被点击、不能成为第一响应者
 
-*   ##### alpha
+##### alpha
 
 > 视图透明度
 
@@ -700,7 +752,7 @@ That’s all
 
 父视图的透明度会应用到子视图上。小于0.01则等于被隐藏了。
 
-*   ##### opaque
+##### opaque
 
 > 视图是否不透明。主要是用于视图混合
 
@@ -715,7 +767,7 @@ UIView的默认值是YES、但UIButton等子类的默认值都是NO。
 [这和视图合成机制有关](https://blog.csdn.net/wzzvictory/article/details/10076323)
 简而言之如果你的视图`alpha=1`、完全可以将`opaque=YES`。让GPU在混合视图时不必考虑下方视图颜色。
 
-*   ##### tintColor
+##### tintColor
 
 > 色调颜色
 
@@ -733,7 +785,7 @@ UIView的默认值是YES、但UIButton等子类的默认值都是NO。
 
 想进一步了解的话。这里推荐一个博客可以看一看: [《iOS tintColor解析》](https://www.cnblogs.com/wfwenchao/p/4884833.html)
 
-*   ##### tintAdjustmentMode
+##### tintAdjustmentMode
 
 > 色调(tintColor)模式
 
@@ -751,7 +803,7 @@ typedef NS_ENUM(NSInteger, UIViewTintAdjustmentMode) {
 
 改变这个属性、也会调用`tintColorDidChange:`方法。
 
-*   ##### clipsToBounds
+##### clipsToBounds
 
 > 是否截取掉超过子视图超过自身的部分、默认为NO
 
@@ -764,7 +816,7 @@ typedef NS_ENUM(NSInteger, UIViewTintAdjustmentMode) {
 需要注意的是`layer`有一个方法`maskToBounds`也是一个作用、`clipsToBounds`内部就是调用了`maskToBounds`。
 其实效果一样、只不过从语义上来讲分成`View`和`layer`两个方法。
 
-*   ##### clearsContextBeforeDrawing
+##### clearsContextBeforeDrawing
 
 > 视图重绘前是否先清理以前的内容，默认YES
 
@@ -777,7 +829,7 @@ typedef NS_ENUM(NSInteger, UIViewTintAdjustmentMode) {
 如果你的代码已经做了大量优化、那么设为NO可以提高性能、尤其是在滚动时可能只需要重新绘画视图的一部分。
 所以说、通常用不到。
 
-*   ##### maskView
+##### maskView
 
 > 遮罩层
 
@@ -819,7 +871,7 @@ view1.maskView = maskView;
 
 你还可以通过layer或者图片来设计出很多有趣的效果:[《使用 maskView 设计动画》](https://www.jianshu.com/p/6e360516e3bc)、[《还有一个有趣的动画库》](https://github.com/rounak/RJImageLoader)(layer.mask)
 
-*   ##### layerClass
+##### layerClass
 
 > 返回当前View所使用的根Layer类型
 
@@ -836,7 +888,7 @@ layer有很多种、比如`CATextLayer`适合文本、`CAGradientLayer`适合处
 
 当然这些我都不太了解~你可以参阅[《[iOS Animation]-CALayer 专用图层》](https://www.cnblogs.com/daxiaxiaohao/p/4272722.html)
 
-*   ##### layer
+##### layer
 
 > layer视图图层(可以用来设置圆角效果/阴影效果)
 
@@ -849,7 +901,7 @@ layer有很多种、比如`CATextLayer`适合文本、`CAGradientLayer`适合处
 
 ### 配置与事件相关的行为
 
-*   ##### userInteractionEnabled
+##### userInteractionEnabled
 
 > 设置用户交互、默认YES允许用户交互。
 
@@ -861,7 +913,7 @@ layer有很多种、比如`CATextLayer`适合文本、`CAGradientLayer`适合处
 这个属性直接影响到控件能否进入响应链或者成为第一响应者。
 [《iOS文档补完计划--UIResponder》](https://www.jianshu.com/p/0af63fe03f76)
 
-*   ##### multipleTouchEnabled
+##### multipleTouchEnabled
 
 > 是否允许多指触控。默认NO
 
@@ -870,7 +922,7 @@ layer有很多种、比如`CATextLayer`适合文本、`CAGradientLayer`适合处
 
 ```
 
-*   ##### **exclusiveTouch**
+##### **exclusiveTouch**
 
 > 是否让View独占Touch事件
 
@@ -885,7 +937,7 @@ layer有很多种、比如`CATextLayer`适合文本、`CAGradientLayer`适合处
 
 ### 配置边界和框架矩形
 
-*   ##### frame
+##### frame
 
 > 位置和尺寸
 
@@ -896,7 +948,7 @@ layer有很多种、比如`CATextLayer`适合文本、`CAGradientLayer`适合处
 
 以父控坐标系的左上角为坐标原点(0, 0)
 
-*   ##### bounds
+##### bounds
 
 > 位置和尺寸
 
@@ -907,7 +959,7 @@ layer有很多种、比如`CATextLayer`适合文本、`CAGradientLayer`适合处
 
 以自身标系的左上角为坐标原点(0, 0)
 
-*   ##### center
+##### center
 
 > 中心点
 
@@ -918,7 +970,7 @@ layer有很多种、比如`CATextLayer`适合文本、`CAGradientLayer`适合处
 
 以父控件的左上角为坐标原点(0, 0)
 
-*   ##### transform
+##### transform
 
 > 形变
 
@@ -952,7 +1004,7 @@ for (int i = 0; i < cells.count; i++) {
 
 ### 管理视图层次结构
 
-*   ##### superview
+##### superview
 
 > 获取父视图
 
@@ -961,7 +1013,7 @@ for (int i = 0; i < cells.count; i++) {
 
 ```
 
-*   ##### subviews
+##### subviews
 
 > 获取所有子视图
 
@@ -973,7 +1025,7 @@ for (int i = 0; i < cells.count; i++) {
 数组的顺序等于添加到父视图上的顺序。
 你也可以尝试用递归的方式遍历所有子视图嗯。
 
-*   ##### window
+##### window
 
 > 获取视图所在的Window
 
@@ -984,7 +1036,7 @@ for (int i = 0; i < cells.count; i++) {
 
 这个我也不太懂干嘛的。只知道如果父视图是UIWindow一定有值、否则(_我测试的都是_)为空。
 
-*   ##### - addSubview:
+##### - addSubview:
 
 > 添加子视图
 
@@ -995,7 +1047,7 @@ for (int i = 0; i < cells.count; i++) {
 
 会被添加在subviews的末尾、视图层级的最上方。
 
-*   ##### - removeFromSuperview
+##### - removeFromSuperview
 
 > 从父视图上移除
 
@@ -1004,7 +1056,7 @@ for (int i = 0; i < cells.count; i++) {
 
 ```
 
-*   ##### - bringSubviewToFront:
+##### - bringSubviewToFront:
 
 > 移动指定的子视图，使其显示在其所以兄弟节点之上
 
@@ -1013,7 +1065,7 @@ for (int i = 0; i < cells.count; i++) {
 
 ```
 
-*   ##### - **sendSubviewToBack**:
+##### - **sendSubviewToBack**:
 
 > 移动指定的子视图，使其显示在其所有兄弟节点之下
 
@@ -1045,7 +1097,7 @@ view3.backgroundColor = [UIColor yellowColor];
 
 ```
 
-*   ##### - insertSubview:atIndex:
+##### - insertSubview:atIndex:
 
 > 插入子视图(将子视图插入到subviews数组中index这个位置)
 
@@ -1054,7 +1106,7 @@ view3.backgroundColor = [UIColor yellowColor];
 
 ```
 
-*   ##### - insertSubview:aboveSubview:
+##### - insertSubview:aboveSubview:
 
 > 插入子视图(将子视图插到siblingSubview之上)
 
@@ -1063,7 +1115,7 @@ view3.backgroundColor = [UIColor yellowColor];
 
 ```
 
-*   ##### - insertSubview: belowSubview:
+##### - insertSubview: belowSubview:
 
 > 插入子视图(将子视图插到siblingSubview之下)
 
@@ -1072,7 +1124,7 @@ view3.backgroundColor = [UIColor yellowColor];
 
 ```
 
-*   ##### - exchangeSubviewAtIndex:withSubviewAtIndex:
+##### - exchangeSubviewAtIndex:withSubviewAtIndex:
 
 > 交换两个子视图
 
@@ -1081,7 +1133,7 @@ view3.backgroundColor = [UIColor yellowColor];
 
 ```
 
-*   ##### - **isDescendantOfView**:
+##### - **isDescendantOfView**:
 
 > 检测一个视图是否属于另一个的子视图
 
@@ -1133,7 +1185,7 @@ YES
 
 > [官方文档对Content Margin的解释](https://developer.apple.com/documentation/uikit/uiview/positioning_content_within_layout_margins?language=objc)
 
-*   ##### directionalLayoutMargins
+##### directionalLayoutMargins
 
 > iOS11 开始引入，可以根据语言的方向进行前后布局，与 layoutMargins 相比，能更好的适配 RTL 语言。
 
@@ -1144,7 +1196,7 @@ YES
 
 但和我们关系不大、除非某天我们进军中东的某些国家了。
 
-*   ##### layoutMargins
+##### layoutMargins
 
 > 自动布局时。用于指定视图和它的子视图之间的边距。
 
@@ -1159,7 +1211,7 @@ iOS11之后请使用`directionalLayoutMargins`属性进行布局。他将左右�
 
 ~~不过说实话如果用masonry的话感觉这个属性意义不大~~
 
-*   ##### preservesSuperviewLayoutMargins
+##### preservesSuperviewLayoutMargins
 
 > 是否将当前视图的间距和父视图相同。
 
@@ -1170,7 +1222,7 @@ iOS11之后请使用`directionalLayoutMargins`属性进行布局。他将左右�
 
 设置一个视图的边距（视图边缘与其子视图边缘的距离）、防止其子视图和父视图边缘重合。
 
-*   ##### -layoutMarginsDidChange
+##### -layoutMarginsDidChange
 
 > 改变view的layoutMargins这个属性时，会触发这个方法
 
@@ -1190,7 +1242,7 @@ iOS11之后请使用`directionalLayoutMargins`属性进行布局。他将左右�
 **iOS11之后、(~~为了帮助适配iPhoneX？~~)苹果给我们引入了一个安全区域的概念。**
 **安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始，保证不被系统的状态栏、或导航栏覆盖。**
 
-*   ##### safeAreaInsets
+##### safeAreaInsets
 
 > 反映了一个view距离该view的安全区域的边距
 
@@ -1202,7 +1254,7 @@ iOS11之后请使用`directionalLayoutMargins`属性进行布局。他将左右�
 这个属性会被系统在布局后自动设置。比如你可以在`UIViewController`的`viewSafeAreaInsetsDidChange`方法下检测横屏以及竖屏下的变化。
 对于`UIView`也有对应的方法`safeAreaInsetsDidChange`
 
-*   ##### safeAreaLayoutGuide
+##### safeAreaLayoutGuide
 
 > safeAreaLayoutGuide是一个相对抽象的概念，为了便于理解，我们可以把safeAreaLayoutGuide看成是一个“view”，这个“view”系统自动帮我们调整它的bounds，让它不会被各种奇奇怪怪的东西挡住，包括iPhone X的刘海区域和底部的一道杠区域，可以认为在这个“view”上一定能完整显示所有内容。
 
@@ -1218,7 +1270,7 @@ iOS11之后请使用`directionalLayoutMargins`属性进行布局。他将左右�
 
 ```
 
-*   ##### - safeAreaInsetsDidChange
+##### - safeAreaInsetsDidChange
 
 > 当View的`safeAreaInsets`发生变化时自动调用
 
@@ -1227,7 +1279,7 @@ iOS11之后请使用`directionalLayoutMargins`属性进行布局。他将左右�
 
 ```
 
-*   ##### insetsLayoutMarginsFromSafeArea
+##### insetsLayoutMarginsFromSafeArea
 
 > 决定在自动布局时是否考虑`safeAreaInsets`的限制
 
@@ -1259,7 +1311,7 @@ constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[tableView]|"
 
 ### 测量Auto Layout
 
-*   ##### - **systemLayoutSizeFittingSize**:
+##### - **systemLayoutSizeFittingSize**:
 
 > **返回Auto Layout后内容高度**。
 
@@ -1308,7 +1360,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 
 ```
 
-*   ##### systemLayoutSizeFittingSize:withHorizontalFittingPriority:verticalFittingPriority:
+##### systemLayoutSizeFittingSize:withHorizontalFittingPriority:verticalFittingPriority:
 
 > 和上一个方法一样、但是增加了宽高的优先级。使结果更加准确
 
@@ -1317,7 +1369,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 
 ```
 
-*   ##### intrinsicContentSize
+##### intrinsicContentSize
 
 > 返回控件的固有大小
 
@@ -1336,7 +1388,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 
 举个例子、你可以让你的UITextField能够自适应宽度[《一个随输入文字宽度变化的自定义UITextField》](https://www.jianshu.com/p/a5eaba3c24f7)。
 
-*   ##### - invalidateIntrinsicContentSize
+##### - invalidateIntrinsicContentSize
 
 > 废除视图原本内容的`intrinsicContentSize`
 
@@ -1347,7 +1399,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 
 上面已经说过用法了
 
-*   ##### 抗压缩与抗拉伸
+##### 抗压缩与抗拉伸
 
 ##### Compression Resistance priority(抗压缩)
 
@@ -1379,7 +1431,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 
 ### 触发自动布局
 
-*   ##### - needsUpdateConstraints
+##### - needsUpdateConstraints
 
 > 通知用户是否有需要更新的约束
 
@@ -1391,7 +1443,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 这个可以作为你判断是否应该在后续代码里主动调用`updateConstraints`的前提。不过通常我们都不太需要、因为布局的修改都是自己写的自然清楚何时调用。
 还有就是当View尚未展示时、更新的标记一直会返回YES。
 
-*   ##### - setNeedsUpdateConstraints
+##### - setNeedsUpdateConstraints
 
 > 标记准备更改约束
 
@@ -1402,7 +1454,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 
 通常是用作批量修改约束时的优化、避免系统多次计算。
 
-*   ##### - updateConstraints
+##### - updateConstraints
 
 > 当View本体的布局被修改时被自动调用
 
@@ -1426,7 +1478,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
     `updateConstraints`方法`不会自动调用`。
     你需要手动`setNeedsUpdateConstraints`然后`updateConstraintsIfNeeded`
 
-*   ##### - updateConstraintsIfNeeded
+##### - updateConstraintsIfNeeded
 
 > 立即触发约束更新，自动更新布局
 
@@ -1483,7 +1535,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 
 ### 配置调整大小行为
 
-*   ##### contentMode
+##### contentMode
 
 > 内容显示的模式。默认`UIViewContentModeScaleToFill
 
@@ -1494,7 +1546,7 @@ model.cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFitting
 
 我们平时调整图片显示状态用的就是这个属性
 
-*   ##### UIViewContentMode
+##### UIViewContentMode
 
 > 内容具体的显示模式
 
@@ -1517,7 +1569,7 @@ typedef NS_ENUM(NSInteger, UIViewContentMode) {
 
 ```
 
-*   ##### - sizeThatFits:
+##### - sizeThatFits:
 
 > 计算内容最合适的大小、但并不改变view的size
 
@@ -1547,7 +1599,7 @@ textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, s.
 
 如果我们想让UITextField等控件也自适应、重写`intrinsicContentSize`内部用`sizeThatFits:CGSizeMake`计算一下就好了呗。
 
-*   ##### - sizeToFit
+##### - sizeToFit
 
 > 计算内容最合适的大小、并改变view的size
 
@@ -1566,7 +1618,7 @@ textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, s.
 
 注意如果修改了size、会调用`layoutSubviews`
 
-*   ##### autoresizesSubviews
+##### autoresizesSubviews
 
 > 当本身大小发生改变时、是否自动布局子视图
 
@@ -1577,7 +1629,7 @@ textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, s.
 
 如果视图的autoresizesSubviews属性声明被设置为YES，则其子视图会根据autoresizingMask属性的值自动进行尺寸调整。
 
-*   ##### autoresizingMask
+##### autoresizingMask
 
 > 当父视图`autoresizesSubviews`为`YES`并且改变了大小时、该子视图的布局规则。
 
@@ -1593,7 +1645,7 @@ textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, s.
 
 ### 布局子视图
 
-*   ##### - layoutSubviews
+##### - layoutSubviews
 
 > 当控件被(系统)赋予了一个新的大小时触发。
 
@@ -1621,7 +1673,7 @@ textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, s.
     通常都会触发两次、因为你还得给他设置frame/layout。
     不过如果先设置frame然后隔了很久才添加到屏幕上、就是一次。
 
-*   ##### - setNeedsLayout
+##### - setNeedsLayout
 
 > 为该控件设置标记。等待更新布局
 
@@ -1634,7 +1686,7 @@ textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, s.
 
 注意它并不是实时更新、而会在下一次布局周期中进行统一更新。
 
-*   ##### - layoutIfNeeded
+##### - layoutIfNeeded
 
 > 立即更新该View所有子视图的布局
 
@@ -1670,7 +1722,7 @@ NSLog(@"%lf",view.frame.size.height);//50.000000
 1.  让约束通过动画更新
     贴一个Masoney动画的例子:[《Masonry自动布局详解二：动画更新约束》](https://blog.csdn.net/woaifen3344/article/details/50114415)
 
-*   ##### requiresConstraintBasedLayout
+##### requiresConstraintBasedLayout
 
 > 标记View是否需要用AutoLayout进行布局
 
@@ -1686,7 +1738,7 @@ NSLog(@"%lf",view.frame.size.height);//50.000000
 这个说实话不太懂、看文档和网上的意思都是如果不返回YES、有可能不调用`updateConstraints`方法。但是我自己写起来总会调用、希望有大神指正。
 至于为什么要调用`updateConstraints`:[《masonry小问题之requiresConstraintBasedLayout》](https://www.jianshu.com/p/b58233a2c640)
 
-*   ##### translatesAutoresizingMaskIntoConstraints
+##### translatesAutoresizingMaskIntoConstraints
 
 > 是否将`AutoresizingMask`转化成`Constraints`约束。默认为YES
 
@@ -1712,7 +1764,7 @@ NSLog(@"%lf",view.frame.size.height);//50.000000
 
 ### 绘制和更新视图
 
-*   ##### - drawRect:
+##### - drawRect:
 
 > 自定义的绘制内容
 
@@ -1767,7 +1819,7 @@ CGContextRef context = UIGraphicsGetCurrentContext();
 这块我有空准备补一下、先打个卡:
 [《iOS绘制和渲染》](https://www.jianshu.com/p/2bbed48dbfd0)
 
-*   ##### - setNeedsDisplay
+##### - setNeedsDisplay
 
 > 标记全部重绘
 
@@ -1778,7 +1830,7 @@ CGContextRef context = UIGraphicsGetCurrentContext();
 
 需要注意的是并不会立即重绘、而是等到下一个周期
 
-*   ##### - setNeedsDisplayInRect:
+##### - setNeedsDisplayInRect:
 
 > 标记指定rect重绘
 
@@ -1791,7 +1843,7 @@ CGContextRef context = UIGraphicsGetCurrentContext();
 
 ![](//upload-images.jianshu.io/upload_images/1552225-cb6254eb7566b084.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/428/format/webp)
 
-*   ##### contentScaleFactor
+##### contentScaleFactor
 
 > 视图内容的缩放比例
 
@@ -1802,7 +1854,7 @@ CGContextRef context = UIGraphicsGetCurrentContext();
 
 修改contentScaleFactor可以让UIView的渲染精度提高，这样即使在CGAffineTransform放大之后仍然能保持锐利
 
-*   ##### - tintColorDidChange
+##### - tintColorDidChange
 
 > 当`tintColor`或者`tintAdjustmentMode`被修改时系统调用
 
@@ -1825,7 +1877,7 @@ CGContextRef context = UIGraphicsGetCurrentContext();
 
 ### 管理手势识别器
 
-*   ##### 添加删除和获取
+##### 添加删除和获取
 
 ```
 ** 当前视图所附加的所有手势识别器 */
@@ -1838,7 +1890,7 @@ CGContextRef context = UIGraphicsGetCurrentContext();
 
 ```
 
-*   ##### - gestureRecognizerShouldBegin
+##### - gestureRecognizerShouldBegin
 
 > 是否继续识别手势。
 
@@ -1902,7 +1954,7 @@ CGContextRef context = UIGraphicsGetCurrentContext();
 
 就是王者荣耀那种可以晃手机看背景图的效果吧
 
-*   ##### 添加删除和获取
+##### 添加删除和获取
 
 > 添加、删除、查看、我没用过知道就得了
 
@@ -1943,7 +1995,7 @@ UIView的例子就不举了、看看UIViewController的挺好[《iOS的App实现
 
 ### 捕获视图快照
 
-*   ##### - snapshotViewAfterScreenUpdates:
+##### - snapshotViewAfterScreenUpdates:
 
 > 对某个视图进行快照
 
@@ -1974,7 +2026,7 @@ snap1.center = self.view.center;
 设置YES、会等到当前队列的所有方法完成之后、才会生成快照。
 在设置NO的情况、延时生成快照、也能达到YES的效果、原理是一样的。
 
-*   ##### - resizableSnapshotViewFromRect:afterScreenUpdates:withCapInsets:
+##### - resizableSnapshotViewFromRect:afterScreenUpdates:withCapInsets:
 
 > 比上面的方法多了两个参数、意味着你可以把视图进行分割操作
 
@@ -1985,7 +2037,7 @@ snap1.center = self.view.center;
 
 ```
 
-*   ##### - drawViewHierarchyInRect:afterScreenUpdates:
+##### - drawViewHierarchyInRect:afterScreenUpdates:
 
 > 比之前的多了一个rect参数、其他并没发现什么去区别~
 
@@ -2002,7 +2054,7 @@ snap1.center = self.view.center;
 
 ### 识别视图
 
-*   ##### tag
+##### tag
 
 > 识别标识、默认为0
 
@@ -2011,7 +2063,7 @@ snap1.center = self.view.center;
 
 ```
 
-*   ##### - viewWithTag
+##### - viewWithTag
 
 > 范围子View中某个tag的View
 
@@ -2083,7 +2135,7 @@ snap1.center = self.view.center;
 
 ### 命中测试(Hit-Testing)
 
-*   ##### - hitTest:withEvent:
+##### - hitTest:withEvent:
 
 > 询问事件在当前视图中的响应者，同时又是作为事件传递的桥梁
 
@@ -2147,7 +2199,7 @@ snap1.center = self.view.center;
 
 ```
 
-*   ##### - pointInside:withEvent:
+##### - pointInside:withEvent:
 
 > 判断触摸点是否在自身坐标范围内
 
@@ -2181,7 +2233,7 @@ if ([subView pointInside:myPoint withEvent:event]) {
 
 通过修改`pointInside`的判定[《扩大UIButton的点击范围》](https://www.jianshu.com/p/e368d3fea803)
 
-*   ##### 为响应链寻找最合适的FirstView
+##### 为响应链寻找最合适的FirstView
 
 从事件传递到APP中开始、寻找最合适的View
 UIApplication -> UIWindow -> 父View -> 子view
@@ -2194,7 +2246,7 @@ UIApplication -> UIWindow -> 父View -> 子view
 
 ### 结束视图编辑
 
-*   ##### - endEditing:
+##### - endEditing:
 
 > 强制让自身或者子视图上的`UIResponder`放弃第一响应者。
 
