@@ -304,7 +304,7 @@ methodSignatureForSelector
 
 消息的转发机制可以用下图来帮助理解。
 	
-![消息的转发机制](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190203134351.png)
+![消息的转发机制](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15134116331645.jpg)
 
 #### 消息的转发机制
 
