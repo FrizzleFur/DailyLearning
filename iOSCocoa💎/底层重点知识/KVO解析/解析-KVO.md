@@ -1,14 +1,18 @@
 # KVO解析.md
 
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190214152631.png)
+
 * 监听方法本质:并不需要修改方法的实现,仅仅想判断下有没有调用
-* // KV0怎么实现
-* // KV0的本质就是监听一个对象有没有调用set方法，重写这个方法 
-* 修改当前对象的isa指针,指向自定
-// KV0底层实现
-// 1.自定义NSKVONotifying_ Person子类
-// 2.重写setName,在内部恢复父类做法,通知观察者
-// 3.如何让外界调用自定义Person类的子类方法，修改当前对象的isa指针,指向
-NSKVONotifying_ Person
+* KV0的本质就是监听一个对象有没有调用set方法，重写这个方法 
+* 修改当前对象的isa指针,指向自定义子类
+* 在添加观察者的时候，观察者对象与被观察属性所属的对象都不会被retain，然而在这些对象被释放后，相关的监听信息却还存在，KVO做的处理是直接让程序崩溃。
+* addObserver:forKeyPath:options:context:方法,调用这个方法时，两个对象(即观察者对象及属性所属的对象)都不会被retain。
+* 可以多次调用addObserver:forKeyPath:options:context:方法，将同一个对象注册为同一属性的观察者(所有参数可以完全相同)。这时，即便在所有参数一致的情况下，新注册的观察者并不会替换原来观察者，而是会并存。这样，当属性被修改时，两次监听都会响应
+* 可以看到KVO为每次注册都调用了一次监听处理操作。所以多次调用同样的注册操作会产生多个观察者。另外，多个观察者之间的observeValueForKeyPath:ofObject:change:context:方法调用顺序是按照先进后出的顺序来的(所有的监听信息都是放在一个数组中的，我们将在下面了解到)。
+
+
+
 
 ## Apple用什么方式实现对一个对象的KVO？
 
@@ -20,13 +24,13 @@ NSKVONotifying_ Person
 
 > **当你观察一个对象时，一个新的类会被动态创建。这个类继承自该对象的原本的类，并重写了被观察属性的 setter 方法。重写的 setter 方法会负责在调用原 setter 方法之前和之后，通知所有观察对象值的更改**。最后通过 `isa 混写（isa-swizzling）` 把这个对象的 isa 指针 ( isa 指针告诉 Runtime 系统这个对象的类是什么 ) 指向这个新创建的子类，对象就神奇的变成了新创建的子类的实例。我画了一张示意图，如下所示：
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu//15335303051090.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15335303051090.jpg)
 
 # 一、KVO是什么？
 
-*   KVO 是 Objective-C 对观察者设计模式的一种实现。【另外一种是：通知机制（notification）】；
-*   KVO提供一种机制，指定一个被观察对象(例如A类)，当对象某个属性(例如A中的字符串name)发生更改时，监听对象会获得通知，并作出相应处理；【且不需要给被观察的对象添加任何额外代码，就能使用KVO机制】
-    在MVC设计架构下的项目，KVO机制很适合实现mode模型和view视图之间的通讯。
+* KVO 是 Objective-C 对观察者设计模式的一种实现。【另外一种是：通知机制（notification）】；
+* KVO提供一种机制，指定一个被观察对象(例如A类)，当对象某个属性(例如A中的字符串name)发生更改时，监听对象会获得通知，并作出相应处理；【且不需要给被观察的对象添加任何额外代码，就能使用KVO机制】
+* 在MVC设计架构下的项目，KVO机制很适合实现mode模型和view视图之间的通讯。
 
 例如：代码中，在模型类A创建属性数据，在控制器中创建观察者，一旦属性数据发生改变就收到观察者收到通知，通过KVO再在控制器使用回调方法处理实现视图B的更新；
 
@@ -57,6 +61,14 @@ NSKVONotifying_ Person
 ```
 
 这种继承和方法注入是在运行时而不是编译时实现的。这就是正确命名如此重要的原因。只有在使用KVC命名约定时，KVO才能做到这一点。
+
+## KV0底层实现
+
+
+* 自定义NSKVONotifying_ Person子类
+* 重写setName,在内部恢复父类做法,通知观察者
+* 如何让外界调用自定义Person类的子类方法，修改当前对象的isa指针,指向NSKVONotifying_Person
+
 
 KVO 在实现中通过 `isa 混写（isa-swizzling）` 把这个对象的 isa 指针 ( isa 指针告诉 Runtime 系统这个对象的类是什么 ) 指向这个新创建的子类，对象就神奇的变成了新创建的子类的实例。这在[Apple 的文档](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/Articles/KVOImplementation.html)可以得到印证：
 
@@ -91,7 +103,7 @@ KVO 在实现中通过 `isa 混写（isa-swizzling）` 把这个对象的 isa �
 
 ```
 
-[![enter image description here](https://camo.githubusercontent.com/154f30ca6e4fbb77af74b8186057b7f7c96221ff/687474703a2f2f6936362e74696e797069632e636f6d2f6e636d3774682e6a7067)](https://camo.githubusercontent.com/154f30ca6e4fbb77af74b8186057b7f7c96221ff/687474703a2f2f6936362e74696e797069632e636f6d2f6e636d3774682e6a7067)
+![enter image description here](https://camo.githubusercontent.com/154f30ca6e4fbb77af74b8186057b7f7c96221ff/687474703a2f2f6936362e74696e797069632e636f6d2f6e636d3774682e6a7067)
 
 如果单单从下面这个例子的打印上，
 
@@ -127,6 +139,80 @@ notification的优点是监听不局限于属性的变化，还可以对多种�
 和delegate一样，KVO和NSNotification的作用都是类与类之间的通信。但是与delegate不同的是：
 这两个都是负责发送接收通知，剩下的事情由系统处理，所以不用返回值；而delegate 则需要通信的对象通过变量(代理)联系；
 delegate一般是一对一，而这两个可以一对多。
+
+## 处理属性修改通知
+
+
+当被监听的属性修改时，KVO会发出一个通知以告知所有监听这个属性的观察者对象。而观察者对象必须实现
+
+-observeValueForKeyPath:ofObject:change:context:方法，来对属性修改通知做相应的处理。这个方法的声明如下：
+
+```objc
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+
+```
+
+这个方法有四个参数，描述如下：
+
+* keyPath：即被观察的属性，与参数object相关。
+* object：keyPath所属的对象。
+* change：这是一个字典，它包含了属性被修改的一些信息。这个字典中包含的值会根据我们在添加观察者时设置的options参数的不同而有所不同。
+* context：这个值即是添加观察者时提供的上下文信息。
+* 在我们的示例中，这个方法的实现是打印一些基本的信息。如代码清单1所示。
+
+对于第三个参数，我们通常称之为变化字典(Change Dictionary)，它记录了被监听属性的变化情况。我们可以通过以下key来获取我们想要的信息：
+
+
+```objc
+// 属性变化的类型，是一个NSNumber对象，包含NSKeyValueChange枚举相关的值
+NSString *const NSKeyValueChangeKindKey;
+// 属性的新值。当NSKeyValueChangeKindKey是 NSKeyValueChangeSetting，
+// 且添加观察的方法设置了NSKeyValueObservingOptionNew时，我们能获取到属性的新值。
+// 如果NSKeyValueChangeKindKey是NSKeyValueChangeInsertion或者NSKeyValueChangeReplacement，
+// 且指定了NSKeyValueObservingOptionNew时，则我们能获取到一个NSArray对象，包含被插入的对象或
+// 用于替换其它对象的对象。
+NSString *const NSKeyValueChangeNewKey;
+// 属性的旧值。当NSKeyValueChangeKindKey是 NSKeyValueChangeSetting，
+// 且添加观察的方法设置了NSKeyValueObservingOptionOld时，我们能获取到属性的旧值。
+// 如果NSKeyValueChangeKindKey是NSKeyValueChangeRemoval或者NSKeyValueChangeReplacement，
+// 且指定了NSKeyValueObservingOptionOld时，则我们能获取到一个NSArray对象，包含被移除的对象或
+// 被替换的对象。
+NSString *const NSKeyValueChangeOldKey;
+// 如果NSKeyValueChangeKindKey的值是NSKeyValueChangeInsertion、NSKeyValueChangeRemoval
+// 或者NSKeyValueChangeReplacement，则这个key对应的值是一个NSIndexSet对象，
+// 包含了被插入、移除或替换的对象的索引
+NSString *const NSKeyValueChangeIndexesKey;
+// 当指定了NSKeyValueObservingOptionPrior选项时，在属性被修改的通知发送前，
+// 会先发送一条通知给观察者。我们可以使用NSKeyValueChangeNotificationIsPriorKey
+// 来获取到通知是否是预先发送的，如果是，获取到的值总是@(YES)
+NSString *const NSKeyValueChangeNotificationIsPriorKey;
+
+```
+
+
+其中，NSKeyValueChangeKindKey的值取自于NSKeyValueChange，它的值是由以下枚举定义的：
+
+```objc
+enum {
+	// 设置一个新值。被监听的属性可以是一个对象，也可以是一对一关系的属性或一对多关系的属性。
+   	NSKeyValueChangeSetting = 1,
+   	
+   	// 表示一个对象被插入到一对多关系的属性。
+   	NSKeyValueChangeInsertion = 2,
+   	
+   	// 表示一个对象被从一对多关系的属性中移除。
+   	NSKeyValueChangeRemoval = 3,
+   	
+   	// 表示一个对象在一对多的关系的属性中被替换
+   	NSKeyValueChangeReplacement = 4
+};
+typedef NSUInteger NSKeyValueChange;
+
+```
 
 
 # 二、kvo简单使用
@@ -459,13 +545,327 @@ iOS 10中苹果的本地推送和远程推送 API 达到了高度统一，都使
 至于苹果自己设计的 KVO 和 NotificationCenter 机制，笔者认为有很大的局限性。因为对应的通知和相应代码段之间有一定距离，代码量很大的时候非常容易找不到对应的相应。同时这种观察者模式又难以测试，代码维护和质量很难得到保证。正是因为这些原因，响应式编程才日渐兴起，大家不妨去看看 RxSwift 和 ReactCocoa，其对应的 MVVM 架构也在系统解耦上要优于原生的 MVC。
 
 
+
+## KVO
+
+1. KVO 是 Key-Value-Observing 的简称。
+
+2. KVO 是一个观察者模式。观察一个对象的属性，注册一个指定的路径，若这个对象的的属性被修改，则 KVO 会自动通知观察者。
+
+3. 更通俗的话来说就是任何对象都允许观察其他对象的属性，并且可以接收其他对象状态变化的通知。
+
+### KVO 基本使用
+
+```objc
+1.// 注册观察者，实施监听；
+[self.person addObserver:self
+              forKeyPath:@"age"
+                 options:NSKeyValueObservingOptionNew
+                 context:nil];
+
+2.// 回调方法，在这里处理属性发生的变化；
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSString *,id> *)change
+                       context:(void *)context
+
+
+3.// 移除观察者；
+[self removeObserver:self forKeyPath:@“age"];
+```
+
+KVO 在 Apple 中的 API 文档如下： 
+
+> Automatic key-value observing is implemented using a technique called isa-swizzling… When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class …
+
+Apple 使用了 isa 搅拌技术（isa-swizzling）来实现的 KVO 。当一个观察者注册对象的一个属性 isa 观察对象的指针被修改，指着一个中间类而不是在真正的类。
+
+isa 指针的作用：每个对象都有 isa 指针，指向该对象的类，它告诉 runtime 系统这个对象的类是什么。
+
+注：如果对 runtime 不很清楚的话可以看下这篇文章[Objective-C 中的 Runtime](http://www.jianshu.com/p/3e050ec3b759)
+
+举个栗子：
+
+```objc
+_person = [[Person alloc] init];
+    
+/**
+ *  添加观察者
+ *
+ *  @param observer 观察者
+ *  @param keyPath  被观察的属性名称
+ *  @param options  观察属性的新值、旧值等的一些配置（枚举值，可以根据需要设置，例如这里可以使用两项）
+ *  @param context  上下文，可以为nil。
+ */
+[_person addObserver:self
+          forKeyPath:@"age"
+             options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+             context:nil];
+```
+
+```objc
+/**
+ *  KVO回调方法
+ *
+ *  @param keyPath 被修改的属性
+ *  @param object  被修改的属性所属对象
+ *  @param change  属性改变情况（新旧值）
+ *  @param context context传过来的值
+ */
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSString *,id> *)change
+                       context:(void *)context
+{
+    NSLog(@"%@对象的%@属性改变了：%@",object,keyPath,change);
+ }
+```
+
+```objc
+/**
+ *  移除观察者
+ */
+- (void)dealloc
+{
+    [self.person removeObserver:self forKeyPath:@"age"];
+}
+```
+
+
+### KVO 实现原理
+
+* 当某个类的对象**第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的 setter 方法**。
+* 派生类在被重写的 setter 方法实现真正的通知机制，就如前面手动实现键值观察那样。这么做是基于设置属性会调用 setter 方法，而通过**重写就获得了 KVO 需要的通知机制**。当然前提是要通过遵循 KVO 的属性设置方式来变更属性值，如果仅是直接修改属性对应的成员变量，是无法实现 KVO 的。
+* 同时派生类还重写了 class 方法以“欺骗”外部调用者它就是起初的那个类。然后系统将这个对象的 isa 指针指向这个新诞生的派生类，因此这个对象就成为该派生类的对象了，因而在该对象上对 setter 的调用就会调用重写的 setter，从而激活键值通知机制。此外，派生类还重写了 dealloc 方法来释放资源。
+
+**派生类 NSKVONotifying_Person 剖析：**
+
+在这个过程，被观察对象的 isa 指针从指向原来的 Person 类，被 KVO 机制修改为指向系统新创建的子类 NSKVONotifying_Person 类，来实现当前类属性值改变的监听。
+
+所以当我们从应用层面上看来，完全没有意识到有新的类出现，这是系统“隐瞒”了对 KVO 的底层实现过程，让我们误以为还是原来的类。但是此时如果我们创建一个新的名为 NSKVONotifying_Person 的类()，就会发现系统运行到注册 KVO 的那段代码时程序就崩溃，因为系统在注册监听的时候动态创建了名为 NSKVONotifying_Person 的中间类，并指向这个中间类了。
+
+因而在该对象上对 setter 的调用就会调用已重写的 setter，从而激活键值通知机制。这也是 KVO 回调机制，为什么都俗称 KVO 技术为黑魔法的原因之一吧：内部神秘、外观简洁。
+
+**子类 setter 方法剖析：**
+
+KVO 在调用存取方法之前总是调用 willChangeValueForKey:，通知系统该 keyPath 的属性值即将变更。
+当改变发生后，didChangeValueForKey: 被调用，通知系统该 keyPath 的属性值已经变更。
+之后，observeValueForKey:ofObject:change:context: 也会被调用。
+
+重写观察属性的 setter 方法这种方式是在运行时而不是编译时实现的。
+KVO 为子类的观察者属性重写调用存取方法的工作原理在代码中相当于：
+
+```objc
+- (void)setName:(NSString *)newName
+{
+    [self willChangeValueForKey:@"name"];    // KVO在调用存取方法之前总调用
+    [super setValue:newName forKey:@"name"]; // 调用父类的存取方法
+    [self didChangeValueForKey:@"name"];     // KVO在调用存取方法之后总调用
+}
+```
+
+![KVO 实现原理图](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190214155925.png)
+
+
+## 未移除观察者的影响
+
+```objc
+- (void)testKVO {
+    
+    PersonObject *personInstance = [[PersonObject alloc] init];
+    BankObject *bankInstance = [[BankObject alloc] init];
+    
+    [bankInstance addObserver:personInstance forKeyPath:@"accountBalance" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    
+    bankInstance.accountBalance = 20;
+}
+
+```
+
+其输出结果如下所示：
+
+```objc
+keyPath = accountBalance, change = {
+    kind = 1;
+    new = 20;
+    old = 0;
+}, context = (null)
+*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'An instance 0x7fc88047e7e0 of class BankObject was deallocated while key value observers were still registered with it. Current observation info: <NSKeyValueObservationInfo 0x7fc880770fa0> (
+<NSKeyValueObservance 0x7fc880771850: Observer: 0x7fc8804737a0, Key path: accountBalance, Options: <New: YES, Old: YES, Prior: NO> Context: 0x0, Property: 0x7fc88076edd0>
+)'
+......
+    
+```
+程序在调用一次KVO后，很爽快地崩溃了。给我们的解释是`bankInstance`被释放了，但KVO中仍然还有关于它的注册信息。实际上，我们上面说过，在添加观察者的时候，观察者对象与被观察属性所属的对象都不会被`retain`，然而在这些对象被释放后，相关的监听信息却还存在，KVO做的处理是直接让程序崩溃。
+
+
+KVO (Key Value Observering) 是iOS用于监听某个对象某个变量一种简洁便利的机制。但是，对于KVO的稳定性苹果却做得没有那么好，在以下三种情况下会无情Crash：
+
+1. 监听者dealloc时，监听关系还存在。当监听值发生变化时，会给监听者的野指针发送消息，报野指针Crash。（猜测底层是保存了unsafe_unretained指向监听者的指针）；
+2. 被监听者dealloc时，监听关系还存在。在监听者内存free掉后，直接会报监听者还存在监听关系而Crash；
+3. 移除监听次数大于添加监听次数。报出多次移除的错误；
+
+
+## 优雅地使用 KVO
+
+
+### KVO问题
+
+
+* 需要手动移除观察者，且移除观察者的时机必须合适；
+* 注册观察者的代码和事件发生处的代码上下文不同，传递上下文是通过 void * 指针；
+* 需要覆写 -observeValueForKeyPath:ofObject:change:context: 方法，比较麻烦；
+* 在复杂的业务逻辑中，准确判断被观察者相对比较麻烦，有多个被观测的对象和属性时，需要在方法中写大量的 if 进行判断；
+
+
+如何优雅地解决上一节提出的几个问题呢？我们在这里只需要使用 Facebook 开源的 KVOController 框架就可以优雅地解决这些问题了。
+
+如果想要实现同样的业务需求，当使用 KVOController 解决上述问题时，只需要以下代码就可以达到与上一节中完全相同的效果：
+
+
+```objc
+[self.KVOController observe:self.fizz
+                    keyPath:@"number"
+                    options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                      block:^(id  _Nullable observer, id  _Nonnull object, NSDictionary<NSString    *,id> * _Nonnull change) {
+                          NSLog(@"%@", change);
+                      }];
+
+```
+
+
+使用 KVOController 进行键值观测可以说完美地解决了在使用原生 KVO 时遇到的各种问题。
+
+* 不需要手动移除观察者；
+* 实现 KVO 与事件发生处的代码上下文相同，不需要跨方法传参数；
+* 使用 block 来替代方法能够减少使用的复杂度，提升使用 KVO 的体验；
+* 每一个 keyPath 会对应一个属性，不需要在 block 中使用 if 判断 keyPath；
+
+## 手动操控改变通知
+
+在一些情况,你可能想要控制一个处理的通知,比如最少的不必要的通知,或把一组通知集合在一个通知里.
+你要重写`NSObject`的类方法`automaticallyNotifiesObserversForKey:`.
+以下代码把"balance"的通知给排除了.
+
+```
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey {
+
+    BOOL automatic = NO;
+    if ([theKey isEqualToString:@"balance"]) {
+        automatic = NO;
+    }
+    else {
+        automatic = [super automaticallyNotifiesObserversForKey:theKey];
+    }
+    return automatic;
+}
+
+```
+
+```
+    class override func automaticallyNotifiesObservers(forKey key:String) -> Bool{
+        <#Code#>
+    }
+
+```
+
+为了实现手动通知,你要在改变对象之前调用`willChangeValueForKey:`,并且在改变对象之后调用`didChangeValueForKey:`.
+
+```
+- (void)setBalance:(double)theBalance {
+    if (theBalance != _balance) {
+        [self willChangeValueForKey:@"balance"];
+        _balance = theBalance;
+        [self didChangeValueForKey:@"balance"];
+    }
+}
+
+```
+
+如果一个操作引起来了多个keys的变化,你要去嵌套改变通知:
+
+```
+- (void)setBalance:(double)theBalance {
+    [self willChangeValueForKey:@"balance"];
+    [self willChangeValueForKey:@"itemChanged"];
+    _balance = theBalance;
+    _itemChanged = _itemChanged+1;
+    [self didChangeValueForKey:@"itemChanged"];
+    [self didChangeValueForKey:@"balance"];
+}
+
+```
+
+如果是在一个有序的to-many的关系(比如:Array),你不仅要指出key,还要指出改变的类型和被改地方的索引.
+
+```
+- (void)removeTransactionsAtIndexes:(NSIndexSet *)indexes {
+    [self willChange:NSKeyValueChangeRemoval
+        valuesAtIndexes:indexes forKey:@"transactions"];
+
+    // Remove the transaction objects at the specified indexes.
+
+    [self didChange:NSKeyValueChangeRemoval
+        valuesAtIndexes:indexes forKey:@"transactions"];
+}
+
+```
+
+
+## 总结：
+
+KVO 的本质就是监听对象的属性进行赋值的时候有没有调用 setter 方法 
+
+1. 系统会动态创建一个继承于 Person 的 NSKVONotifying_Person
+2. person 的 isa 指针指向的类 Person 变成 NSKVONotifying_Person，所以接下来的 person.age = newAge 的时候，他调用的不是 Person 的 setter 方法，而是 NSKVONotifying_Person（子类）的 setter 方法
+3. 重写`NSKVONotifying_Person的setter方法：[super setName:newName]`
+4. 通知观察者告诉属性改变。
+
+### KVO 应用
+
+监听 ScrollView 的 contentOffSet 属性，采取相应的措施：
+
+```objc
+[scrollview addObserver:self
+             forKeyPath:@“contentOffset                   
+                options:NSKeyValueObservingOptionNew
+                context:nil];
+```      
+
+下面是用 KVO 写的一个通过监听 scrollview 的 contentOffSet 实现的一个小刷新功能，感兴趣的可以看下。
+
+![gif](http://upload-images.jianshu.io/upload_images/1321491-e55e4dbf2efda347.gif?imageMogr2/auto-orient/strip)  
+
+### KVO 总结
+
+KVO 是一个对象能观察另一个对象属性的值，KVO 适合任何对象监听另一个对象的改变，这是一个对象与另外一个对象保持同步的一种方法。KVO 只能对属性做出反应，不会用来对方法或者动作做出反应。
+
+优点：
+
+1. 提供一个简单的方法来实现两个对象的同步。
+2. 能够提供观察的属性的新值和旧值。
+3. 每一次属性值改变都是自动发送通知，不需要开发者手动实现。
+4. 用 keypath 来观察属性，因此也可以观察嵌套对象。
+
+缺点：
+
+1. 观察的属性必须使用字符串来定义，因此编译器不会出现警告和检查
+2. 只能重写回调方法来后去通知，不能自定义 selector。当观察多个对象的属性时就要写"if"语句，来判断当前的回调属于哪个对象的属性的回调。
+
+
 ## 参考
 
-1. [kvo 实践使用总结](http://www.jianshu.com/p/b878aa3194c6)
-2. [iOSInterviewQuestions/《招聘一个靠谱的iOS》面试题参考答案（下）.md at master · ChenYilong/iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8B%EF%BC%89.md#51-apple%E7%94%A8%E4%BB%80%E4%B9%88%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84kvo)
-3. [setValue和setObject的区别 - taylor的专栏 - 博客频道 - CSDN.NET](http://blog.csdn.net/itianyi/article/details/8661997)
-4. [Key-Value Observing - NSHipster](http://nshipster.cn/key-value-observing/)
-5. [iOS 开发中，怎样用好 Notifications？](http://www.jianshu.com/p/f20b00c1fc24)
+
+1. [Foundation: NSKeyValueObserving(KVO) | 南峰子的技术博客](http://southpeak.github.io/2015/04/23/cocoa-foundation-nskeyvalueobserving/)
+2. [《招聘一个靠谱的 iOS》—参考答案（三）](http://www.jianshu.com/p/20655f394736)
+3. [如何优雅地使用 KVO](https://draveness.me/kvocontroller)
+4. [iOSInterviewQuestions/《招聘一个靠谱的iOS》面试题参考答案（下）.md at master · ChenYilong/iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8B%EF%BC%89.md#51-apple%E7%94%A8%E4%BB%80%E4%B9%88%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84kvo)
+5. [KVC/KVO原理详解及编程指南](http://blog.csdn.net/wzzvictory/article/details/9674431?utm_source=tuicool)
+6. [kvo 实践使用总结](http://www.jianshu.com/p/b878aa3194c6)
+7. [setValue和setObject的区别 - taylor的专栏 - 博客频道 - CSDN.NET](http://blog.csdn.net/itianyi/article/details/8661997)
+8. [Key-Value Observing - NSHipster](http://nshipster.cn/key-value-observing/)
+9. [iOS 开发中，怎样用好 Notifications？](http://www.jianshu.com/p/f20b00c1fc24)
+10. [leejayID/KVC-KVO: KVC 与 KVO 使用姿势和原理解析](https://github.com/leejayID/KVC-KVO)
 
 
 

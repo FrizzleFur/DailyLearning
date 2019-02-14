@@ -692,9 +692,11 @@ void swizzleMethod(Class cls, SEL originalSelector, SEL swizzledSelector) {
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360623948928.jpg)
 
-## 添加属性
+## 属性关联
 
-> 我们知道，在 Objective-C 中可以通过 Category 给一个现有的类添加属性，但是却不能添加实例变量，这似乎成为了 Objective-C 的一个明显短板。然而值得庆幸的是，我们可以通过 Associated Objects 来弥补这一不足。本文将结合 runtime 源码深入探究 Objective-C 中 Associated Objects 的实现原理。
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190214171822.png)
+
+> 我们知道，在 Objective-C 中可以通过 Category 给一个现有的类添加属性，但是却不能添加实例变量，这似乎成为了 Objective-C 的一个明显短板。然而值得庆幸的是，我们可以通过 Associated Objects 来弥补这一不足。本文将结合 runtime 源码深入探究Objective-C 中 Associated Objects 的实现原理。
 
 Associated Objects 主要有以下三个使用场景：
 
@@ -702,7 +704,7 @@ Associated Objects 主要有以下三个使用场景：
 * 为现有的类添加公有属性；
 * 为 KVO 创建一个关联的观察者。
 
-声明 static char kAssociatedObjectKey; ，使用 &kAssociatedObjectKey 作为 key 值;
+声明 static char kAssociatedObjectKey; ，使用 &kAssociatedObjectKey 作为key 值;
 声明 static void *kAssociatedObjectKey = &kAssociatedObjectKey; ，使用 kAssociatedObjectKey 作为 key 值；
 用 selector ，使用 getter 方法的名称作为 key 值。
 
@@ -718,6 +720,7 @@ void objc_removeAssociatedObjects(id object);
 * 移除所有关联对象
 
 举例
+
 ```objc
 @interface ViewController (AssociatedObjects)
 
