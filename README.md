@@ -4,6 +4,8 @@
 
 ## 学习资源
 
+*  [aozhimin/awesome-iOS-resource: A curated list of awesome iOS resources, including conferences, books, blogs, articles, websites and documentations](https://github.com/aozhimin/awesome-iOS-resource)🎉
+
 * [LearningIOS](https://github.com/zhouhuanqiang/LearningIOS) 视频学习资源
 
 * [AwesomeLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/Awesome%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90.md) 自己整理的学习资料
