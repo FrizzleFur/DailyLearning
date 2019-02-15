@@ -304,7 +304,7 @@ CGRect newRect = [self.blueView convertRect:CGRectMake(50, 50, 100, 100) toView:
 
 上面提到的从CPU到GPU的过程可用下图表示：
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212684646463.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212684646463.jpg)
 
 下面具体来讨论下这个过程
 
@@ -324,7 +324,7 @@ label.text = @"test";
 
 类似这个样子：
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212684345666.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212684345666.jpg)
 
 然后一个新的Runloop到来，上面说道在这个Runloop中需要将界面渲染上去，对于UIKit的渲染，Apple用的是它的Core Animation。
 
@@ -398,7 +398,7 @@ Core Animation对OpenGL的api有一层封装，当我们的要渲染的layer已�
 GPU大致的工作模式如下：
 
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212685103262.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15212685103262.jpg)
 
 整个过程也就是一件事：CPU将准备好的bitmap放到RAM里，GPU去搬这快内存到VRAM中处理。
 

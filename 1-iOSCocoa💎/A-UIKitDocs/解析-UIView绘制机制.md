@@ -602,7 +602,7 @@ shadow opacity
 
 ![](//upload-images.jianshu.io/upload_images/1790850-e5554d803a2ec067.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/394/format/webp)
 
-shadow offset
+shadow offset   
 
 ### 6. shadowRadius
 
