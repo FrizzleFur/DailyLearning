@@ -2,7 +2,7 @@
 
 > MVVM 衍生于 MVC ，是对 MVC 的一种演进，它促进了 UI 代码与业务逻辑的分离。
 
-![](http://oc98nass3.bkt.clouddn.com/15235264488103.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15235264488103.jpg)
 
 
 > 之前对MVVM的理解太浅，以为只是把VC请求放在了VM中，其实VM可以绑定View,并将Model变化的情况，通过ViewModel更新所绑定的view.
@@ -16,9 +16,11 @@
 
 ## MVC
 
-![](http://oc98nass3.bkt.clouddn.com/15359950245553.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359950245553.jpg)
 
-![](http://oc98nass3.bkt.clouddn.com/15359900306008.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359900306008.jpg)
+
+
 模型-视图-控制器（MVC模式）是一种非常经典的软件架构模式，在UI框架和UI设计思路中扮演着非常重要的角色。从设计模式的角度来看，MVC模式是一种复合模式，它将多个设计模式在一种解决方案中结合起来，用来解决许多设计问题。MVC模式把用户界面交互分拆到不同的三种角色中，使应用程序被分成三个核心部件：Model（模型）、View（视图）、Control（控制器）。它们各自处理自己的任务：
 
 （1）模型：模型持有所有的数据、状态和程序逻辑。模型独立于视图和控制器。
@@ -35,14 +37,14 @@ MVC模式将它们分离以提高系统的灵活性和复用性，不使用MVC�
 
 （3）提高开发效率。在开发界面显示部分时，你仅仅需要考虑的是如何布局一个好的用户界面；开发模型时，你仅仅要考虑的是业务逻辑和数据维护，这样能使开发者专注于某一方面的开发，提高开发效率。
 
-![](http://oc98nass3.bkt.clouddn.com/15359902008210.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359902008210.jpg)
 
 
 ### 观察者模式
 
 MVC模式的关键是实现了视图和模型的分离。这是如何实现的呢？MVC模式通过建立一个“发布/订阅”（publish-subscribe）的机制来分离视图和模型。发布－订阅（publish-subscribe）机制的目标是发布者，它发出通知时并不需知道谁是它的观察者。可以有任意数目的观察者订阅并接收通知。MVC模式最重要的是用到了Observer（观察者模式），正是观察者模式实现了发布－订阅（publish-subscribe）机制，实现了视图和模型的分离。
 
-![](http://oc98nass3.bkt.clouddn.com/15359915104611.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359915104611.jpg)
 
 观察者模式：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。
 
@@ -68,11 +70,11 @@ MVC模式的关键是实现了视图和模型的分离。这是如何实现的�
 
 MVC 是 iOS 开发中使用最普遍的架构模式，同时也是苹果官方推荐的架构模式。MVC 代表的是 Model–view–controller ，它们之间的关系如下：
 
-![](http://oc98nass3.bkt.clouddn.com/15359898232426.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359898232426.jpg)
 
 是的，MVC 看上去棒极了，model 代表数据，view 代表 UI ，而 controller 则负责协调它们两者之间的关系。然而，尽管从技术上看 view 和 controller 是相互独立的，但事实上它们几乎总是结对出现，一个 view 只能与一个 controller 进行匹配，反之亦然。既然如此，那我们为何不将它们看作一个整体呢：
 
-![](http://oc98nass3.bkt.clouddn.com/15359898617148.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359898617148.jpg)
 
 
 比如在一个`ViewController`中：
@@ -123,7 +125,7 @@ func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -
 ## MVVM
 
 
-![](http://oc98nass3.bkt.clouddn.com/15359952531157.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359952531157.jpg)
 
 为了解决这个问题，我们的首要任务是清理视图控制器的视图控制器，分为两部分：视图和视图模型。具体地说，我们要：
 
@@ -132,7 +134,7 @@ func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -
 
 因此，我们可以将UI组件抽象为一组规范表示：
 
-![](http://oc98nass3.bkt.clouddn.com/15235279133274.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15235279133274.jpg)
 
 ### ViewModel
 
@@ -304,7 +306,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 所以，当我们抽象一些视图的基础模型，并通过VM将视图本身的（不需要与外界交互的）状态变迁逻辑封装在一个MVVM组的内部，对外（对VC）只暴露必要的数据更新和消息回调接口。繁琐的视图逻辑就可以被限制在一个MVVM当中（它确实也应当在那里）。这时留在VC中的逻辑，一般情况下就很少了。如果此刻的VC还让你感到“重”的话，我们大可再对其抽象一个VC-Logic，将复杂的逻辑进行封装。
 
 各个模块所负责的主要工作可以参考下图
-![](http://oc98nass3.bkt.clouddn.com/15359930200792.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359930200792.jpg)
 
 
 1）什么是“处理视图状态”？
@@ -314,7 +316,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 一个VM不一定只和一个View存在关联，它可能同时协调多个视图。
 我们以同程旅行的一个筛选界面作为参考场景进行说明：
 
-![](http://oc98nass3.bkt.clouddn.com/15359931414076.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359931414076.jpg)
 
 当我们将“4.5分以上”后面的对号勾上的时候，上面的“4.5分以上”会被同步勾取，同时，“评分”后面会多出个小绿点，这表示评分这页的筛选条件选择的不是默认的“不限”。很显然，关键词模块、筛选分类模块、筛选详情模块正常人都会分成3部分视图绘制。这三个视图间显然是有交互关系的（即“筛选详情模块”的勾选触发了“关键词模块”的高亮和“筛选分类模块”的加点），而VM即是处理这种交互关系理想场所。
 

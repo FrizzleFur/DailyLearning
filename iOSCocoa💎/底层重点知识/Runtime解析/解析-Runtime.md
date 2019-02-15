@@ -203,7 +203,7 @@ struct objc_method_description {
 
 > 消息发送（`Messaging`）是 **`Runtime` 通过 `selector` 快速查找 `IMP` 的过程**，有了函数指针就可以执行对应的方法实现；**消息转发（`Message Forwarding`）是在查找 `IMP` 失败后执行一系列转发流程的慢速通道，如果不作转发处理，则会打日志和抛出异常。**
 
-![Objective-C消息发送和转发流程图](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15143584958990.jpg)
+![Objective-C消息发送和转发流程图](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15143584958990.jpg)
 
 当执行了`[receiver message]`的时候，相当于向`receiver`发送一条消息`message`。`Runtime`会根据`reveiver`能否处理这条`message`，从而做出不同的反应。
 
@@ -212,7 +212,7 @@ struct objc_method_description {
 消息直到运行时才绑定到方法的实现上。编译器会将消息表达式`[receiver message]`转化为一个消息函数，即`objc_msgSend(receiver, selector)`。	
 ![](https://i.imgur.com/2EO8fz2.jpg)
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-08-15-15027671461420.png)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-08-15-15027671461420.png)
 
 #### objc_msgSend
 
@@ -244,7 +244,7 @@ MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @"someString");
 6. 传入相应的参数来执行方法的具体实现。
 7. 如果最终没有定位到`selector`，就会走消息转发流程。
 
-![objc_msgSend流程](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15143579087191.jpg)
+![objc_msgSend流程](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15143579087191.jpg)
 
 #### 重定向
 
@@ -304,7 +304,7 @@ methodSignatureForSelector
 
 消息的转发机制可以用下图来帮助理解。
 	
-![消息的转发机制](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15134116331645.jpg)
+![消息的转发机制](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15134116331645.jpg)
 
 #### 消息的转发机制
 
@@ -474,7 +474,7 @@ for (int i=0; i<4; i++) {
 ```
 
 打印结果：
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360562621048.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360562621048.jpg)
 
 从中可以看到最后两次打印的currentClass地址相同，说明最后MetaClassOfNSObject的isa指针最终指向了本身。
 
@@ -491,7 +491,7 @@ for (int i=0; i<4; i++) {
 ```
 
 打印结果：
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360563486710.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360563486710.jpg)
 
 由此可知objc_getClass方法只是单纯地返回了Class，而非isa指针指向的Class
 
@@ -690,7 +690,7 @@ void swizzleMethod(Class cls, SEL originalSelector, SEL swizzledSelector) {
 }
 ```
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360623948928.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360623948928.jpg)
 
 ## 属性关联
 
