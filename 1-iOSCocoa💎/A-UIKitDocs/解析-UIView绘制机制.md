@@ -289,7 +289,8 @@ UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行drawR
 
 上面提到的从CPU到GPU的过程可用下图表示：
 
-![image](http://upload-images.jianshu.io/upload_images/225323-b27ffc7b79bc64df.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![](https://i.imgur.com/d90Tsx6.jpg)
 
 下面具体来讨论下这个过程
 
@@ -308,7 +309,9 @@ label.text = @"test";
 这个时候不会发生任何操作，由于UILabel重写了drawRect，因此，这个view会被marked as “dirty”：
 
 类似这个样子：
-![image](http://upload-images.jianshu.io/upload_images/225323-7711dc853718e0f6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190215162007.png)
 
 然后一个新的Runloop到来，上面说道在这个Runloop中需要将界面渲染上去，对于UIKit的渲染，Apple用的是它的Core Animation。
 
@@ -381,7 +384,7 @@ Core Animation对OpenGL的api有一层封装，当我们的要渲染的layer已�
 这个对应关系建立起来之后，剩下的任务就是GPU如何将Texture渲染到屏幕上了。
 
 GPU大致的工作模式如下：
-![image](http://upload-images.jianshu.io/upload_images/225323-aa04d37acb870bf0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image](upload-images.jianshu.io/upload_images/225323-aa04d37acb870bf0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 整个过程也就是一件事：CPU将准备好的bitmap放到RAM里，GPU去搬这快内存到VRAM中处理。
 
@@ -508,7 +511,7 @@ view.layer.shadowOpacity = 1;
 
 ```
 
-![](//upload-images.jianshu.io/upload_images/1790850-513cec3f72763b31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/406/format/webp)
+
 
 shadowOpacity设置了阴影的不透明度,取值范围在0~1
 这里shadow有一个默认值
@@ -549,7 +552,8 @@ layer中与阴影相关的属性有以下几个
 
 ```
 
-![](//upload-images.jianshu.io/upload_images/1790850-f843dc760e0462b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/389/format/webp)
+
+![](https://i.imgur.com/h4kngLY.jpg)
 
 shadow color
 
@@ -572,7 +576,8 @@ shadow color
 
 ```
 
-![](//upload-images.jianshu.io/upload_images/1790850-73e48af79d0abc79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/384/format/webp)
+
+![](https://i.imgur.com/EC7A4uh.jpg)
 
 shadow opacity
 
@@ -600,9 +605,9 @@ shadow opacity
 
 ```
 
-![](//upload-images.jianshu.io/upload_images/1790850-e5554d803a2ec067.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/394/format/webp)
+![](https://i.imgur.com/bF13XYv.jpg)
 
-shadow offset   
+shadow offset
 
 ### 6. shadowRadius
 
@@ -628,7 +633,9 @@ shadowRadius其实可以理解为阴影的宽度
 
 ```
 
-![](//upload-images.jianshu.io/upload_images/1790850-37abee0b4ae6a1bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/403/format/webp)
+
+
+![](https://i.imgur.com/eBRpi8K.jpg)
 
 shadow radius
 
@@ -681,7 +688,7 @@ shadow radius
 
 ```
 
-![](//upload-images.jianshu.io/upload_images/1790850-ff585968f23664e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/389/format/webp)
+![](https://i.imgur.com/NS3dK3G.jpg)
 
 shadow path
 

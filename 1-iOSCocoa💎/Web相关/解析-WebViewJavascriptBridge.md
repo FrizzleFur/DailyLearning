@@ -15,7 +15,7 @@
 
 ### OC环境的初始化
 
-![](https://i.loli.net/2018/12/01/5c023dde1f043.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190215154647.png)
 
 【结论】：所有与Javascript之间交互的信息都存储在messageHandlers和responseCallbacks中。这两个属性记录了OC环境与Javascript交互的信息。
 
