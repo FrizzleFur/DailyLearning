@@ -281,7 +281,7 @@ handle_msg 处理 timer 事件，处理 main queue block 事件，处理 source1
 
 * NSTimer 是通过 RunLoop 的 RunLoopTimer 把时间加入到 RunLoopMode 里面。官方文档里面也有说 CFRunLoopTimer 和 NSTimer 是可以互相转换的。由于 NSTimer 的这种机制，因此 NSTimer 的执行必须依赖于 RunLoop，如果没有 RunLoop，NSTimer 是不会执行的。
 
-* GCD 则不同，GCD 的线程管理是通过系统来直接管理的。GCD Timer 是通过 dispatch port 给 RunLoop 发送消息，来使 RunLoop 执行相应的 block，如果所在线程没有 RunLoop，那么 GCD 会临时创建一个线程去执行 block，执行完之后再销毁掉，因此 GCD 的 Timer 是不依赖 RunLoop 的。
+* GCD 则不同，GCD 的线程管理是通过系统来直接管理的。**GCD Timer 是通过 dispatch port 给 RunLoop 发送消息**，来使 RunLoop 执行相应的 block，如果所在线程没有 RunLoop，那么 GCD 会临时创建一个线程去执行 block，执行完之后再销毁掉，**因此 GCD 的 Timer 是不依赖 RunLoop 的**。
 
 * 至于这两个 Timer 的准确性问题，如果不再 RunLoop 的线程里面执行，那么只能使用 GCD Timer，由于 GCD Timer 是基于 MKTimer(mach kernel timer)，已经很底层了，因此是很准确的。
 
@@ -296,7 +296,7 @@ handle_msg 处理 timer 事件，处理 main queue block 事件，处理 source1
 > 一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：
 
 * 每条线程都有唯一的一个与之对应的RunLoop对象
-* 主线程的RunLoop已经自动创建好了，子线程的RunLoop需要主动创建，只要调用currentRunLoop方法, 系统就会自动创建一个RunLoop, 添加到当前线程中
+* 主线程的RunLoop已经自动创建好了，子线程的RunLoop需要主动创建，**只要调用currentRunLoop方法, 系统就会自动创建一个RunLoop, 添加到当前线程中**
 * 线程刚创建时并没有 RunLoop，如果你不主动获取，那它一直都不会有。RunLoop 的创建是发生在第一次获取时，RunLoop 的销毁是发生在线程结束时。你只能在一个线程的内部获取其 RunLoop（主线程除外）
 
 ```swift
