@@ -39,10 +39,13 @@
 
 ### 从调用堆栈来看Runloop
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190216133915.png)
-
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190216153840.png)
 
 从下往上一层层的看，最开始的start是dyld干的，然后是main函数，main函数接着调用UIApplicationMain，然后的GSEventRunModal是Graphics Services是处理硬件输入，比如点击，所有的UI事件都是它发出来的。紧接着的就是Runloop了，从图中的可以看到从13到10的4调用都是Runloop相关的。再上面的就是事件队列处理，以及UI层的事件分发了。
+
+* dyld（the dynamic link editor）是苹果的动态链接器，是苹果操作系统一个重要组成部分，在系统内核做好程序准备工作之后，交由dyld负责余下的工作。而且它是开源的，任何人可以通过苹果官网下载它的源码来阅读理解它的运作方式，了解系统加载动态库的细节。
+
+
 
 几乎所有线程的所有函数都是从下面六个函数之一调起：
 
@@ -100,6 +103,10 @@ struct __CFRunLoop {
 ## RunLoop 的 Mode
 
 一个 RunLoop 包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响。
+
+* Runloop同一时间只能且必须在一种特定Mode下Run
+* 更换Mode需要停止当前Mode,停止当前Loop, 重启Loop
+* Mode是iOS流畅的关键(滑动的时候，切换了Mode,不会被其他Mode干扰)
 
 CFRunLoopMode 和 CFRunLoop 的结构大致如下：
 
@@ -188,6 +195,8 @@ struct __CFRunLoopMode {
 | Common modes | NSRunLoopCommonModes (Cocoa) kCFRunLoopCommonModes (Core Foundation) | 这是一组可配置的常用模式。将输入源与些模式相关联会与组中的每个模式相关联。Cocoa applications 里面此集包括Default、Modal和Event tracking。Core Foundation只包括默认模式，你可以自己把自定义mode用CFRunLoopAddCommonMode函数加入到集合中. |
 
 ### CFRunLoopSourceRef
+
+* Source是RunLoop的数据源抽象类 (protocol形式)
 
 **CFRunLoopSourceRef 是事件产生的地方**。Source有两个版本：Source0 和 Source1。
 • Source0 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理，然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件。
@@ -323,6 +332,9 @@ function loop() {
 *   kCFRunLoopEntry; // 进入runloop之前，创建一个自动释放池
 *   kCFRunLoopBeforeWaiting; // 休眠之前，销毁自动释放池，创建一个新的自动释放池
 *   kCFRunLoopExit; // 退出runloop之前，销毁自动释放池
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190216163450.png)
+
 
 ### 事件响应
 
