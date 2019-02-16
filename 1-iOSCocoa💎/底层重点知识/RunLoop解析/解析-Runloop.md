@@ -3,6 +3,8 @@
 ### RunLoop的作用
 
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190216092413.png)
+
 如果没有RunLoop
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190203173545.png)
