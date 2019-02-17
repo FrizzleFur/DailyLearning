@@ -12,6 +12,17 @@
 
 在开始每一个事件循环之前系统会在主线程创建一个自动释放池, 并且在事件循环结束的时候把前面创建的释放池释放, 回收内存。
 
+## Autoreleasepool 结构
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190217102820.png)
+
+
+* AutoreleasePool并没有单独的结构，而是由若干个AutoreleasePoolPage以双向链表的形式组合而成（分别对应结构中的parent指针和child指针）
+* AutoreleasePool是按线程一一对应的（结构中的thread指针指向当前线程）
+* AutoreleasePoolPage每个对象会开辟4096字节内存（也就是虚拟内存一页的大小），除了上面的实例变量所占空间，剩下的空间全部用来储存autorelease对象的地址
+* 上面的id *next指针作为游标指向栈顶最新add进来的autorelease对象的下一个位置
+* 一个AutoreleasePoolPage的空间被占满时，会新建一个AutoreleasePoolPage对象，连接链表，后来的autorelease对象在新的page加入
+
 ### Autorelease /Autoreleasepool 基本用法及其优点
 
 对象执行autorelease方法 或者直接在autoreleasepool中创建对象 ，会将对象添加到当前的autorelease pool中， 当自动释放池销毁时 自动释放池中 所有对象 作release操作。
