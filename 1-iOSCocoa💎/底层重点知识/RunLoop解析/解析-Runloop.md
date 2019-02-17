@@ -1,6 +1,3 @@
-# 解析RunLoop
-
-
 ## RunLoop简介（Introduction）
 
 1. RunLoop是线程基础架构的一部分。RunLoop存在的目的是让线程在没有任务处理的时候进入休眠，在有任务处理的时候运行。
@@ -44,8 +41,6 @@
 从下往上一层层的看，最开始的start是dyld干的，然后是main函数，main函数接着调用UIApplicationMain，然后的GSEventRunModal是Graphics Services是处理硬件输入，比如点击，所有的UI事件都是它发出来的。紧接着的就是Runloop了，从图中的可以看到从13到10的4调用都是Runloop相关的。再上面的就是事件队列处理，以及UI层的事件分发了。
 
 * dyld（the dynamic link editor）是苹果的动态链接器，是苹果操作系统一个重要组成部分，在系统内核做好程序准备工作之后，交由dyld负责余下的工作。而且它是开源的，任何人可以通过苹果官网下载它的源码来阅读理解它的运作方式，了解系统加载动态库的细节。
-
-
 
 几乎所有线程的所有函数都是从下面六个函数之一调起：
 
@@ -103,10 +98,6 @@ struct __CFRunLoop {
 ## RunLoop 的 Mode
 
 一个 RunLoop 包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响。
-
-* Runloop同一时间只能且必须在一种特定Mode下Run
-* 更换Mode需要停止当前Mode,停止当前Loop, 重启Loop
-* Mode是iOS流畅的关键(滑动的时候，切换了Mode,不会被其他Mode干扰)
 
 CFRunLoopMode 和 CFRunLoop 的结构大致如下：
 
@@ -174,12 +165,12 @@ struct __CFRunLoopMode {
 
 #### Mode列表
 
-* NSDefaultRunLoopMode：App的默认Mode，通常主线程是在这个Mode下运行,timer运行
-* UITrackingRunLoopMode：**界面跟踪 Mode**，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响
+* NSDefaultRunLoopMode：App的默认Mode，通常主线程是在这个Mode下运行
+* UITrackingRunLoopMode：界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响
 * UIInitializationRunLoopMode: 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用
 * GSEventReceiveRunLoopMode: 接受系统事件的内部 Mode，通常用不到
 * NSRunLoopCommonModes: 这是一个占位用的Mode，不是一种真正的Mode commonModes:
-* 一个Mode 可以将自己标记成”Common”属性（通过将其ModelName 添加到RunLoop的"commonModes" 中）。**每当 RunLoop 的内容发生变化时，RunLoop 都会自动将 _commonModeItems 里的 Source/Observer/Timer 同步到具有 "Common" 标记的所有Mode里**。
+* 一个Mode 可以将自己标记成”Common”属性（通过将其ModelName 添加到RunLoop的"commonModes" 中）。每当 RunLoop 的内容发生变化时，RunLoop 都会自动将 _commonModeItems 里的 Source/Observer/Timer 同步到具有 "Common" 标记的所有Mode里。
 * 应用场景举例：主线程的 RunLoop 里有两个预置的 Mode：kCFRunLoopDefaultMode 和 UITrackingRunLoopMode。这两个 Mode 都已经被标记为"Common"属性。**DefaultMode 是 App 平时所处的状态**，TrackingRunLoopMode 是追踪 ScrollView 滑动时的状态。当你创建一个 Timer 并加到 DefaultMode 时，Timer 会得到重复回调，但此时滑动一个TableView时，RunLoop 会将 mode 切换为 TrackingRunLoopMode，这时 Timer 就不会被回调，并且也不会影响到滑动操作。
 * 有时你需要一个 Timer，在两个 Mode 中都能得到回调，一种办法就是将这个 Timer 分别加入这两个 Mode。还有一种方式，**就是将 Timer 加入到commonMode 中。那么所有被标记为commonMode的mode（defaultMode和TrackingMode）都会执行该timer。这样你在滑动界面的时候也能够调用time**。
 
@@ -195,8 +186,6 @@ struct __CFRunLoopMode {
 | Common modes | NSRunLoopCommonModes (Cocoa) kCFRunLoopCommonModes (Core Foundation) | 这是一组可配置的常用模式。将输入源与些模式相关联会与组中的每个模式相关联。Cocoa applications 里面此集包括Default、Modal和Event tracking。Core Foundation只包括默认模式，你可以自己把自定义mode用CFRunLoopAddCommonMode函数加入到集合中. |
 
 ### CFRunLoopSourceRef
-
-* Source是RunLoop的数据源抽象类 (protocol形式)
 
 **CFRunLoopSourceRef 是事件产生的地方**。Source有两个版本：Source0 和 Source1。
 • Source0 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理，然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件。
@@ -281,7 +270,7 @@ handle_msg 处理 timer 事件，处理 main queue block 事件，处理 source1
 
 * NSTimer 是通过 RunLoop 的 RunLoopTimer 把时间加入到 RunLoopMode 里面。官方文档里面也有说 CFRunLoopTimer 和 NSTimer 是可以互相转换的。由于 NSTimer 的这种机制，因此 NSTimer 的执行必须依赖于 RunLoop，如果没有 RunLoop，NSTimer 是不会执行的。
 
-* GCD 则不同，GCD 的线程管理是通过系统来直接管理的。**GCD Timer 是通过 dispatch port 给 RunLoop 发送消息**，来使 RunLoop 执行相应的 block，如果所在线程没有 RunLoop，那么 GCD 会临时创建一个线程去执行 block，执行完之后再销毁掉，**因此 GCD 的 Timer 是不依赖 RunLoop 的**。
+* GCD 则不同，GCD 的线程管理是通过系统来直接管理的。GCD Timer 是通过 dispatch port 给 RunLoop 发送消息，来使 RunLoop 执行相应的 block，如果所在线程没有 RunLoop，那么 GCD 会临时创建一个线程去执行 block，执行完之后再销毁掉，因此 GCD 的 Timer 是不依赖 RunLoop 的。
 
 * 至于这两个 Timer 的准确性问题，如果不再 RunLoop 的线程里面执行，那么只能使用 GCD Timer，由于 GCD Timer 是基于 MKTimer(mach kernel timer)，已经很底层了，因此是很准确的。
 
@@ -296,7 +285,7 @@ handle_msg 处理 timer 事件，处理 main queue block 事件，处理 source1
 > 一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：
 
 * 每条线程都有唯一的一个与之对应的RunLoop对象
-* 主线程的RunLoop已经自动创建好了，子线程的RunLoop需要主动创建，**只要调用currentRunLoop方法, 系统就会自动创建一个RunLoop, 添加到当前线程中**
+* 主线程的RunLoop已经自动创建好了，子线程的RunLoop需要主动创建，只要调用currentRunLoop方法, 系统就会自动创建一个RunLoop, 添加到当前线程中
 * 线程刚创建时并没有 RunLoop，如果你不主动获取，那它一直都不会有。RunLoop 的创建是发生在第一次获取时，RunLoop 的销毁是发生在线程结束时。你只能在一个线程的内部获取其 RunLoop（主线程除外）
 
 ```swift
@@ -332,9 +321,6 @@ function loop() {
 *   kCFRunLoopEntry; // 进入runloop之前，创建一个自动释放池
 *   kCFRunLoopBeforeWaiting; // 休眠之前，销毁自动释放池，创建一个新的自动释放池
 *   kCFRunLoopExit; // 退出runloop之前，销毁自动释放池
-
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190216163450.png)
-
 
 ### 事件响应
 
@@ -495,32 +481,6 @@ NSRunLoop是基于CFRunLoopRef的一层OC包装，因此我们需要研究CFRunL
 
 这里主要是一些如何配置input source、Port-based input source的示例代码。具体想看可以直接看文档，代码里面都带有注释。
 
-### 常驻线程保活
-
-**常说的AFNetworking常驻线程保活是什么原理？**
-我们知道，当子线程中的任务执行完毕之后就被销毁了，那么如果我们需要开启一个子线程，在程序运行过程中永远都存在，那么我们就会面临一个问题，如何让子线程永远活着，答案就是给子线程开启一个RunLoop，下面是AFNetworking相关源码：
-
-```objc
-+ (void)networkRequestThreadEntryPoint:(id)__unused object {
-    @autoreleasepool {
-        [[NSThread currentThread] setName:@"AFNetworking"];
-        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
-        [runLoop run];
-    }
-}
-
-+ (NSThread *)networkRequestThread {
-    static NSThread *_networkRequestThread = nil;
-    static dispatch_once_t oncePredicate;
-    dispatch_once(&oncePredicate, ^{
-        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];
-        [_networkRequestThread start];
-    });
-    return _networkRequestThread;
-}
-```
-
 
 * 使程序一直运行并接受用户输入：我们的app必然不能像命令式执行一样，执行完就退出了，我们需要app在我们不杀死它的时候**一直运行着，并在由用户事件的时候能够响应**，比如网络输入，用户点击等等，这是Runloop的首要任务；
 * 决定程序在何时应该处理哪些事件：实际上程序会有很多事件，**Runloop会有一定的机制来管理时间的处理时机等**；
@@ -566,7 +526,7 @@ UIImage *downloadedImage = ....;
 
 
 
-#### 线程保活
+### 线程保活
 
 可能你的项目中需要一个线程，一直在后台做些耗时操作，但是不影响主线程，我们不要一直大量的创建和销毁线程，因为这样太浪费性能了，我们只要保留这个线程，只要对他进行“保活”就行
 
@@ -641,6 +601,34 @@ UIImage *downloadedImage = ....;
 2017-04-19 18:21:08.770 WXAllTest[16145:382366] current thread - <WXThread: 0x60800007c180>{number = 3, name = (null)}
 
 ```
+
+
+#### AFNetworking常驻线程保活
+
+**常说的AFNetworking常驻线程保活是什么原理？**
+我们知道，当子线程中的任务执行完毕之后就被销毁了，那么如果我们需要开启一个子线程，在程序运行过程中永远都存在，那么我们就会面临一个问题，如何让子线程永远活着，答案就是给子线程开启一个RunLoop，下面是AFNetworking相关源码：
+
+```objc
++ (void)networkRequestThreadEntryPoint:(id)__unused object {
+    @autoreleasepool {
+        [[NSThread currentThread] setName:@"AFNetworking"];
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        [runLoop run];
+    }
+}
+
++ (NSThread *)networkRequestThread {
+    static NSThread *_networkRequestThread = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];
+        [_networkRequestThread start];
+    });
+    return _networkRequestThread;
+}
+```
+
 
 ## RunLoop 实战
 
