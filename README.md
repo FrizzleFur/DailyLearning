@@ -55,8 +55,10 @@
 * 搜索并启用以下项目：App Banners（应用横幅）、Experimental App Banners（实验性应用横幅）、Desktop PWAs（桌面PWAs）。
 * 重启浏览器即可添加支持。
 * 目前PWA应用没有统一的应用商店，用户在访问支持PWA的网址时将自动启动。
-![](http://oc98nass3.bkt.clouddn.com/15256848635235.jpg)
-![](http://oc98nass3.bkt.clouddn.com/15256848889827.jpg)
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15256848635235.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15256848889827.jpg)
 
 ### Vue
 
@@ -78,6 +80,24 @@
 * [面试了1000人后，我想说说简历如何写](http://m.quzhiboapp.com/#!/intro/80)
 
 * [iOS 面试小灶直播 - 简历、面试题、进阶](http://m.quzhiboapp.com/#!/intro/115)
+
+
+## 技术路线
+
+### 基础
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163318.png)
+
+
+### 前端
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163505.png)
+
+### 后端
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163350.png)
+
 
 ## 参考
 
