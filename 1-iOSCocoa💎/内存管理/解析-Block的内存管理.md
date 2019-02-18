@@ -1,5 +1,8 @@
 # Block的内存管理
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218171330.png)
+
+
 block本质上也是一个oc对象，他内部也有一个isa指针。block是封装了函数调用以及函数调用环境的OC对象。
 
 ## block 定义
