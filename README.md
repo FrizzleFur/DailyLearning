@@ -28,7 +28,9 @@
 
 ## Todo
 
-* [DailyCard ](https://github.com/FrizzleFur/DailyLearning/issues/8) 日常
+* 算法
+* 底层原理
+
 
 ## Read
 
@@ -41,6 +43,12 @@
 *  [iOSLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/iOSLearning.md)
 
 *  [iOS学习笔记 (知识点整理)](https://github.com/FrizzleFur/DailyLearning/tree/master/iOSLearningDemo)
+
+## 设计模式
+
+
+* [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
+
 
 
 ## JavaScript
