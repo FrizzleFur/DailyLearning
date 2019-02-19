@@ -28,9 +28,11 @@
 
 ## Todo
 
+* 设计模式
+[装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
+
 * 算法
 * 底层原理
-
 
 ## Read
 
