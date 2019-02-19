@@ -91,7 +91,9 @@ class对象在内存中存储的信息主要包括：
 2. superclass指针
 3. 类的属性信息（@property），类的成员变量信息（ivar）
 4. 类的对象方法信息（instance method），类的协议信息（protocol）
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15340396676516.jpg)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218210900.png)
+
 
 ### 1. 理解类的概念
 
@@ -114,13 +116,13 @@ struct objc_class {
     uint32_t info;        // 一些标识信息，标明是普通的Class还是metaclass
     uint32_t instance_size;        // 该类的实例变量大小(包括从父类继承下来的实例变量);
     struct old_ivar_list *ivars;    //类中成员变量的信息
-    struct old_method_list **methodLists;    类中方法列表
+    struct old_method_list **methodLists;    类中对象方法列表
     Cache cache;    查找方法的缓存，用于提升效率
     struct old_protocol_list *protocols;  // 存储该类遵守的协议 
 }
 ```
 
-类的结构体存放着该类的信息：类的方法列表，实例变量，协议，父类等信息。
+类的结构体存放着该类的信息：类的对象方法列表，实例变量，协议，父类等信息。
 每个类的`isa`指针指向该类的所属类型元类(`metaClass`),用来表述类对象的数据。每个类仅有一个类对象，而每个类对象仅有一个与之相关的”元类”。
 比如一个继承`NSObjct`名叫SomeClass的类，其继承体系如下:
 ![类的继承体系](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15112508819933.png)
@@ -144,14 +146,17 @@ if ([objct class] == [SomeClass class]) {
 
 ### 3. 理解元类（`meta class`）
 
-为了调用类里的方法，类的isa指针必须指向包含这些类方法的类结构体。
+为了调用类里的类方法，类的isa指针必须指向包含这些类方法的类结构体。
 这就引出了元类的定义：**元类是类对象的类**。
 简单说就是：
 * 当你给对象发送消息时，消息是在寻找这个对象的类的方法列表。
 * 当你给类发消息时，消息是在寻找这个类的元类的方法列表。
 * 元类是必不可少的，因为它存储了类的类方法。每个类都必须有独一无二的元类，因为每个类都有独一无二的类方法。
 
-###  4."元类的类”
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218210518.png)
+
+
+### 4. "元类的类”
 
 元类，就像之前的类一样，它也是一个对象。你也可以调用它的方法。自然的，这就意味着他必须也有一个类。
 
@@ -168,16 +173,19 @@ if ([objct class] == [SomeClass class]) {
 
 ![类的图解.png](http://upload-images.jianshu.io/upload_images/225323-e6115d1e3d6d0e86.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 5.类和元类的继承
+### 5. 类的继承
 
 类用`super_class`指针指向了超类，同样的，元类用`super_class`指向类的`super_class`的元类。
 说的更拗口一点就是，根元类把它自己的基类设置成了`super_class`。
 在这样的继承体系下，所有实例、类以及元类（`meta class`）都继承自一个基类。
 这意味着对于继承于`NSObject`的所有实例、类和元类，他们可以使用`NSObject`的所有实例方法，类和元类可以使用`NSObject`的所有类方法
 这些文字看起来莫名其妙难以理解，可以用一份图谱来展示这些关系：
+
 ![类和元类](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15112504019864.jpg)
 
 如上图，对象是由按照类所定义的各个属性和方法“制造”的，类作为对象的模板，也可看成是对象。正如工厂里面的模子也是要专门制作模子的机器生产，`元类` (`meta class`)就是设计、管理 `类` (class)的角色。所以图上直观的表现出类和元类平行的父类链，表明实例方法和类方法都是并行继承的，每个对象都响应了根类的方法。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218211941.png)
 
 ### 注意点
 
