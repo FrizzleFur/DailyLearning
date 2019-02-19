@@ -5,16 +5,16 @@
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15235264488103.jpg)
 
 
-> 之前对MVVM的理解太浅，以为只是把VC请求放在了VM中，其实VM可以绑定View,并将Model变化的情况，通过ViewModel更新所绑定的view.
+> 之前对MVVM模式的理解太浅，以为只是把VC请求放在了VM中，其实VM可以绑定View,并将Model变化的情况，通过ViewModel更新所绑定的view.
 
 [不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
 
-对于 MVVM 来说，我们可以把 view 看作是 viewModel 的可视化形式，viewModel 提供了 view 所需的数据和命令。因此，viewModel 的可测试性可以帮助我们极大地提高应用的质量。
+对于 MVVM 来说，**我们可以把 view 看作是 viewModel 的可视化形式，viewModel 提供了 view 所需的数据和命令。因此，viewModel 的可测试性可以帮助我们极大地提高应用的质量**。
 
 [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
 
 
-## MVC
+## 从MVC谈起
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359950245553.jpg)
 
@@ -122,8 +122,7 @@ func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -
 参考代码： [PhotoList/PhotoListViewController.swift](https://github.com/koromiko/Tutorial/blob/MVC/MVVMPlayground/MVVMPlayground/Module/PhotoList/PhotoListViewController.swift)
 
 
-## MVVM
-
+## MVVM模式
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359952531157.jpg)
 
@@ -182,7 +181,7 @@ var isLoading: Bool = false {
 }
 ```
 
-### Binding ViewModel 后
+### 绑定 ViewModel 
 
 ```swift
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -204,7 +203,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 
 
-```
+```objc
 @interface Person : NSObject
 
 - (instancetype)initwithSalutation:(NSString *)salutation firstName:(NSString *)firstName lastName:(NSString *)lastName birthdate:(NSDate *)birthdate;
@@ -222,7 +221,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 然后是 `view` 层的代码 `PersonViewController` ，在 `viewDidLoad` 方法中，我们将 `Person` 中的属性进行一定的转换后，赋值给相应的 `view` 进行展示：
 
 
-```
+```objc
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -243,7 +242,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 接下来，我们引入一个 `viewModel` ，将 `PersonViewController` 中的展示逻辑抽取到这个 `PersonViewModel` 中：
 
 
-```
+```objc
 @interface PersonViewModel : NSObject
 
 - (instancetype)initWithPerson:(Person *)person;
@@ -282,7 +281,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 最终，`PersonViewController` 将会变得非常轻量级：
 
-```
+```objc
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -306,6 +305,8 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 所以，当我们抽象一些视图的基础模型，并通过VM将视图本身的（不需要与外界交互的）状态变迁逻辑封装在一个MVVM组的内部，对外（对VC）只暴露必要的数据更新和消息回调接口。繁琐的视图逻辑就可以被限制在一个MVVM当中（它确实也应当在那里）。这时留在VC中的逻辑，一般情况下就很少了。如果此刻的VC还让你感到“重”的话，我们大可再对其抽象一个VC-Logic，将复杂的逻辑进行封装。
 
 各个模块所负责的主要工作可以参考下图
+
+
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359930200792.jpg)
 
 
@@ -327,6 +328,20 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 4）什么是“数据转换”？
 我们不能企望所有的模型数据都能直接被视图使用，比如模型中是一个BOOL（0/1）值，而对应的视图展示期望为“是”/“否”，类似这样的数据转化工作，交给VM吧！
+
+### 数据绑定方式
+
+1. 单向数据绑定
+
+2. 双向数据绑定
+
+3. 集合的数据绑定
+
+4. 执行过程绑定
+
+5. 错误处理
+
+基本着五种绑定能够覆盖业务中的大部分的场景
 
 
 
