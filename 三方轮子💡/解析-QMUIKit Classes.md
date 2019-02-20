@@ -628,6 +628,7 @@ UIViewController (QMUI)
 6.  判断当前界面是否已经被加载并且处于可见状态，常用于一些消息通知的处理方法里提前判断，避免在界面不可见时做一些浪费的事情。
 7.  判断当前界面是否有重写系统 `UIViewController` 的某些方法。
 
-UIWindow (QMUI)
+## UIWindow (QMUI)
 
 1.  可控制一个满屏的 window 是否应该夺取状态栏的控制权。
+

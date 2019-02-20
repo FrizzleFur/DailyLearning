@@ -9,7 +9,19 @@
 
 > UIView的`setNeedsLayout`, `layoutIfNeeded` 和` layoutSubviews` 方法之间的关系解释
 
-## UIView绘制机制
+
+## 界面适配
+
+
+### Pt与Px的关系
+
+* pt: 在IOS界面开发中，我们一般是使用pt(Point)来作为View的单位，它是一个标准的长度单位，1pt＝1/72英寸
+* px: 而px即为我们所说的像素，是物理屏幕显示的基本单位，虽然我们在程序中使用的不是px，但是其最后都会转化为px然后显示在我们的手机上
+* ppi: Pixels Per Inch，即每英寸所拥有的像素数目，屏幕像素密度。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190220182709.png)
+
+## UIView绘制
 
 ![](https://i.loli.net/2018/12/09/5c0c787cce502.jpg)
 
