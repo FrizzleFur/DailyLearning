@@ -1,17 +1,20 @@
 # iOS逆向
 
-## 逆向网易云音乐
 
-运行报错：动态库加载不成功。
-
-用insert_dylib，手动插入一下编译好的动态库
-
-![](https://i.loli.net/2018/12/31/5c29f1b5cf22f.jpg)
-
-注入成功后将app目录中的 neteasemusic 删除，将 neteasemusic_patched 改为neteasemusic。
+## App脱壳
 
 
-warn ：使用 insert_dylib 时若出现 error 记得修改权限， chmod 777 insert_dylib
+
+
+
+
+
+
+
+
+
+## Hopper+LLDB调试第三方App
+
 
 
 ### ipa工具
@@ -19,15 +22,8 @@ warn ：使用 insert_dylib 时若出现 error 记得修改权限， chmod 777 i
 [DanTheMan827/ios-app-signer: This is an app for OS X that can (re)sign apps and bundle them into ipa files that are ready to be installed on an iOS device.](https://github.com/DanTheMan827/ios-app-signer)
 
 
-## 参考
-
-1. [sunweiliang/NeteaseMusicCrack: iOS网易云音乐 免VIP下载、去广告、去更新 无需越狱...](https://github.com/sunweiliang/NeteaseMusicCrack)
-2. [iOS逆向-微信helloWorld | TKkk Notes](http://tkkk.fun/2017/03/19/%E9%80%86%E5%90%91-%E5%BE%AE%E4%BF%A1helloWorld/)
-3. [Tyilo/insert_dylib: Command line utility for inserting a dylib load command into a Mach-O binary](https://github.com/Tyilo/insert_dylib)
-
 # 一条命令完成砸壳
 
-发表于 2018-01-30   |   分类于 [逆向 ](http://www.alonemonkey.com/categories/%E9%80%86%E5%90%91/)  |   [3 Comments](http://www.alonemonkey.com/2018/01/30/frida-ios-dump/#comments)
 
 ### [](http://www.alonemonkey.com/2018/01/30/frida-ios-dump/#%E8%83%8C%E6%99%AF "背景")背景
 
@@ -49,11 +45,6 @@ warn ：使用 insert_dylib 时若出现 error 记得修改权限， chmod 777 i
 
 如果mac端报如下错:
 
-| 
-
-1
-
- | 
 
 Uninstalling a distutils installed project (six) has been deprecated and will be removed in a future version. This is due to the fact that uninstalling a distutils project will only partially uninstall the project.
 
@@ -81,85 +72,12 @@ sudo pip install frida –upgrade –ignore-installed six
 
 iproxy 2222 22
 
- |
 
 到此环境就配置好了，接下来就可以一键砸壳了！ (另当前python基于2.x的语法，先切换到python 2.x的环境
 
 ### [](http://www.alonemonkey.com/2018/01/30/frida-ios-dump/#%E4%B8%80%E9%94%AE%E7%A0%B8%E5%A3%B3 "一键砸壳")一键砸壳
 
 最简单的方式直接使用./dump + 应用显示的名字即可，如下:
-
-| 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
-
-10
-
-11
-
-12
-
-13
-
-14
-
-15
-
-16
-
-17
-
-18
-
-19
-
-20
-
-21
-
-22
-
-23
-
-24
-
-25
-
-26
-
-27
-
-28
-
-29
-
-30
-
-31
-
-32
-
-33
-
-34
-
- | 
 
 ➜  frida-ios-dump ./dump.py 微信
 
@@ -605,3 +523,17 @@ upadte: 更新增加资源方式，直接往MonkeyApp里面增加资源即可，
 
 
 
+
+
+## 参考
+
+
+1. [iOS逆向工程之App脱壳 - 青玉伏案 - 博客园](http://www.cnblogs.com/ludashi/p/5725743.html)
+2. [iOS逆向工程之Hopper+LLDB调试第三方App - 青玉伏案 - 博客园](https://www.cnblogs.com/ludashi/p/5730338.html)
+
+### App
+
+
+3. [sunweiliang/NeteaseMusicCrack: iOS网易云音乐 免VIP下载、去广告、去更新 无需越狱...](https://github.com/sunweiliang/NeteaseMusicCrack)
+4. [iOS逆向-微信helloWorld | TKkk Notes](http://tkkk.fun/2017/03/19/%E9%80%86%E5%90%91-%E5%BE%AE%E4%BF%A1helloWorld/)
+5. [Tyilo/insert_dylib: Command line utility for inserting a dylib load command into a Mach-O binary](https://github.com/Tyilo/insert_dylib)

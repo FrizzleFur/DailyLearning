@@ -1,6 +1,20 @@
-# iOS逆向-微信helloWorld
+# iOS逆向App
 
- 发表于 2017-03-19
+
+## 逆向网易云音乐
+
+运行报错：动态库加载不成功。
+
+用insert_dylib，手动插入一下编译好的动态库
+
+![](https://i.loli.net/2018/12/31/5c29f1b5cf22f.jpg)
+
+注入成功后将app目录中的 neteasemusic 删除，将 neteasemusic_patched 改为neteasemusic。
+
+
+warn ：使用 insert_dylib 时若出现 error 记得修改权限， chmod 777 insert_dylib
+
+## 微信helloWorld
 
 ## [](http://tkkk.fun/2017/03/19/%E9%80%86%E5%90%91-%E5%BE%AE%E4%BF%A1helloWorld/#%E5%89%8D%E8%A8%80 "前言")前言
 
@@ -29,12 +43,7 @@ OpenSSH 在 Cydia 中安装 OpenSSH
 
 *   ssh : 远程登录
 
-| 
 
-1
-2
-
- | 
 
 // 指令 ssh user@iOSIP
 $ ssh mobile@192.168.1.6
@@ -43,13 +52,6 @@ $ ssh mobile@192.168.1.6
 
 *   scp : 远程拷贝
     本地文件拷贝到iOS上(iOS拷贝到本地则相反)
-
-| 
-
-1
-2
-
- | 
 
 // 指令 scp /path/to/localFile user@iOSIP:/path/to/remoteFile
 scp ~/Desktop/1.png root@192.168.1.6:/var/tmp/
@@ -290,13 +292,6 @@ otool -L TKDemo.dylib
 
 #### [](http://tkkk.fun/2017/03/19/%E9%80%86%E5%90%91-%E5%BE%AE%E4%BF%A1helloWorld/#%E6%9B%B4%E6%8D%A2%E5%8A%A8%E6%80%81%E5%BA%93%E7%9A%84%E4%BE%9D%E8%B5%96 "更换动态库的依赖")更换动态库的依赖
 
-| 
-
-1
-2
-
- | 
-
 install_name_tool -change /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate @loader_path/libsubstrate.dylib tkchat.dylib 
 // install_name_tool -change 需要替换的库 @loader_path/需要引用的库 需要更改的dylib
 
@@ -390,79 +385,6 @@ warn !!!
 [![autoInsertDylib 操作.png](http://upload-images.jianshu.io/upload_images/965383-bacd4d58b44432e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)](http://upload-images.jianshu.io/upload_images/965383-bacd4d58b44432e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 autoInsertDylib.sh 内容
-
-| 
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-
- | 
 
 # !/bin/bash
 
@@ -559,6 +481,4 @@ open /Applications/iOS\ App\ Signer.app
 
 ## 参考
 
-
-
-[iOS逆向-微信helloWorld | TKkk Notes](http://tkkk.fun/2017/03/19/%E9%80%86%E5%90%91-%E5%BE%AE%E4%BF%A1helloWorld/)
+* [iOS逆向-微信helloWorld | TKkk Notes](http://tkkk.fun/2017/03/19/%E9%80%86%E5%90%91-%E5%BE%AE%E4%BF%A1helloWorld/)
