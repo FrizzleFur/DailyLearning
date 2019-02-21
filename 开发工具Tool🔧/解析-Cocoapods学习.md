@@ -34,13 +34,13 @@ In addition to the logic operators CocoaPods has an optimisic operator ~>:
 
 `pod install`参考的是podfile.lock文件的版本
 
-![](http://oc98nass3.bkt.clouddn.com/15364967396430.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15364967396430.jpg)
 
 ## pod update
 
 `pod install`参考的是Podfile文件的版本
 
-![](http://oc98nass3.bkt.clouddn.com/15364967642596.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15364967642596.jpg)
 
 如果Podfile文件库未指定版本，默认下载库的最新版本
 
@@ -99,11 +99,13 @@ gem sources --add https://gems.ruby-china.org/
 
 Error:“The sandbox is not in sync with the Podfile.lock…”
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-28-14986422106999.png)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-28-14986422106999.png)
 
 解决方法：
 找的时候，参考[Pod install error in terminal: not creating xcode workspace | Treehouse Community](https://teamtreehouse.com/community/pod-install-error-in-terminal-not-creating-xcode-workspace)，重新安装了一下`Cocoapods`发现还是这样，后面`cd`到`cocoapods`的`~/.cocoapods`目录后，执行 `sudo gem update  cocoapods`
-![](http://oc98nass3.bkt.clouddn.com/2017-06-28-14986425068849.jpg)
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-28-14986425068849.jpg)
 
 然后回到项目文件夹，执行`pod install` 就可以了
 
