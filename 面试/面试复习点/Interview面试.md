@@ -246,13 +246,13 @@ dispatch_semaphore_wait中的参数timeout表示超时时间，如果等待期�
 
 来看一个具体的例子：
 
-![](http://oc98nass3.bkt.clouddn.com/15301534187605.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301534187605.jpg)
 信号量的初始值设置为：1，即最多只能又一个线程在run，可以验证一下运行结果，除去最开始的三个，后面的是每三秒打印一个，并且保证运行的顺序按照添加的顺序。
 
-![](http://oc98nass3.bkt.clouddn.com/15301534397789.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301534397789.jpg)
 
 如果把创建信号量的值设置为4，即最多可以有4个线程同时运行，来看一下运行结果，是每三秒同时打印四个，且顺序不能保证。
-![](http://oc98nass3.bkt.clouddn.com/15301535632720.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301535632720.jpg)
 
 
 参考[dispatch_semaphore控制并发线程数 - 简书](https://www.jianshu.com/p/a5e75df26d9c)
@@ -267,7 +267,7 @@ weak可以修饰对象，assign是生成与栈上的，如果用于修饰对象�
 * 架构
 
 6. 传值模式的介绍： 代理、通知、block
-![](http://oc98nass3.bkt.clouddn.com/15301587846244.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301587846244.jpg)
 
 7. `Runtime` & `RunLoop` 介绍
 8. 有了解`OpenGL`吗？
