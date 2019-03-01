@@ -578,6 +578,67 @@ self.tableView.rowHeight = 88;
 当到状态 ② 的时候，我们发现 `_reusableCells` 容器中，已经出现了状态 ① 中已经退出屏幕的 Cell 0。而当我们重新将 Cell 0 滑入界面的时候，在系统 `addView` 渲染阶段，会直接将 `_reusableCells` 中的 Cell 0 立即取出进行渲染，从而代替创建新的实例再进行渲染，简化了时间与性能上的开销。
 
 
+
+## 重用机制的实现
+
+1. 建立两个数组，分别存放正在使用的cell和未使用的cell
+2. 设置一个weak属性的数据源
+
+
+```objc
+@property (nonatomic, weak) id dataSource;
+
+// 集合是一种哈希表，运用散列算法，查找集合中的元素比数组速度更快，但是它没有顺序。
+
+// 等待使用的队列
+@property (nonatomic, strong) NSMutableSet waitUsedQueue;
+// 正在使用的队列
+@property (nonatomic, strong) NSMutableSet usingQueue;
+
+
+- (UIView *)dequeueReuseableView {
+    if(view == nil) return;
+    // 添加视图到使用中的队列
+    [_usingQuque addObject];
+} 
+
+
+- (void)addUsingView:(UIView *)view {
+    UIView *view = [_waitUsedQuque anyObject];
+    if(view == nil){
+        return nil;
+    } else{
+        // 进行队列移动
+        [_waitUsedQuque removeObject:view];
+        [_usingQuque addObject:view];
+        return view;
+    }
+} 
+
+
+- (void)reset {
+    UIView *view = nil;
+    while ((view = [_usingQueue anyObject])){
+        // 从使用中的队列中移除
+        [_usingQuque removeObject];
+         // 加入等待使用中的队列
+        [_waitUsedQuque addObject:view];
+    }
+} 
+
+```
+
+
+## 索引条的思路
+
+```objc
+
+// 避免索引条随着table滚动
+self.superview insertSubview:containerView aboveSubview];
+
+```
+
+
 ## 问题
 
 ### 隐藏导航的时候露出状态白线
