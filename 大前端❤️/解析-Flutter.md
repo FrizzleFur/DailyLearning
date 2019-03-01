@@ -76,6 +76,52 @@ Flutter 作为 Google 新一代的跨平台框架，有较多的优点，但跟�
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190221171251.png)
 
 
+
+
+## Flutter配置
+
+使用flutter doctor，解决好问题
+
+```
+╰─ flutter doctor
+Doctor summary (to see all details, run flutter doctor -v):
+[✓] Flutter (Channel stable, v1.0.0, on Mac OS X 10.14 18A391, locale
+    zh-Hans-CN)
+[✓] Android toolchain - develop for Android devices (Android SDK 28.0.3)
+[✓] iOS toolchain - develop for iOS devices (Xcode 10.1)
+[✓] Android Studio (version 3.3)
+[✓] Connected device (2 available)
+
+• No issues found!
+```
+
+
+
+
+
+Mac上配置遇到的问题:
+
+
+1. android-licenses
+
+
+```
+flutter doctor --android-licenses
+```
+
+接受证书
+
+3. [Stuck at “.android/repositories.cfg could not be loaded.”](https://stackoverflow.com/questions/43433542/stuck-at-android-repositories-cfg-could-not-be-loaded)
+
+新建文件
+
+```
+touch ~/.android/repositories.cfg
+
+```
+
+
+
 ## 参考
 
 * [Flutter · 语雀](https://www.yuque.com/xytech/flutter)
