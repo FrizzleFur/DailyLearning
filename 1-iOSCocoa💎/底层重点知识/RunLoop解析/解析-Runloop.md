@@ -231,7 +231,15 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 有时你需要一个 Timer，在两个 Mode 中都能得到回调，一种办法就是将这个 Timer 分别加入这两个 Mode。还有一种方式，就是将 Timer 加入到顶层的 RunLoop 的 “commonModeItems” 中。”commonModeItems” 被 RunLoop 自动更新到所有具有”Common”属性的 Mode 里去。
 
 
-## Runloop一次loop执行过程
+## RunLoop 观察者
+
+2个观察者，
+1. 监听RunLoop进入  （push）
+2. 监听RunLoop在休眠之前和退出 （pop，然后 push）
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190302112206.png)
+
+## Runloop的执行过程
 
 执行过程大致描述如下：
 
@@ -265,17 +273,20 @@ handle_msg 处理 timer 事件，处理 main queue block 事件，处理 source1
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190203193235.png)
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190302102203.png)
 
 ### NSTimer 与 GCD Timer
 
 * NSTimer 是通过 RunLoop 的 RunLoopTimer 把时间加入到 RunLoopMode 里面。官方文档里面也有说 CFRunLoopTimer 和 NSTimer 是可以互相转换的。由于 NSTimer 的这种机制，因此 NSTimer 的执行必须依赖于 RunLoop，如果没有 RunLoop，NSTimer 是不会执行的。
+* NSTimer依赖`Runloop`，Runloop每次跑圈的任务很可能是不同的，每次跑圈花费的时间可能不同，如果一次任务很多，一次任务很少，定时器`NSTimer`就可能出现偏差。
+* Runloop每跑一圈就会检查时间
 
-* GCD 则不同，GCD 的线程管理是通过系统来直接管理的。GCD Timer 是通过 dispatch port 给 RunLoop 发送消息，来使 RunLoop 执行相应的 block，如果所在线程没有 RunLoop，那么 GCD 会临时创建一个线程去执行 block，执行完之后再销毁掉，因此 GCD 的 Timer 是不依赖 RunLoop 的。
+* GCD 则不同，GCD 的线程管理是通过系统内核来直接管理的。GCD Timer 是通过 dispatch port 给 RunLoop 发送消息，来使 RunLoop 执行相应的 block，如果所在线程没有 RunLoop，那么 GCD 会临时创建一个线程去执行 block，执行完之后再销毁掉，因此 GCD 的 Timer 是不依赖 RunLoop 的。
 
 * 至于这两个 Timer 的准确性问题，如果不再 RunLoop 的线程里面执行，那么只能使用 GCD Timer，由于 GCD Timer 是基于 MKTimer(mach kernel timer)，已经很底层了，因此是很准确的。
 
 * 异步的回调如果存在延时操作，那么就要放到有 RunLoop 的线程里面，否则回调没有着陆点无法执行
-* NSTimer 必须得在有 RunLoop 的线程里面才能执行，另外，使用 NSTimer 的时候会出现滑动 TableView，Timer 停止的问题，是由于 RunLoopMode 切换的问题，只要把 NSTimer 加到 common mode 就好了。
+* NSTimer 必须得在有 RunLoop 的线程里面才能执行，另外，使用 NSTimer 的时候会出现滑动 TableView，Timer 停止的问题，是由于 RunLoopMode 切换的问题，只要把 NSTimer 加到 `commonMode` 就好了。
 * 滚动过程中延迟加载，可以利用滚动时 RunLoopMode 切换到 NSEventTrackingRunLoopMode 模式下这个机制，在 Default mode 下添加加载图片的方法，在滚动时就不会触发。
 * 崩溃后处理 DSSignalHandlerDemo
 
@@ -321,6 +332,16 @@ function loop() {
 *   kCFRunLoopEntry; // 进入runloop之前，创建一个自动释放池
 *   kCFRunLoopBeforeWaiting; // 休眠之前，销毁自动释放池，创建一个新的自动释放池
 *   kCFRunLoopExit; // 退出runloop之前，销毁自动释放池
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190302114218.png)
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190302120107.png)
+
+在每次`Runloop`循环中，`Runloop`休眠之前会调用了对象的`release`方法释放`AutoreleasePoolPage`中边界内的对象。
+* `autorelease`方法在每次`Runloop`循环中，`Runloop`休眠之前会调用了对象的`release`方法释放`AutoreleasePoolPage`中边界内的对象。
+* 局部变量的释放是直接调用`release`方法释放
+
 
 ### 事件响应
 

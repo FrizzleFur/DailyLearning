@@ -63,6 +63,7 @@ AutoreleasePool并没有单独的结构，而是由若干个AutoreleasePoolPage�
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190129160839.png)
 
+* 每个AutoreleasePoolPage对象占用4096字节内存,除了用来存放它内部的成员变量,剩下的空间用来存放autorelease对象的地址
 
 ## 哨兵对象 POOL_SENTINEL
 
@@ -76,6 +77,11 @@ AutoreleasePool并没有单独的结构，而是由若干个AutoreleasePoolPage�
 ## Autoreleasepool 和 Runloop 的关系
 
 ARC时代，系统自动管理自己的Autoreleasepool，Runloop就是iOS中的消息循环机制，当一个Runloop结束时系统才会一次性清理掉被Autoreleasepool处理过的对象，其实本质上说是在本次Runloop迭代结束时清理掉被本次迭代期间被放到Autoreleasepool中的对象的。至于何时Runloop结束并没有固定的duration。 
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190302120107.png)
+
+在每次`Runloop`循环中，`Runloop`休眠之前会调用了对象的`release`方法释放`AutoreleasePoolPage`中边界内的对象。
+
 
 
 ## Autoreleasepool 使用
@@ -111,7 +117,7 @@ for (NSURL *url in urls) {
 }
 ```
 
-## Autorelease 方法
+## autorelease 方法
 
 方法的调用栈：
 
@@ -129,6 +135,10 @@ for (NSURL *url in urls) {
                     ├── AutoreleasePoolPage(AutoreleasePoolPage *newParent)
                     └── id *add(id obj)
 ```
+
+
+* `autorelease`方法在每次`Runloop`循环中，`Runloop`休眠之前会调用了对象的`release`方法释放`AutoreleasePoolPage`中边界内的对象。
+* 局部变量的释放是直接调用`release`方法释放
 
 ## 总结
 
