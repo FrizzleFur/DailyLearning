@@ -1,10 +1,8 @@
 
-# CocoaPods 问题
+# CocoaPods 解析
 
-[CocoaPods 都做了什么？](https://draveness.me/cocoapods.html)
 
 最后想说的是 pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，其中前者并不会修改 Podfile.lock 中显示指定的版本，而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
-
 
 ## pod版本
 
@@ -91,69 +89,6 @@ gem sources --add https://gems.ruby-china.org/
 
 参考 [解决CocoaPods慢的小技巧 - 简书](https://www.jianshu.com/p/b3d15c9bbf2b), 
 [解决Cocoapods贼慢问题 - 简书](https://www.jianshu.com/p/f024ca2267e3)
-
-## 问题记录
-
-### 1.`$ pod install`后，没有生成`XWorkSpace`文件，并且报错
-`2017-06-28`
-
-Error:“The sandbox is not in sync with the Podfile.lock…”
-
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-28-14986422106999.png)
-
-解决方法：
-找的时候，参考[Pod install error in terminal: not creating xcode workspace | Treehouse Community](https://teamtreehouse.com/community/pod-install-error-in-terminal-not-creating-xcode-workspace)，重新安装了一下`Cocoapods`发现还是这样，后面`cd`到`cocoapods`的`~/.cocoapods`目录后，执行 `sudo gem update  cocoapods`
-
-
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-28-14986425068849.jpg)
-
-然后回到项目文件夹，执行`pod install` 就可以了
-
-
-### 2. 升级Cocoapods时候， Unable to download data from https://gems.ruby-china.org
-
-
-``` 
-╰─ sudo gem install cocoapods
-ERROR:  Could not find a valid gem 'cocoapods' (>= 0), here is why:
-          Unable to download data from https://gems.ruby-china.org/ - bad response Not Found 404 (https://gems.ruby-china.org/specs.4.8.gz)
-```
-
-原因：域名已经被更换了：从`gems.ruby-china.org`更换成`gems.ruby-china.com`
-
-可以切换源
-```
-gem sources -a https://gems.ruby-china.com/  --remove https://gems.ruby-china.org/
-```
-
-
-参考： [Error fetching https://gems.ruby-china.org/: bad response Not Found 404 解决方法 - CSDN博客](https://blog.csdn.net/MChuajian/article/details/82016921)
-
-### CocoaPods version
-
-执行pod install时，提示如下信息：
-
-```
-[!] The version of CocoaPods used to generate the lockfile (1.5.3) is higher than the version of the current executable (1.3.1). Incompatibility issues may arise.
-[!] Unable to satisfy the following requirements:
-
-- `AFNetworking (~> 3.0)` required by `Podfile`
-- `AFNetworking (= 3.2.1)` required by `Podfile.lock`
-
-None of your spec sources contain a spec satisfying the dependencies: `AFNetworking (~> 3.0), AFNetworking (= 3.2.1)`.
-
-You have either:
- * out-of-date source repos which you can update with `pod repo update` or with `pod install --repo-update`.
- * mistyped the name or version.
- * not added the source repo that hosts the Podspec to your Podfile.
-
-Note: as of CocoaPods 1.0, `pod repo update` does not happen on `pod install` by default.
-```
-* 这是因为Podfile中的库版本比podfile.lock制定的低了
-* 用'pod repo udapte'命令更新
-* 然后'pod install'安装
-
-参考[The version of CocoaPods used to generate the lockfile is higher than the version of - CSDN博客](https://blog.csdn.net/qq942418300/article/details/53446719)
 
 ## Podfile
 
@@ -353,6 +288,242 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 [Library vs Framework in iOS | Lanvige's Zen Garden](http://blog.lanvige.com/2015/01/04/library-vs-framework-in-ios/?utm_source=tuicool&utm_medium=referral)
 
+## 制作私有的Pod
+
+* [细聊 Cocoapods 与 Xcode 工程配置](https://bestswifter.com/cocoapods/#cocoapods)
+* [iOS组件化实践(三)：实施 - 简书](https://www.jianshu.com/p/0a7f3c0b4194)
+
+# Cocoapod原理
+
+[CocoaPods 都做了什么？](https://draveness.me/cocoapods)
+
+[Cocoapods原理总结 - iOS - 掘金](https://juejin.im/entry/59dd94b06fb9a0451463030b)
+
+## static library
+
+先看一下使用CocoaPods管理依赖前项目的文件结构
+
+```
+CardPlayer
+├── CardPlayer
+│   ├── CardPlayer
+│   ├── CardPlayer.xcodeproj
+│   ├── CardPlayerTests
+│   └── CardPlayerUITests
+├── exportOptions.plist
+└── wehere-dev-cloud.mobileprovision
+
+```
+
+然后我们使用Pod来管理依赖，编写的PodFile如下所示:
+
+```
+project 'CardPlayer/CardPlayer.xcodeproj'
+
+target 'CardPlayer' do
+  pod 'AFNetworking', '~> 1.0'
+end
+
+```
+
+## 文件结构的变化
+
+然后使用pod install，添加好依赖之后，项目的文件结构如下所示:
+
+```
+CardPlayer
+├── CardPlayer
+│   ├── CardPlayer
+│   ├── CardPlayer.xcodeproj
+│   ├── CardPlayerTests
+│   └── CardPlayerUITests
+├── CardPlayer.xcworkspace
+│   └── contents.xcworkspacedata
+├── PodFile
+├── Podfile.lock
+├── Pods
+│   ├── AFNetworking
+│   ├── Headers
+│   ├── Manifest.lock
+│   ├── Pods.xcodeproj
+│   └── Target\ Support\ Files
+├── exportOptions.plist
+└── wehere-dev-cloud.mobileprovision
+
+```
+
+可以看到我们添加了如下文件
+
+1.  PodFile 依赖描述文件
+
+2.  Podfile.lock 当前安装的依赖库的版本
+
+3.  CardPlayer.xcworkspace
+
+    xcworkspace文件，使用CocoaPod管理依赖的项目，XCode只能使用workspace编译项目，如果还只打开以前的xcodeproj文件进行开发，编译会失败
+
+    xcworkspace文件实际是一个文件夹，实际Workspace信息保存在contents.xcworkspacedata里，该文件的内容非常简单，实际上只指示它所使用的工程的文件目录
+
+    如下所示:
+
+ ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Workspace
+       version = "1.0">
+       <FileRef
+          location = "group:CardPlayer/CardPlayer.xcodeproj">
+       </FileRef>
+       <FileRef
+          location = "group:Pods/Pods.xcodeproj">
+       </FileRef>
+    </Workspace>
+```
+
+4.  Pods目录
+
+    1.  Pods.xcodeproj，Pods工程，所有第三方库由Pods工程构建，每个第3方库对应Pods工程的1个target，并且这个工程还有1个Pods-Xxx的target，接下来在介绍工程时再详细介绍
+
+    2.  AFNetworking 每个第3方库，都会在Pods目录下有1个对应的目录
+
+    3.  Headers
+
+        在Headers下有两个目录，Private和Public，第3方库的私有头文件会在Private目录下有对应的头文件，不过是1个软链接，链接到第3方库的头文件 第3方库的Pubic头文件会在Public目录下有对应的头文件，也是软链接
+
+        如下所示:
+
+        ```
+        Headers/
+         ├── Private
+         │   └── AFNetworking
+         │       ├── AFHTTPClient.h -> ../../../AFNetworking/AFNetworking/AFHTTPClient.h
+         │       ├── AFHTTPRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFHTTPRequestOperation.h
+         │       ├── AFImageRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFImageRequestOperation.h
+         │       ├── AFJSONRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFJSONRequestOperation.h
+         │       ├── AFNetworkActivityIndicatorManager.h -> ../../../AFNetworking/AFNetworking/AFNetworkActivityIndicatorManager.h
+         │       ├── AFNetworking.h -> ../../../AFNetworking/AFNetworking/AFNetworking.h
+         │       ├── AFPropertyListRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFPropertyListRequestOperation.h
+         │       ├── AFURLConnectionOperation.h -> ../../../AFNetworking/AFNetworking/AFURLConnectionOperation.h
+         │       ├── AFXMLRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFXMLRequestOperation.h
+         │       └── UIImageView+AFNetworking.h -> ../../../AFNetworking/AFNetworking/UIImageView+AFNetworking.h
+         └── Public
+             └── AFNetworking
+                 ├── AFHTTPClient.h -> ../../../AFNetworking/AFNetworking/AFHTTPClient.h
+                 ├── AFHTTPRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFHTTPRequestOperation.h
+                 ├── AFImageRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFImageRequestOperation.h
+                 ├── AFJSONRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFJSONRequestOperation.h
+                 ├── AFNetworkActivityIndicatorManager.h -> ../../../AFNetworking/AFNetworking/AFNetworkActivityIndicatorManager.h
+                 ├── AFNetworking.h -> ../../../AFNetworking/AFNetworking/AFNetworking.h
+                 ├── AFPropertyListRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFPropertyListRequestOperation.h
+                 ├── AFURLConnectionOperation.h -> ../../../AFNetworking/AFNetworking/AFURLConnectionOperation.h
+                 ├── AFXMLRequestOperation.h -> ../../../AFNetworking/AFNetworking/AFXMLRequestOperation.h
+                 └── UIImageView+AFNetworking.h -> ../../../AFNetworking/AFNetworking/UIImageView+AFNetworking.h  
+
+        ```
+
+    4.  Manifest.lock manifest文件 描述第3方库对其它库的依赖
+
+        ```
+        PODS:
+          - AFNetworking (1.3.4)
+
+        DEPENDENCIES:
+          - AFNetworking (~> 1.0)
+
+        SPEC CHECKSUMS:
+          AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
+
+        PODFILE CHECKSUM: 349872ccf0789fbe3fa2b0f912b1b5388eb5e1a9
+
+        COCOAPODS: 1.3.1
+
+        ```
+
+    5.  Target Support Files 支撑target的文件
+
+        ```
+        Target\ Support\ Files/
+        ├── AFNetworking
+        │   ├── AFNetworking-dummy.m
+        │   ├── AFNetworking-prefix.pch
+        │   └── AFNetworking.xcconfig
+        └── Pods-CardPlayer
+            ├── Pods-CardPlayer-acknowledgements.markdown
+            ├── Pods-CardPlayer-acknowledgements.plist
+            ├── Pods-CardPlayer-dummy.m
+            ├── Pods-CardPlayer-frameworks.sh
+            ├── Pods-CardPlayer-resources.sh
+            ├── Pods-CardPlayer.debug.xcconfig
+            └── Pods-CardPlayer.release.xcconfig
+
+        ```
+
+在Target Support Files目录下每1个第3方库都会有1个对应的文件夹，比如AFNetworking，该目录下有一个空实现文件，也有预定义头文件用来优化头文件编译速度，还会有1个xcconfig文件，该文件会在工程配置中使用，主要存放头文件搜索目录，链接的Flag(比如链接哪些库)
+
+在Target Support Files目录下还会有1个Pods-XXX的文件夹，该文件夹存放了第3方库声明文档markdown文档和plist文件，还有1个dummy的空实现文件，还有debug和release各自对应的xcconfig配置文件，另外还有2个脚本文件，Pods-XXX-frameworks.sh脚本用于实现framework库的链接，当依赖的第3方库是framework形式才会用到该脚本，另外1个脚本文件: Pods-XXX-resources.sh用于编译storyboard类的资源文件或者拷贝*.xcassets之类的资源文件
+
+## 问题记录
+
+### 1.`$ pod install`后，没有生成`XWorkSpace`文件，并且报错
+`2017-06-28`
+
+Error:“The sandbox is not in sync with the Podfile.lock…”
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-28-14986422106999.png)
+
+解决方法：
+找的时候，参考[Pod install error in terminal: not creating xcode workspace | Treehouse Community](https://teamtreehouse.com/community/pod-install-error-in-terminal-not-creating-xcode-workspace)，重新安装了一下`Cocoapods`发现还是这样，后面`cd`到`cocoapods`的`~/.cocoapods`目录后，执行 `sudo gem update  cocoapods`
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-28-14986425068849.jpg)
+
+然后回到项目文件夹，执行`pod install` 就可以了
+
+
+### 2. 升级Cocoapods时候， Unable to download data from https://gems.ruby-china.org
+
+
+``` 
+╰─ sudo gem install cocoapods
+ERROR:  Could not find a valid gem 'cocoapods' (>= 0), here is why:
+          Unable to download data from https://gems.ruby-china.org/ - bad response Not Found 404 (https://gems.ruby-china.org/specs.4.8.gz)
+```
+
+原因：域名已经被更换了：从`gems.ruby-china.org`更换成`gems.ruby-china.com`
+
+可以切换源
+```
+gem sources -a https://gems.ruby-china.com/  --remove https://gems.ruby-china.org/
+```
+
+
+参考： [Error fetching https://gems.ruby-china.org/: bad response Not Found 404 解决方法 - CSDN博客](https://blog.csdn.net/MChuajian/article/details/82016921)
+
+### CocoaPods version
+
+执行pod install时，提示如下信息：
+
+```
+[!] The version of CocoaPods used to generate the lockfile (1.5.3) is higher than the version of the current executable (1.3.1). Incompatibility issues may arise.
+[!] Unable to satisfy the following requirements:
+
+- `AFNetworking (~> 3.0)` required by `Podfile`
+- `AFNetworking (= 3.2.1)` required by `Podfile.lock`
+
+None of your spec sources contain a spec satisfying the dependencies: `AFNetworking (~> 3.0), AFNetworking (= 3.2.1)`.
+
+You have either:
+ * out-of-date source repos which you can update with `pod repo update` or with `pod install --repo-update`.
+ * mistyped the name or version.
+ * not added the source repo that hosts the Podspec to your Podfile.
+
+Note: as of CocoaPods 1.0, `pod repo update` does not happen on `pod install` by default.
+```
+* 这是因为Podfile中的库版本比podfile.lock制定的低了
+* 用'pod repo udapte'命令更新
+* 然后'pod install'安装
+
+参考[The version of CocoaPods used to generate the lockfile is higher than the version of - CSDN博客](https://blog.csdn.net/qq942418300/article/details/53446719)
+
 
 ### Pod 更新慢
 
@@ -364,17 +535,13 @@ pod update --verbose --no-repo-update
 * 进入终端家目录，输入ls -a可看到隐藏的pod文件夹，输入
 * cd ~/.cocoapods/进入pod文件夹，然后输入du -sh即可看到repos文件夹的容量，隔几秒执行一下该命令，可看到repos的容量在不断增大，待容量增大至300+M时，说明，repos文件夹索引目录已安装完毕。此时，pod功能即可正常使用。
 
-
-### Cocoapods install时查看进度
+#### Cocoapods install时查看进度
 
 新开终端窗口cd到复制的路径
 输入命令：du -sh
 
-
-
-## 问题
  
-1. CocoaPods could not find compatible versions for pod "XXX"
+### 1. CocoaPods could not find compatible versions for pod "XXX"
 
 解决方法：
 
@@ -384,8 +551,7 @@ pod update --verbose --no-repo-update
 pod install
 ```
 
-
-2. 问题can't find gem cocoapods--ruby环境版本太低
+### 2. 问题can't find gem cocoapods--ruby环境版本太低
 
 ```
 /Library/Ruby/Site/2.0.0/rubygems.rb:250:in `find_spec_for_exe': can't find gem cocoapods (>= 0.a) (Gem::GemNotFoundException)
@@ -481,11 +647,13 @@ In XCode Go to Product -> Scheme -> Manage Schemes. There delete the project (ma
 
 #### pod install ：
 
-这个是第一次在工程里面使用pods的时候使用，并且，也是每次你编辑你的Podfile（添加、移除、更新）的时候使用。
+* 这个是第一次在工程里面使用pods的时候使用，并且，也是每次你编辑你的Podfile（添加、移除、更新）的时候使用。
 
-每次运行pod install命令的时候，在下载、安装新的库的同时，也会把你安装的每个库的版本都写在了Podfile.lock文件里面。这个文件记录你每个安装库的版本号，并且锁定了这些版本。
+* 每次运行pod install命令的时候，在下载、安装新的库的同时，也会把你安装的每个库的版本都写在了Podfile.lock文件里面。这个文件记录你每个安装库的版本号，并且锁定了这些版本。
 
-当你使用pod install它只解决了pods里面，但不在Podfile.lock文件里面的那些库之间的依赖。对于在Podfile.lock里面所列出的那些库，会下载在Podfile.lock里面明确的版本，并不会去检查是否该库有新的版本。对于还不在Podfile.lock里面的库，会找到Podfile里面描述对应版本（例如：pod "MyPod", "~>1.2"）。
+* 当你使用pod install它只解决了pods里面，但不在Podfile.lock文件里面的那些库之间的依赖。对于在Podfile.lock里面所列出的那些库，会下载在Podfile.lock里面明确的版本，并不会去检查是否该库有新的版本。对于还不在Podfile.lock里面的库，会找到Podfile里面描述对应版本（例如：pod "MyPod", "~>1.2"）。
+
+* 如果你的 Pods 文件夹不受版本控制，那么你需要做一些额外的步骤来保证持续集成的顺利进行。最起码，Podfile 文件要放入版本控制之中。**另外强烈建议将生成的 .xcworkspace 和 Podfile.lock 文件纳入版本控制**，这样不仅简单方便，也能保证所使用 Pod 的版本是正确的。
 
 * * *
 
