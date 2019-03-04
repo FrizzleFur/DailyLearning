@@ -499,7 +499,7 @@ for (int i=0; i<4; i++) {
 
 `Runtime`的使用：获取属性列表，获取成员变量列表，获得方法列表，获取协议列表，方法交换（黑魔法），动态的添加方法，调用私有方法，为分类添加属性。
 
-## 类在`Runtime`中的表示
+### 类在`Runtime`中的表示
 
 ```objc
 //类在runtime中的表示
@@ -628,7 +628,7 @@ struct objc_class {
 @end
 ```
 
-## 方法交换
+### Method Swizzle方法交换
 
 使用场景：
 
@@ -692,7 +692,19 @@ void swizzleMethod(Class cls, SEL originalSelector, SEL swizzledSelector) {
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360623948928.jpg)
 
-## 属性关联
+#### MethodSwizzling问题
+
+1. 只在 + load 中执行 swizzling 才是安全的。
+2. 被 hook 的方法必须是当前类自身的方法，如果把继承来的 IMP copy 到自身上面会存在问题。父类的方法应该在调用的时候使用，而不是 swizzling 的时候 copy 到子类。
+3. 被 Swizzled 的方法如果依赖与 cmd ，hook 之后 cmd 发送了变化，就会有问题(一般你 hook 的是系统类，也不知道系统用没用 cmd 这个参数)。
+4. 命名如果冲突导致之前 hook 的失效 或者是循环调用。
+
+[iOS界的毒瘤-MethodSwizzling - 茶茶的小屋](https://www.valiantcat.cn/index.php/2017/11/03/53.html)
+
+上述问题中第一条和第四条说的是通常的 MethodSwizzling 是在分类里面实现的, 而分类的 Method 是被 Runtime 加载的时候追加到类的 MethodList ，如果不是在 + load 是执行的 Swizzling 一旦出现重名，那么 SEL 和 IMP 不匹配致 hook 的结果是循环调用。
+
+
+### AssociatedObjects属性关联
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190214171822.png)
 
@@ -763,6 +775,12 @@ void objc_removeAssociatedObjects(id object);
 关联对象的释放时机与被移除的时机并不总是一致的，比如上面的 self.associatedObject_assign 所指向的对象在 ViewController 出现后就被释放了，但是 self.associatedObject_assign 仍然有值，还是保存的原对象的地址。如果之后再使用 self.associatedObject_assign 就会造成 Crash ，所以我们在使用弱引用的关联对象时要非常小心；
 一个对象的所有关联对象是在这个对象被释放时调用的 _object_remove_assocations 函数中被移除的。
 接下来，我们就一起看看 runtime 中的源码，来验证下我们的实验结论。
+
+### Runtime分类方法
+
+方法交换表
+[rabovik/RSSwizzle: Safe Method Swizzling.](https://github.com/rabovik/RSSwizzle/)
+
 
 
 ## 参考
