@@ -16,6 +16,7 @@
 
 * [2_ThirdParty](https://github.com/coolnameismy/ios-tips/tree/master/2_ThirdParty) 三方库的解析
 
+
 ###  博客
 
 地址  |  简介
@@ -76,6 +77,13 @@
 
 - [MASTER VUE.JS](https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1)
 
+
+## 物联网
+
+
+[USTC-CS-Courses-Resource/计算机与信息类/物联网导论/slides at master · mbinary/USTC-CS-Courses-Resource](https://github.com/mbinary/USTC-CS-Courses-Resource/tree/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B1%BB/%E7%89%A9%E8%81%94%E7%BD%91%E5%AF%BC%E8%AE%BA/slides)
+
+
 ## 工具
 
 * [ToolLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/ToolLearning.md)
@@ -95,7 +103,6 @@
 ## 技术路线
 
 ### 基础
-
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163318.png)
 

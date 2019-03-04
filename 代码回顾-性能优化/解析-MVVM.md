@@ -176,6 +176,9 @@ MVC模式的关键是实现了视图和模型的分离。这是如何实现的�
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359952531157.jpg)
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190304081524.png)
+
+
 为了解决这个问题，我们的首要任务是清理视图控制器的视图控制器，分为两部分：视图和视图模型。具体地说，我们要：
 
 * 设计一组绑定接口。

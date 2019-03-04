@@ -706,8 +706,8 @@ UIView的动画block不会造成循环引用的原因就是，这是个类方法
 
 ```objc
 [UIView animateWithDuration:duration animations:^{ [self.superview layoutIfNeeded]; }]; 
-
 ```
+
 2. NSNotification
 
 ```objc
@@ -716,8 +716,8 @@ UIView的动画block不会造成循环引用的原因就是，这是个类方法
                                              usingBlock:^(NSNotification * notification) {
         self.someProperty = xyz; 
 }]; 
-
 ```
+
 3. NSOperationQueue
 
 ```objc
