@@ -630,6 +630,8 @@ struct objc_class {
 
 ### Method Swizzle方法交换
 
+[Objective-C Method Swizzling | yulingtianxia's blog](http://yulingtianxia.com/blog/2017/04/17/Objective-C-Method-Swizzling/)
+
 使用场景：
 
 需求:
@@ -691,6 +693,7 @@ void swizzleMethod(Class cls, SEL originalSelector, SEL swizzledSelector) {
 ```
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360623948928.jpg)
+
 
 #### MethodSwizzling问题
 
@@ -781,6 +784,7 @@ void objc_removeAssociatedObjects(id object);
 方法交换表
 [rabovik/RSSwizzle: Safe Method Swizzling.](https://github.com/rabovik/RSSwizzle/)
 
+[steipete/Aspects: Delightful, simple library for aspect oriented programming in Objective-C and Swift.](https://github.com/steipete/Aspects)
 
 
 ## 参考
