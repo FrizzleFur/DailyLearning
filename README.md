@@ -49,7 +49,7 @@
 
 ### 异步编程
 
-*  [alibaba/coobjc)](https://github.com/alibaba/coobjc)coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc. 
+*  [alibaba/coobjc](https://github.com/alibaba/coobjc)coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc. 
 
 *  [google/promises](https://github.com/google/promises)Promises is a modern framework that provides a synchronization construct for Swift and Objective-C.
 
