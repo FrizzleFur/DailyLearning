@@ -47,6 +47,16 @@
 
 *  [iOS学习笔记 (知识点整理)](https://github.com/FrizzleFur/DailyLearning/tree/master/iOSLearningDemo)
 
+### 异步编程
+
+*  [alibaba/coobjc)](https://github.com/alibaba/coobjc)coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc. 
+
+*  [google/promises](https://github.com/google/promises)Promises is a modern framework that provides a synchronization construct for Swift and Objective-C.
+
+*  [mxcl/PromiseKit](https://github.com/mxcl/PromiseKit)
+
+
+
 ## 设计模式
 
 
@@ -98,6 +108,8 @@
 * [面试了1000人后，我想说说简历如何写](http://m.quzhiboapp.com/#!/intro/80)
 
 * [iOS 面试小灶直播 - 简历、面试题、进阶](http://m.quzhiboapp.com/#!/intro/115)
+
+* [面试总结 · Issue #1 · FrizzleFur/DailyLearning](https://github.com/FrizzleFur/DailyLearning/issues/1)
 
 
 ## 技术路线
