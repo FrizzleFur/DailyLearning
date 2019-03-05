@@ -243,8 +243,6 @@ GET方式提交数据，会带来安全问题，比如一个登录页面，通�
 
 ### TCP/IP协议分层
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-09-04-15045091458482.jpg)
-
 [TCP协议详解](http://www.jianshu.com/p/ef892323e68f)
 
 ### ACK； SYN； FIN
@@ -274,8 +272,6 @@ GET方式提交数据，会带来安全问题，比如一个登录页面，通�
 #### 三次握手解析
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-08-14969143989779.jpg)
-
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-08-14969144404963.jpg)
 
 * 为什么TCP客户端最后还要发送一次确认呢？
 
