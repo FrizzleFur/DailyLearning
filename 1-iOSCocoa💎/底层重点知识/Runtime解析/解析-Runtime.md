@@ -209,6 +209,9 @@ struct objc_method_description {
 
 #### 方法的调用流程
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190306175634.png)
+
+
 消息直到运行时才绑定到方法的实现上。编译器会将消息表达式`[receiver message]`转化为一个消息函数，即`objc_msgSend(receiver, selector)`。	
 ![](https://i.imgur.com/2EO8fz2.jpg)
 
@@ -255,6 +258,8 @@ MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @"someString");
 以 `[receiver message]`的方式调用方法，如果`receiver`无法响应`message`，编译器会报错。但如果是以`performSelector`来调用，则需要等到运行时才能确定`object`是否能接收`message`消息。如果不能，则程序崩溃。
 当我们不能确定一个对象是否能接收某个消息时，会先调用`respondsToSelector:`来判断一下
 	
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190306163003.png)
+
 ##### `respondsToSelector`
 
 * 如果不使用`respondsToSelector:`来判断，那么这就可以用到“消息转发”机制。

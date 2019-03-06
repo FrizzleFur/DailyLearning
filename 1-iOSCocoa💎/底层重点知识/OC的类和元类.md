@@ -5,7 +5,11 @@
 ```objc
 NSString *str = [[NSString alloc] initWithString:@"This is a string"];
 ```
-常说的实例对象其实是指向对象内存地址的指针。
+
+常说的实例对象其实是指向对象内存地址的指针， 本质是`objc_object` 结构体
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190306155521.png)
+
+
 ![实例对象.png](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15112506999252.png)
 
 ### 命名规范
@@ -17,22 +21,29 @@ OC的方法名可能很长，但是是为了避免歧义，在命名方面，先
 OC是一门极其动态语言，在编译器定义好的方法在运行期系统会查找、调用某方法的实现代码，才能真正确定所调用的方法，如果类无法立即响应某个Selector，就会启动消息转发流程。
 
 1. objc_msgSend传递消息
+
 ![objc_msgSend](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15112512635482.png)
 
-```
+```objc
 id returnValue = [someObject messageName: parameter];
 ```
+
+
 消息传递调用的核心函数叫做objc_msgSend，编译器会把刚才的方法转换成：
-```
+
+```objc
 id returnValue = objc_msgSend(someObject, @selecor(messageName:), parameter);
 ```
+
+
 在`objc_msgSend()`方法中，主要通过以下步骤来查找和调用函数：
 根据对象obj找到对象类中存储的函数列表methodLists。
 再根据SEL@selector(doSth)在`methodLists`中查找对应的函数指针`method_imp`。
 根据函数指针`method_imp`调用响应的函数。
 
 `old_method_list`结构体:
-```
+
+```objc
 struct old_method_list {
     void *obsolete;        //废弃的属性
     int method_count;    //方法的个数
@@ -41,28 +52,51 @@ struct old_method_list {
 };
 ```
 `old_method`结构体:
-```
+
+```objc
 struct old_method {
     SEL method_name;    //函数的SEL
     char *method_types;        //函数的类型
     IMP method_imp;        //函数指针
 };
 ```
-obj->isa(Class类型) obj对象通过isa属性拿到对应的Class
-Class->methodLists(old_method_list类型) Class通过methodLists属性拿到存放所有方法的列表
-old_method_list->old_method 在old_method_list中通过SEL查找到对应的old_method
-old_method->method_imp(IMP类型) old_method通过method_imp属性拿到函数指针
+
+
+* obj->isa(Class类型) obj对象通过isa属性拿到对应的Class
+* Class->methodLists(old_method_list类型) Class通过methodLists属性拿到存放所有方法的列表
+* old_method_list->old_method 在old_method_list中通过SEL查找到对应的old_method
+* old_method->method_imp(IMP类型) old_method通过method_imp属性拿到函数指针
+
+
 method_imp->调用函数 通过函数指针调用函数
 `objc_msgSend`函数会根据接受者和Selector的类型来调用适当的方法，如果找到与Selector名称相符的方法名，就跳转到该方法的实现代码，如果没有就沿着继承体系继续向上查找，如果还是找不到，就执行消息转发。
 
 2. 消息转发
-2.1 “动态方法解析”(`dynamic method resolution`) 查看所属的类是否能动态添加方法，已处理当前的未知选择子（unknown selector）.
-2.2 “完整的消息转发机制”（`full forwatding mechanism`）请接受者看看有没有其他对象能处理这个消息，如果可以就把消息转发给那个对象，如果没有”备援接受者”（`replacement receiver`）则启动完整的消息转发机制，运行期系统会把消息有关的全部细节封装到`NSInvocation`对象中，给receiver最后一次机会，设法解决这条未处理的消息.
+- 2.1 “动态方法解析”(`dynamic method resolution`) 查看所属的类是否能动态添加方法，已处理当前的未知选择子（unknown selector）.
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190306162028.png)
+
+查看是类还是元类：
+
+- 类： 实例方法列表
+- 元类： 类方法列表
+
+* 我们知道发送消息是通过，objc_msgSend(id, SEL, ...)来实现的。首先会在对象的类对象的cache,method list以及父类对象的cache,method list依次查找SEL对应的IMP。
+* 如果没有找到，并且实现了动态方法决议机制就会决议。如果没有实现动态决议机制或者决议失败且实现了消息转发机制。就会进入消息转发流程。否则程序Crash.
+* 也就是说如果同时实现了动态决议和消息转发。那么动态决议先于消息转发。只有当动态决议无法决议selector的实现，才会尝试进行消息转发。
+
+
+- 2.2 “完整的消息转发机制”（`full forwatding mechanism`）请接受者看看有没有其他对象能处理这个消息，如果可以就把消息转发给那个对象，如果没有”备援接受者”（`replacement receiver`）则启动完整的消息转发机制，运行期系统会把消息有关的全部细节封装到`NSInvocation`对象中，给receiver最后一次机会，设法解决这条未处理的消息.
+
+
 ![消息转发](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15112511322781.png)
+
 `Selector`是方法选择器，里面存放的是方法的名字。对应方法的映射列表。
 `objc_msgSend`函数会一句及守着与Selector的类型来调用适当的方法，他会在方法接受者所属类中搜寻方法列表，如果找到了与Selector名称相符的方法。
 
 3. Method Swizzing
+
+
 使用`method_exchangeImplemetations`(`originalMethod, swappedMethod`);实现运行时的`Selector`交换
 ![methodSwizzing](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15112511121054.png)
 
@@ -126,6 +160,8 @@ struct objc_class {
 每个类的`isa`指针指向该类的所属类型元类(`metaClass`),用来表述类对象的数据。每个类仅有一个类对象，而每个类对象仅有一个与之相关的”元类”。
 比如一个继承`NSObjct`名叫SomeClass的类，其继承体系如下:
 ![类的继承体系](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15112508819933.png)
+
+
 在`Objective-C`中任何的类定义都是对象。即在程序启动的时候任何类定义都对应于一块内存。在编译的时候，编译器会给每一个类生成一个且只生成一个”描述其定义的对象”,也就是水果公司说的类对象(`class object`),它是一个单例(`singleton`).
 因此,程序里的所有实例对象(`instance object`)都是在运行时由`Objective-C`的运行时库生成的，而这个类对象(`class object`)就是运行时库用来创建实例对象(`instance object`)的依据。
 
