@@ -8,6 +8,19 @@
 
 
 
+## UI控件属性
+
+UI控件使用weak还是strong
+
+总结：控件建议使用weak（不管是IB创建还是纯代码创建）
+
+* 如果使用strong：只有当前控制器被销毁的时候，指向faceBtn的强引用才会取消，faceBtn才会被销毁，所以这种情况下，即便是removeFromSuperView，还是无法释放该控件！只能强行手动设置：btn = nil；
+* 所以个人建议：还是使用weak连接控件，只要我们在创建控件的时候，在当前的作用域 { xxx }中，添加到contentView上，就能为其添加强引用保证它不被销毁。
+* 然后当我们removeFromSuperView的时候，可以实现控件的销毁！
+
+
+[iOS中纯代码创建的UI控件使用weak还是strong - 简书](https://www.jianshu.com/p/adbf1ed14ffc)
+
 ## UIView属性
 
 1. window
