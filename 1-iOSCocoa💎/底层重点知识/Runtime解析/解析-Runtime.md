@@ -288,21 +288,17 @@ class_addMethod
 如果在上一步还是不能处理未知消息，则唯一能做的就是启用完整的消息转发机制。此时会调用以下方法：
 	
 `forwardInvocation`
-这是最后一次机会将消息转发给其它对象。创建一个表示消息的NSInvocation对象，把与消息的有关全部细节封装在anInvocation中，包括selector，目标(target)和参数。在forwardInvocation 方法中将消息转发给其它对象。
+这是最后一次机会将消息转发给其它对象。创建一个表示消息的`NSInvocation`对象，把与消息的有关全部细节封装在anInvocation中，包括selector，目标(target)和参数。在forwardInvocation 方法中将消息转发给其它对象。
 `forwardInvocation:`方法的实现有两个任务：
 	
-```
-a. 定位可以响应封装在anInvocation中的消息的对象。
-b. 使用anInvocation作为参数，将消息发送到选中的对象。anInvocation将会保留调用结果，runtime会提取这一结果并发送到消息的原始发送者。
-```
+1. 定位可以响应封装在anInvocation中的消息的对象。
+2. 使用anInvocation作为参数，将消息发送到选中的对象。anInvocation将会保留调用结果，runtime会提取这一结果并发送到消息的原始发送者。
 
 在这个方法中我们可以实现一些更复杂的功能，我们可以对消息的内容进行修改。另外，若发现消息不应由本类处理，则应调用父类的同名方法，以便继承体系中的每个类都有机会处理。
 另外，必须重写下面的方法：
-	
-```
-methodSignatureForSelector
-```
-消息转发机制从这个方法中获取信息来创建NSInvocation对象。完整的示例如下：
+`methodSignatureForSelector`
+
+消息转发机制从这个方法中获取信息来创建`NSInvocation`对象。完整的示例如下：
 	
 `NSObject`的`forwardInvocation`方法只是调用了`doesNotRecognizeSelector`方法，它不会转发任何消息。如果不在以上所述的三个步骤中处理未知消息，则会引发异常。
 `forwardInvocation`就像一个未知消息的分发中心，将这些未知的消息转发给其它对象。或者也可以像一个运输站一样将所有未知消息都发送给同一个接收对象，取决于具体的实现。
