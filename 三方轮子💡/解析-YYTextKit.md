@@ -1,6 +1,56 @@
 # 解析-YYTextKit
 
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190309122714.png)
+
+
+## YYLabel
+
+
+YYLabel 的实现，是基于CoreText 框架 在 Context 上进行绘制，通过设置NSMutableAttributedString实现文本各种效果属性的展现。下面是YYLabel 主要相关的部分：
+
+* YYAsyncLayer: YYLabel的异步渲染，通过YYAsyncLayerDisplayTask 回调渲染
+* YYTextLayout: YYLabel的布局管理类，也负责绘制
+* YYTextContainer: YYLabel的布局类
+* NSAttributedString+YYText: YYLabel 所有效果属性设置
+
+
+## YYAsyncLayer 的异步实现
+
+
+YYAsyncLayer 是 CALayer的子类，通过设置 YYLabel 类方法 layerClass
+返回自定义的 YYAsyncLayer ，重写了父类的 setNeedsDisplay , display 实现 contents 自定义刷新。YYAsyncLayerDelegate返回新的刷新任务 newAsyncDisplayTask 用于更新过程回调，返回到 YYLabel 进行文本渲染。其中 YYSentinel是一个线程安全的原子递增计数器，用于判断更新是否取消。
+
+## YYTextLayout
+
+
+YYLabel 实现了 YYAsyncLayerDelegate 代理方法 newAsyncDisplayTask，回调处理3种文本渲染状态willDisplay ，display，didDisplay 。在渲染之前，移除不需要的文本附件，渲染完成后，添加需要的文本附件。渲染时，首先获取YYTextLayout, 一般包含了 YYTextContainer 和 NSAttributedString 两部分， 分别负责文本展示的形状和内容。不管是渲染时和渲染完成后，最后都需要调用 YYTextLayout的
+
+
+```objc
+- (void) drawInContext:(CGContextRef)context
+                 size:(CGSize)size
+                point:(CGPoint)point
+                 view:(UIView *)view
+                layer:(CALayer *)layer
+                debug:(YYTextDebugOption *)debug
+                cancel:(BOOL (^)(void))cancel{
+
+```
+
+## CoreText
+
+
+CoreText是iOS/OSX里的文字渲染引擎，在iOS/OSX上看到的所有文字在底层都是由CoreText去渲染。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190309121618.png)
+
+一个 NSAttributeString通过CoreText的CTFramesetterCreateWithAttributedString生成CTFramesetter,它是创建 CTFrame的工厂，为 CTFramesetter 提供一个 CGPath，它就会通过它持有的 CTTypesetter生成 CTFrame，CTFrame里面包含了 CTLine CTLine 中包含了此行所有的 CTRun，然后就可以绘制到画布上。CTFrame,CTLine,CTRun都提供了渲染接口，但前两者是封装，最后实际都是调用到 CTRun的渲染接口去绘制。
+
+
+
+
+
 ## 前言
 
 > YYText 是业界知名富文本框架，基于 CoreText 做了大量基础设施并且实现了两个上层视图组件：YYLabel 和 YYTextView。同其它 YYKit 组件一样，YYText 在性能方面表现优异，且功能出奇的强大，可以说是业界巅峰之作。
@@ -494,3 +544,8 @@ YYText 确实过于重量，本文只是对基础部分取重点做了解析，�
 ## 参考
 
 1. [YYText 源码剖析：CoreText 与异步绘制](https://mp.weixin.qq.com/s?__biz=MzA5NzMwODI0MA==&mid=2647762488&idx=1&sn=f77360d7754bb3b5ae8bb815e668e560#3%E3%80%81YYTextContainer)
+2. [YYText源码分析 | 夜空中最亮的[YYText源码分析 | 夜空中最亮的星](https://chenao0727.github.io/2017/01/22/YYText/))
+
+### 使用
+
+* [YYText 库学习总结 - 简书](https://www.jianshu.com/p/60aee32ade55?nomobile=yes)
