@@ -37,12 +37,12 @@
 ### 核心方法：
 在`UIImageView`分类`UIImageView+UIImageView+WebCache`中，集成了图片下载和缓存的方法：
 
-```
+```objc
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock;
 ```
 
 
-```
+```objc
 /**
  * 根据 url、placeholder 与 custom options 为 imageview 设置 image
  *
@@ -106,7 +106,7 @@
 
 ### 查找缓存
 
-```
+```objc
     // First check the in-memory cache...
     UIImage *image = [self imageFromMemoryCacheForKey:key];
     if (image) {
@@ -134,7 +134,7 @@
     });
 ```
 
-```
+```objc
     if (url) {
         __weak __typeof(self)wself = self;
         id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url 
@@ -150,7 +150,7 @@
 这个方法会先检查一下`url`，然后初始化一个`SDWebImageCombinedOperation`，然后判断这个 URL 在之前的操作中是否已经失败了，如果失败了，并且不进行重试!(options & SDWebImageRetryFailed)，则直接返回错误，最后，从 SDWebImageCache 中开始查找缓存。
 
 
-```
+```objc
 - (id <SDWebImageOperation>)loadImageWithURL:(nullable NSURL *)url
                                      options:(SDWebImageOptions)options
                                     progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock
