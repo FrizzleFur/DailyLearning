@@ -24,9 +24,10 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 
-    [self threadLockExample];
 //    [self testExample1];
 //    [self testExample2];
+    [self testNumberOnMutiThread];
+//    [self threadLockExample];
 //    [self initSyncBarrier];
 //    [self initAsyncBarrier];
 //    [self testSemaphore];
@@ -113,6 +114,27 @@
     
     NSLog(@"excute task 5 -----\n");
     
+}
+
+
+
+// 多线程改变数值
+- (void)testNumberOnMutiThread{
+    
+    __block int a = 0;
+    
+    while (a < 5) {
+
+        NSLog(@"main a = %d, Thread = %@", a, [NSThread currentThread]);
+
+        // 异步函数
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            a++;
+            NSLog(@"excuting a = %d, Thread = %@", a, [NSThread currentThread]);
+        });
+    }
+    
+    NSLog(@"last a = %d, Thread = %@", a, [NSThread currentThread]);
 }
 
 
