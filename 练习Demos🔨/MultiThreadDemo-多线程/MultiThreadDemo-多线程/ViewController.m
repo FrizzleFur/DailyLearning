@@ -24,12 +24,168 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 
+//    [self testExample1];
+//    [self testExample2];
+    [self testNumberOnMutiThread];
+//    [self threadLockExample];
 //    [self initSyncBarrier];
-    [self initAsyncBarrier];
+//    [self initAsyncBarrier];
 //    [self testSemaphore];
 //    [self testLoopSemaphore];
 }
 
+
+
+
+// MARK: - GCD Async On Serials Queue
+
+
+
+
+// MARK: - GCD Async On Concurrent Queue
+
+
+- (void)testAsyncOnConcurrentQueue{
+
+
+}
+
+
+- (void)testExample1{
+
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
+    
+    NSLog(@"excute task 1 -----\n");
+    
+    // 异步函数
+    dispatch_async(globalQueue, ^{
+            NSLog(@"excute task 2 -----\n");
+        
+        // 异步函数
+        dispatch_async(globalQueue, ^{
+            NSLog(@"excute task 3 -----\n");
+        });
+        
+        NSLog(@"excute task 4 -----\n");
+
+    });
+    
+    NSLog(@"excute task 5 -----\n");
+    
+    
+    /**
+     结果
+     2019-03-10 18:14:50.523576+0800 MultiThreadDemo-多线程[53552:10229980] excute task 1 -----
+     2019-03-10 18:14:50.523793+0800 MultiThreadDemo-多线程[53552:10229980] excute task 5 -----
+     2019-03-10 18:14:50.523803+0800 MultiThreadDemo-多线程[53552:10230077] excute task 2 -----
+     2019-03-10 18:14:50.523900+0800 MultiThreadDemo-多线程[53552:10230077] excute task 4 -----
+     2019-03-10 18:14:50.523926+0800 MultiThreadDemo-多线程[53552:10230078] excute task 3 -----
+    */
+}
+
+
+
+/**
+  结果
+  * 2019-03-10 18:14:50.523576+0800 MultiThreadDemo-多线程[53552:10229980] excute task 1 -----
+  * 2019-03-10 18:14:50.523793+0800 MultiThreadDemo-多线程[53552:10229980] excute task 5 -----
+  * 2019-03-10 18:14:50.523803+0800 MultiThreadDemo-多线程[53552:10230077] excute task 2 -----
+  * 2019-03-10 18:14:50.523900+0800 MultiThreadDemo-多线程[53552:10230077] excute task 3 -----
+  * 2019-03-10 18:14:50.523926+0800 MultiThreadDemo-多线程[53552:10230078] excute task 4 -----
+ */
+- (void)testExample2{
+    
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
+    
+    NSLog(@"excute task 1 -----\n");
+    
+    // 异步函数
+    dispatch_async(globalQueue, ^{
+        NSLog(@"excute task 2 -----\n");
+        
+        // 同步函数
+        dispatch_sync(globalQueue, ^{
+            NSLog(@"excute task 3 -----\n");
+        });
+        
+        NSLog(@"excute task 4 -----\n");
+        
+    });
+    
+    NSLog(@"excute task 5 -----\n");
+    
+}
+
+
+
+// 多线程改变数值
+- (void)testNumberOnMutiThread{
+    
+    __block int a = 0;
+    
+    while (a < 5) {
+
+        NSLog(@"main a = %d, Thread = %@", a, [NSThread currentThread]);
+
+        // 异步函数
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            a++;
+            NSLog(@"excuting a = %d, Thread = %@", a, [NSThread currentThread]);
+        });
+    }
+    
+    NSLog(@"last a = %d, Thread = %@", a, [NSThread currentThread]);
+}
+
+
+- (void)example{
+    
+    NSLog(@"currentThread = %@", [NSThread currentThread]);
+    
+    NSLog(@"1"); // 任务1
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSLog(@"2"); // 任务2
+//        NSLog(@"currentThread = %@", [NSThread currentThread]);
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            NSLog(@"3"); // 任务3
+//            NSLog(@"currentThread = %@", [NSThread currentThread]);
+        });
+        NSLog(@"4"); // 任务4
+//        NSLog(@"currentThread = %@", [NSThread currentThread]);
+    });
+    NSLog(@"5"); // 任务5
+}
+
+
+
+// MARK: - GCD Dead Lock
+
+
+/**< 线程死锁 */
+- (void)threadLockExample{
+    
+    // 串行队列
+    
+    dispatch_queue_t serialQueue = dispatch_queue_create("threadLockExample", DISPATCH_QUEUE_SERIAL);
+    
+    NSLog(@"excute task 1 -----\n");
+    
+    // 异步函数
+    dispatch_async(serialQueue, ^{
+        NSLog(@"excute task 2 -----\n");
+        
+        // 同步函数
+        dispatch_sync(serialQueue, ^{
+            NSLog(@"excute task 3 -----\n");
+        });
+        
+        NSLog(@"excute task 4 -----\n");
+        
+    });
+    
+    NSLog(@"excute task 5 -----\n");
+
+}
 
 // MARK: - GCD Semaphore
 
@@ -176,34 +332,6 @@
         NSLog(@"Task 5,%@",[NSThread currentThread]);
     });
 }
-
-
-
-
-// MARK: - GCD Dead Lock
-
-
-/**< 线程死锁 */
-- (void)threadLockExample{
-    NSLog(@"currentThread = %@", [NSThread currentThread]);
-    
-    NSLog(@"1"); // 任务1
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSLog(@"2"); // 任务2
-        NSLog(@"currentThread = %@", [NSThread currentThread]);
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            NSLog(@"3"); // 任务3
-            NSLog(@"currentThread = %@", [NSThread currentThread]);
-        });
-        NSLog(@"4"); // 任务4
-        NSLog(@"currentThread = %@", [NSThread currentThread]);
-    });
-    NSLog(@"5"); // 任务5
-}
-
-
-
-
 
 
 @end
