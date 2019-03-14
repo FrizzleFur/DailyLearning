@@ -321,4 +321,8 @@ while (!finish) {
 
 ## 参考
 
-1. [聊一聊YYCache | 夏虫不可语冰](https://wangdetong.github.io/2017/05/08/20170508%E8%81%8A%E4%B8%80%E8%81%8AYYCache/)
+1. [YYCache 设计思路 | Garan no dou](https://blog.ibireme.com/2015/10/26/yycache/)
+2. [聊一聊YYCache | 夏虫不可语冰](https://wangdetong.github.io/2017/05/08/20170508%E8%81%8A%E4%B8%80%E8%81%8AYYCache/)
+3. [源码解析--YYCache - 简书](https://www.jianshu.com/p/88b33bfa82ca)
+4. [YYCache源码分析(一) - 简书](https://www.jianshu.com/p/b8dcf6634fab)
+

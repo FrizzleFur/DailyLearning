@@ -55,8 +55,17 @@ struct也有这样几个优势：
 * 如果创建一个字典，并赋值给一个变量，则创建的字典就是可以修改的。这意味着在创建字典后，可以通过添加、删除、修改的方式改变字典里的项目。如果将一个字典赋值给常量，字典就不可修改，并且字典的大小和内容都不可以修改。
 
 
-
-
+* Swift取消了Objective C的指针及其他不安全访问的使用
+* 舍弃Objective C早期应用Smalltalk的语法，全面改为句点表示法提供了
+* 类似Java的名字空间(namespace)、泛型(generic)、运算对象重载
+* (operator overloading) Swift 被简单的形容为“没有C的Objective-
+* C”(Objective-C without theC)为苹果开发工具带来了Xcode .
+* Playgrounds功能，该功能提供强大的互动效果，能让Swift源代码在撰写
+* 过程中实时显示出其运行结果;
+* 基于C和Objective-C，而却没有C的一些兼容约束;
+* 采用了安全的编程模式;
+* 界面基于Cocoa和Cocoa Touch框架;
+* 保留了Smalltalk的动态特性
 
 ## 参考
 

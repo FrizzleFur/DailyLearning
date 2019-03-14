@@ -506,8 +506,27 @@ That’s all
 
 ## CALayer
 
-#### UIView和CALayer的选择
+* 逻辑树
+* 动画树
+* 显示树
 
+* UIView是ios系统中界面元素的基础，所有的界面元素都继承自它。它本身完全是由CoreAnimation来实现的(Mac 下似乎不是这样)。它真正的绘图部分，是由一个叫CALayer (Core Animation L ayer)的类来管理。
+* UIView本身，更像是一个CALayer的管理器，**访问它的跟绘图和跟坐标有关的属性，例如frame, bounds等等， 实际上内部都是在访问它所包含的CALayer的相关属性**。
+* UIView有个重要属性layer,可以返回它的主CALayer实例。
+* UIView的CALayer类似UlView的子View树形结构，也可以向它的layer上添加子layer,来完成某些特殊的表示。即CALayer层是可以嵌套的。
+* UIView的layer树形在系统内部，被维护着三份copy。分别是逻辑树，这里是代码可以操纵的，动画树，是一个中间层，系统就在这一-层上更改属性，进行各种渲染操作;显示树，其内容就是当前正被显示在屏幕上得内容。
+
+## CALayer作用
+
+* 动画的运作:对UView的subL _ayer (非主L _ayer)属性进行更改，系统将自动进行动画生成，动画持续时间的缺省值似乎是0.5秒。
+* 坐标系统: CAL .ayer的坐标系统比UIView多了一个anchorPoint属性， 使用CGPoint结构表示，值域是0~1，是个比例值。
+* 渲染:当更新层，改变不能立即显示在屏幕上。当所有的层都准备好时，可以调用setNeedsDisplay方法来重绘显示。
+* 变换:要在一个层中添加一个3D或仿射变换，可以分 别设置层的transform或affine Transform属性。
+* 变形: Quartz Core的渲染能力，使二维图像可以被自由操纵，就好像是三维的。图像可以在一个三维坐标系中以任意角度被旋转，缩放和倾斜。
+* CATransform3D的一套方法提供了一些魔术般的变换效果。
+
+
+### UIView和CALayer的选择
 
 通过CALayer，就能做出跟UIView一样的界面效果
  

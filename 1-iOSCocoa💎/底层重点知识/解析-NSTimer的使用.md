@@ -128,7 +128,6 @@ NSTimer *timer8 = [[NSTimer alloc]initWithFireDate:[NSDate distantPast] interval
 ```
 
 
-
 ## 例子总结
 
 从上面的栗子我们可以看出，通过`timerWithTimeInterval`和`initWithFireDate`方法创建出来的定时器，都需要手动加入到RunLoop中才会执行，否则不会执行；但是通过`scheduledTimerWithTimeInterval`创建出来的定时器是自动加入到RunLoop，而且会自动执行。
@@ -699,6 +698,17 @@ Controller里修改了如下代码
 这是由于通过run方法开启的RunLoop是无法停止的，但在控制器pop的时候，需要将timer，子线程，子线程的RunLoop停止和销毁，因此需要通过while循环和runMode: beforeDate:来运行RunLoop。
 
 通过上面的总结可以看到，虽然只是一个小小的Timer，也有这么多地方需要我们注意。
+
+
+## 循环引用
+
+
+block类型的，新api。iOS 10之后才支持，因此对于还要支持老版本的app来说，这个API暂时无法使用。当然，block内部的循环引用也要避免。
+/// - parameter:  block  The execution body of the timer; the timer itself is passed as the parameter to this block when executed to aid in avoiding cyclical references
++ (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block API_AVAILABLE(macosx(10.12), ios(10.0), watchos(3.0), tvos(10.0));
+
+[IOS定时器操作和NSTimer的各种坑 - 简书](https://www.jianshu.com/p/ca579c502894)
+
 
 
 ## 参考
