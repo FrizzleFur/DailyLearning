@@ -473,11 +473,15 @@ label.layer.rasterizationScale = label.layer.contentsScale;
 That’s all
 
 ## `layoutSubviews`调用总结
-
-1. 自身的frame发生变化， 会重新布局`layoutSubviews`
-2. 添加视图，调用`addSubView`的时候
-3. 滚动一个UIScrollView会触发
-4. 子视图frame发生变化，会调用父视图的`addSubView`
+1. init初始化不会触发layoutSubviews。
+2. 自身的frame发生变化， 会重新布局`layoutSubviews`
+3. 添加视图，调用`addSubView`的时候
+4. 滚动一个UIScrollView会触发
+5. 子视图frame发生变化，会调用父视图的`addSubView`
+6. 旋转Screen会触发父UIView.上的layoutSubviews事件
+7. 直接调用setLayoutSubviews。
+8. 改变一个UIView大小的时候也会触发父UIView上的layoutSubviews事
+件。
 
 Its own bounds (not frame) changed.
 The bounds of one of its direct subviews changed.

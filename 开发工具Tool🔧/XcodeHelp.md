@@ -2,6 +2,24 @@
 # XcodeHelp
 
 
+1. Track build time in Xcode
+If you don't know the exact build time of your project, enable the following option in Xcode.
+
+```
+defaults write 
+com.apple.dt.Xcode ShowBuildOperationDuration -bool YES
+```
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190314210614.png)
+
+
+[Best iOS Development Tips and Tricks](https://developerinsider.co/best-ios-development-tips-and-tricks/)
+
+
+
+3. Use Simulator in full-screen mode with Xcode
+
+
+
 ### Xcode切换窗口快捷键
 
 >今天在开发的过程，发现一个经常用到的切换多个`Xcode`窗口的快捷键的使用

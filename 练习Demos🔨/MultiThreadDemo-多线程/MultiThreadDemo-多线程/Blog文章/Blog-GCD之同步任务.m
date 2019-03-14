@@ -123,6 +123,9 @@
  
  
  ## dispatch_barrier_sync 和 dispatch_barrier_async
+
+ 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190314102550.png)
  
  ### dispatch_barrier_sync
  
@@ -220,7 +223,7 @@
  
  我们可以看到：
  
- *   Task1,2,3不是顺序执行的因为是异步，但是都在barrier的前面，Task4,5在barrier的后面执行。
+ *   Task1,2,3不是顺序执行的因为是任务是异步的，但是都在barrier的前面，Task4,5在barrier的后面执行。
  *   aa和bb都在主线程进行输出。
  *   执行完barrier，才会将后面的任务4，5插入到队列执行。
  

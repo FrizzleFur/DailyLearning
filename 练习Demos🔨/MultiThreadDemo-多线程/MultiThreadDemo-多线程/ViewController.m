@@ -124,12 +124,13 @@
     __block int a = 0;
     
     while (a < 5) {
-
+        // io 输出耗时
         NSLog(@"main a = %d, Thread = %@", a, [NSThread currentThread]);
 
         // 异步函数
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             a++;
+            // io 输出耗时
             NSLog(@"excuting a = %d, Thread = %@", a, [NSThread currentThread]);
         });
     }

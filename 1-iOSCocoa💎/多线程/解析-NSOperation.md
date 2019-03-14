@@ -4,7 +4,9 @@
 
 NSOperation和NSOperationQueue为我们提供面向对象方式的多线程编程方式。
 
-NSOperation
+## NSOperation
+
+
 NSOperation是一个抽象类，我们可以用它来封装一系列操作的代码和数据。因为它是抽象，我们无法直接使它，而是使用它的子类。这个子类要么你自己定义，要么使用系统定义好的（NSInvocationOperation或者NSBlockOperation）。尽管它是抽象的，但是，NSOperation可以让我们只需要关心任务的实现过程，而不必关心它是如何确保与其他系统对象正确运转的。
 
 NSOperation对象是"一次性"的，它一旦执行了它的任务之后，就不能被用来再次执行了。将NSOperation的对象添加到一个操作队列中（NSOperationQueue的一个实例）。这个队列会自动执行它所包含的操作，可能直接开辟一个线程执行，也可能间接地使用libdispatch库。
@@ -16,7 +18,8 @@ Operation之间的依赖
 
 一个操作不会判断它的依赖是否成功地执行。（取消一个操作近似于标记这个操作已经完成。）一个有依赖的操作在它的依赖被取消或者未执行成功的情况下是否被继续执行取决于我们自己。这需要我们给操作加入一些错误跟踪能力，以保证我们及时发现问题。
 
-KVO相关的属性
+## KVO相关的属性
+
 NSOperation类提供了一系列可用于KVO编程的属性。
 
 isCancelled - 只读
@@ -53,12 +56,17 @@ ready。表示当前的操作是否可以开始执行。
 
 目前，系统提供的NSInvocationOperation和NSBlockOperation两个子类基本可以满足我的需求，还没有深入研究重写时的注意点，会在以后补充上。
 
-NSInvocationOperation
+### NSInvocationOperation
 这是系统提供的一个NSOperation的子类。通过@selector，将操作包含到自身。
 
+
+```
 - (instancetype)initWithTarget:(id)target
                       selector:(SEL)sel
                         object:(id)arg
+
+```
+
 target表示在那个类中实现了SEL的方法。SEL可以带0或1个参数。如果参数为0个，arg置为nil，否则就设为SEL所带的参数。
 
 直接给个简单的例子。

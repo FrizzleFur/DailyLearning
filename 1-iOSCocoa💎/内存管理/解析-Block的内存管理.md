@@ -2,7 +2,6 @@
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218171330.png)
 
-
 block本质上也是一个oc对象，他内部也有一个isa指针。block是封装了函数调用以及函数调用环境的OC对象。
 
 ## block 定义
@@ -580,6 +579,20 @@ __strong typeof(self)strongSelf = weakSelf; ARC
 
 ### __block
 
+[Block原理，为什么block能捕获变量 -- 实战篇 - gcs的博客 - CSDN博客](https://blog.csdn.net/u014600626/article/details/86570932)
+
+// 加了__block后 i被封装成一个对象(结构体)
+
+
+从源码我们能发现，带有 __block的变量也被转化成了一个结构体__Block_byref_i_0,这个结构体有5个成员变量。第一个是isa指针，第二个是指向自身类型的__forwarding指针，第三个是一个标记flag，第四个是它的大小，第五个是变量值，名字和变量名同名。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190312175734.png)
+
+至此，__block的实现原理也已经明了。__block将变量包装成对象，然后在把捕获到的变量封装在block的结构体里面，block内部存储的变量为结构体指针，也就可以通过指针找到内存地址进而修改变量的值。
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190312175845.png)
+
 在引用计数的环境里面，默认情况下当你在 block 里面引用一个 Objective-C 对象的时
 候，该对象会被 retain。当你简单的引用了一个对象的实例变量时，它同样被 retain。
 但是被__block 存储类型修饰符标记的对象变量不会被 retain.
@@ -597,6 +610,8 @@ __strong typeof(self)strongSelf = weakSelf; ARC
 * __block修饰对象会增加引用(ARC)
 * __weak修饰对象不会增加引用
 * MRC下__block不会增加引用计数，但ARC会，ARC下必须用__weak指明不增加引用计数
+
+
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359389595221.jpg)
 
 #### _Block_object_assign函数调用时机及作用
@@ -878,12 +893,13 @@ void(^block)(int ,int) = ^(int a, int b){
 
 ## 参考
 
-1. [iOS底层原理总结 - 探寻block的本质（一） - 简书](https://www.jianshu.com/p/c99f4974ddb5#%E6%8E%A2%E5%AF%BBblock%E7%9A%84%E6%9C%AC%E8%B4%A8)
-2. [block内部实现原理(一) - 折半 - 博客园](https://www.cnblogs.com/yoon/p/4953618.html)
-3. [在block内如何修改block外部变量引发的思考](https://www.jianshu.com/p/a1c8532e172d)
-4. [iOS基础深入补完计划--Block相关原理探究 - 简书](https://www.jianshu.com/p/083315ba7671)
-5. [正确使用Block避免Cycle Retain和Crash - Cooper's Blog](http://tanqisen.github.io/blog/2013/04/19/gcd-block-cycle-retain/)
-6. [《Objective-C 高级编程》干货三部曲（二）：Blocks篇](http://www.jianshu.com/p/f3ee592e57f5)
-7. [Objective-C之Blocks（三） - 简书](https://www.jianshu.com/p/df9e08646094)
-8. [iOS Block原理探究以及循环引用的问题 - 简书](https://www.jianshu.com/p/9ff40ea1cee5?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation#3.1%E5%AD%98%E5%82%A8%E5%9F%9F)
-9. [深入研究Block捕获外部变量和__block实现原理 - 简书](https://www.jianshu.com/p/ee9756f3d5f6)
+1. [Block原理，为什么block能捕获变量 -- 实战篇 - gcs的博客 - CSDN博客](https://blog.csdn.net/u014600626/article/details/86570932)
+2. [iOS底层原理总结 - 探寻block的本质（一） - 简书](https://www.jianshu.com/p/c99f4974ddb5#%E6%8E%A2%E5%AF%BBblock%E7%9A%84%E6%9C%AC%E8%B4%A8)
+3. [block内部实现原理(一) - 折半 - 博客园](https://www.cnblogs.com/yoon/p/4953618.html)
+4. [在block内如何修改block外部变量引发的思考](https://www.jianshu.com/p/a1c8532e172d)
+5. [iOS基础深入补完计划--Block相关原理探究 - 简书](https://www.jianshu.com/p/083315ba7671)
+6. [正确使用Block避免Cycle Retain和Crash - Cooper's Blog](http://tanqisen.github.io/blog/2013/04/19/gcd-block-cycle-retain/)
+7. [《Objective-C 高级编程》干货三部曲（二）：Blocks篇](http://www.jianshu.com/p/f3ee592e57f5)
+8. [Objective-C之Blocks（三） - 简书](https://www.jianshu.com/p/df9e08646094)
+9. [iOS Block原理探究以及循环引用的问题 - 简书](https://www.jianshu.com/p/9ff40ea1cee5?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation#3.1%E5%AD%98%E5%82%A8%E5%9F%9F)
+10. [深入研究Block捕获外部变量和__block实现原理 - 简书](https://www.jianshu.com/p/ee9756f3d5f6)

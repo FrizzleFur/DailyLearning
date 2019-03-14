@@ -198,6 +198,7 @@ struct objc_method_description {
 };
 ```
 
+* id声明的对象具有运行时的特性，即可以指向任意类型的Objcetive-C的对象;
 
 ## 消息机制
 
@@ -211,9 +212,9 @@ struct objc_method_description {
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190306175634.png)
 
-
 消息直到运行时才绑定到方法的实现上。编译器会将消息表达式`[receiver message]`转化为一个消息函数，即`objc_msgSend(receiver, selector)`。	
-![](https://i.imgur.com/2EO8fz2.jpg)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190314181049.png)
+
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-08-15-15027671461420.png)
 
@@ -295,8 +296,7 @@ class_addMethod
 2. 使用anInvocation作为参数，将消息发送到选中的对象。anInvocation将会保留调用结果，runtime会提取这一结果并发送到消息的原始发送者。
 
 在这个方法中我们可以实现一些更复杂的功能，我们可以对消息的内容进行修改。另外，若发现消息不应由本类处理，则应调用父类的同名方法，以便继承体系中的每个类都有机会处理。
-另外，必须重写下面的方法：
-`methodSignatureForSelector`
+另外，必须重写`methodSignatureForSelector`方法，方法签名
 
 消息转发机制从这个方法中获取信息来创建`NSInvocation`对象。完整的示例如下：
 	
@@ -495,6 +495,32 @@ for (int i=0; i<4; i++) {
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15360563486710.jpg)
 
 由此可知objc_getClass方法只是单纯地返回了Class，而非isa指针指向的Class
+
+### Runtime解决服务器返回NSNull问题
+
+解决：利用消息转发
+
+[NullSafe](https://github.com/nicklockwood/NullSafe)
+
+作者就是使用了这么一个原理，把发送给NSNull的而NSNull又无法处理的消息经过如下几步处理：
+
+1. 创建一个方法缓存，这个缓存会缓存项目中类的所有类名。
+
+2. 遍历缓存，寻找是否已经有可以执行此方法的类。
+
+3. 如果有的话，返回这个`NSMethodSignature`
+
+4. 如果没有的话，返回nil,接下来会走`forwardInvocation:`方法。
+
+5. `[invocation invokeWithTarget:nil];`将消息转发给nil。
+
+那么，如何判断NSNull无法处理这个消息呢，在OC中，**系统如果对某个实例发送消息之后，它（及其父类）无法处理（比如，没有这个方法等），系统就会发送`methodSignatureForSelector`消息**，如果这个方法返回非空，那么就去执行返回的方法，如果为nil,则发送`forwardInvocation`消息。
+
+这样就完成整个转发链了。
+
+一般来说，我们不应该在我们的项目中使用NSNull类（大部分NSNull类的来源来自于接口的返回），而使用nil，在来源上，就应该堵上（要么你解析到null进行处理，要么和你的服务端说，不要给我返回null）。
+
+
 
 ## Runtime的使用
 
