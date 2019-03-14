@@ -513,12 +513,13 @@ NSProxy是一个虚基类，它为一些表现的像是其它对象替身或者�
 NSProxy是一个虚类。它有什么用处呢？
 OC中类是不支持多继承的，要想实现多继承一般是有protocol的方式，还有一种就是利用NSProxy。有同学可能会问为什么不用NSObject来做？同样都是基类，都支持NSObject协议，NSProxy 有的NSObject 都有。但是点进NSProxy .h可以看见NSProxy没有init方法，而且NSProxy自身的方法很少，是一个很干净的类。这点很重要，因为NSObject自身的分类特别多，**而消息转发的机制是当接收者无法处理时才会通过forwardInvocation:来寻求能够处理的对象.**在日常使用时，我们很难避免不使用NSObject的分类方法比如valueForKey这个方法NSObject就不会转发。
 
+### 1.多继承
 
-
-1.多继承
+多重继承：多重继承是编程语言中的概念，多重继承指的是一个类可以同时继承多个类，比如A类继承自B类和C类，这就是多重继承。
 
 * [谈谈NSProxy - 简书](https://www.jianshu.com/p/20c441f19126)
 * [NSProxy 使用总结 - 简书](https://www.jianshu.com/p/b0f5fd3e4b7c)
+* [协议和 NSProxy 实现多继承 - 简书](https://www.jianshu.com/p/6bf49eb47371)
 
 
 
