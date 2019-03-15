@@ -35,8 +35,7 @@
     * 项目-备用库
     * 项目-路由跳转
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315102643.png)
-
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315102735.png)
 
 ## Issue目录
 
