@@ -35,8 +35,6 @@
     * 项目-备用库
     * 项目-路由跳转
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315111237.png)
-
 ## Issue目录
 
 * [面试总结](https://github.com/FrizzleFur/DailyLearning/issues/1)
