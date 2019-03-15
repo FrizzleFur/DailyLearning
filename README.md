@@ -37,7 +37,7 @@
 
 ## Issue目录
 
-* [面试总结 面试](https://github.com/FrizzleFur/DailyLearning/issues/1)
+* [面试总结](https://github.com/FrizzleFur/DailyLearning/issues/1)
 * [Runtime](https://github.com/FrizzleFur/DailyLearning/issues/3)
 
 
@@ -58,9 +58,8 @@
 ---- | ----
 [OneV's Den](https://onevcat.com/#blog)| 王巍，喵神，知名iOS/Unity 开发者，现居日本，就职于LINE[微博@onevcat](http://weibo.com/onevcat?from=myfollow_group)
 [SwiftOldDriver/iOS-Weekly: 🇨🇳 老司机 iOS 周报](https://github.com/SwiftOldDriver/iOS-Weekly) | iOS最新周报
-[Kenshin Cui's Blog](http://www.cnblogs.com/kenshincui)| 崔江涛，文章写的非常详细
 [ChenYilong](https://github.com/ChenYilong)| [微博@iOS程序犭袁](http://weibo.com/luohanchenyilong?refer_flag=1005055013_&is_all=1)有iOS9AdaptationTips,iOSInterviewQuestions等多个上千star的项目
-
+[MMao](https://michaelmao.co) | 我的小博客
 
 ## Todo
 
