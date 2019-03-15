@@ -29,10 +29,11 @@
 
 ## Todo
 
-* 设计模式
-[装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
-
 * [ ] 算法
+
+* 设计模式
+    * [x] [装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
+
 * [x] 底层原理
 
 ## 设计模式
@@ -60,9 +61,9 @@
     * [阿里开源 iOS 协程开发框架 coobjc 源码分析](https://mp.weixin.qq.com/s/Vy_fsn95dgag4KumpQPlTw)
 
 
-*  [google/promises](https://github.com/google/promises)  Promises is a modern framework that provides a synchronization construct for Swift and Objective-C.
+* [google/promises](https://github.com/google/promises)  Promises is a modern framework that provides a synchronization construct for Swift and Objective-C.
 
-*  [mxcl/PromiseKit](https://github.com/mxcl/PromiseKit)  Promises for Swift & ObjC.
+* [mxcl/PromiseKit](https://github.com/mxcl/PromiseKit)  Promises for Swift & ObjC.
 
 
 ## Flutter
