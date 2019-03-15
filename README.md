@@ -32,8 +32,14 @@
 * 设计模式
 [装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
 
-* 算法
-* 底层原理
+* [ ] 算法
+* [x] 底层原理
+
+## 设计模式
+
+
+* [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
+
 
 ## Read
 
@@ -47,6 +53,7 @@
 
 *  [iOS学习笔记 (知识点整理)](https://github.com/FrizzleFur/DailyLearning/tree/master/iOSLearningDemo)
 
+
 ### 异步编程
 
 *  [alibaba/coobjc](https://github.com/alibaba/coobjc)  coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc. 
@@ -58,12 +65,9 @@
 *  [mxcl/PromiseKit](https://github.com/mxcl/PromiseKit)  Promises for Swift & ObjC.
 
 
-## 设计模式
+## Flutter
 
-
-* [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
-
-
+* [alibaba/flutter-go: flutter 开发者帮助 APP，包含 flutter 常用 140+ 组件的demo 演示与中文文档](https://github.com/alibaba/flutter-go)
 
 ## JavaScript
 
