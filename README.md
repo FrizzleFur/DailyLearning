@@ -4,6 +4,8 @@
 
 ## 文件目录
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315101224.png)
+
 * Cocoa💎
     * UIKit框架
     * 内存管理
@@ -35,24 +37,17 @@
     * 项目-备用库
     * 项目-路由跳转
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315102735.png)
-
 ## Issue目录
 
-* [面试总结 面试](https://github.com/FrizzleFur/DailyLearning/issues/1)
+* [面试总结 面试](https://github.com/FrizzleFur/DailyLearning/issues/1)
 * [Runtime](https://github.com/FrizzleFur/DailyLearning/issues/3)
-
 
 
 ## 学习资源
 
-*  [aozhimin/awesome-iOS-resource: A curated list of awesome iOS resources, including conferences, books, blogs, articles, websites and documentations](https://github.com/aozhimin/awesome-iOS-resource)🎉
-
-* [LearningIOS](https://github.com/zhouhuanqiang/LearningIOS) 视频学习资源
-
 * [AwesomeLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/Awesome%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90.md) 自己整理的学习资料
 
-* [Github-100](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/Github-100.md) Github排名前100的iOS轮子
+* [三方轮子解析💡](https://github.com/FrizzleFur/DailyLearning/tree/master/%E4%B8%89%E6%96%B9%E8%BD%AE%E5%AD%90%E8%A7%A3%E6%9E%90%F0%9F%92%A1)
 
 * [iOS-Cracked-Apps](https://github.com/aozhimin/iOS-Cracked-Apps) 提供国内外知名 App 破解二进制文件，可以将这些已经破解的二进制文件通过反编译工具进行静态分析，另外仓库中已经从破解的二进制文件 dump 出了 Class 信息。
 
@@ -63,26 +58,18 @@
 
 地址  |  简介
 ---- | ----
-[OneV's Den](https://onevcat.com/#blog)| 王巍，喵神，知名iOS/Unity 开发者，现居日本，就职于LINE[微博@onevcat](http://weibo.com/onevcat?from=myfollow_group)
 [SwiftOldDriver/iOS-Weekly: 🇨🇳 老司机 iOS 周报](https://github.com/SwiftOldDriver/iOS-Weekly) | iOS最新周报
-[Kenshin Cui's Blog](http://www.cnblogs.com/kenshincui)| 崔江涛，文章写的非常详细
+[OneV's Den](https://onevcat.com/#blog)| 王巍，喵神，知名iOS/Unity 开发者，现居日本，就职于LINE[微博@onevcat](http://weibo.com/onevcat?from=myfollow_group)
 [ChenYilong](https://github.com/ChenYilong)| [微博@iOS程序犭袁](http://weibo.com/luohanchenyilong?refer_flag=1005055013_&is_all=1)有iOS9AdaptationTips,iOSInterviewQuestions等多个上千star的项目
-
+[MMao](https://michaelmao.co) | 我的小博客
 
 ## Todo
 
-* [ ] 算法
-
 * 设计模式
-    * [x] [装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
+[装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
 
-* [x] 底层原理
-
-## 设计模式
-
-
-* [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
-
+* 算法
+* 底层原理
 
 ## Read
 
@@ -96,21 +83,23 @@
 
 *  [iOS学习笔记 (知识点整理)](https://github.com/FrizzleFur/DailyLearning/tree/master/iOSLearningDemo)
 
-
 ### 异步编程
 
 *  [alibaba/coobjc](https://github.com/alibaba/coobjc)  coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc. 
     * [阿里开源 iOS 协程开发框架 coobjc 源码分析](https://mp.weixin.qq.com/s/Vy_fsn95dgag4KumpQPlTw)
 
 
-* [google/promises](https://github.com/google/promises)  Promises is a modern framework that provides a synchronization construct for Swift and Objective-C.
+*  [google/promises](https://github.com/google/promises)  Promises is a modern framework that provides a synchronization construct for Swift and Objective-C.
 
-* [mxcl/PromiseKit](https://github.com/mxcl/PromiseKit)  Promises for Swift & ObjC.
+*  [mxcl/PromiseKit](https://github.com/mxcl/PromiseKit)  Promises for Swift & ObjC.
 
 
-## Flutter
+## 设计模式
 
-* [alibaba/flutter-go: flutter 开发者帮助 APP，包含 flutter 常用 140+ 组件的demo 演示与中文文档](https://github.com/alibaba/flutter-go)
+
+* [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
+
+
 
 ## JavaScript
 
@@ -164,20 +153,20 @@
 
 ### 基础
 
-<!--![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163318.png)-->
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163318.png)
 
 ### 前端
 
-<!--![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163505.png)-->
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163505.png)
 
 ### 后端
 
-<!--![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163350.png)-->
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163350.png)
 
 
 ### DevOps
 
-<!--![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163756.png)-->
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163756.png)
 
 
 ## 参考
