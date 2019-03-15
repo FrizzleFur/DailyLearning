@@ -43,16 +43,11 @@
 * [Runtime](https://github.com/FrizzleFur/DailyLearning/issues/3)
 
 
-
 ## 学习资源
-
-*  [aozhimin/awesome-iOS-resource: A curated list of awesome iOS resources, including conferences, books, blogs, articles, websites and documentations](https://github.com/aozhimin/awesome-iOS-resource)🎉
-
-* [LearningIOS](https://github.com/zhouhuanqiang/LearningIOS) 视频学习资源
 
 * [AwesomeLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/Awesome%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90.md) 自己整理的学习资料
 
-* [Github-100](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/Github-100.md) Github排名前100的iOS轮子
+* [三方轮子解析💡](https://github.com/FrizzleFur/DailyLearning/tree/master/%E4%B8%89%E6%96%B9%E8%BD%AE%E5%AD%90%E8%A7%A3%E6%9E%90%F0%9F%92%A1)
 
 * [iOS-Cracked-Apps](https://github.com/aozhimin/iOS-Cracked-Apps) 提供国内外知名 App 破解二进制文件，可以将这些已经破解的二进制文件通过反编译工具进行静态分析，另外仓库中已经从破解的二进制文件 dump 出了 Class 信息。
 
