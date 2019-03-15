@@ -4,8 +4,6 @@
 
 ## 文件目录
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315101224.png)
-
 * Cocoa💎
     * UIKit框架
     * 内存管理
