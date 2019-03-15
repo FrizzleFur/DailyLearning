@@ -43,7 +43,7 @@
 
 ## 学习资源
 
-* [iOS Cocoa](https://github.com/FrizzleFur/DailyLearning/tree/master/1-iOSCocoa%F0%9F%92%8E) 自己整理的学习资料
+* [iOS Cocoa](https://github.com/FrizzleFur/DailyLearning/tree/master/1-iOSCocoa%F0%9F%92%8E) iOS核心
 
 * [三方轮子解析💡](https://github.com/FrizzleFur/DailyLearning/tree/master/%E4%B8%89%E6%96%B9%E8%BD%AE%E5%AD%90%E8%A7%A3%E6%9E%90%F0%9F%92%A1)
 
