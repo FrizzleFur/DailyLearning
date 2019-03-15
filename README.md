@@ -4,8 +4,6 @@
 
 ## 文件目录
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315101224.png)
-
 * Cocoa💎
     * UIKit框架
     * 内存管理
@@ -36,6 +34,9 @@
     * 项目-性能优化
     * 项目-备用库
     * 项目-路由跳转
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315102643.png)
+
 
 ## Issue目录
 
