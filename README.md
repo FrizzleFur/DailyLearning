@@ -65,7 +65,6 @@
 
 * [OnReading](https://github.com/FrizzleFur/DailyLearning/blob/master/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/OnReading.md) 最近在阅读
 
-
 ## 设计模式
 
 * [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
