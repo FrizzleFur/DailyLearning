@@ -39,7 +39,7 @@
 
 ## Issue目录
 
-* [面试总结 面试](https://github.com/FrizzleFur/DailyLearning/issues/1)
+* [面试总结 面试](https://github.com/FrizzleFur/DailyLearning/issues/1)
 * [Runtime](https://github.com/FrizzleFur/DailyLearning/issues/3)
 
 
