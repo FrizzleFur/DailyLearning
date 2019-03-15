@@ -2,9 +2,8 @@
 
 > 记录点滴成长
 
-## 文件目录
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315101224.png)
+## 文件目录
 
 * Cocoa💎
     * UIKit框架
