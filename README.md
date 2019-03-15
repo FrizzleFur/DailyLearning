@@ -2,6 +2,48 @@
 
 > 记录点滴成长
 
+## 文件目录
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190315101224.png)
+
+* Cocoa💎
+    * UIKit框架
+    * 内存管理
+    * 动画
+    * 多线程
+    * 数据存储
+    * Web相关  
+    * 底层重点知识  
+* 大前端❤️
+    * 解析-Flutter
+    * 解析-Weex
+* 性能优化
+    * 代码规范
+    * 解析-架构搭建
+    * 解析-设计模式
+    * 解析-组件化架构
+    ...
+* Swfit
+* 三方轮子解析💡 
+* 阅读笔记
+* CS基础
+    * 解析-算法
+    * 解析-数据结构
+* Demos-示例demo(需要完善)
+* 项目相关
+    * 项目-App项目配置
+    * 项目-问题回顾
+    * 项目-性能优化
+    * 项目-备用库
+    * 项目-路由跳转
+
+## Issue目录
+
+* [面试总结 面试](https://github.com/FrizzleFur/DailyLearning/issues/1)
+* [Runtime](https://github.com/FrizzleFur/DailyLearning/issues/3)
+
+
+
 ## 学习资源
 
 *  [aozhimin/awesome-iOS-resource: A curated list of awesome iOS resources, including conferences, books, blogs, articles, websites and documentations](https://github.com/aozhimin/awesome-iOS-resource)🎉
