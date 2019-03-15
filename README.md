@@ -63,7 +63,7 @@
 
 ## Read
 
-* [OnReading](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/OnReading.md) 最近在阅读
+* [OnReading](https://github.com/FrizzleFur/DailyLearning/blob/master/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/OnReading.md) 最近在阅读
 
 * [教程公开课](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/%E6%95%99%E7%A8%8B%E5%85%AC%E5%BC%80%E8%AF%BE.md)
 
