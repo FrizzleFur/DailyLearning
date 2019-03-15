@@ -61,6 +61,27 @@
 [ChenYilong](https://github.com/ChenYilong)| [微博@iOS程序犭袁](http://weibo.com/luohanchenyilong?refer_flag=1005055013_&is_all=1)有iOS9AdaptationTips,iOSInterviewQuestions等多个上千star的项目
 [MMao](https://michaelmao.co) | 我的小博客
 
+## Read
+
+* [OnReading](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/OnReading.md) 最近在阅读
+
+* [教程公开课](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/%E6%95%99%E7%A8%8B%E5%85%AC%E5%BC%80%E8%AF%BE.md)
+
+## 设计模式
+
+* [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
+
+## 面试
+
+*  [ChenYilong/iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8A%EF%BC%89.md#16-objc%E4%B8%AD%E5%90%91%E4%B8%80%E4%B8%AAnil%E5%AF%B9%E8%B1%A1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E5%B0%86%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88)
+* [面试题和RXSwift](https://www.jianshu.com/nb/22809430)
+
+* [面试了1000人后，我想说说简历如何写](http://m.quzhiboapp.com/#!/intro/80)
+
+* [iOS 面试小灶直播 - 简历、面试题、进阶](http://m.quzhiboapp.com/#!/intro/115)
+
+* [面试总结 · Issue #1 · FrizzleFur/DailyLearning](https://github.com/FrizzleFur/DailyLearning/issues/1)
+
 ## Todo
 
 * 设计模式
@@ -68,18 +89,6 @@
 
 * 算法
 * 底层原理
-
-## Read
-
-* [OnReading](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/OnReading.md) 最近在阅读
-
-* [教程公开课](https://github.com/FrizzleFur/DailyLearning/blob/master/BookReading/%E6%95%99%E7%A8%8B%E5%85%AC%E5%BC%80%E8%AF%BE.md)
-
-## iOS
-
-*  [iOSLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/iOSLearning.md)
-
-*  [iOS学习笔记 (知识点整理)](https://github.com/FrizzleFur/DailyLearning/tree/master/iOSLearningDemo)
 
 ### 异步编程
 
@@ -92,14 +101,19 @@
 *  [mxcl/PromiseKit](https://github.com/mxcl/PromiseKit)  Promises for Swift & ObjC.
 
 
-## 设计模式
-
-
-* [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
-
-
-
 ## JavaScript
+
+### Vue
+
+- [vue guide](https://vuejs.org/v2/guide/)
+
+- [MASTER VUE.JS](https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1)
+
+## 物联网
+
+
+[USTC-CS-Courses-Resource/计算机与信息类/物联网导论/slides at master · mbinary/USTC-CS-Courses-Resource](https://github.com/mbinary/USTC-CS-Courses-Resource/tree/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B1%BB/%E7%89%A9%E8%81%94%E7%BD%91%E5%AF%BC%E8%AE%BA/slides)
+
 
 ### PWA
 
@@ -116,36 +130,12 @@
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15256848635235.jpg)
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15256848889827.jpg)
 
-### Vue
-
-- [vue guide](https://vuejs.org/v2/guide/)
-
-- [MASTER VUE.JS](https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1)
-
-
-## 物联网
-
-
-[USTC-CS-Courses-Resource/计算机与信息类/物联网导论/slides at master · mbinary/USTC-CS-Courses-Resource](https://github.com/mbinary/USTC-CS-Courses-Resource/tree/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B1%BB/%E7%89%A9%E8%81%94%E7%BD%91%E5%AF%BC%E8%AE%BA/slides)
-
 
 ## 工具
 
 * [ToolLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/ToolLearning.md)
 
 * [Linux](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningTools/Linux%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0.md)
-
-## 面试
-
-*  [ChenYilong/iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8A%EF%BC%89.md#16-objc%E4%B8%AD%E5%90%91%E4%B8%80%E4%B8%AAnil%E5%AF%B9%E8%B1%A1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E5%B0%86%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88)
-* [面试题和RXSwift](https://www.jianshu.com/nb/22809430)
-
-* [面试了1000人后，我想说说简历如何写](http://m.quzhiboapp.com/#!/intro/80)
-
-* [iOS 面试小灶直播 - 简历、面试题、进阶](http://m.quzhiboapp.com/#!/intro/115)
-
-* [面试总结 · Issue #1 · FrizzleFur/DailyLearning](https://github.com/FrizzleFur/DailyLearning/issues/1)
-
 
 ## 技术路线
 
