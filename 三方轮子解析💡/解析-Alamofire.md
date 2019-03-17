@@ -111,6 +111,8 @@ This lets you use the functionality provided by the Alamofire module in your cod
 
 Next, go to `imagePickerController(_:didFinishPickingMediaWithInfo:)` and add the following to the end, right before the call to `dismiss(animated:)`:
 
+
+```swift
 // 1
 takePictureButton.isHidden = true
 progressView.progress = 0.0
@@ -135,6 +137,7 @@ upload(image: image,
         self?.performSegue(withIdentifier: "ShowResults", sender: self)
 })
 
+```
 Everything with Alamofire is _asynchronous_, which means you’ll update the UI in an asynchronous manner:
 
 
