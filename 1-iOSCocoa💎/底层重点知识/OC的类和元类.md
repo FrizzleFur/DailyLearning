@@ -138,8 +138,6 @@ class对象在内存中存储的信息主要包括：
 
 其实类也是对象，打开定义的头文件，发现是用一个结构体来存储类的信息。
 
-![类的结构体](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15112508358881.png)
-
 ```objc
 typedef struct objc_class *Class;
 struct objc_class {
