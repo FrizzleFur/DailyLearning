@@ -2,6 +2,8 @@
 
 > 记录点滴成长
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190317165122.png)
+
 ## 文件目录
 
 * Cocoa💎
