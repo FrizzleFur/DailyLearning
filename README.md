@@ -126,9 +126,7 @@
 * 重启浏览器即可添加支持。
 * 目前PWA应用没有统一的应用商店，用户在访问支持PWA的网址时将自动启动。
 
-
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15256848635235.jpg)
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15256848889827.jpg)
 
 
 ## 工具
