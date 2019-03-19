@@ -545,9 +545,9 @@ typedef struct category_t {
 
 通过结构体 category_t 可以知道，在 Category 中我们可以增加实例方法、类方法、协议、属性。我们这里简述下 Category 的实现原理：
 
-1. 在编译时期，会将分类中实现的方法生成一个结构体 method_list_t 、将声明的属性生成一个结构体 property_list_t ，然后通过这些结构体生成一个结构体 category_t 。
+1. **在编译时期，会将分类中实现的方法生成一个结构体 method_list_t 、将声明的属性生成一个结构体 property_list_t ，然后通过这些结构体生成一个结构体 category_t** 。
 2.  然后将结构体 category_t 保存下来
-3.  在运行时期，Runtime 会拿到编译时期我们保存下来的结构体 category_t
+3.  **在运行时期，Runtime 会拿到编译时期我们保存下来的结构体 category_t**
 4.  然后将结构体 category_t 中的实例方法列表、协议列表、属性列表添加到主类中
 5.  将结构体 category_t 中的类方法列表、协议列表添加到主类的 metaClass 中
 
@@ -663,17 +663,17 @@ typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
 
 ### Category 为什么不能添加实例变量
 
-通过结构体 category_t ，我们就可以知道，在 Category 中我们可以增加实例方法、类方法、协议、属性。这里没有 objc_ivar_list 结构体，代表我们不可以在分类中添加实例变量。
+通过结构体 category_t ，我们就可以知道，在 Category 中我们可以增加实例方法、类方法、协议、属性。**这里没有 objc_ivar_list 结构体，代表我们不可以在分类中添加实例变量**。
 
-因为在运行期，对象的内存布局已经确定，如果添加实例变量就会破坏类的内部布局，这个就是 Category 中不能添加实例变量的根本原因。
+**因为在运行期，对象的内存布局已经确定，如果添加实例变量就会破坏类的内部布局，这个就是 Category 中不能添加实例变量的根本原因**。
 
 
 ### 项目中用 Category 一般用来实现什么功能
 
-1.  通过分类来为已知的类扩展方法和属性，Category 不会为我们的属性添加实例变量和存取方法，我们可以通过关联对象这个技术来实现对象绑定
-2.  通过实现分类的 load 方法来实现 Method Swizzling
-3.  将一个类拆分成多个实现文件，典型的就是将项目中 AppDelegate 拆分。 AppDelegate 作为程序的入口，一般都会实现各种第三方 SDK 的初始化、写各种版本的容错代码、实现通知、支付逻辑等等功能，所以 AppDelegate 这个类很容易臃肿，这个时候可以通过实现 AppDelegate 分类来将不同的业务代码分离。
-4.  被 Category “覆盖” 的方法是有办法调用到的（但是项目中暂时还没遇到这种场景 - -/...）
+1. 通过分类来为已知的类扩展方法和属性，Category 不会为我们的属性添加实例变量和存取方法，我们可以通过关联对象这个技术来实现对象绑定
+2. 通过实现分类的 load 方法来实现 Method Swizzling
+3. 将一个类拆分成多个实现文件，**典型的就是将项目中 AppDelegate 拆分。 AppDelegate 作为程序的入口，一般都会实现各种第三方 SDK 的初始化、写各种版本的容错代码、实现通知、支付逻辑等等功能，所以 AppDelegate 这个类很容易臃肿，这个时候可以通过实现 AppDelegate 分类来将不同的业务代码分离**。
+4. 被 Category “覆盖” 的方法是有办法调用到的（但是项目中暂时还没遇到这种场景）
 
 ### Category总结
 
