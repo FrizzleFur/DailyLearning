@@ -293,6 +293,13 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 * [细聊 Cocoapods 与 Xcode 工程配置](https://bestswifter.com/cocoapods/#cocoapods)
 * [iOS组件化实践(三)：实施 - 简书](https://www.jianshu.com/p/0a7f3c0b4194)
 
+### pod 制作
+
+* pod repo add xxx  git@xxx.git
+* pod lib create 
+
+
+
 # Cocoapod原理
 
 [CocoaPods 都做了什么？](https://draveness.me/cocoapods)

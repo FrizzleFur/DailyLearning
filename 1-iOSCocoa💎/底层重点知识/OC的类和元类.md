@@ -261,7 +261,6 @@ _成员变量的值时存储在实例对象中的_，因为只有当创建实例
 * 实例方法中直接调用实例方法
 * 实例方法中也可以调用类方法(通过类名)
 
-
 ## self关键字
 
 `self`的规则大家需要记住下面的规则：
@@ -522,11 +521,47 @@ OC中类是不支持多继承的，要想实现多继承一般是有protocol的�
 
 
 
-## 分类(category)
+## Category分类
 
 ### 概念
 
 分类（Category）是OC中的特有语法，它是表示一个指向分类的结构体的指针。原则上它只能增加方法，不能增加成员（实例）变量。具体原因看源码组成:
+
+### 简述 Category 的实现原理
+
+我们知道 Objective-C 通过 Runtime 运行时来实现动态语言这个特性，所有的类和对象，在 Runtime 中都是用结构体来表示的，Category 在 Runtime 中是用结构体 category_t 来表示的，下面是结构体 category_t 具体表示：
+
+```objc
+typedef struct category_t {
+    const char *name;//类的名字 主类名字
+    classref_t cls;//类
+    struct method_list_t *instanceMethods;//实例方法的列表
+    struct method_list_t *classMethods;//类方法的列表
+    struct protocol_list_t *protocols;//所有协议的列表
+    struct property_list_t *instanceProperties;//添加的所有属性
+} category_t;
+
+```
+
+通过结构体 category_t 可以知道，在 Category 中我们可以增加实例方法、类方法、协议、属性。我们这里简述下 Category 的实现原理：
+
+1. 在编译时期，会将分类中实现的方法生成一个结构体 method_list_t 、将声明的属性生成一个结构体 property_list_t ，然后通过这些结构体生成一个结构体 category_t 。
+2.  然后将结构体 category_t 保存下来
+3.  在运行时期，Runtime 会拿到编译时期我们保存下来的结构体 category_t
+4.  然后将结构体 category_t 中的实例方法列表、协议列表、属性列表添加到主类中
+5.  将结构体 category_t 中的类方法列表、协议列表添加到主类的 metaClass 中
+
+这里需要注意的是：category_t 中的方法列表是插入到主类的方法列表前面（类似利用链表中的 next 指针来进行插入），所以这里 Category 中实现的方法并不会真正的覆盖掉主类中的方法，只是将 Category 的方法插到方法列表的前面去了。运行时在查找方法的时候是顺着方法列表的顺序查找的，它只要一找到对应名字的方法，就会停止查找，这里就会出现覆盖方法的这种假象了。
+
+```objc
+// 这里大概就类似这样子插入
+newproperties->next = cls->data()->properties;
+cls->data()->properties = newproperties;，
+
+```
+
+通过上面的简述，我们大概了解了 Category 的实现原理，就可以知道 Extension 跟 Category 是两种实现模式，一个是在编译时期实现的，一个是在运行时期决定的。
+
 
 ### Category源码：
 
@@ -570,6 +605,7 @@ struct category_t {
 3. 可以在分类中访问原有类中.h中的属性;
 4. **如果分类中有和原有类同名的方法, 会优先调用分类中的方法**, 就是说会忽略原有类的方法。所以同名方法调用的优先级为 分类 > 本类 > 父类。因此在开发中尽量不要覆盖原有类;
 5. **如果多个分类中都有和原有类中同名的方法,那么调用该方法的时候执行谁由编译器决定；编译器会执行最后一个参与编译的分类中的方法**。
+
 
 ### 分类格式：
 
@@ -624,6 +660,27 @@ typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
                                             *   The association is made atomically. */
 };
 ```
+
+### Category 为什么不能添加实例变量
+
+通过结构体 category_t ，我们就可以知道，在 Category 中我们可以增加实例方法、类方法、协议、属性。这里没有 objc_ivar_list 结构体，代表我们不可以在分类中添加实例变量。
+
+因为在运行期，对象的内存布局已经确定，如果添加实例变量就会破坏类的内部布局，这个就是 Category 中不能添加实例变量的根本原因。
+
+
+### 项目中用 Category 一般用来实现什么功能
+
+1.  通过分类来为已知的类扩展方法和属性，Category 不会为我们的属性添加实例变量和存取方法，我们可以通过关联对象这个技术来实现对象绑定
+2.  通过实现分类的 load 方法来实现 Method Swizzling
+3.  将一个类拆分成多个实现文件，典型的就是将项目中 AppDelegate 拆分。 AppDelegate 作为程序的入口，一般都会实现各种第三方 SDK 的初始化、写各种版本的容错代码、实现通知、支付逻辑等等功能，所以 AppDelegate 这个类很容易臃肿，这个时候可以通过实现 AppDelegate 分类来将不同的业务代码分离。
+4.  被 Category “覆盖” 的方法是有办法调用到的（但是项目中暂时还没遇到这种场景 - -/...）
+
+### Category总结
+
+我们这是简单描述 Category 的实现原理以及项目中 Category 的一些运用，Category 的知识点远不止这些，对于 Category 具体实现代码可以阅读参考文献中的链接，看完可以对 Category 有更高层次的理解。
+
+对于这道面试题，我们还可以扩展其它问题：关联对象是如何实现的，Category 中可以实现 load 方法吗等问题。这些问题我们在后面都会涉及。
+
 
 ## 类扩展(extension)
 
@@ -844,3 +901,5 @@ initialize在这个类第一次被调用的时候比如[[class alloc] init]会�
 12. [iOS底层原理总结 - Category的本质 - 简书](https://www.jianshu.com/p/fa66c8be42a2)
 13. [Category的本质<一> - 简书](https://www.jianshu.com/p/da463f413de7)
 14. [objc@interface的设计哲学与设计技巧 · sunnyxx的技术博客](https://blog.sunnyxx.com/2014/04/13/objc_dig_interface/)
+15. [02·iOS 面试题·Category 的实现原理，以及 Category 为什么只能加方法不... - 简书](https://www.jianshu.com/p/8aa63f7e98d1)
+
