@@ -67,6 +67,8 @@
 
 ## 设计模式
 
+
+* [装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
 * [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
 
 ## 面试
@@ -82,13 +84,17 @@
 
 ## Todo
 
-* 设计模式
-[装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
+* Swift复习 On 泊学~
 
-* 算法
-* 底层原理
+* iOS 源代码分析 --- Alamofire[iOS 源代码分析 --- Alamofire](https://github.com/draveness/analyze/blob/master/contents/Alamofire/iOS%20%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%20----%20Alamofire.md)
 
-### 异步编程
+* SDAutoLayout研究：[SDAutoLayout](https://github.com/gsdios/SDAutoLayout)
+* 算法复习
+* Flutter-豆瓣demo练习
+
+
+
+## 异步编程
 
 *  [alibaba/coobjc](https://github.com/alibaba/coobjc)  coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc. 
     * [阿里开源 iOS 协程开发框架 coobjc 源码分析](https://mp.weixin.qq.com/s/Vy_fsn95dgag4KumpQPlTw)
