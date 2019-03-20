@@ -69,28 +69,28 @@
 
 ## 设计模式
 
+
+* [装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
 * [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
 
 ## 面试
 
 *  [ChenYilong/iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8A%EF%BC%89.md#16-objc%E4%B8%AD%E5%90%91%E4%B8%80%E4%B8%AAnil%E5%AF%B9%E8%B1%A1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E5%B0%86%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88)
-* [面试题和RXSwift](https://www.jianshu.com/nb/22809430)
-
 * [面试了1000人后，我想说说简历如何写](http://m.quzhiboapp.com/#!/intro/80)
-
-* [iOS 面试小灶直播 - 简历、面试题、进阶](http://m.quzhiboapp.com/#!/intro/115)
-
 * [面试总结 · Issue #1 · FrizzleFur/DailyLearning](https://github.com/FrizzleFur/DailyLearning/issues/1)
 
 ## Todo
 
-* 设计模式
-[装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
+* Swift复习 On 泊学~
 
-* 算法
-* 底层原理
+* iOS 源代码分析 --- Alamofire[iOS 源代码分析 --- Alamofire](https://github.com/draveness/analyze/blob/master/contents/Alamofire/iOS%20%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%20----%20Alamofire.md)
+* [RXSwift](https://www.jianshu.com/nb/22809430)
+* SDAutoLayout研究：[SDAutoLayout](https://github.com/gsdios/SDAutoLayout)
+* 算法复习
+* Flutter-豆瓣demo练习
 
-### 异步编程
+
+## 异步编程
 
 *  [alibaba/coobjc](https://github.com/alibaba/coobjc)  coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc. 
     * [阿里开源 iOS 协程开发框架 coobjc 源码分析](https://mp.weixin.qq.com/s/Vy_fsn95dgag4KumpQPlTw)
