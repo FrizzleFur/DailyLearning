@@ -1,6 +1,5 @@
 # AFNetworking解析.md
 
-
 # [AFNetworking](https://github.com/AFNetworking/AFNetworking)(v3.1.0) 源码解析
 
 AFNetworking 作为我们最基础的网络框架，目前在 GitHub 上 Objective-C 语言类排名第一，几乎每个涉及到网络请求的 APP 都会用到，其重要性可见一斑。再者，作为 iOS 开发领域最受欢迎的开源项目，其中凝聚了众多大神的智慧，无论是在技术点上，还是架构设计上、问题处理方式上，都具有很高的学习价值。
