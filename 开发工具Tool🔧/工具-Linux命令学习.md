@@ -726,7 +726,7 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
 ![](http://upload-images.jianshu.io/upload_images/225323-9f80c1d60073bd39.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-[`oh-my-Zsh`](<https://github.com/robbyrussell/`oh-my-Zsh`)
+[`oh-my-Zsh`](<https://github.com/robbyrussell/oh-my-Zsh)
 
 ### zsh切换bash bash切换zsh
 1. `zsh`切换`bash`
