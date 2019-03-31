@@ -767,7 +767,7 @@ Mac 和一般 Linux 默认的 shell 是 bash，一般人都觉得不好用，我
 在命令窗口中输入：d，将列出当前 `session` 访问过的所有目录，再按提示的数字即可进入相应目录。
 给 man 命令增加结果高亮显示：
 编辑配置文件：`vim ~/.zshrc`，增加下面内容：
-©
+
 ```
 # man context highlight
 export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
