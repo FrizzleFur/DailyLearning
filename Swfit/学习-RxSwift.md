@@ -10,7 +10,24 @@
 
 （2）如果我们平时使用的是 MVVM 开发模式的话，通过 RxSwift 可以获得更加方便的数据绑定的方法，使得 MVVM 开发更加如虎添翼。
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190406205443.png)
 
+
+1）首先我们定义一个Observable，在某些情况下我们会在闭包内提供一些代码，该部分代码会执行相应的工作并且发送值（elements）给任意的观察者（observer）。当我们使用create操作符创建了该Observable，闭包内的代码就被存储起来用于后续的执行，而不是马上执行。如果当前没有观察者（observer），那么Observable仅仅是等待被订阅，不会执行任何操作。
+
+2）当我们使用不同的操作符（operators）来处理被发送的值（elements），比如像：map,filter等等，这时候闭包仍然没有执行任何操作，我们这里仅仅是对Observable进行了部分的转换和过滤，相当于创建了一个更特别的Observable，而不是最初的Observable。
+
+3）一直到我们调用subscribe(...)方法，这时候Observable开始工作起来。调用subscribe(...)方法将执行我们之前在闭包中所编写的代码。
+
+
+
+对于上面的内容，有俩点需要明白：
+
+1）订阅部分的代码（subscription code），该部分内容是位于上图的Observable.create{...}中的代码，在我们调用subscribe()之后会执行代码并产生值（elements）
+
+2）观察部分的代码（observation code），是我们观察到被发送值（elements）的地方,这部分代码，我们经常使用，如：onNext: {...}, onCompleted: {...}等，这些地方就是我们进行观察中的地方。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190406205742.png)
 
 ## RxSwift 与 RxCocoa
 
@@ -117,6 +134,15 @@ onCompleted()：是 on(.completed) 的简便写法。该方法相当于 subject 
 订阅一个Observable实例主要有两个方法，talk is cheap, show you the code.
 
 
+### BehaviorRelay
+
+
+* BehaviorRelay 是作为 Variable 的替代者出现的。它的本质其实也是对 BehaviorSubject 的封装，所以它也必须要通过一个默认的初始值进行创建。
+* BehaviorRelay 具有 BehaviorSubject 的功能，能够向它的订阅者发出上一个 event 以及之后新创建的 event。
+* 与 BehaviorSubject 不同的是，不需要也不能手动给 BehaviorReply 发送 completed 或者 error 事件来结束它（BehaviorRelay 会在销毁时也不会自动发送 .complete© 的 event）。
+* BehaviorRelay 有一个 value 属性，我们通过这个属性可以获取最新值。而通过它的 accept() 方法可以对值进行修改。
+
+
 ## dispose和DisposeBag——让订阅者释放
 
 
@@ -189,6 +215,7 @@ http://www.hangge.com/blog/cache/detail_1940.html
 ## 结合Alamofire & Moya
 
 http://www.hangge.com/blog/cache/detail_2012.html
+
 
 
 

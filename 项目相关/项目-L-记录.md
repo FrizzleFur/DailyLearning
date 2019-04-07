@@ -15,6 +15,88 @@ L项目在组件化得过程中，将业务模块不断的进行解耦，后续�
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190401131830.png)
 
 
+[iOS 依赖注入工具 Swinject - 简书](https://www.jianshu.com/p/62f534b152c8)
+
+
+
+### 对依赖进行解耦
+
+**首先将宠物抽象为一个接口(协议), 这样做的价值在于能够将依赖解耦, 使用者的代码依赖于这个接口, 而非具体的实现, 因而在替换依赖时就很方便了.**
+
+```swift
+
+protocol AnimalType {
+    var name: String { get }
+    func sound() -> String
+}
+```
+
+让 Cat 类实现这个协议:
+
+```swift
+class Cat: AnimalType {
+    let name: String
+
+    init(name: String) {
+        self.name = name
+    }
+
+    func sound() -> String {
+        return "Meow!"
+    }
+}
+```
+
+
+将 PetOwner 类修改为依赖于 AnimalType 接口, 而非 Cat 实现, 并且使用构造注入(构造注入的概念详见开篇给出的链接):
+
+```swift
+class PetOwner {
+    let pet: AnimalType
+
+    init(pet: AnimalType) {
+        self.pet = pet
+    }
+
+    func play() -> String {
+        return "I'm playing with \(pet.name). \(pet.sound())"
+    }
+}
+```
+
+则使用的时候:
+let catOwner = PetOwner(pet: Cat(name: "Mimi"))
+print(catOwner.play()) // 输出 "I'm playing with Mimi. Meow!"
+
+如果是要给宠物主人一条狗来溜溜:
+
+```swift
+class Dog: AnimalType {
+    let name: String
+
+    init(name: String) {
+        self.name = name
+    }
+
+    func sound() -> String {
+        return "Bow wow!"
+    }
+}
+
+```
+
+
+则使用的时候:
+
+```swift
+let dogOwner = PetOwner(pet: Dog(name: "Hachi"))
+print(dogOwner.play()) // 输出 "I'm playing with Hachi. Bow wow!"
+
+```
+
+
+
+
 ### 控制反转原则
 
 控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。其中最常见的方式叫做依赖注入（Dependency Injection，简称DI），还有一种方式叫“依赖查找”（Dependency Lookup）。通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体将其所依赖的对象的引用传递给它。也可以说，依赖被注入到对象中。
@@ -82,4 +164,6 @@ L项目在组件化得过程中，将业务模块不断的进行解耦，后续�
 * fastLane - Lane 
     * Gym打包
     * Lane 执行脚本流
+
+
 
