@@ -36,6 +36,7 @@ protocol Student {
 协议中定义属性
 协议中定义属性表示遵循该协议的类型具备了某种属性，具体来说只能使用var关键字声明并且必须明确规定该属性是可读的get、还是可读可写的get set，另外还可以通过关键字static声明一个类型属性。示例如下：
 
+```swift
 protocol Student {
     //定义一个可读可写的 name 属性
     var name: String { get set }
@@ -44,9 +45,12 @@ protocol Student {
     //定义一个类属性 record
     static var qualification: String {get}
 }
+```
 
 
 和定义方法一样，我们只需要确定该属性具体是什么类型并且添加对应的关键字，不需要具体的实现，更不能为他们赋上初始值（类似于计算属性）。定义好属性之后，我们就可以利用属性来做点事情了。
+
+```swift
 struct Puple: Student {
     static var qualification: String = "小学"
     var name: String
@@ -54,6 +58,7 @@ struct Puple: Student {
 }
 var p1 = Puple(name: "小明", birthPlace: "上海")
 
+```
 定义一个Puple结构体遵循Student协议，该结构体中必须存在协议要求声明的三个属性matrikelnummer、name、birthPlace,static修饰的类型属性必须被有初始值或者存在get、set方法。对于普通的实例属性协议并不关心是计算型属性还是存储型属性。实例中的属性同样可以被修改：
 
 为什么要使用协议
@@ -84,14 +89,14 @@ var p1 = Puple(name: "小明", birthPlace: "上海")
 
 我们使用下面的方式，来定义一个Tuple：
 
-```
+```swift
 (value1, value2, value3...)
 
 ```
 
 例如，定义我们开始提到的HTTP状态码：
 
-```
+```swift
 //: #### Define a tuple
 
 let success = (200, "HTTP OK")
@@ -101,7 +106,7 @@ let fileNotFound = (404, "File not found")
 
 我们还可以给Tuple中的每一个数据成员指定一个名字，例如，定义一个表达用户信息记录的Tuple：
 
-```
+```swift
 (name1: value1, name2: value2, name3: value3...)
 
 //: #### Define a tuple
@@ -113,7 +118,7 @@ let me = (name: "Mars", no: 11, email: "11@boxue.io")
 
 定义好Tuple之后，我们可以使用下面的方式访问Tuple中的数据成员：
 
-```
+```swift
 //: #### Access tuple content
 
 success.0
@@ -126,7 +131,7 @@ fileNotFound.1
 
 如果我们在定义Tuple时，指定了Tuple成员的名字，我们就可以像下面这样访问这些数据成员：
 
-```
+```swift
 //: #### Access tuple content
 
 me.name
@@ -139,7 +144,7 @@ me.email
 
 我们在定义Tuple的时候，还可以把一个Tuple的值，一一对应的拆分到不同的变量上，这叫做Tuple Decomposition。例如，对于之前定义过的`success`，我们可以这样定义一个新的Tuple：
 
-```
+```swift
 var (successCode, successMessage) = success
 
 print(successCode) // 200
@@ -151,7 +156,7 @@ print(successMessage) // HTTP OK
 
 例如，我们修改`successCode`：
 
-```
+```swift
 successCode = 201
 
 success // (200, "HTTP OK")
@@ -160,7 +165,7 @@ success // (200, "HTTP OK")
 
 从结果我们可以看到，之前的`success`的值没有被修改。另外，如果我们只是想对应到Tuple中特定的成员，而忽略其它成员，我们可以使用下划线'_'来代表那些不需要被对应的成员。例如：
 
-```
+```swift
 let (_, errorMessage) = fileNotFound
 print(errorMessage)
 
@@ -170,7 +175,7 @@ print(errorMessage)
 
 每一个Tuple的类型，都是由Tuple中所有数据成员一起决定给的。例如，对于一开始我们定义的success和me，它们的类型就分别是：`(Int, String)`和`(String, Int, String)`。当我们需要用type annotation定义一个Tuple的时候，我们可以这样写：
 
-```
+```swift
 var redirect: (Int, String) = (302, "temporary redirect")
 
 ```
@@ -181,7 +186,7 @@ var redirect: (Int, String) = (302, "temporary redirect")
 
 首先，只有元素个数相同的Tuple变量之间，才能进行比较。例如，下面的代码会引发编译错误：
 
-```
+```swift
 let tuple12 = (1, 2)
 let tuple123 = (1, 2, 3)
 
@@ -200,7 +205,7 @@ tuple2 < tuple3
 
 因此，对于下面这个例子，`tuple11 < tuple12`的结果是`true`：
 
-```
+```swift
 let tuple11 = (1, 1)
 let tuple12 = (1, 2)
 
@@ -210,7 +215,7 @@ tuple11 < tuple12 // true
 
 但是，有一点要说明的是，我们只可以对最多包含6个元素的Tuple变量进行比较，超过这个数量，Swift会报错。例如对于下面这段代码：
 
-```
+```swift
 let largeTuple1 = (1, 2, 3, 4, 5, 6, 7)
 let largeTuple2 = (1, 2, 3, 4, 5, 6, 7)
 
@@ -239,7 +244,7 @@ largeTuple1 == largeTuple2 // Error !!!
 
 这个最简单，我们之前已经用过多次，等号右边的值赋值给等号左边的变量：
 
-```
+```swift
 //: #### Basic assignment
 let a = 20
 var b = 10
@@ -248,7 +253,7 @@ var b = 10
 
 ### 基本算术运算操作符
 
-```
+```swift
 let sum = a + b
 let sub = a - b
 let mul = a * b
@@ -263,7 +268,7 @@ let mod = a % b
 
 Swift还支持把赋值和算数运算符组合起来：
 
-```
+```swift
 //: #### Compound assignment
 
 b += 10 // b = b + 10
@@ -282,7 +287,7 @@ b %= 10 // b = b % 10
 
 Swift支持以下常用的比较操作：
 
-```
+```swift
 //: #### Comparison
 let isEqual     = sum == 10
 let isNotEqual  = sum != 10
@@ -295,7 +300,7 @@ let isLe        = sum <= 10
 
 除此之外，Swift还支持两个用于比较对象引用的操作符：Identity operator，它们用来判断两个操作数是否引用同一个对象，我们在后面讲到面向对象编程的时候，会进一步提到这两个操作符。
 
-```
+```swift
 //: Identity operator
 
 //===
@@ -305,7 +310,7 @@ let isLe        = sum <= 10
 
 ### 三元操作符
 
-```
+```swift
 /*
 * if condition {
 *     expression1
@@ -326,7 +331,7 @@ let isSumEqualToTen = isEqual ? "Yes" : "No"
 
 这是一个Swift特有的操作符，用来处理和Optional有关的判断：
 
-```
+```swift
 // opt != nil ? opt! : b
 
 var userInput: String? = "A user input"
@@ -342,7 +347,7 @@ let value = userInput ?? "A default input"
 
 我们用下面的方式表达一个包含begin和end的闭区间：`begin ... end`：
 
-```
+```swift
 //: Closed range operator
 // begin...end
 
@@ -356,7 +361,7 @@ for index in 1...5 {
 
 我们用下面的方式表达一个[begin, end)的半开半闭区间：`begin ..< end`：
 
-```
+```swift
 //: Half-open range operator
 // begin..<end [begin, end)
 
@@ -370,7 +375,7 @@ for index in 1..<5 {
 
 Swift支持三种常用的逻辑运算：NOT，AND和OR。它们都返回一个`Bool`：
 
-```
+```swift
 //: #### Logic operator
 
 let logicalNot = !isEqual
@@ -404,14 +409,14 @@ let logicalOR  = isGreater  || (isLess && isLe)
 
 *   包含Markdown的单行注释用`//:`表示：
 
-```
+```swift
 //: # Heading 1
 
 ```
 
 *   包含Markdown的多行注释用下面的代码表示：
 
-```
+```swift
 /*:
   * item1
   * item2
@@ -432,7 +437,7 @@ let logicalOR  = isGreater  || (isLess && isLe)
 
 *   包含Markdown的单行注释用`///`表示：
 
-```
+```swift
 /// A **demo** function
 func demo() {}
 
@@ -440,7 +445,7 @@ func demo() {}
 
 *   包含Markdown的多行注释用下面的代码表示：
 
-```
+```swift
 /**
   * item1
   * item2
@@ -475,7 +480,7 @@ func demo1() {
 
 当我们用Playground告知开发者代码中的重要事项时，可以采用下面这种类似的方式进行注释：
 
-```
+```swift
 /*:
   > # IMPORTANT: something important you want to mention:
   A general descripiton here.
@@ -499,7 +504,7 @@ func demo1() {
 
 如果我们要把上面的注释放在项目代码里，出了要使用`/**`开始外，我们还要去掉第一行的`>`，因为Quick Help不支持这样的Markdown：
 
-```
+```swift
 /**
   # IMPORTANT: something important you want to mention:
   A general descripiton here.
