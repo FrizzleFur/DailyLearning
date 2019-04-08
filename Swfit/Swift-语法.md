@@ -504,7 +504,7 @@ func demo1() {
 
 如果我们要把上面的注释放在项目代码里，出了要使用`/**`开始外，我们还要去掉第一行的`>`，因为Quick Help不支持这样的Markdown：
 
-```swift
+```swift©
 /**
   # IMPORTANT: something important you want to mention:
   A general descripiton here.
@@ -533,7 +533,7 @@ func demo1() {
 
 在新添加进来的page2和page3里，先分别添加一个标题注释以方便区分它们。然后我们可以看到，在Playground页面的头部和尾部，Xcode已经为我们自动添加了两个链接：
 
-```
+```swift
 //: [Previous](@previous)
 
 //: [Next](@next)
@@ -557,7 +557,7 @@ func demo1() {
 
 首先，把之前我们用过的注释块，抽象成一个内容模板：
 
-```
+```swift
 /*:
   > # IMPORTANT: <#something important#>
   <#General description#>
@@ -614,7 +614,7 @@ func demo1() {
 
 例如，我们创建一个包含整数的`struct IntArray`，在Playground里添加下面的注释：
 
-```
+```swift
 /*:
  `IntArray` is a C-like random access collection of integers.
 
@@ -683,14 +683,14 @@ func demo1() {
 
 如果我们要在上面`IntArray`里，添加一个“返回不包括末尾N个元素的IntArray”的方法：
 
-```
+```swift
 public func dropLast(_ n: Int) -> IntArray
 
 ```
 
 它的注释可以是这样的：
 
-```
+```swift
 /// Returns a subsequence containing all but the specified number of final
 /// elements.
 ///
@@ -769,9 +769,8 @@ if let index = mixStr.characters.index(of: "很") {
 ```
 
 #### Map函数
+
  map：可以对数组中的每一个元素做一次处理
-
-
 
 
 ## enum、struct、class和protocol
