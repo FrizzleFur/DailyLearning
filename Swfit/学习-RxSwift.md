@@ -142,6 +142,10 @@ onCompleted()：是 on(.completed) 的简便写法。该方法相当于 subject 
 * 与 BehaviorSubject 不同的是，不需要也不能手动给 BehaviorReply 发送 completed 或者 error 事件来结束它（BehaviorRelay 会在销毁时也不会自动发送 .complete© 的 event）。
 * BehaviorRelay 有一个 value 属性，我们通过这个属性可以获取最新值。而通过它的 accept() 方法可以对值进行修改。
 
+[很好懂的Swift MVVM in Rx - 简书](https://www.jianshu.com/p/91dc64c9d86e)
+
+* 有点啰嗦，所以BehaviorRelay就是可以永久持有一个能量，并且你做任何改动，能量都会被永久变化的东西，用他来做数据源再好不过。
+
 
 ## dispose和DisposeBag——让订阅者释放
 

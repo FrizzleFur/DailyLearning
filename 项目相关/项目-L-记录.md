@@ -151,9 +151,43 @@ print(dogOwner.play()) // 输出 "I'm playing with Hachi. Bow wow!"
 
 首先来看如果没有依赖注入的时候的情况, 一般编程时都会容易将两个类直接耦合在一起, 并且依赖的是实现, 而不是抽象. 而这也的做法在实践中是不可取的:
 
+
 ### 对依赖进行解耦
 
-[iOS 依赖注入工具 Swinject](https://www.jianshu.com/p/62f534b152c8)
+* [dependency-injection-framework-for-swift-introduction-to-swinject](https://yoichitgy.github.io/post/dependency-injection-framework-for-swift-introduction-to-swinject/)
+* [iOS 依赖注入工具 Swinject](https://www.jianshu.com/p/62f534b152c8)
+
+这里就相当于每次都在 container 中去手动获取想要的对象. 而对象的依赖是事先配置好的, 创建对象的时候就会进行依赖注入.
+
+如果每个人都是猫人，那就太棒了，但实际上有些人是狗人。因为a的实例化Cat是硬编码的，所以PetOwner类依赖于Cat类。必须将依赖关系解耦为支持Dog或其他类。
+
+使用依赖注入
+现在是开始利用依赖注入的时候了。在这里，我们将介绍AnimalType协议以摆脱依赖。
+
+并且PetOwner修改了类以AnimalType通过其初始化程序注入。
+
+
+```swift
+class PetOwner {
+    let pet: AnimalType
+
+    init(pet: AnimalType) {
+        self.pet = pet
+    }
+
+    func play() -> String {
+        return "I'm playing with \(pet.name). \(pet.sound())"
+    }
+}
+```
+现在，我们可以在创建实例AnimalType时将依赖项注入协议PetOwner。
+
+
+```swift
+
+let catOwner = PetOwner(pet: Cat(name: "Mimi"))
+print(catOwner.play()) // prints "I'm playing with Mimi. Meow!"
+```
 
 ## CI集成
 
