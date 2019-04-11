@@ -16,9 +16,6 @@ Flutter 作为 Google 新一代的跨平台框架，有较多的优点，但跟�
 4. 第四，Flutter 的页面和布局是基于 Widget 树的方式，看似不习惯，但这种树状结构解析简单，布局、绘制都可以单次遍历完成计算，而原生布局往往要往复多次计算，“simple is fast”的设计效果。
 
 
-
-
-
 ## Flutter架构
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190221141602.png)
