@@ -233,8 +233,77 @@ largeTuple1 == largeTuple2 // Error !!!
 
 ## 泛型
 
-
 泛型：编译器多态，在编译期检查类型。  
+
+* Swift 提供了泛型让你写出灵活且可重用的函数和类型。
+
+* Swift 标准库是通过泛型代码构建出来的。
+
+* Swift 的数组和字典类型都是泛型集。
+
+
+```swift
+func swapTwoInts(inout a: Int, inout b: Int)
+func swapTwoValues<T>(inout a: T, inout b: T)
+
+```
+
+这个函数的泛型版本使用了占位类型名字（通常此情况下用字母T来表示）来代替实际类型名（如Int、String或Double）。占位类型名没有提示T必须是什么类型，但是它提示了a和b必须是同一类型T，而不管T表示什么类型。只有swapTwoValues函数在每次调用时所传入的实际类型才能决定T所代表的类型。
+
+另外一个不同之处在于这个泛型函数名后面跟着的占位类型名字（T）是用尖括号括起来的（<T>）。这个尖括号告诉 Swift 那个T是swapTwoValues函数所定义的一个类型。因为T是一个占位命名类型，Swift 不会去查找命名为T的实际类型。
+
+### 泛型类型
+
+
+通常在泛型函数中，Swift 允许你定义你自己的泛型类型。这些自定义类、结构体和枚举作用于任何类型，如同Array和Dictionary的用法。
+
+这里展示了如何写一个非泛型版本的栈，Int值型的栈：
+
+
+```swift
+struct IntStack {
+    var items = Int[]()
+    mutating func push(item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -> Int {
+        return items.removeLast()
+    }
+}
+```
+
+这个结构体在栈中使用一个Array性质的items存储值。Stack提供两个方法：push和pop，从栈中压进一个值和移除一个值。这些方法标记为可变的，因为它们需要修改（或转换）结构体的items数组。
+
+上面所展现的IntStack类型只能用于Int值，不过，其对于定义一个泛型Stack类（可以处理任何类型值的栈）是非常有用的。
+
+这里是一个相同代码的泛型版本：
+
+
+```swift
+struct Stack<T> {
+    var items = [T]()
+    mutating func push(item: T) {
+        items.append(item)
+    }
+    mutating func pop() -> T {
+        return items.removeLast()
+    }
+}
+```
+
+
+类型约束语法
+你可以写一个在一个类型参数名后面的类型约束，通过冒号分割，来作为类型参数链的一部分。这种作用于泛型函数的类型约束的基础语法如下所示（和泛型类型的语法相同）：
+
+
+```swift
+func someFunction<T: SomeClass, U: SomeProtocol>(someT: T, someU: U) {
+    // function body goes here
+}
+
+```
+
+上面这个假定函数有两个类型参数。第一个类型参数T，有一个需要T必须是SomeClass子类的类型约束；第二个类型参数U，有一个需要U必须遵循SomeProtocol协议的类型约束。
 
 
 ## 基本操作符（Basic operators）

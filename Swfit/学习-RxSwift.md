@@ -52,6 +52,29 @@
 * 有了可观察序列，我们还需要有一个 Observer（订阅者）来订阅它，这样这个订阅者才能收到 Observable<T> 不时发出的 Event。
 
 
+任何 'Observable' 序列都可以被转换为'Driver', 只要他满足一下三点：
+
+1.不能出错   2.观察主线程  3.共享资源
+
+如何确保这些属性都满足呢？只需要使用 'asDriver(onErrorJustReturn: [])' ,相当于如下代码:
+
+
+```swift
+
+let safeSequence = xs
+
+  .observeOn(MainScheduler.instance) // 切换到主线程
+
+  .catchErrorJustReturn(onErrorJustReturn) // 不能出错
+
+  .shareReplayLatestWhileConnected         // 共享资源
+
+return Driver(raw: safeSequence)           // 返回
+
+```
+
+
+
 ### Event
 
 查看 RxSwift 源码可以发现，事件 Event 的定义如下：
