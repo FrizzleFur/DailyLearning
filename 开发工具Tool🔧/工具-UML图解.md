@@ -7,6 +7,11 @@
 
 
 
+## 时序图
+
+
+* [【UML图】时序图 - 简书](https://www.jianshu.com/p/ccc0084cfb76)
+
 ## 参考
 
 1. [看懂UML类图和时序图 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/read_uml.html)
