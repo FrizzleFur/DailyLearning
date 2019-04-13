@@ -21,6 +21,13 @@ Flutter 作为 Google 新一代的跨平台框架，有较多的优点，但跟�
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190221141602.png)
 
 
+## Widget与Element
+
+* Element: Flutter中真正代表屏幕上显示元素的类是Element,Element是通过Widget生成
+* Widget: Widget只是描述Element的一个配置
+* 一个Widget对象可以对应多个Element对象。这很好理解，根据同一份配置（Widget），可以创建多个实例（Element）。
+
+
 
 ## Dart语言
 
@@ -32,8 +39,6 @@ Flutter 作为 Google 新一代的跨平台框架，有较多的优点，但跟�
 
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190221154647.png)
-
-
 
 
 ## Flutter On Native
@@ -116,7 +121,6 @@ flutter doctor --android-licenses
 touch ~/.android/repositories.cfg
 
 ```
-
 
 
 ## 参考
