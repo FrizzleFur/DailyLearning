@@ -69,7 +69,6 @@
 
 ## 设计模式
 
-
 * [装饰者模式](https://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/decorator.html)
 * [创建型模式 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html)
 
