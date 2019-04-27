@@ -318,8 +318,15 @@ Symbol的内容，可以有如下几种： 
 ![](https://i.loli.net/2018/12/31/5c29e8fc312d4.jpg)
 
 
+## Xcode 搜索结果file folding
 
+发现Xcode 搜索结果的文件默认都是展开的，有时非目标文件太多，想折叠起来。找半天没找到快捷键。
 
+其实是有个小技巧。
+
+按住Cmd，鼠标点击任意一个Folding箭头，就可以实现全部文件折叠展示了。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190413163247.png)
 
 
 ## 参考

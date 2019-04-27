@@ -1,4 +1,81 @@
-# Swift-boxue
+# Swift-语法
+
+
+## 类
+
+Swift 中类和结构体有很多共同点。共同处在于：
+
+* 定义属性用于存储值
+* 定义方法用于提供功能
+* 定义附属脚本用于访问值
+* 定义构造器用于生成初始化值
+* 通过扩展以增加默认实现的功能
+* 符合协议以对某类提供标准功能
+
+与结构体相比，类还有如下的附加功能：
+
+* 继承允许一个类继承另一个类的特征
+* 类型转换允许在运行时检查和解释一个类实例的类型
+* 解构器允许一个类实例释放任何其所被分配的资源
+* 引用计数允许对一个类的多次引用
+
+## 协议 Protocol
+
+* 协议规定了用来实现某一特定功能所必需的方法和属性。
+
+* 任意能够满足协议要求的类型被称为遵循(conform)这个协议。
+
+* 类，结构体或枚举类型都可以遵循协议，并提供具体实现来完成协议定义的方法和功能。
+
+Swift中定义一个协议和定义枚举、结构体或者类的格式类似，使用protocol关键字：
+
+> 
+```swift
+//定义一个名字为学生协议
+protocol Student {
+}
+```
+
+这里Student是使用**protocol **关键字声明的一个协议，和枚举、结构体、类命名原则相似，Student首字母大写表示在以后的使用中很可能会将Student看作是一个类型使用。
+协议中定义属性
+协议中定义属性表示遵循该协议的类型具备了某种属性，具体来说只能使用var关键字声明并且必须明确规定该属性是可读的get、还是可读可写的get set，另外还可以通过关键字static声明一个类型属性。示例如下：
+
+```swift
+protocol Student {
+    //定义一个可读可写的 name 属性
+    var name: String { get set }
+    //定义一个可读的 birthPlace 属性
+    var birthPlace: String { get }
+    //定义一个类属性 record
+    static var qualification: String {get}
+}
+```
+
+
+和定义方法一样，我们只需要确定该属性具体是什么类型并且添加对应的关键字，不需要具体的实现，更不能为他们赋上初始值（类似于计算属性）。定义好属性之后，我们就可以利用属性来做点事情了。
+
+```swift
+struct Puple: Student {
+    static var qualification: String = "小学"
+    var name: String
+    var birthPlace: String = "北京"
+}
+var p1 = Puple(name: "小明", birthPlace: "上海")
+
+```
+定义一个Puple结构体遵循Student协议，该结构体中必须存在协议要求声明的三个属性matrikelnummer、name、birthPlace,static修饰的类型属性必须被有初始值或者存在get、set方法。对于普通的实例属性协议并不关心是计算型属性还是存储型属性。实例中的属性同样可以被修改：
+
+
+#### 为什么要使用协议
+
+* 协议可以作为类型使用
+* 协议作为一种类型是苹果在Swift中提出的，并且在官方文档中还为我们具体指出了可以将协议当做类型使用的场景：
+
+1. 在函数、方法或者初始化器里作为形式参数类型或者返回类型；
+2. 作为常量、变量或者属性的类型；
+3. 作为数组、字典或者其他存储器的元素的类型。
+
+[Swift中协议的简单介绍 - 简书](https://www.jianshu.com/p/e70bd6645d88)
 
 
 ## Tuple
@@ -14,14 +91,14 @@
 
 我们使用下面的方式，来定义一个Tuple：
 
-```
+```swift
 (value1, value2, value3...)
 
 ```
 
 例如，定义我们开始提到的HTTP状态码：
 
-```
+```swift
 //: #### Define a tuple
 
 let success = (200, "HTTP OK")
@@ -31,7 +108,7 @@ let fileNotFound = (404, "File not found")
 
 我们还可以给Tuple中的每一个数据成员指定一个名字，例如，定义一个表达用户信息记录的Tuple：
 
-```
+```swift
 (name1: value1, name2: value2, name3: value3...)
 
 //: #### Define a tuple
@@ -43,7 +120,7 @@ let me = (name: "Mars", no: 11, email: "11@boxue.io")
 
 定义好Tuple之后，我们可以使用下面的方式访问Tuple中的数据成员：
 
-```
+```swift
 //: #### Access tuple content
 
 success.0
@@ -56,7 +133,7 @@ fileNotFound.1
 
 如果我们在定义Tuple时，指定了Tuple成员的名字，我们就可以像下面这样访问这些数据成员：
 
-```
+```swift
 //: #### Access tuple content
 
 me.name
@@ -69,7 +146,7 @@ me.email
 
 我们在定义Tuple的时候，还可以把一个Tuple的值，一一对应的拆分到不同的变量上，这叫做Tuple Decomposition。例如，对于之前定义过的`success`，我们可以这样定义一个新的Tuple：
 
-```
+```swift
 var (successCode, successMessage) = success
 
 print(successCode) // 200
@@ -81,7 +158,7 @@ print(successMessage) // HTTP OK
 
 例如，我们修改`successCode`：
 
-```
+```swift
 successCode = 201
 
 success // (200, "HTTP OK")
@@ -90,7 +167,7 @@ success // (200, "HTTP OK")
 
 从结果我们可以看到，之前的`success`的值没有被修改。另外，如果我们只是想对应到Tuple中特定的成员，而忽略其它成员，我们可以使用下划线'_'来代表那些不需要被对应的成员。例如：
 
-```
+```swift
 let (_, errorMessage) = fileNotFound
 print(errorMessage)
 
@@ -100,7 +177,7 @@ print(errorMessage)
 
 每一个Tuple的类型，都是由Tuple中所有数据成员一起决定给的。例如，对于一开始我们定义的success和me，它们的类型就分别是：`(Int, String)`和`(String, Int, String)`。当我们需要用type annotation定义一个Tuple的时候，我们可以这样写：
 
-```
+```swift
 var redirect: (Int, String) = (302, "temporary redirect")
 
 ```
@@ -111,7 +188,7 @@ var redirect: (Int, String) = (302, "temporary redirect")
 
 首先，只有元素个数相同的Tuple变量之间，才能进行比较。例如，下面的代码会引发编译错误：
 
-```
+```swift
 let tuple12 = (1, 2)
 let tuple123 = (1, 2, 3)
 
@@ -130,7 +207,7 @@ tuple2 < tuple3
 
 因此，对于下面这个例子，`tuple11 < tuple12`的结果是`true`：
 
-```
+```swift
 let tuple11 = (1, 1)
 let tuple12 = (1, 2)
 
@@ -140,7 +217,7 @@ tuple11 < tuple12 // true
 
 但是，有一点要说明的是，我们只可以对最多包含6个元素的Tuple变量进行比较，超过这个数量，Swift会报错。例如对于下面这段代码：
 
-```
+```swift
 let largeTuple1 = (1, 2, 3, 4, 5, 6, 7)
 let largeTuple2 = (1, 2, 3, 4, 5, 6, 7)
 
@@ -154,6 +231,81 @@ largeTuple1 == largeTuple2 // Error !!!
 
 
 
+## 泛型
+
+泛型：编译器多态，在编译期检查类型。  
+
+* Swift 提供了泛型让你写出灵活且可重用的函数和类型。
+
+* Swift 标准库是通过泛型代码构建出来的。
+
+* Swift 的数组和字典类型都是泛型集。
+
+
+```swift
+func swapTwoInts(inout a: Int, inout b: Int)
+func swapTwoValues<T>(inout a: T, inout b: T)
+
+```
+
+这个函数的泛型版本使用了占位类型名字（通常此情况下用字母T来表示）来代替实际类型名（如Int、String或Double）。占位类型名没有提示T必须是什么类型，但是它提示了a和b必须是同一类型T，而不管T表示什么类型。只有swapTwoValues函数在每次调用时所传入的实际类型才能决定T所代表的类型。
+
+另外一个不同之处在于这个泛型函数名后面跟着的占位类型名字（T）是用尖括号括起来的（<T>）。这个尖括号告诉 Swift 那个T是swapTwoValues函数所定义的一个类型。因为T是一个占位命名类型，Swift 不会去查找命名为T的实际类型。
+
+### 泛型类型
+
+
+通常在泛型函数中，Swift 允许你定义你自己的泛型类型。这些自定义类、结构体和枚举作用于任何类型，如同Array和Dictionary的用法。
+
+这里展示了如何写一个非泛型版本的栈，Int值型的栈：
+
+
+```swift
+struct IntStack {
+    var items = Int[]()
+    mutating func push(item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -> Int {
+        return items.removeLast()
+    }
+}
+```
+
+这个结构体在栈中使用一个Array性质的items存储值。Stack提供两个方法：push和pop，从栈中压进一个值和移除一个值。这些方法标记为可变的，因为它们需要修改（或转换）结构体的items数组。
+
+上面所展现的IntStack类型只能用于Int值，不过，其对于定义一个泛型Stack类（可以处理任何类型值的栈）是非常有用的。
+
+这里是一个相同代码的泛型版本：
+
+
+```swift
+struct Stack<T> {
+    var items = [T]()
+    mutating func push(item: T) {
+        items.append(item)
+    }
+    mutating func pop() -> T {
+        return items.removeLast()
+    }
+}
+```
+
+
+类型约束语法
+你可以写一个在一个类型参数名后面的类型约束，通过冒号分割，来作为类型参数链的一部分。这种作用于泛型函数的类型约束的基础语法如下所示（和泛型类型的语法相同）：
+
+
+```swift
+func someFunction<T: SomeClass, U: SomeProtocol>(someT: T, someU: U) {
+    // function body goes here
+}
+
+```
+
+上面这个假定函数有两个类型参数。第一个类型参数T，有一个需要T必须是SomeClass子类的类型约束；第二个类型参数U，有一个需要U必须遵循SomeProtocol协议的类型约束。
+
+
 ## 基本操作符（Basic operators）
 
 操作符，是一个编程语言中完成各种运算不可或缺的元素。Swift中的大部分操作符，都符合我们对各种运算的理解。因此，在这篇文档里，我们将带着大家快速过一遍Swift中的各种操作符，并对其中大家可能不太熟悉的部分，做一些特别的说明。
@@ -163,7 +315,7 @@ largeTuple1 == largeTuple2 // Error !!!
 
 这个最简单，我们之前已经用过多次，等号右边的值赋值给等号左边的变量：
 
-```
+```swift
 //: #### Basic assignment
 let a = 20
 var b = 10
@@ -172,7 +324,7 @@ var b = 10
 
 ### 基本算术运算操作符
 
-```
+```swift
 let sum = a + b
 let sub = a - b
 let mul = a * b
@@ -187,7 +339,7 @@ let mod = a % b
 
 Swift还支持把赋值和算数运算符组合起来：
 
-```
+```swift
 //: #### Compound assignment
 
 b += 10 // b = b + 10
@@ -206,7 +358,7 @@ b %= 10 // b = b % 10
 
 Swift支持以下常用的比较操作：
 
-```
+```swift
 //: #### Comparison
 let isEqual     = sum == 10
 let isNotEqual  = sum != 10
@@ -219,7 +371,7 @@ let isLe        = sum <= 10
 
 除此之外，Swift还支持两个用于比较对象引用的操作符：Identity operator，它们用来判断两个操作数是否引用同一个对象，我们在后面讲到面向对象编程的时候，会进一步提到这两个操作符。
 
-```
+```swift
 //: Identity operator
 
 //===
@@ -229,7 +381,7 @@ let isLe        = sum <= 10
 
 ### 三元操作符
 
-```
+```swift
 /*
 * if condition {
 *     expression1
@@ -250,7 +402,7 @@ let isSumEqualToTen = isEqual ? "Yes" : "No"
 
 这是一个Swift特有的操作符，用来处理和Optional有关的判断：
 
-```
+```swift
 // opt != nil ? opt! : b
 
 var userInput: String? = "A user input"
@@ -266,7 +418,7 @@ let value = userInput ?? "A default input"
 
 我们用下面的方式表达一个包含begin和end的闭区间：`begin ... end`：
 
-```
+```swift
 //: Closed range operator
 // begin...end
 
@@ -280,7 +432,7 @@ for index in 1...5 {
 
 我们用下面的方式表达一个[begin, end)的半开半闭区间：`begin ..< end`：
 
-```
+```swift
 //: Half-open range operator
 // begin..<end [begin, end)
 
@@ -294,7 +446,7 @@ for index in 1..<5 {
 
 Swift支持三种常用的逻辑运算：NOT，AND和OR。它们都返回一个`Bool`：
 
-```
+```swift
 //: #### Logic operator
 
 let logicalNot = !isEqual
@@ -302,6 +454,38 @@ let logicalAnd = isNotEqual && isLess
 let logicalOR  = isGreater  || (isLess && isLe)
 
 ```
+
+## 修饰符
+
+* open,public 对应的级别是该模块或者是引用了该模块的模块可以访问 即 a belong to A , B import A 这两种情况都可以对 a进行访问
+
+* public： 类用public(或级别更加等级更低的约束(如private等))修饰后只能在本模块（sdk）中被继承，如果public是修饰属性的话也是只能够被这个module(sdk)中的子类重写
+
+* open：用open修饰的类可以在本某块(sdk),或者其他引入本模块的(sdk,module)继承，如果是修饰属性的话可以被此模块或引入了此某块(sdk)的模块（sdk）所重写
+
+    * 这个元素可以在其他作用域被访问
+    * 这个元素可以在其他作用域被继承或者override
+
+* internal 是在模块内部可以访问，在模块外部不可以访问，a belong A , B import A, A 可以访问 a, B 不可以访问a.比如你写了一个sdk。那么这个sdk中有些东西你是不希望外界去访问他，这时候你就需要internal这个关键字（我在导入第三方框架时发现其实没有定义的话sdk里面是默认internal的）
+
+* fileprivate 这个修饰跟名字的含义很像，file private 就是文件之间是private的关系，也就是在同一个source文件中还是可以访问的，但是在其他文件中就不可以访问了  a belong to file A, a not belong to file B , 在 file A 中 可以访问 a，在 file B不可以访问a
+
+* private 这个修饰约束性比fileprivate的约束性更大，private 作用于某个类，也就是说，对于 class A ,如果属性a是private的，那么除了A外其他地方都不能访问了(fileprivate 和private都是一种对某个类的限制性约束。fileprivate的适用场景可以是某个文件下的extension，如果你的类中的变量定义成了private那么这个变量在你这个类在这个类的文件的拓展中就无法访问了，这时就需要定义为fileprivate)
+
+open
+
+open 修饰的 class 在 Module 内部和外部都可以被访问和继承
+open 修饰的 func 在 Module 内部和外部都可以被访问和重载（override）
+
+Public
+
+public 修饰的 class 在 Module 内部可以访问和继承，在外部只能访问
+public 修饰的 func 在 Module 内部可以被访问和重载（override）,在外部只能访问
+
+Final
+
+* final 修饰的 class 任何地方都不能不能被继承
+* final 修饰的 func 任何地方都不能被 Override
 
 
 ## 使用“Markdown方言”编写代码注释
@@ -328,14 +512,14 @@ let logicalOR  = isGreater  || (isLess && isLe)
 
 *   包含Markdown的单行注释用`//:`表示：
 
-```
+```swift
 //: # Heading 1
 
 ```
 
 *   包含Markdown的多行注释用下面的代码表示：
 
-```
+```swift
 /*:
   * item1
   * item2
@@ -356,7 +540,7 @@ let logicalOR  = isGreater  || (isLess && isLe)
 
 *   包含Markdown的单行注释用`///`表示：
 
-```
+```swift
 /// A **demo** function
 func demo() {}
 
@@ -364,7 +548,7 @@ func demo() {}
 
 *   包含Markdown的多行注释用下面的代码表示：
 
-```
+```swift
 /**
   * item1
   * item2
@@ -399,7 +583,7 @@ func demo1() {
 
 当我们用Playground告知开发者代码中的重要事项时，可以采用下面这种类似的方式进行注释：
 
-```
+```swift
 /*:
   > # IMPORTANT: something important you want to mention:
   A general descripiton here.
@@ -423,7 +607,7 @@ func demo1() {
 
 如果我们要把上面的注释放在项目代码里，出了要使用`/**`开始外，我们还要去掉第一行的`>`，因为Quick Help不支持这样的Markdown：
 
-```
+```swift©
 /**
   # IMPORTANT: something important you want to mention:
   A general descripiton here.
@@ -452,7 +636,7 @@ func demo1() {
 
 在新添加进来的page2和page3里，先分别添加一个标题注释以方便区分它们。然后我们可以看到，在Playground页面的头部和尾部，Xcode已经为我们自动添加了两个链接：
 
-```
+```swift
 //: [Previous](@previous)
 
 //: [Next](@next)
@@ -476,7 +660,7 @@ func demo1() {
 
 首先，把之前我们用过的注释块，抽象成一个内容模板：
 
-```
+```swift
 /*:
   > # IMPORTANT: <#something important#>
   <#General description#>
@@ -533,7 +717,7 @@ func demo1() {
 
 例如，我们创建一个包含整数的`struct IntArray`，在Playground里添加下面的注释：
 
-```
+```swift
 /*:
  `IntArray` is a C-like random access collection of integers.
 
@@ -602,14 +786,14 @@ func demo1() {
 
 如果我们要在上面`IntArray`里，添加一个“返回不包括末尾N个元素的IntArray”的方法：
 
-```
+```swift
 public func dropLast(_ n: Int) -> IntArray
 
 ```
 
 它的注释可以是这样的：
 
-```
+```swift
 /// Returns a subsequence containing all but the specified number of final
 /// elements.
 ///
@@ -688,5 +872,148 @@ if let index = mixStr.characters.index(of: "很") {
 ```
 
 #### Map函数
+
  map：可以对数组中的每一个元素做一次处理
 
+
+## enum、struct、class和protocol
+
+
+Swift主要为我们提供了以下四种”named types“ 分别是：enum、struct、class和protocol。相信熟悉iOS开发的同学们对于枚举、结构体和类的概念一点都不陌生。相比于前辈Objective-C中的这三者，Swift将enum和struct变得更加灵活且强大，并且赋予了他们很多和class相同的属性实现更加丰富多彩的功能，以至于有时候我们很难分清他们到底有什么区别以及我该什么时候用哪种类型，接下来本文将重点介绍一下在Swift中enum和struct的定义和新特性以及两者与class之间的异同，也是自己学习Swift以来的阶段性总结。
+
+* [Swift中enum、struct、class三者异同 - 简书](https://www.jianshu.com/p/78a6a4941516)
+
+
+## 结构体
+
+以上两点就是我们为Student结构体内部添加changeMath(num:)的原因，他让我们把类型相关的计算表现的更加自然和统一，即自己的事情应该用自己的方法实现不应该被别人关心。值得一提的是在结构体内部方法中如果修改了结构体的成员，那么该方法之前应该加入：mutating关键字。
+
+### 总结
+
+关于枚举、结构体的介绍这里仅仅是冰山一角，他们还有更加丰富的功能需要读者在阅读完本文后深入学习。了解这些基础内容，可以帮助我们在Swift开发中更熟练的使用他们。这里根据官方文档介绍结合自己的理解简单的做一下总结：
+
+枚举、结构体、类的共同点：
+
+1，定义属性和方法；
+2，下标语法访问值；
+3，初始化器；
+4，支持扩展增加功能；
+5，可以遵循协议；
+
+类特有的功能：
+
+1，继承；
+2，允许类型转换；
+3，析构方法释放资源；
+4，引用计数；
+
+类是引用类型
+* 引用类型(reference types，通常是类)被复制的时候其实复制的是一份引用，两份引用指向同一个对象。所以在修改一个实例的数据时副本的数据也被修改了(s1、s2)。
+* 枚举，结构体是值类型
+* 值类型(value types)的每一个实例都有一份属于自己的数据，在复制时修改一个实例的数据并不影响副本的数据(p1、p2)。值类型和引用类型是这三兄弟最本质的区别。
+
+#### 我该如何选择
+
+* 关于在新建一个类型时如何选择到底是使用值类型还是引用类型的问题其实在理解了两者之间的区别后是非常简单的，在这苹果官方已经做出了非常明确的指示（以下内容引自苹果官方文档）：
+
+* 当你使用Cocoa框架的时候，很多API都要通过NSObject的子类使用，所以这>时候必须要用到引用类型class。在其他情况下，有下面几个准则：
+* 什么时候该用值类型：
+    * 要用==运算符来比较实例的数据时
+    * 你希望那个实例的拷贝能保持独立的状态时
+    * 数据会被多个线程使用时
+
+* 什么时候该用引用类型（class）：
+    * 要用==运算符来比较实例身份的时候
+    * 你希望有创建一个共享的、可变对象的时候
+
+
+## 闭包
+
+
+* 闭包(Closures)是自包含的功能代码块，可以在代码中使用或者用来作为参数传值。
+
+* 说的通俗一点，一个函数加上它捕获的变量一起，才算一个closure
+
+* Swift 中的闭包与 C 和 Objective-C 中的代码块（blocks）以及其他一些编程语言中的 匿名函数比较相似。
+
+* 全局函数和嵌套函数其实就是特殊的闭包。
+
+* 闭包是函数的一种，匿名函数.
+
+
+
+```swift
+{(parameters) -> return type in
+   statements
+}
+```
+
+### 闭包的形式
+
+
+全局函数 | 嵌套函数 | 闭包表达式
+--- | --- | --- 
+有名字但不能捕获任何值 | 有名字，也能捕获封闭函数内的值。 | 无名闭包，使用轻量级语法，可以根据上下文环境捕获值。
+
+Swift中的闭包有很多优化的地方:
+
+* 根据上下文推断参数和返回值类型
+* 从单行表达式闭包中隐式返回（也就是闭包体只有一行代码，可以省略return）
+* 可以使用简化参数名，如$0, $1(从0开始，表示第i个参数...)
+* 提供了尾随闭包语法(Trailing closure syntax)
+
+```swift
+let divide = {(val1: Int, val2: Int) -> Int in 
+   return val1 / val2 
+}
+let result = divide(200, 20)
+print (result)
+```
+
+[Swift中闭包的简单使用 - 简书](https://www.jianshu.com/p/7c599b96815b)
+
+
+
+### 尾随闭包
+
+作为函数的最后一个入参的闭包。
+
+尾随闭包是一个书写在函数括号之后的闭包表达式，函数支持将其作为最后一个参数调用。
+
+
+### 闭包是引用类型
+
+
+上面的例子中，incrementByTen是常量，但是这些常量指向的闭包仍然可以增加其捕获的变量值。
+
+这是因为函数和闭包都是引用类型。
+
+无论您将函数/闭包赋值给一个常量还是变量，您实际上都是将常量/变量的值设置为对应函数/闭包的引用。 上面的例子中，incrementByTen指向闭包的引用是一个常量，而并非闭包内容本身。
+
+这也意味着如果您将闭包赋值给了两个不同的常量/变量，两个值都会指向同一个闭包：
+
+
+
+
+### 闭包和闭包expression
+
+
+* 闭包(Closures) = 函数+函数捕获的变量。
+
+* 闭包expression = 函数
+
+
+```swift
+
+//MARK: -closure expression就是函数的一种简写形式
+简单来说，closure expression就是函数的一种简写形式。例如，对于下面这个计算参数平方的函数：
+func add(num1: Int , num2 : Int) -> Int{
+    return  num1 * num2
+}
+
+//MARK: -  声明了方法
+var addExp :(Int,Int)-> (Int) = { (a,b) -> (Int) in
+    return a * b
+}
+
+```

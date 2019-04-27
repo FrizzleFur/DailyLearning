@@ -726,9 +726,11 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
 ![](http://upload-images.jianshu.io/upload_images/225323-9f80c1d60073bd39.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-[`oh-my-Zsh`](<https://github.com/robbyrussell/`oh-my-Zsh`)
+[`oh-my-Zsh`](<https://github.com/robbyrussell/oh-my-Zsh)
 
 ### zsh切换bash bash切换zsh
+
+
 1. `zsh`切换`bash`
 `chsh -s /bin/bash`
 2. `bash`切换`zsh`
@@ -764,7 +766,7 @@ Mac 和一般 Linux 默认的 shell 是 bash，一般人都觉得不好用，我
 `Zsh` 的目录跳转很智能，你无需输入 cd 就可直接输入路径即可。比如：.. 表示后退一级目录，../../ 表示后退两级，依次类推。
 在命令窗口中输入：d，将列出当前 `session` 访问过的所有目录，再按提示的数字即可进入相应目录。
 给 man 命令增加结果高亮显示：
-编辑配置文件：`vim ~/.Zshrc`，增加下面内容：
+编辑配置文件：`vim ~/.zshrc`，增加下面内容：
 
 ```
 # man context highlight
@@ -780,6 +782,8 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 刷新配置文件：source ~/.zshrc，重新查看 man 的命令就可以有高亮了。
 
 ### 2.7.更新oh-my-zsh
+
+
 [Linux终极shell-Z Shell-用强大的zsh & oh-my-zsh把Bash换掉](http://www.linuxdiyf.com/linux/24777.html)
 默认情况下, 您将被提示检查每几周的升级. 如果你想我ZSH自动升级本身没有提示你, 修改`~/.zshrc
 disable_update_prompt = true
@@ -794,6 +798,8 @@ upgrade_oh_my_zsh
 uninstall_oh_my_zsh zsh
  
 3.更多任性的功能, 速度来感受吧
+
+
 1]兼容 bash，原来使用 bash 的兄弟切换过来毫无压力，该咋用咋用。
 2]强大的历史纪录功能，输入 grep 然后用上下箭头可以翻阅你执行的所有 grep 命令。
 3]智能拼写纠正，输入gtep mactalk * -R，系统会提示：zsh: correct ‘gtep’ to ‘grep’ [nyae]? 比妹纸贴心吧，她们向来都是让你猜的……
