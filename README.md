@@ -106,6 +106,9 @@
 
 - [MASTER VUE.JS](https://vueschool.io/?utm_source=Vuejs.org&utm_medium=Banner&utm_campaign=Sponsored%20Banner&utm_content=V1)
 
+### Web
+
+[由腾讯IVWEB出品的《IVWEB技术周刊》](https://github.com/iv-web/weekly)
 
 ## Go
 
