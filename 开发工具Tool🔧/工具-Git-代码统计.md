@@ -1,10 +1,4 @@
-## Git统计
-
-# [git代码统计](https://segmentfault.com/a/1190000008542123)
-
-[](https://segmentfault.com/a/1190000008542123)
-
-*   [git](https://segmentfault.com/t/git/blogs)
+# 工具-Git-代码统计
 
 ## 命令行
 
@@ -278,11 +272,14 @@ cat(
 #> batch_read_agd(path_to_directory, tz="GMT")
 ```
 
-## [](https://github.com/hrbrmstr/cloc#cloc-metrics)
+## cloc Metrics
+
+[cloc Metrics](https://github.com/hrbrmstr/cloc#cloc-metrics)
 
 
 ## 参考文章
 
+* [git代码统计](https://segmentfault.com/a/1190000008542123)
 * [AlDanial/cloc: cloc counts blank lines, comment lines, and physical lines of source code in many programming languages.](https://github.com/AlDanial/cloc)
 * [hrbrmstr/cloc: 🔢 R package to the perl cloc script (which counts blank lines, comment lines, and physical lines of source code in source files/trees/archives)](https://github.com/hrbrmstr/cloc)
 * [git代码行统计命令集](http://www.jianshu.com/p/8fd14064c201)
