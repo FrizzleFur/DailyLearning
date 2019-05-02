@@ -91,7 +91,7 @@
 *   （12）目录操作时，“~” 表示 `用户主目录` ；
 *   （13）命令ln可以建立文件链接，这种链接分为： `硬链接` 和 `软链接` ；
 *   （14）命令touch可以改变文件的三种时间，分别是： `access time` 、 `modify time` 、 `change time` ；
-
+*   (15) `find . -name '.DS_Store' -type f -delete ` 递归删除.DS_Store类型文件。
 
 ### less 命令
 
