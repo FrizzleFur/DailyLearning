@@ -108,7 +108,11 @@
 
 ### Web
 
-[由腾讯IVWEB出品的《IVWEB技术周刊》](https://github.com/iv-web/weekly)
+* [由腾讯IVWEB出品的《IVWEB技术周刊》](https://github.com/iv-web/weekly)
+
+### 小程序
+
+* [微信小程序开发文档](https://www.w3cschool.cn/weixinapp/)
 
 ## Go
 
