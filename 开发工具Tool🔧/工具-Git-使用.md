@@ -247,4 +247,9 @@ git log
 
 ## 参考
 
-1. [git 为不同的项目设置不同的用户名和邮箱 - CSDN博客](https://blog.csdn.net/qq_2300688967/article/details/81094140)
+### 阮一峰老师的 Git 教程
+
+* [git-cheat-sheet](http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html)
+* [commit_message_change_log](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
+* [git_remote](http://www.ruanyifeng.com/blog/2014/06/git_remote.html)
+* [git 为不同的项目设置不同的用户名和邮箱 - CSDN博客](https://blog.csdn.net/qq_2300688967/article/details/81094140)
