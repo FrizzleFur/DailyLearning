@@ -1,8 +1,9 @@
 
 # CocoaPods 解析
 
+pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，Podfile.lock会锁定当前各依赖库的版本,。这样多人协作的时候，可以防止第三方库升级时造成大家各自的第三方库版本不一致.其中前者并不会修改 Podfile.lock 中显示指定的版本，**而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
+**
 
-最后想说的是 pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，其中前者并不会修改 Podfile.lock 中显示指定的版本，而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
 
 ## pod版本
 
@@ -27,6 +28,11 @@ In addition to the logic operators CocoaPods has an optimisic operator ~>:
 '~> 0.1.2' Version 0.1.2 and the versions up to 0.2, not including 0.2 and higher 0.2以下(不含0.2)，0.1.2以上（含0.1.2）
 '~> 0.1' Version 0.1 and the versions up to 1.0, not including 1.0 and higher 1.0以下(不含1.0)，0.1以上（含0.1）
 '~> 0' Version 0 and higher, this is basically the same as not having it. 0和以上，等于没有此约束
+
+
+## 总结
+
+pod install只会将Podfile的信息写入到Podfile.lock, 但是不修改Pods已安装的依赖库的版本信息。pod update不但会将Podfile的信息写入到Podfile.lock文件中, 还会更新Pods已安装的依赖库的版本信息。
 
 ## pod install
 
@@ -740,3 +746,8 @@ Podfile.lock的内容就会保证User1和User2会得到完全一样的pods，前
 
 所以只有一个方法来保证某项目的每个开发者都使用相同版本的库，就是每个电脑中都使用同样的Podfile.lock，并且合理使用pod install 和 pod update。
 
+
+
+## 参考
+
+* [Podfile.lock背后的那点事 | Startry Blog](http://blog.startry.com/2015/10/28/Somthing-about-Podfile-lock/)
