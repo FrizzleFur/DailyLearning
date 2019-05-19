@@ -747,7 +747,6 @@ Podfile.lock的内容就会保证User1和User2会得到完全一样的pods，前
 所以只有一个方法来保证某项目的每个开发者都使用相同版本的库，就是每个电脑中都使用同样的Podfile.lock，并且合理使用pod install 和 pod update。
 
 
-
 ## 参考
 
 * [Podfile.lock背后的那点事 | Startry Blog](http://blog.startry.com/2015/10/28/Somthing-about-Podfile-lock/)
