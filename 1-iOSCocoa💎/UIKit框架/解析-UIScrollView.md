@@ -117,7 +117,6 @@ CompositedPosition.y = View.frame.origin.y - Superview.bounds.origin.y;
 
 scrollViewDidScroll: 方法中，先获取 scrollView 的 panGestureRecognizer（拖拽/移动动作）手势，然后把手势滑动的相对偏移在当前 view 上转换成一个 point，最后根据 point 的 x 或 y 来判©断左右/上下滚动方向，代码如下：
 
-
 ```objc
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGPoint point = [scrollView.panGestureRecognizer translationInView:self.view];
