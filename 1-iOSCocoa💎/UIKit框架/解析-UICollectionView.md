@@ -174,6 +174,10 @@ _- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds_
 
 ## Layout
 
+[A Tour of UICollectionView - WWDC 2018 - Videos - Apple Developer](https://developer.apple.com/videos/play/wwdc2018/225/)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190522204022.png)
+
 ### 拖拽
 
 
