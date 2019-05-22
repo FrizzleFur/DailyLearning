@@ -170,3 +170,24 @@ _- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSInd
 _- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds_
 
 当`collectionView`的`bounds`改变的时候，我们需要告诉`collectionView`是否需要重新计算布局属性，通过这个方法返回是否需要重新计算的结果。简单的返回`YES`会导致我们的布局在每一秒都在进行不断的重绘布局，造成额外的计算任务。
+
+
+## Layout
+
+### 拖拽
+
+
+* [RACollectionViewReorderableTripletLayout](https://github.com/ra1028/RACollectionViewReorderableTripletLayout)
+
+
+拖拽API的实现
+
+[ios - UICollectionView, how to prevent one cell from being moved - Stack Overflow](https://stackoverflow.com/questions/47528344/uicollectionview-how-to-prevent-one-cell-from-being-moved)
+
+```swift
+    func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
+}
+```
+
+[uicollectionview - Preventing moving UICollectionViewCell by its center when dragging - Stack Overflow](https://stackoverflow.com/questions/40116282/preventing-moving-uicollectionviewcell-by-its-center-when-dragging)
+
