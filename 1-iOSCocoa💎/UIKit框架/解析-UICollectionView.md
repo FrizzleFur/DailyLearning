@@ -180,9 +180,16 @@ _- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds_
 
 ### 拖拽
 
+[现在，UICollectionViews有了简单的重排功能 - IOS - 伯乐在线](http://ios.jobbole.com/82403/)
+
+* beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)?开始在特定的索引路径上对cell（单元）进行Interactive Movement（交互式移动工作）。
+* updateInteractiveMovementTargetPosition(targetPosition: CGPoint)?在手势作用期间更新交互移动的目标位置。】
+* endInteractiveMovement()?在完成手势动作后，结束交互式移动
+* cancelInteractiveMovement()?取消Interactive Movement。
 
 * [RACollectionViewReorderableTripletLayout](https://github.com/ra1028/RACollectionViewReorderableTripletLayout)
 
+* [ObjC 中国 - Collection View 动画](https://objccn.io/issue-12-5/)
 
 拖拽API的实现
 
@@ -194,4 +201,5 @@ _- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds_
 ```
 
 [uicollectionview - Preventing moving UICollectionViewCell by its center when dragging - Stack Overflow](https://stackoverflow.com/questions/40116282/preventing-moving-uicollectionviewcell-by-its-center-when-dragging)
+[invalidationContextForInteractivelyMovingItems](https://www.jianshu.com/p/52336aa9fc2b)
 

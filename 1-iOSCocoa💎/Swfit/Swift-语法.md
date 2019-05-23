@@ -1028,3 +1028,170 @@ var addExp :(Int,Int)-> (Int) = { (a,b) -> (Int) in
 }
 
 ```
+
+##  Swift：细说实体访问等级
+
+Swift 有5种不同的访问等级，等级越高表示访问受限性越小。访问等级从高到低，由关键字依次表示为：
+open > public > internal > fileprivate > private。默认的访问等级是 internal
+模块与源文件
+Swift 中实体之间的访问是基于模块和源文件的，所以，首先了解一下 Swift 的模块与源文件：
+
+模块 (Module)
+一个模块是代码分布中一个单一的单元。比如一个能被其它模块通过 import 关键字导入的framework 或 程序
+在 Xcode 中，每一个 Target 都是一个独立的模块
+源文件 (Source file)
+这个很好理解，就是你工程里新建的代码文件
+
+区分访问等级
+
+open , public
+open 和 public 定义的实体可以被相同Module 中的源文件访问，也可以通过 import 其它Module ，被这些Module 的源文件访问。但 open 和 public是有区别的：
+open只作用于类和类成员
+除了 open，被其它4个关键字修饰的类，只能被相同 Module 中的其它类继承
+除了 open，被其它4个关键字修饰的类成员，只能被相同 Module 中的子类重写
+open 修饰的类，既可以被相同 Module 中的类继承，又可以被通过 import 导入的Module 中的类继承
+open 修饰的类成员，既可以被相同 Module 中的子类重写，又可以被通过 import 导入的Module 中的子类重写
+internal
+internal 定义的实体只能被相同 Module 中的源文件访问，但不能被其它Module 的源文件访问
+fileprivate
+fileprivate 定义的实体只能在它被定义的源文件中使用，如果你不想让别人知道某个功能的详细实现，使用fileprivate 来修饰这个方法，那么它的实现过程将被隐藏
+private
+private 定义的实体，只在它被定义的大括号{}内有效
+
+Swift 有5种不同的访问等级，等级越高表示访问受限性越小。访问等级从高到低，由关键字依次表示为：
+`open` > `public` > `internal` > `fileprivate` > `private`。**默认的访问等级是 `internal`**
+
+##### 模块与源文件
+
+Swift 中实体之间的访问是基于模块和源文件的，所以，首先了解一下 Swift 的模块与源文件：
+
+*   模块 (`Module`)
+
+*   一个模块是代码分布中一个单一的单元。比如一个能被其它模块通过 `import` 关键字导入的`framework` 或 程序
+
+*   在 Xcode 中，每一个 `Target` 都是一个独立的模块
+
+*   源文件 (`Source file`)
+
+*   这个很好理解，就是你工程里新建的代码文件
+
+##### 区分访问等级
+
+*   `open` , `public`
+    `open` 和 `public` 定义的实体可以被相同`Module` 中的源文件访问，也可以通过 `import` 其它`Module` ，被这些`Module` 的源文件访问。但 `open` 和 `public`是有区别的：
+
+*   `open`只作用于类和类成员
+
+*   除了 `open`，被其它4个关键字修饰的类，只能被相同 `Module` 中的其它类继承
+
+*   除了 `open`，被其它4个关键字修饰的类成员，只能被相同 `Module` 中的子类重写
+
+*   `open` 修饰的类，既可以被相同 `Module` 中的类继承，又可以被通过 `import` 导入的`Module` 中的类继承
+
+*   `open` 修饰的类成员，既可以被相同 `Module` 中的子类重写，又可以被通过 `import` 导入的`Module` 中的子类重写
+
+*   `internal`
+    `internal` 定义的实体只能被相同 `Module` 中的源文件访问，但不能被其它`Module` 的源文件访问
+
+*   `fileprivate`
+    `fileprivate` 定义的实体只能在它被定义的源文件中使用，如果你不想让别人知道某个功能的详细实现，使用`fileprivate` 来修饰这个方法，那么它的实现过程将被隐藏
+
+*   `private`
+    `private` 定义的实体，只在它被定义的大括号`{}`内有效
+
+##### 子类的访问等级
+
+子类的访问等级不能超过他的父类。但是对于里面可以重载的 **类成员**(属性，方法，构造器)，却有着独特的一面
+
+*   被子类重载的类成员，可以拥有比在父类里更高的访问等级，如下面的两个类，类 `B` 重载了父类的 `someMethod` 方法，并且赋予了它新的更高的访问等级 `internal`
+
+```
+public class A {
+      private func someMethod() {}
+}
+internal class B:A {
+      override internal func someMethod() {}
+}
+
+```
+
+*   子类成员可以调用父类成员，并且这个父类成员比这个子类成员的访问等级低。这个父类成员需要符合两条原则：父类和子类定义在**相同的源文件**中，对于**父类的`private`成员**；父类和子类定义在**相同的`Module`** 中，对于**父类的 `internal` 成员**
+
+```
+//两个类在相同的源文件中
+public class A {
+      private func someMethod() {}
+}
+internal class B:A {
+      override internal func someMethod() {
+         super.someMethod()
+      }
+}
+
+```
+
+##### Getter 与 Setter
+
+`getter` 与 `setter` 默认和原属性访问等级相同，但是Swift 允许我们给 `setter` 设置比原属性低的访问等级，这样可以起到有效的 **读写保护**。语法是，在 `var`前写上`fileprivate(set)`, `private(set)` 或 `internal(set)`（`set` 可以换成 `get`）
+
+```
+struct TrackedString {
+    private(set) var numberOfEdits = 0 //记录 value 被修改的次数
+    var value: String = "" {
+        didSet {
+           numberOfEdits += 1          //每次 value 被修改之后，numberOfEdits 都会自动加1
+        }
+    }
+}
+
+```
+
+上面的函数中，我们单独设置了变量 `numberOfEdits` 的`setter`为 `private`，而 `getter` 的访问等级依然是 `internal` （注意：`internal` 可以显式的写在`private(set)` 前）。这样，在外部 `numberOfEdits` 呈现出了 `read-only` 的属性而不能被修改，因为它只能在被定义的大括号`{}` 区域内被修改。
+
+```
+var stringToEdit = TrackedString()
+stringToEdit.value = "Value changed once"
+stringToEdit.value = "Value changed twice"
+stringToEdit.value = "Value changed three times"
+print("The number of edits is \(stringToEdit.numberOfEdits)") // 打印出 "The number of edits is 3"
+
+```
+
+##### 枚举的访问等级
+
+如果一个枚举的访问等级为 `public`(或其它)，那么它的`case` 会自动接收相同的 `public`(或其它) 访问等级。并且你不能给 `case` 指定访问等级，它只能随从它所属的枚举。
+
+##### 嵌套类型的访问等级
+
+嵌套类型的访问等级，基本呈现出逐层降低的现象
+
+*   在 `private` 类型里定义的嵌套，自动为 `private`
+*   在 `fileprivate`类型里定义的嵌套，自动为 `private`
+*   在 `public` 或 `internal`类型里定义的嵌套，自动为 `internal`。另外，如果你想把一个在 `public` 里定义的嵌套变为公有的，那么你需要显示声明这个嵌套为 `public`
+
+##### 元组的访问等级
+
+元组类型的访问等级比较严格，如果它由两个不同类型组成，一个是 `private` ,一个是`internal`，那么它们组合成的元组类型的访问等级将是 `private`
+
+##### 定义访问等级的原则
+
+定义一个实体时，这个实体的访问等级，不能高于它所参照的实体的访问等级 :
+
+*   一个公共变量，不能被定义为`internal`, `fileprivate` 或 `private`类型，因为在这个公共变量使用的地方，这些类型并不一定都是有效的
+*   一个函数的访问等级，不能高于它的参数类型和返回类型的访问等级，比如下面的函数，分析一下，该用哪种访问等级 ？
+
+```
+func someFunction() -> (SomeInternalClass, SomePrivateClass) {
+    // function implementation goes here
+}
+
+```
+
+可以看到，它的返回类型是个元组类型，这个元组类型最终的访问等级将是`private`(至于为什么会是`private` 请参考上面的**元组的访问等级**)。根据原则，这个函数要使用 `private` 修饰。
+
+```
+private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
+    // function implementation goes here
+}
+
+```
