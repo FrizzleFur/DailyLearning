@@ -164,7 +164,72 @@ r 只会取代光标所在的那一个字符一次；R会一直取代光标所�
 
 [](https://www.runoob.com/linux/linux-filesystem.html)
 
+
+
+## Vim for xcode
+
+XVim 是 Xcode 中的 Vim 插件，旨在 Xcode 中提供 Vim 式的操作方式。
+
+
+### 签署 Xcode
+
+1.  关闭 Xcode
+2.  打开 **钥匙串访问**
+
+    *   选择 `钥匙串访问` -> `证书助理` -> `创建证书`
+
+        *   名称：XcodeSigner（可随意）
+        *   身份类型：自签名根证书
+        *   证书类型：代码签名 
+3.  重新签署 Xcode
+
+    # XcodeSigner 为创建证书时输入的名称
+    sudo codesign -f -s XcodeSigner /Applications/Xcode.app 
+
+等待……
+
+
+### 安装 XVim2
+
+# 确认 Xcode 指向 /Applications/Xcode.app/Contents/Developer
+xcode-select -p
+
+# 下载 XVim2
+git clone https://github.com/XVimProject/XVim2.git
+
+# 下载完毕后，进入目录
+cd xvim2
+
+# 安装
+make
+
+安装完成后显示 **BUILD SUCCEEDED **即表示安装成功；然后打开 Xcode 提示 `Unexpected code bundle "XXVim2.xcpplugin`，选择 `Load Bundle` 即可。
+
+### 最后
+
+如果加载时不小心选择了 `Skip Bundle`，需要重新安装：
+
+# 最后的 X.X，需改成当前 Xcode 的具体版本
+defaults delete  com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-X.X
+
+另：可在 Xcode 中的 `Edit` -> `XVim` 关闭或启用。
+
+## 信息
+
+### 版本
+
+*   macOS：Mojave 10.14.2
+*   Xcode：10.1 (10B61)
+*   XVim2：3b07505cb4fd52cd16a571fd7bdb54106a5653e3
+
 ## 参考
 
 1. [Linux vi/vim | 菜鸟教程](https://www.runoob.com/linux/linux-vim.html)
-2. []()
+
+
+### XVim参考
+
+
+* [记：在 Xcode 10 中安装 XVim2 - 风萧萧](https://note.wuze.me/xvim2)
+*   [XVimProject/XVim2: Vim key-bindings for Xcode 9](https://github.com/XVimProject/XVim2)
+*   [XVim2/SIGNING_Xcode.md at master · XVimProject/XVim2](https://github.com/XVimProject/XVim2/blob/master/SIGNING_Xcode.md)

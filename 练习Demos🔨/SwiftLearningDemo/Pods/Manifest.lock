@@ -1,0 +1,37 @@
+PODS:
+  - Alamofire (4.8.0)
+  - Kingfisher (5.0.1)
+  - pop (1.0.12)
+  - RxCocoa (4.3.1):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.3.1)
+  - Swinject (2.5.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - Kingfisher
+  - pop
+  - RxCocoa (= 4.3.1)
+  - RxSwift (= 4.3.1)
+  - Swinject
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Kingfisher
+    - pop
+    - RxCocoa
+    - RxSwift
+    - Swinject
+
+SPEC CHECKSUMS:
+  Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  Kingfisher: 4f771421b9208185217550528a06fd48756cb7c2
+  pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
+  RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
+  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  Swinject: 82cdb851f63f91bba974e3eca1d69780f2f7677e
+
+PODFILE CHECKSUM: 48882b262081c5daa840b40bc47e221d4d6e525f
+
+COCOAPODS: 1.5.3
