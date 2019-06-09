@@ -113,10 +113,40 @@ CompositedPosition.y = View.frame.origin.y - Superview.bounds.origin.y;
 @property(nonatomic,retain) UIColor *currentPageIndicatorTintColor;
 ```
 
+## 滚动方向
+
+scrollViewDidScroll: 方法中，先获取 scrollView 的 panGestureRecognizer（拖拽/移动动作）手势，然后把手势滑动的相对偏移在当前 view 上转换成一个 point，最后根据 point 的 x 或 y 来判©断左右/上下滚动方向，代码如下：
+
+```objc
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGPoint point = [scrollView.panGestureRecognizer translationInView:self.view];
+    if (point.y > 0) {
+        // 向下滚动
+    } else {
+        // 向上滚动
+    }
+}
+```
+老方法：
+
+```objc
+// @property (nonatomic, assign) CGFloat lastContentOffset;
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.lastContentOffset > scrollView.contentOffset.y) {
+        // 向下滚动
+    } else if (self.lastContentOffset < scrollView.contentOffset.y) {
+        // 向上滚动
+    }
+    self.lastContentOffset = scrollView.contentOffset.y;
+}
+```
+
+
 
 ## 减速速率
 
-UIScrollViewDecelerationRate
+`UIScrollViewDecelerationRate`
 
 decelerationRate: 手指滑动后抬起，页面的减速速率。可以使用UIScrollViewDecelerationRateNormal和UIScrollViewDecelerationRateFast常量值来设置合理的减速速率。
 
@@ -129,6 +159,8 @@ typedef CGFloat UIScrollViewDecelerationRate NS_TYPED_ENUM;
 UIKIT_EXTERN const UIScrollViewDecelerationRate UIScrollViewDecelerationRateNormal NS_AVAILABLE_IOS(3_0);
 UIKIT_EXTERN const UIScrollViewDecelerationRate UIScrollViewDecelerationRateFast NS_AVAILABLE_IOS(3_0);
 ```
+
+
 
 ## 问题
 

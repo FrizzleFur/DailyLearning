@@ -886,31 +886,51 @@ Swift主要为我们提供了以下四种”named types“ 分别是：enum、st
 
 ## 结构体
 
-以上两点就是我们为Student结构体内部添加changeMath(num:)的原因，他让我们把类型相关的计算表现的更加自然和统一，即自己的事情应该用自己的方法实现不应该被别人关心。值得一提的是在结构体内部方法中如果修改了结构体的成员，那么该方法之前应该加入：mutating关键字。
+### 结构体应用
+* 在你的代码中，你可以使用结构体来定义你的自定义数据类型。
+
+* 结构体实例总是通过值传递来定义你的自定义数据类型。
+
+* 按照通用的准则，当符合一条或多条以下条件时，请考虑构建结构体：
+
+* 结构体的主要目的是用来封装少量相关简单数据值。
+* 有理由预计一个结构体实例在赋值或传递时，封装的数据将会被拷贝而不是被引用。
+* 任何在结构体中储存的值类型属性，也将会被拷贝，而不是被引用。
+* 结构体不需要去继承另一个已存在类型的属性或者行为。
+* 举例来说，以下情境中适合使用结构体：
+
+* 几何形状的大小，封装一个width属性和height属性，两者均为Double类型。
+* 一定范围内的路径，封装一个start属性和length属性，两者均为Int类型。
+* 三维坐标系内一点，封装x，y和z属性，三者均为Double类型。
+* 结构体实例是通过值传递而不是通过引用传递。
+
+* 以上两点就是我们为Student结构体内部添加changeMath(num:)的原因，他让我们把类型相关的计算表现的更加自然和统一，即自己的事情应该用自己的方法实现不应该被别人关心。值得一提的是在结构体内部方法中如果修改了结构体的成员，那么该方法之前应该加入：mutating关键字。
 
 ### 总结
 
 关于枚举、结构体的介绍这里仅仅是冰山一角，他们还有更加丰富的功能需要读者在阅读完本文后深入学习。了解这些基础内容，可以帮助我们在Swift开发中更熟练的使用他们。这里根据官方文档介绍结合自己的理解简单的做一下总结：
 
-枚举、结构体、类的共同点：
+**枚举、结构体、类的共同点：**
 
-1，定义属性和方法；
-2，下标语法访问值；
-3，初始化器；
-4，支持扩展增加功能；
-5，可以遵循协议；
+1. 定义属性和方法；
+2. 下标语法访问值；
+3. 初始化器；
+4. 支持扩展增加功能；
+5. 可以遵循协议；
 
-类特有的功能：
+**类特有的功能：**
 
-1，继承；
-2，允许类型转换；
-3，析构方法释放资源；
-4，引用计数；
+1. 继承；
+2. 允许类型转换；
+3. 析构方法释放资源；
+4. 引用计数；
 
-类是引用类型
+**类是引用类型**
+
 * 引用类型(reference types，通常是类)被复制的时候其实复制的是一份引用，两份引用指向同一个对象。所以在修改一个实例的数据时副本的数据也被修改了(s1、s2)。
-* 枚举，结构体是值类型
+* 枚举，**结构体是值类型**
 * 值类型(value types)的每一个实例都有一份属于自己的数据，在复制时修改一个实例的数据并不影响副本的数据(p1、p2)。值类型和引用类型是这三兄弟最本质的区别。
+
 
 #### 我该如何选择
 
@@ -918,29 +938,23 @@ Swift主要为我们提供了以下四种”named types“ 分别是：enum、st
 
 * 当你使用Cocoa框架的时候，很多API都要通过NSObject的子类使用，所以这>时候必须要用到引用类型class。在其他情况下，有下面几个准则：
 * 什么时候该用值类型：
-    * 要用==运算符来比较实例的数据时
-    * 你希望那个实例的拷贝能保持独立的状态时
-    * 数据会被多个线程使用时
+    * 要用==运算符来比较实例的**数据**时
+    * **你希望那个实例的拷贝能保持独立的状态时**
+    * **数据会被多个线程使用时**
 
 * 什么时候该用引用类型（class）：
-    * 要用==运算符来比较实例身份的时候
+    * 要用==运算符来比较实例**身份**的时候
     * 你希望有创建一个共享的、可变对象的时候
 
 
 ## 闭包
 
-
+* 闭包是引用类型
 * 闭包(Closures)是自包含的功能代码块，可以在代码中使用或者用来作为参数传值。
-
 * 说的通俗一点，一个函数加上它捕获的变量一起，才算一个closure
-
 * Swift 中的闭包与 C 和 Objective-C 中的代码块（blocks）以及其他一些编程语言中的 匿名函数比较相似。
-
 * 全局函数和嵌套函数其实就是特殊的闭包。
-
 * 闭包是函数的一种，匿名函数.
-
-
 
 ```swift
 {(parameters) -> return type in
@@ -949,7 +963,6 @@ Swift主要为我们提供了以下四种”named types“ 分别是：enum、st
 ```
 
 ### 闭包的形式
-
 
 全局函数 | 嵌套函数 | 闭包表达式
 --- | --- | --- 
@@ -993,8 +1006,6 @@ print (result)
 这也意味着如果您将闭包赋值给了两个不同的常量/变量，两个值都会指向同一个闭包：
 
 
-
-
 ### 闭包和闭包expression
 
 
@@ -1014,6 +1025,173 @@ func add(num1: Int , num2 : Int) -> Int{
 //MARK: -  声明了方法
 var addExp :(Int,Int)-> (Int) = { (a,b) -> (Int) in
     return a * b
+}
+
+```
+
+##  Swift：细说实体访问等级
+
+Swift 有5种不同的访问等级，等级越高表示访问受限性越小。访问等级从高到低，由关键字依次表示为：
+open > public > internal > fileprivate > private。默认的访问等级是 internal
+模块与源文件
+Swift 中实体之间的访问是基于模块和源文件的，所以，首先了解一下 Swift 的模块与源文件：
+
+模块 (Module)
+一个模块是代码分布中一个单一的单元。比如一个能被其它模块通过 import 关键字导入的framework 或 程序
+在 Xcode 中，每一个 Target 都是一个独立的模块
+源文件 (Source file)
+这个很好理解，就是你工程里新建的代码文件
+
+区分访问等级
+
+open , public
+open 和 public 定义的实体可以被相同Module 中的源文件访问，也可以通过 import 其它Module ，被这些Module 的源文件访问。但 open 和 public是有区别的：
+open只作用于类和类成员
+除了 open，被其它4个关键字修饰的类，只能被相同 Module 中的其它类继承
+除了 open，被其它4个关键字修饰的类成员，只能被相同 Module 中的子类重写
+open 修饰的类，既可以被相同 Module 中的类继承，又可以被通过 import 导入的Module 中的类继承
+open 修饰的类成员，既可以被相同 Module 中的子类重写，又可以被通过 import 导入的Module 中的子类重写
+internal
+internal 定义的实体只能被相同 Module 中的源文件访问，但不能被其它Module 的源文件访问
+fileprivate
+fileprivate 定义的实体只能在它被定义的源文件中使用，如果你不想让别人知道某个功能的详细实现，使用fileprivate 来修饰这个方法，那么它的实现过程将被隐藏
+private
+private 定义的实体，只在它被定义的大括号{}内有效
+
+Swift 有5种不同的访问等级，等级越高表示访问受限性越小。访问等级从高到低，由关键字依次表示为：
+`open` > `public` > `internal` > `fileprivate` > `private`。**默认的访问等级是 `internal`**
+
+##### 模块与源文件
+
+Swift 中实体之间的访问是基于模块和源文件的，所以，首先了解一下 Swift 的模块与源文件：
+
+*   模块 (`Module`)
+
+*   一个模块是代码分布中一个单一的单元。比如一个能被其它模块通过 `import` 关键字导入的`framework` 或 程序
+
+*   在 Xcode 中，每一个 `Target` 都是一个独立的模块
+
+*   源文件 (`Source file`)
+
+*   这个很好理解，就是你工程里新建的代码文件
+
+##### 区分访问等级
+
+*   `open` , `public`
+    `open` 和 `public` 定义的实体可以被相同`Module` 中的源文件访问，也可以通过 `import` 其它`Module` ，被这些`Module` 的源文件访问。但 `open` 和 `public`是有区别的：
+
+*   `open`只作用于类和类成员
+
+*   除了 `open`，被其它4个关键字修饰的类，只能被相同 `Module` 中的其它类继承
+
+*   除了 `open`，被其它4个关键字修饰的类成员，只能被相同 `Module` 中的子类重写
+
+*   `open` 修饰的类，既可以被相同 `Module` 中的类继承，又可以被通过 `import` 导入的`Module` 中的类继承
+
+*   `open` 修饰的类成员，既可以被相同 `Module` 中的子类重写，又可以被通过 `import` 导入的`Module` 中的子类重写
+
+*   `internal`
+    `internal` 定义的实体只能被相同 `Module` 中的源文件访问，但不能被其它`Module` 的源文件访问
+
+*   `fileprivate`
+    `fileprivate` 定义的实体只能在它被定义的源文件中使用，如果你不想让别人知道某个功能的详细实现，使用`fileprivate` 来修饰这个方法，那么它的实现过程将被隐藏
+
+*   `private`
+    `private` 定义的实体，只在它被定义的大括号`{}`内有效
+
+##### 子类的访问等级
+
+子类的访问等级不能超过他的父类。但是对于里面可以重载的 **类成员**(属性，方法，构造器)，却有着独特的一面
+
+*   被子类重载的类成员，可以拥有比在父类里更高的访问等级，如下面的两个类，类 `B` 重载了父类的 `someMethod` 方法，并且赋予了它新的更高的访问等级 `internal`
+
+```
+public class A {
+      private func someMethod() {}
+}
+internal class B:A {
+      override internal func someMethod() {}
+}
+
+```
+
+*   子类成员可以调用父类成员，并且这个父类成员比这个子类成员的访问等级低。这个父类成员需要符合两条原则：父类和子类定义在**相同的源文件**中，对于**父类的`private`成员**；父类和子类定义在**相同的`Module`** 中，对于**父类的 `internal` 成员**
+
+```
+//两个类在相同的源文件中
+public class A {
+      private func someMethod() {}
+}
+internal class B:A {
+      override internal func someMethod() {
+         super.someMethod()
+      }
+}
+
+```
+
+##### Getter 与 Setter
+
+`getter` 与 `setter` 默认和原属性访问等级相同，但是Swift 允许我们给 `setter` 设置比原属性低的访问等级，这样可以起到有效的 **读写保护**。语法是，在 `var`前写上`fileprivate(set)`, `private(set)` 或 `internal(set)`（`set` 可以换成 `get`）
+
+```
+struct TrackedString {
+    private(set) var numberOfEdits = 0 //记录 value 被修改的次数
+    var value: String = "" {
+        didSet {
+           numberOfEdits += 1          //每次 value 被修改之后，numberOfEdits 都会自动加1
+        }
+    }
+}
+
+```
+
+上面的函数中，我们单独设置了变量 `numberOfEdits` 的`setter`为 `private`，而 `getter` 的访问等级依然是 `internal` （注意：`internal` 可以显式的写在`private(set)` 前）。这样，在外部 `numberOfEdits` 呈现出了 `read-only` 的属性而不能被修改，因为它只能在被定义的大括号`{}` 区域内被修改。
+
+```
+var stringToEdit = TrackedString()
+stringToEdit.value = "Value changed once"
+stringToEdit.value = "Value changed twice"
+stringToEdit.value = "Value changed three times"
+print("The number of edits is \(stringToEdit.numberOfEdits)") // 打印出 "The number of edits is 3"
+
+```
+
+##### 枚举的访问等级
+
+如果一个枚举的访问等级为 `public`(或其它)，那么它的`case` 会自动接收相同的 `public`(或其它) 访问等级。并且你不能给 `case` 指定访问等级，它只能随从它所属的枚举。
+
+##### 嵌套类型的访问等级
+
+嵌套类型的访问等级，基本呈现出逐层降低的现象
+
+*   在 `private` 类型里定义的嵌套，自动为 `private`
+*   在 `fileprivate`类型里定义的嵌套，自动为 `private`
+*   在 `public` 或 `internal`类型里定义的嵌套，自动为 `internal`。另外，如果你想把一个在 `public` 里定义的嵌套变为公有的，那么你需要显示声明这个嵌套为 `public`
+
+##### 元组的访问等级
+
+元组类型的访问等级比较严格，如果它由两个不同类型组成，一个是 `private` ,一个是`internal`，那么它们组合成的元组类型的访问等级将是 `private`
+
+##### 定义访问等级的原则
+
+定义一个实体时，这个实体的访问等级，不能高于它所参照的实体的访问等级 :
+
+*   一个公共变量，不能被定义为`internal`, `fileprivate` 或 `private`类型，因为在这个公共变量使用的地方，这些类型并不一定都是有效的
+*   一个函数的访问等级，不能高于它的参数类型和返回类型的访问等级，比如下面的函数，分析一下，该用哪种访问等级 ？
+
+```
+func someFunction() -> (SomeInternalClass, SomePrivateClass) {
+    // function implementation goes here
+}
+
+```
+
+可以看到，它的返回类型是个元组类型，这个元组类型最终的访问等级将是`private`(至于为什么会是`private` 请参考上面的**元组的访问等级**)。根据原则，这个函数要使用 `private` 修饰。
+
+```
+private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
+    // function implementation goes here
 }
 
 ```

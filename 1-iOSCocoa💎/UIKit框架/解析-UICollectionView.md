@@ -170,3 +170,36 @@ _- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSInd
 _- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds_
 
 当`collectionView`的`bounds`改变的时候，我们需要告诉`collectionView`是否需要重新计算布局属性，通过这个方法返回是否需要重新计算的结果。简单的返回`YES`会导致我们的布局在每一秒都在进行不断的重绘布局，造成额外的计算任务。
+
+
+## Layout
+
+[A Tour of UICollectionView - WWDC 2018 - Videos - Apple Developer](https://developer.apple.com/videos/play/wwdc2018/225/)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190522204022.png)
+
+### 拖拽
+
+[现在，UICollectionViews有了简单的重排功能 - IOS - 伯乐在线](http://ios.jobbole.com/82403/)
+
+* beginInteractiveMovementForItemAtIndexPath(indexPath: NSIndexPath)?开始在特定的索引路径上对cell（单元）进行Interactive Movement（交互式移动工作）。
+* updateInteractiveMovementTargetPosition(targetPosition: CGPoint)?在手势作用期间更新交互移动的目标位置。】
+* endInteractiveMovement()?在完成手势动作后，结束交互式移动
+* cancelInteractiveMovement()?取消Interactive Movement。
+
+* [RACollectionViewReorderableTripletLayout](https://github.com/ra1028/RACollectionViewReorderableTripletLayout)
+
+* [ObjC 中国 - Collection View 动画](https://objccn.io/issue-12-5/)
+
+拖拽API的实现
+
+[ios - UICollectionView, how to prevent one cell from being moved - Stack Overflow](https://stackoverflow.com/questions/47528344/uicollectionview-how-to-prevent-one-cell-from-being-moved)
+
+```swift
+    func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
+}
+```
+
+[uicollectionview - Preventing moving UICollectionViewCell by its center when dragging - Stack Overflow](https://stackoverflow.com/questions/40116282/preventing-moving-uicollectionviewcell-by-its-center-when-dragging)
+[invalidationContextForInteractivelyMovingItems](https://www.jianshu.com/p/52336aa9fc2b)
+
