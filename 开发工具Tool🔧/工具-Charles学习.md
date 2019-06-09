@@ -71,23 +71,23 @@
 
 在`Charles`中可以像调试程序一样添加断点。方法是右键点击左侧窗口的某个请求，选择`BreakPoints`添加断点。这样当这个请求发出或者收到`response`的时候，就会先被`Charles`拦截下来，并触发断点。
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-16-14975811405296.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-16-14975811405296.jpg)
 
 触发断点后，可以对断点的网络包进行各种编辑，然后再继续。点击`Execute`就可以继续。
 
 同时，也可以在`Proxy -> BreakPoints Setting`设置断点的各种规则。例如，是在`request`的时候触发还是 `response`的时候。
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-16-14975811567801.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-16-14975811567801.jpg)
 
 由于设置断点时，`Charles`是先拦截下整个网络包，再触发断点，当网络包比较大的时候，常常会导致应用超时，触发网络错误的警告，因此，自动地根据规则修改网络包有时显得尤为重要。这就是下面要说的篡改。
 
 拦截后可以修改`post`参数
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-16-14975814097323.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-16-14975814097323.jpg)
 
 然后可以修改`Response`，不用去麻烦测试修改数据，很爽有木有~
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-16-14975818540454.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-16-14975818540454.jpg)
 
 下面要介绍的就是直接`Rewrite`了啦~
 
@@ -103,7 +103,7 @@
 
 首先要在右侧的规则列表中添加一个新规则。在新规则中添加要`Rewrite`的`Location`，然后再下方添加具体的篡改规则。规则中可以使用通配符。
 
-![](http://oc98nass3.bkt.clouddn.com/2017-06-16-14975830449452.jpg)
+![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/2017-06-16-14975830449452.jpg)
 
 这样稍后匹配条件的网络包到达的时候，`Charles`就会自动将其中的内容按规则篡改。
 
@@ -127,7 +127,7 @@
 
 在`Proxy -> Throttle Settings` 中，添加要针对的`Locations`，如果选中`Only for selected hosts`，并且`Locations`中有数据，则只有 `Locations`列表中的请求会被限速，否则会对全局限速。在`Throttle Configuration`中可以对网络环境进行十分详细的配置，包括网络的稳定程度、网速、环境等。
 
-![Throttle Setting.jpg](http://oc98nass3.bkt.clouddn.com/15274446735157.jpg)
+![Throttle Setting.jpg](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15274446735157.jpg)
 
 ### HTTPS 代理
 
@@ -135,7 +135,7 @@
 
 要启用 `SSL` 代理，先要在 `Proxy -> SSL Proxying Settings` 中勾选 `Enable SSL Proxying`，然后配置要代理的 `Location`，一般可以直接填星号，以匹配所有请求。
 
-![SSL 代理设置.jpg](http://oc98nass3.bkt.clouddn.com/15274447179251.jpg)接下来还要安装 Charles 的证书。
+![SSL 代理设置.jpg](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15274447179251.jpg)接下来还要安装 Charles 的证书。
 
 `Charles`中的`HTTPS`代理的原理是，`Charles` 充当一个中间人，针对目标服务器动态地生成一个使用`Charles`根证书（Charles CA Certificate）签名的证书；请求发生的时候， `Charles`会接收web 服务器的证书，而把自己生成的证书给客户端看。
 
@@ -147,11 +147,11 @@
 
 2、如果是`iOS`真机，则会弹出下面的提示，此时不用按上面的提示来配置代理，只要按照上文的步骤配置过代理了就可以了。然后在`Safari`中打开`chls.pro/ssl`安装`Charles`的证书，就 OK 了。
 
-![提示.jpg](http://oc98nass3.bkt.clouddn.com/15274447915315.jpg)
+![提示.jpg](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15274447915315.jpg)
 
 设置好 `SSL` 代理后，`HTTPS` 请求就统统解锁啦！
 
-![SSL 代理设置完成后.jpg](http://oc98nass3.bkt.clouddn.com/15274447540047.jpg)注意：iOS9以上系统要使用 Charles 作为 SSL 代理的话要关闭 APP Transport Security ，关闭方法为在APP的info.plist文件添加以下key：
+![SSL 代理设置完成后.jpg](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15274447540047.jpg)注意：iOS9以上系统要使用 Charles 作为 SSL 代理的话要关闭 APP Transport Security ，关闭方法为在APP的info.plist文件添加以下key：
 
 ```xml
 <key>NSAppTransportSecurity</key>
@@ -170,7 +170,7 @@ Charles 是一个强大的抓包调试工具，它的功能远不止这些，但
 
 `Postman`是一个测试`API`的利器。
 
-![Postman.png](http://oc98nass3.bkt.clouddn.com/15274446343146.jpg)
+![Postman.png](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15274446343146.jpg)
 `Charles`搭配`Postman`更好用噢~
 `Postman`是`Chrome`浏览器中的一个小应用，可以在`Chrome`应用商城中找到。是居家旅行测试`Web API`的好帮手！
 

@@ -697,8 +697,6 @@ POWERLEVEL9K_MODE='awesome-fontconfig'
 [Install Instructions · bhilburn/powerlevel9k Wiki](https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#option-3-install-awesome-powerline-fonts)
 
 
-![DefaultFontFallbacks](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/DefaultFontFallbacks.jpg)
-
 参考
 * [install-awesome-powerline-fonts](https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#option-3-install-awesome-powerline-fonts)
 * [定制一款漂亮的终端 - 简书](https://www.jianshu.com/p/8c3f7345aef2)
