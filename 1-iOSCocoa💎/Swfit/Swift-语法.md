@@ -1189,9 +1189,8 @@ func someFunction() -> (SomeInternalClass, SomePrivateClass) {
 
 可以看到，它的返回类型是个元组类型，这个元组类型最终的访问等级将是`private`(至于为什么会是`private` 请参考上面的**元组的访问等级**)。根据原则，这个函数要使用 `private` 修饰。
 
-```
+```swift
 private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
     // function implementation goes here
 }
-
 ```
