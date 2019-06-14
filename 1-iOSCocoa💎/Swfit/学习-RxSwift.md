@@ -1,6 +1,11 @@
 # 学习-RxSwift
 
 
+## 写代码熟悉RxSwift
+
+一些好用的用法：
+1. bind(to:), 使用bind(to:),可以将一些不同的RxCocoa的信号关联起来，如一个UILabel监听UITextField的文本输入，可以将UITextField的信号绑定在UILabel上，直接更新UILabel
+
 
 ## RxSwift 的作用
 
