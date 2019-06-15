@@ -245,6 +245,50 @@ git log
 
 
 
+*   **[1] 不要覆盖本地修改的代码**
+
+如果你想保留刚才本地修改的代码，并把 `Git` 远程服务器上的代码 `pull` 到本地。可以使用 `stash`命令将本地刚才修改的代码暂时封存起来，用的时候使用 `pop` 即可，这也是线上常规修复 `Bug` 的常用方式。
+
+如此一来，再将远程服务器上的代码更新到了本地，此时你本地修改的代码也没有被覆盖，而是被暂时封存起来了。之后使用 `add`、 `commit`、 `push` 命令，即可更新本地代码到远程服务器了。
+
+
+```
+# 1.将本地代码暂时封存起来
+$ git stash
+
+# 2.同步远程服务器的代码
+$ git pull origin master
+
+# 3.将本地暂存的代码弹出，这里也可以直接删除
+$ git stash pop
+```
+
+
+## Git stash 
+
+ **[1] 不要覆盖本地修改的代码**
+
+如果你想保留刚才本地修改的代码，并把 `Git` 远程服务器上的代码 `pull` 到本地。可以使用 `stash`命令将本地刚才修改的代码暂时封存起来，用的时候使用 `pop` 即可，这也是线上常规修复 `Bug` 的常用方式。
+
+如此一来，再将远程服务器上的代码更新到了本地，此时你本地修改的代码也没有被覆盖，而是被暂时封存起来了。之后使用 `add`、 `commit`、 `push` 命令，即可更新本地代码到远程服务器了。
+
+
+       git-stash – Stash the changes in a dirty working directory away
+SYNOPSIS
+       git stash list [<options>]
+       git stash show [<stash>]
+       git stash drop [-q|–quiet] [<stash>]
+       git stash ( pop | apply ) [–index] [-q|–quiet] [<stash>]
+       git stash branch <branchname> [<stash>]
+       git stash [save [-p|–patch] [-k|–[no-]keep-index] [-q|–quiet]
+                    [-u|–include-untracked] [-a|–all] [<message>]]
+       git stash clear
+       git stash create [<message>]
+       git stash store [-m|–message <message>] [-q|–quiet] <commit>
+
+
+
+
 ## 参考
 
 ### 阮一峰老师的 Git 教程
