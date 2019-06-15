@@ -113,6 +113,7 @@ uninstall_oh_my_zsh zsh
 异步加载，性能好
 
 [themes/powerlevel10k](https://www.bilibili.com/video/av52249480)
+
 配置
 
 [Show Off Your Config · bhilburn/powerlevel9k Wiki](https://github.com/bhilburn/powerlevel9k/wiki/Show-Off-Your-Config)
@@ -215,6 +216,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export PATH=/Users/mac/Documents/development/FlutterSDK/flutter/bin:$PATH
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 export PUB_HOSTED_URL=http://dart-pub.byted.org
+
 
 # ZSH_THEME="robbyrussell"
 ZSH_THEME="spaceship"
