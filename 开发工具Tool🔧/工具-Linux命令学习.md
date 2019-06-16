@@ -93,6 +93,43 @@
 *   （14）命令touch可以改变文件的三种时间，分别是： `access time` 、 `modify time` 、 `change time` ；
 *   (15) `find . -name '.DS_Store' -type f -delete ` 递归删除.DS_Store类型文件。
 
+命令执行顺序控制
+通常情况下，我们在终端只能执行一条命令，然后按下回车执行，那么如何执行多条命令呢？
+
+
+顺序执行多条命令：command1;command2;command3;
+简单的顺序指令可以通过 ;来实现
+有条件的执行多条命令：which command1 && command2 || command3
+&& : 如果前一条命令执行成功则执行下一条命令，如果command1执行成功（返回0）,则执行command2
+|| :与&&命令相反，执行不成功时执行这个命令
+
+$?: 存储上一次命令的返回结果
+
+
+栗子：
+$ which git>/dev/null && git --help  // 如果存在git命令，执行git --help命令
+$ echo $? 
+
+管道命令
+
+管道是一种通信机制，通常用于进程间的通信（也可通过socket进行网络通信），它表现出来的形式将前面每一个进程的输出（stdout）直接作为下一个进程的输入（stdin）。
+
+管道命令使用|作为界定符号，管道命令与上面说的连续执行命令不一样。
+
+管道命令仅能处理standard output,对于standard error output会予以忽略。
+less,more,head,tail...都是可以接受standard input的命令，所以他们是管道命令
+ls,cp,mv并不会接受standard input的命令，所以他们就不是管道命令了。
+管道命令必须要能够接受来自前一个命令的数据成为standard input继续处理才行。
+
+第一个管道命令
+$ ls -al /etc | less
+通过管道将ls -al的输出作为 下一个命令less的输入，方便浏览。
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190616135354.png)
+
+cat etc/passwd | grep -n -c 'fanco'
+
+* [Linux管道命令（pipe） - 简书](https://www.jianshu.com/p/9c0c2b57cb73)
+
 ### less 命令
 
 #### 1．命令格式：
