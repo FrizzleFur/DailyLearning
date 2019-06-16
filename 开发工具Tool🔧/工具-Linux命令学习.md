@@ -543,26 +543,26 @@ sudo rm -rf -v /Volumes/macOSSierra/Backups.backupdb/xxx/xxxx
 [Mac 命令行下编辑常用的快捷键](<http://notes.11ten.net/mac-command-line-editing-commonly-used-shortcut-keys.html>)
 
 ## Mac 命令行操作命令
-
-命令  | 介绍
---- | ---
-# !!  | 上一条命令
-# !-n  | 倒数第N条历史命令
-# !-n:p  |  打印上一条命令（不执行）
-# !?string？ |  最新一条含有“string”的命令
-# !-n:gs/str1/str2/  | 将倒数第N条命令的str1替换为str2，并执行（若不加g,则仅替换第一个）
-history  | 显示命令历史列表
-Ctrl+l  | 清屏
-Ctrl+w  | 剪切光标所在处之前的一个词（以空格、标点等为分隔符）
-Ctrl+k  | 剪切命令行中光标所在处之后的所有字符（包括自身）
-Ctrl+u  |  剪切命令行中光标所在处之前的所有字符（不包括自身）
-Ctrl+h  | 删除光标所在处前一个字符
-Ctrl+y  |  粘贴刚才所删除的字符
-[Tab] = |  命令行自动补全
-↑(Ctrl+p)  |  显示上一条命令
-↓(Ctrl+n)  |  显示下一条命令
-Ctrl+a  |  移动到当前行的开头
-Ctrl+e |   移动到当前行的结尾
+    
+    命令  | 介绍
+    --- | ---
+    # !!  | 上一条命令
+    # !-n  | 倒数第N条历史命令
+    # !-n:p  |  打印上一条命令（不执行）
+    # !?string？ |  最新一条含有“string”的命令
+    # !-n:gs/str1/str2/  | 将倒数第N条命令的str1替换为str2，并执行（若不加g,则仅替换第一个）
+    history  | 显示命令历史列表
+    Ctrl+l  | 清屏
+    Ctrl+w  | 剪切光标所在处之前的一个词（以空格、标点等为分隔符）
+    Ctrl+k  | 剪切命令行中光标所在处之后的所有字符（包括自身）
+    Ctrl+u  |  剪切命令行中光标所在处之前的所有字符（不包括自身）
+    Ctrl+h  | 删除光标所在处前一个字符
+    Ctrl+y  |  粘贴刚才所删除的字符
+    [Tab] = |  命令行自动补全
+    ↑(Ctrl+p)  |  显示上一条命令
+    ↓(Ctrl+n)  |  显示下一条命令
+    Ctrl+a  |  移动到当前行的开头
+    Ctrl+e |   移动到当前行的结尾
 
 ## 工具软件
 
@@ -879,6 +879,26 @@ alias tnew="tmux new -s"
 alias g="git"
 alias lg="log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit"
 ```
+
+## 问题
+
+今天修改adb的path文件，结果把 echo @PATH内容更改了， 结果基础的bash 命令都不能用
+-bash: ls :command not found
+第一步
+在terminal里面输入：
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+
+然后命令暂时可以用了，
+第二步
+用open -e ~/.bash_profile在文本编辑器里面打开.bash_profile文件：
+第三步
+更改PATH环境变量设置,添加上这一行，
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+
+其实原因是.bash_profile文件：自己不小心未补全，找不到export PATH
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190616154041.png)
+
+* [Mac 下echo $PATH 内容更改 导致命令不能使用 - leo的博客 - CSDN博客](https://blog.csdn.net/qq_35584098/article/details/79756131)
 
 ## 参考资料
 
