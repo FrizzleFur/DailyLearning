@@ -13,10 +13,6 @@
 
 #### iOS
 
-### 安装`Charles`的`Profile`证书文件
-
-#### iOS
-
 * 1. 打开`Safari`，输入 `https://chls.pro/ssl`. Safari 将促进你安装 `SSL`证书.
 
 * 2. 安装 `SSL Profile`

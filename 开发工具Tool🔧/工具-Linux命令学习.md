@@ -93,6 +93,43 @@
 *   （14）命令touch可以改变文件的三种时间，分别是： `access time` 、 `modify time` 、 `change time` ；
 *   (15) `find . -name '.DS_Store' -type f -delete ` 递归删除.DS_Store类型文件。
 
+命令执行顺序控制
+通常情况下，我们在终端只能执行一条命令，然后按下回车执行，那么如何执行多条命令呢？
+
+
+顺序执行多条命令：command1;command2;command3;
+简单的顺序指令可以通过 ;来实现
+有条件的执行多条命令：which command1 && command2 || command3
+&& : 如果前一条命令执行成功则执行下一条命令，如果command1执行成功（返回0）,则执行command2
+|| :与&&命令相反，执行不成功时执行这个命令
+
+$?: 存储上一次命令的返回结果
+
+
+栗子：
+$ which git>/dev/null && git --help  // 如果存在git命令，执行git --help命令
+$ echo $? 
+
+管道命令
+
+管道是一种通信机制，通常用于进程间的通信（也可通过socket进行网络通信），它表现出来的形式将前面每一个进程的输出（stdout）直接作为下一个进程的输入（stdin）。
+
+管道命令使用|作为界定符号，管道命令与上面说的连续执行命令不一样。
+
+管道命令仅能处理standard output,对于standard error output会予以忽略。
+less,more,head,tail...都是可以接受standard input的命令，所以他们是管道命令
+ls,cp,mv并不会接受standard input的命令，所以他们就不是管道命令了。
+管道命令必须要能够接受来自前一个命令的数据成为standard input继续处理才行。
+
+第一个管道命令
+$ ls -al /etc | less
+通过管道将ls -al的输出作为 下一个命令less的输入，方便浏览。
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190616135354.png)
+
+cat etc/passwd | grep -n -c 'fanco'
+
+* [Linux管道命令（pipe） - 简书](https://www.jianshu.com/p/9c0c2b57cb73)
+
 ### less 命令
 
 #### 1．命令格式：
@@ -217,25 +254,54 @@ abc999     //匹配2个后停止
 `mdfind` 还提供更多的搜索选项。例如  `-onlyin` 选项可以约束搜索范围为一个目录： 
 `$ mdfind -onlyin ~/Documents essay`
 
+### fzf
+
+[Fzf](https://github.com/junegunn/fzf)
 
 ## autojump
 
 autojump可以很方便地帮我们切换到指定目录，它的工作原理是维护一个命令行中使用过的目录的数据库。
 
-
 [命令行福利——切换目录autojump | yuweiguo's blog](https://yuweiguocn.github.io/command-line-autojump/)
-mac下安装：
 
+mac下安装：
+```
 brew install autojump
+```
+
 autojump 支持 zsh，添加以下内容到 ~/.bash_profile 或 ~/.zshrc 文件中：
 
+```
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+```
+
 记得使用 source 命令使刚才的内容生效：
 
 source ~/.bash_profile
 source ~/.zshrc
 我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
 
+我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
+j te
+话不多说，来看下效果：
+
+
+使用文件管理器打开目录：
+jo te
+
+
+autojump 支持自动补全，使用Tab键查看匹配的多个目录：
+
+查看 autojump 存储的目录的状态：
+
+j -s
+
+
+可以看到每个目录都有对应权重，所以当出现匹配多个目录会跳到权重较大的目录下。
+更多选项请查看使用帮助：
+
+1
+j -h
 
 
 ### 其他
@@ -267,9 +333,6 @@ Mac底层是Unix内核，可以登入登出Unix。
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15294676296816.jpg)
 
-### `Zsh` 命令
-
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301106716847.jpg)
 
 #### `ls` 命令
 
@@ -480,26 +543,26 @@ sudo rm -rf -v /Volumes/macOSSierra/Backups.backupdb/xxx/xxxx
 [Mac 命令行下编辑常用的快捷键](<http://notes.11ten.net/mac-command-line-editing-commonly-used-shortcut-keys.html>)
 
 ## Mac 命令行操作命令
-
-命令  | 介绍
---- | ---
-# !!  | 上一条命令
-# !-n  | 倒数第N条历史命令
-# !-n:p  |  打印上一条命令（不执行）
-# !?string？ |  最新一条含有“string”的命令
-# !-n:gs/str1/str2/  | 将倒数第N条命令的str1替换为str2，并执行（若不加g,则仅替换第一个）
-history  | 显示命令历史列表
-Ctrl+l  | 清屏
-Ctrl+w  | 剪切光标所在处之前的一个词（以空格、标点等为分隔符）
-Ctrl+k  | 剪切命令行中光标所在处之后的所有字符（包括自身）
-Ctrl+u  |  剪切命令行中光标所在处之前的所有字符（不包括自身）
-Ctrl+h  | 删除光标所在处前一个字符
-Ctrl+y  |  粘贴刚才所删除的字符
-[Tab] = |  命令行自动补全
-↑(Ctrl+p)  |  显示上一条命令
-↓(Ctrl+n)  |  显示下一条命令
-Ctrl+a  |  移动到当前行的开头
-Ctrl+e |   移动到当前行的结尾
+    
+    命令  | 介绍
+    --- | ---
+    # !!  | 上一条命令
+    # !-n  | 倒数第N条历史命令
+    # !-n:p  |  打印上一条命令（不执行）
+    # !?string？ |  最新一条含有“string”的命令
+    # !-n:gs/str1/str2/  | 将倒数第N条命令的str1替换为str2，并执行（若不加g,则仅替换第一个）
+    history  | 显示命令历史列表
+    Ctrl+l  | 清屏
+    Ctrl+w  | 剪切光标所在处之前的一个词（以空格、标点等为分隔符）
+    Ctrl+k  | 剪切命令行中光标所在处之后的所有字符（包括自身）
+    Ctrl+u  |  剪切命令行中光标所在处之前的所有字符（不包括自身）
+    Ctrl+h  | 删除光标所在处前一个字符
+    Ctrl+y  |  粘贴刚才所删除的字符
+    [Tab] = |  命令行自动补全
+    ↑(Ctrl+p)  |  显示上一条命令
+    ↓(Ctrl+n)  |  显示下一条命令
+    Ctrl+a  |  移动到当前行的开头
+    Ctrl+e |   移动到当前行的结尾
 
 ## 工具软件
 
@@ -675,6 +738,7 @@ You then need to select this theme in your ~/.zshrc:
 ```
 ZSH_THEME="powerlevel9k/powerlevel9k"
 ```
+
 #### 安装 awesome-terminal-fonts
 
 [awesome-terminal-fonts](https://github.com/gabrielelana/awesome-terminal-fonts)这是一款可以在终端界面显示 awesome 图标的工具。
@@ -720,147 +784,6 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
 参考[超簡單！十分鐘打造漂亮又好用的 zsh command line – Statementdog-Engineering – Medium](https://medium.com/statementdog-engineering/prettify-your-zsh-command-line-prompt-3ca2acc967f)
 
-### OnMyZch
-
-![](http://upload-images.jianshu.io/upload_images/225323-9f80c1d60073bd39.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-[`oh-my-Zsh`](<https://github.com/robbyrussell/oh-my-Zsh)
-
-### zsh切换bash bash切换zsh
-
-
-1. `zsh`切换`bash`
-`chsh -s /bin/bash`
-2. `bash`切换`zsh`
-`chsh -s /bin/zsh`
-
-### 安装 `Zsh` + `oh-my-Zsh`
-
-`Zsh` 官网：<https://www.`Zsh`.org/>
-`oh-my-Zsh` 官网：<http://ohmyz.sh/>
-先说下：`Zsh` 和 `oh-my-Zsh` 的关系
-`Zsh` 是 Shell 中的一种，什么 Shell 你可以再搜索下，简单粗暴讲就是一个：命令解释器，你输入什么命令，它就执行什么，这个东西再 Unix 世界还有其他几个。
-由于 `Zsh` 配置门槛有点高，或者说需要专门花时间去了解 `Zsh` 才能配置好一个好用的 `Zsh`，也因为这样，用户也就相对少了。
-直到有一天 `oh-my-Zsh` 的作者诞生，他想要整理出一个配置框架出来，让大家直接使用他的这个公认最好的 `Zsh` 配置，省去繁琐的配置过程。所以，`oh-my-Zsh` 就诞生了，它只是会了让你减少 `Zsh` 的配置，然后又可以好好享受 `Zsh` 这个 Shell。
-Mac 和一般 Linux 默认的 shell 是 bash，一般人都觉得不好用，我作为一般人，也喜欢 `Zsh`，所以这里就用 `Zsh`。
-为了简化配置 `Zsh` 过程，我们这里选择 `oh-my-Zsh` 这个配置库，这是目前大家公认好用的配置。
-打开终端，先安装 git（已经安装的跳过该步骤），输入命令：`brew install git`
-打开终端，安装 wget 工具，输入命令：`brew install wget`
-打开终端，安装 `Zsh`：`brew install Zsh`
-打开终端，安装 `oh-my-Zsh`：`sh -c "$(wget <https://raw.githubusercontent.com/robbyrussell/oh-my-Zsh/master/tools/install.sh -O -)"`
-下载完后，会提示你输入当前登录系统的用户密码，输入完成之后就会从 bash 切换到 `Zsh`，如果你没有输入密码直接跳过了，可以运行该命令进行手动切换：`chsh -s /bin/Zsh` 你当前系统用户名
-切换完成之后，关掉终端，重新打开终端即可
-如果你需要修改 `oh-my-Zsh` 的主题，和安装 `Zsh` 插件，具体可以看我过去整理的这篇文章：`Zsh` 
-
-#### `Zsh` 软件特色
-
-不区分大小写智能提示。我是不喜欢大小写区分的那种人，所以用了 `Zsh` 之后，经常按 `Tab` 进行提示。
-此外按下 tab 键显示出所有待选项后，再按一次 `tab` 键，即进入选择模式，进入选择模式后，按 `tab` 切向下一个选项，按 `shift + tab` 键切向上一个选项，`ctrl+f/b/n/p` 可以向前后左右切换。
-`kill` + 空格键 + `Tab`键，列出运行的进程，要啥哪个进程不需要再知道 PID 了，当然了 `Zsh`，提供了让你知道`PID` 的方法：
-比如输入：`kill vim`，再按下 `tab`，会变成：`kill 5643`
-`ls **/*`，分层级地列出当前目录下所有文件及目录，并递归目录
-`ls *.png` 查找当前目录下所有 png 文件
-`ls **/*.png` 递归查找
-`Zsh` 的目录跳转很智能，你无需输入 cd 就可直接输入路径即可。比如：.. 表示后退一级目录，../../ 表示后退两级，依次类推。
-在命令窗口中输入：d，将列出当前 `session` 访问过的所有目录，再按提示的数字即可进入相应目录。
-给 man 命令增加结果高亮显示：
-编辑配置文件：`vim ~/.zshrc`，增加下面内容：
-
-```
-# man context highlight
-export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
-export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
-export LESS_TERMCAP_me=$'\E[0m'           # end mode
-export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
-export LESS_TERMCAP_ue=$'\E[0m'           # end underline
-export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
-```
-
-刷新配置文件：source ~/.zshrc，重新查看 man 的命令就可以有高亮了。
-
-### 2.7.更新oh-my-zsh
-
-
-[Linux终极shell-Z Shell-用强大的zsh & oh-my-zsh把Bash换掉](http://www.linuxdiyf.com/linux/24777.html)
-默认情况下, 您将被提示检查每几周的升级. 如果你想我ZSH自动升级本身没有提示你, 修改`~/.zshrc
-disable_update_prompt = true
-禁用自动升级, 修改~/.zshrc
-disable_auto_update = true
-当然你也可以选择手动更新
-如果你想在任何时间点升级（也许有人刚刚发布了一个新的插件，你不想等待一个星期？)你只需要运行：
-upgrade_oh_my_zsh
- 
-2.8.卸载oh-my-zsh
-如果你想卸载oh-my-zsh, 只需要执行uninstall_oh_my_zsh zsh， 从命令行运行. 这将删除本身和恢复你以前的bash或者zsh配置.
-uninstall_oh_my_zsh zsh
- 
-3.更多任性的功能, 速度来感受吧
-
-
-1]兼容 bash，原来使用 bash 的兄弟切换过来毫无压力，该咋用咋用。
-2]强大的历史纪录功能，输入 grep 然后用上下箭头可以翻阅你执行的所有 grep 命令。
-3]智能拼写纠正，输入gtep mactalk * -R，系统会提示：zsh: correct ‘gtep’ to ‘grep’ [nyae]? 比妹纸贴心吧，她们向来都是让你猜的……
-4]各种补全：路径补全、命令补全，命令参数补全，插件内容补全等等。触发补全只需要按一下或两下 tab 键，补全项可以使用 ctrl+n/p/f/b上下左右切换。比如你想杀掉 java 的进程，只需要输入 kill java + tab键，如果只有一个 java 进程，zsh 会自动替换为进程的 pid，如果有多个则会出现选择项供你选择。ssh + 空格 + 两个tab键，zsh会列出所有访问过的主机和用户名进行补全
-5]智能跳转，安装了autojump之后，zsh 会自动记录你访问过的目录，通过 j + 目录名 可以直接进行目录跳转，而且目录名支持模糊匹配和自动补全，例如你访问过hadoop-1.0.0目录，输入j hado 即可正确跳转。j –stat 可以看你的历史路径库。
-6]目录浏览和跳转：输入 d，即可列出你在这个会话里访问的目录列表，输入列表前的序号，即可直接跳转。
-7]在当前目录下输入 .. 或 … ，或直接输入当前目录名都可以跳转，你甚至不再需要输入 cd 命令了。
-8]通配符搜索：ls -l */.sh，可以递归显示当前目录下的 shell 文件，文件少时可以代替 find，文件太多就歇菜了。
-9]更强的别名
-10]插件支持
-
-### 配置pure(refined)主题
-
-1. 首先，显示隐藏文件，进入`oh-my-zsh`文件的自定义目录，`$ .oh-my-zsh/custom/`，创建一个`theme`文件夹，存放你自定义的`theme`.
-![](http://upload-images.jianshu.io/upload_images/225323-e790e5e27a651523.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-（`pure`已经在默认主题中，只需要引用）
-
-2. `pure`的改名警告⚠️
-![](http://upload-images.jianshu.io/upload_images/225323-0df914ed283fcaa2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-`pure`的作者把名字改成了“refined”，把`.zshrc`文件的`ZSH_THEME`改成“refined”.就可以了
-![](http://upload-images.jianshu.io/upload_images/225323-2c47cfe2952ada19.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-![image.png](http://upload-images.jianshu.io/upload_images/225323-a91c6f360ab8f311.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-#### 配置[`spaceship`](https://github.com/denysdovhan/spaceship-zsh-theme)主题
-
-![](http://upload-images.jianshu.io/upload_images/225323-1574a71d992ad02d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-#### `.zshrc`文件的引号问题
-
-报错：`/Users/xxx/.oh-my-zsh/oh-my-zsh.sh:source:110: no such file or directory: /Users/xxx/.oh-my-zsh/themes/”refined”.zsh-theme`
-其实是因为" 变成-> “了， 自己打上去会被改成“，修改为"。
-![](http://upload-images.jianshu.io/upload_images/225323-82841e69f8ea0fe6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-#### iterm2-snazzy
-
-Elegant iTerm2 theme with bright colors
-[iterm2-snazzy](https://github.com/sindresorhus/iterm2-snazzy)
-![](http://upload-images.jianshu.io/upload_images/225323-1f9449cf9e766fbc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
->To get the exact same look as in the screenshot, you need to use the `[Pure prompt](https://github.com/sindresorhus/pure)`, `Menlo font`, and the `[zsh-syntax-highlighting plugin](https://github.com/zsh-users/zsh-syntax-highlighting)` to have commands highlighted.
-记得在`iterm2`的颜色切换成`snazzy`
-![](http://upload-images.jianshu.io/upload_images/225323-d88bdb6295e3729c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-#### `zsh-syntax-highlighting`问题
-
-1.首先cd 到 `Users/USERNAME/.oh-my-zsh/custom/plugins`
-执行`git clone https://github.com/zsh-users/zsh-syntax-highlighting.git`
-![](http://upload-images.jianshu.io/upload_images/225323-1af638c46306d582.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-2. 配置`.zshrc`文件
-`plugins=(zsh-syntax-highlighting)`
-`source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh`
-![](http://upload-images.jianshu.io/upload_images/225323-ebe8e87deba7fcfe.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-3. 最后执行配置
-执行 `source ~/.zshrc`
-
-### Resource其他资源
-
-#### `Zsh`插件 Plugins
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15129592017167.jpg)
-[Awesome-Zsh-Plugins](https://github.com/unixorn/awesome-zsh-plugins)插件库
 
 ####  IDE
 
@@ -932,6 +855,50 @@ Elegant iTerm2 theme with bright colors
 
 * /usr/tmp : 已经被众多发行版抛弃的临时文件夹。
 
+## IDE皮肤主题
+
+[Draculatheme](https://draculatheme.com/)
+
+##  bash_profile
+
+```
+export open_flutter=1
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+
+# alias
+
+alias updateLark="git pull --rebase && git submodule update --init --recursive && bundle update && pod install --repo-update && open ~/Codes/Bytedance/ios-client/Lark.xcworkspace"
+alias flt-app="flutter run --use-application-binary"
+alias slt=swiftlint
+alias eesf=EEScaffold
+	
+alias vi="vim"
+alias nvi="nvim"
+alias tnew="tmux new -s"
+alias g="git"
+alias lg="log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit"
+```
+
+## 问题
+
+今天修改adb的path文件，结果把 echo @PATH内容更改了， 结果基础的bash 命令都不能用
+-bash: ls :command not found
+第一步
+在terminal里面输入：
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+
+然后命令暂时可以用了，
+第二步
+用open -e ~/.bash_profile在文本编辑器里面打开.bash_profile文件：
+第三步
+更改PATH环境变量设置,添加上这一行，
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+
+其实原因是.bash_profile文件：自己不小心未补全，找不到export PATH
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190616154041.png)
+
+* [Mac 下echo $PATH 内容更改 导致命令不能使用 - leo的博客 - CSDN博客](https://blog.csdn.net/qq_35584098/article/details/79756131)
 
 ## 参考资料
 
@@ -949,14 +916,6 @@ Elegant iTerm2 theme with bright colors
 9. [Mac下iTerm2＋Tmux配置 - Karrdy - SegmentFault](https://segmentfault.com/a/1190000003001555)
 10.  [Mac 下配置终端环境 iTerm2 + Zsh + Oh My Zsh + tmux | 明无梦](http://www.dreamxu.com/mac-terminal/)
 
-### Tmux
-
-11. [Tmux 入门介绍 - 文章 - 伯乐在线](http://blog.jobbole.com/87278/)
-12. [我的tmux配置及说明【k-tmux】](http://www.wklken.me/posts/2015/08/06/linux-tmux.html)
-13. [Tmux - Linux从业者必备利器 • cenalulu's Tech Blog](http://cenalulu.github.io/linux/tmux/)
-14. [linux下的终端利器----tmux - CSDN博客](http://blog.csdn.net/gatieme/article/details/49301037)
-15. [Linux终极shell-Z Shell-用强大的zsh & oh-my-zsh把Bash换掉](http://www.linuxdiyf.com/linux/24777.html)
- 
 ### Grep
 
 16. [linux下grep用法 - CSDN博客](https://blog.csdn.net/u011003120/article/details/52185356)

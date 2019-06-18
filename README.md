@@ -88,11 +88,19 @@
 * 算法复习
 * Flutter-豆瓣demo练习
 
-## RxSwift 
+## Swift 
+
+### RxSwift 
 
 * [RxSwift 中文文档 · RxSwift 中文文档](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/)
 * [介绍 - 《RxSwift 中文文档（非官方）》 - 书栈网 · BookStack](https://www.bookstack.cn/read/RxSwift-Chinese-Documentation/README.md)
 * [aidevjoe/RxSwift-Tutorial: RxSwift 学习资料(学习教程、开源项目)](https://github.com/aidevjoe/RxSwift-Tutorial)
+
+## SwiftUI
+
+* [Juanpe/About-SwiftUI: Gathering all info published, both by Apple and by others, about new framework SwiftUI.](https://github.com/Juanpe/About-SwiftUI?utm_source=gold_browser_extension)
+
+
 
 ## JavaScript
 
@@ -151,6 +159,10 @@
 * [开发工具Tool🔧](https://github.com/FrizzleFur/DailyLearning/tree/master/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7Tool%F0%9F%94%A7)
 
 * [Linux](https://github.com/FrizzleFur/DailyLearning/blob/master/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7Tool%F0%9F%94%A7/Linux%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0.md)
+
+* [Tmux使用手册 | louis blog](http://louiszhai.github.io/2017/09/30/tmux/#Buffer%E7%BC%93%E5%AD%98)
+* [tmux美化](https://github.com/gpakosz/.tmux)
+
 
 ## 技术路线
 
