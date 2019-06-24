@@ -1,6 +1,9 @@
 
 # CocoaPods 解析
 
+[iOS-安装和使用 CocoaPods - 简书](https://www.jianshu.com/p/6706cae47e48#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85rvm%E7%8E%AF%E5%A2%83)
+
+
 pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，Podfile.lock会锁定当前各依赖库的版本,。这样多人协作的时候，可以防止第三方库升级时造成大家各自的第三方库版本不一致.其中前者并不会修改 Podfile.lock 中显示指定的版本，**而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
 **
 
