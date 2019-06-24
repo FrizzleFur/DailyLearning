@@ -273,6 +273,29 @@ update_xcode_plugins --install-launch-agent
 正常的话，能够看到package manager了
 
 
+## Xcode 模板
+
+设置添加文件模板
+
+For everything you work on, regardless of project:
+`~/Library/Developer/Xcode/UserData/IDETemplateMacros.plist`
+
+```swift
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>FULLUSERNAME</key>
+	<string>zhenning</string>
+	<key>COPYRIGHT</key>
+	<string>Copyright © ___YEAR___ zhenning. All rights reserved.</strsing>
+</dict>
+</plist>
+```
+
+
+[Customizing the file header comment and other text macros in Xcode 9 – Ole Begemann](https://oleb.net/blog/2017/07/xcode-9-text-macros/)
+
 
 ## Xcode辅助工具
 
@@ -325,11 +348,16 @@ Injection
 
 [burczyk/XcodeSwiftSnippets: Swift 4 code snippets for Xcode](https://github.com/burczyk/XcodeSwiftSnippets)
 
-#### Vim for xcode
+### Vim for xcode
 
-[记：在 Xcode 10 中安装 XVim2 - 风萧萧](https://note.wuze.me/xvim2)
+* [记：在 Xcode 10 中安装 XVim2 - 风萧萧](https://note.wuze.me/xvim2)
 
 
+## Debug调试
+
+Xcode使用attach调试进程
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190614141814.png)
 
 ## 问题
 
@@ -347,10 +375,12 @@ This error occurs when the version of macOS (and iTunes) running on the computer
 Normally, updating the macOS to its current version will solve the problem. However, this won't work if the iOS device is running a newer beta version, and the Mac is not.
 
 
+
+
 ## 关于使用Clang(LLVM)将OC文件转为C/C++文件报错的问题
 
 > main.m:9:9: fatal error: 'UIKit/UIKit.h' file not found
-> #import <UIKit/UIKit.h>
+>  import <UIKit/UIKit.h>
 
 > 1 error generated.
 
