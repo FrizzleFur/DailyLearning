@@ -9,7 +9,6 @@
 
 ### zsh切换bash bash切换zsh
 
-
 1. `zsh`切换`bash`
 `chsh -s /bin/bash`
 2. `bash`切换`zsh`
