@@ -211,6 +211,13 @@ let subscription = observable.subscribe { event in
 subscription.dispose()
 ```
 
+## ObserverType
+
+在RxSwift中有一个ObserverType协议。实现ObserverType协议的是观察者对象，用于观察Observable发出的信号。对于观察到的信号有个处理方法func on(event: Event)。
+
+ObserverType: Supports push-style iteration over an observable sequence. ObserverType是观察者Observer需要遵从的协议
+
+
 ## Bind
 
 binding 意思是连接 Observable 和 Subject。
