@@ -361,7 +361,7 @@ Xcode使用attach调试进程
 
 ## 问题
 
-### Xcode链接iphone一直闪断
+## Xcode链接iphone一直闪断
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15326666022413.jpg)
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15326666332024.jpg)
@@ -374,8 +374,46 @@ This error occurs when the version of macOS (and iTunes) running on the computer
 
 Normally, updating the macOS to its current version will solve the problem. However, this won't work if the iOS device is running a newer beta version, and the Mac is not.
 
+## 版本调试
 
+iOS-DeviceSupport [iGhibli/iOS-DeviceSupport: This repository holds the device support files for the iOS, and I will update it regularly.](https://github.com/iGhibli/iOS-DeviceSupport)
 
+### 高版本Xcode不支持低版本iOS
+
+[iOS 12 not supported by Xcode 9.4 : Could not locate device support files - Stack Overflow](https://stackoverflow.com/questions/51215836/ios-12-not-supported-by-xcode-9-4-could-not-locate-device-support-files)
+
+If you want to use your iPhone 8 with this iOS version (NOT RECOMMENDED) with your Xcode 9.4 you can try to download the last beta of Xcode 10 and after connecting the iPhone to the mac go to this folder:
+
+/Applications/Xcode10.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport
+
+You can see the iOS version folder of the iPhone, copy and past it to the same location in your Xcode 9.4 folder.
+
+After this you should be able to deploy to your iPhone 8.
+
+### 低版本Xcode不支持高版本iOS真机调试
+
+[解决低版本Xcode不支持高版本iOS真机调试的问题 - xiangzhihong8的专栏 - CSDN博客](https://blog.csdn.net/xiangzhihong8/article/details/78360091)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190630113131.png)
+
+1、复制一份旧的SDK，并重新命名为真机测试需要的SDK版本； 
+具体做法是，找到路径: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk （提示：要在应用程序中找到Xcode，右键点击 -> 显示包内容，以前Xcode版本的iOS SDK有的保存在系统根目录下）。
+
+复制一份iPhoneOS.sdk，并命名为iPhoneOS11.1.sdk。如下图所示： 
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190630113344.png)
+
+2，新增真机调试包及内容 
+打开路径： 
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport 。我在CocoaChina上找到了11.1的真机包，链接地址如下： 
+http://www.cocoachina.com/bbs/read.php?tid=1726904。然后我们打开DeviceSupport并复制一份。 
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190630113333.png)
+
+3、修改SDKSettings.plist文件中的版本号
+
+按照/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk 的顺序打开SDKSettings.plist 文件，将里面所有跟版本有关的数字都修改为11.1即可。再次运行就好了。 
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190630113327.png)
 
 ## 关于使用Clang(LLVM)将OC文件转为C/C++文件报错的问题
 
