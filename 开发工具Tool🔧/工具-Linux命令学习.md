@@ -254,11 +254,86 @@ abc999     //匹配2个后停止
 `mdfind` 还提供更多的搜索选项。例如  `-onlyin` 选项可以约束搜索范围为一个目录： 
 `$ mdfind -onlyin ~/Documents essay`
 
-### fzf
+### fzf 模糊搜索
 
 [Fzf](https://github.com/junegunn/fzf)
 
-## autojump
+### Ranger 文件浏览
+
+[ranger/ranger: A VIM-inspired filemanager for the console](https://github.com/ranger/ranger)
+
+```
+pip install ranger-fm.
+```
+#### Ranger Cheatsheet
+
+##### General
+Shortcut | Description 
+---|---
+`ranger` | Start Ranger
+`Q` | Quit Ranger
+`R` | Reload current directory
+`?` | Ranger Manpages / Shortcuts
+
+##### Movement
+Shortcut | Description 
+---|---
+`k` | up
+`j` | down
+`h` | parent directory
+`l`| subdirectory
+`gg` | go to top of list
+`G` | go t bottom of list
+`J` | half page down
+`K` | half page up
+`H` | History Back
+`L` | History Forward
+
+##### File Operations
+Shortcut | Description 
+---|---
+`<Enter>` | Open
+`r` | open file with 
+`z` | toggle settings
+`o` | change sort order
+`zh` | view hidden files
+`cw` | rename current file
+`yy` | yank / copy
+`/` | search for files `:search`
+`n` | next match
+`N``| prev match
+`<delete>` | Delete
+  
+##### Commands
+Shortcut | Description 
+---|---
+`:` | Execute Range Command
+`!` | Execute Shell Command
+`chmod` | Change file Permissions
+`du` | Disk Usage Current Directory
+
+##### Tabs
+Shortcut | Description 
+---|---
+`C-n` | Create new tab
+`C-w` | Close current tab
+tab | Next tab
+shift + tab | Previous tab
+alt + [n] | goto / create [n] tab
+
+##### File substituting
+Shortcut | Description 
+---|---
+`%f` | Substitute highlighted file
+`%d` | Substitute current directory
+`%s` | Substitute currently selected files
+`%t` | Substitute currently tagged files
+
+##### Example for substitution
+`:bulkrename %s`
+
+
+### autojump 快速跳转
 
 autojump可以很方便地帮我们切换到指定目录，它的工作原理是维护一个命令行中使用过的目录的数据库。
 
