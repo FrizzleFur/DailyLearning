@@ -1,9 +1,23 @@
 
 # 工具-UML图解
 
-
-
 ## 工具-PlantUML
+
+
+* [UML - Architecture](https://www.tutorialspoint.com/uml/uml_architecture.htm)
+* [PlantUML | DrawUML](https://ogom.github.io/draw_uml/plantuml/)
+* [PlantUML 高效地画图 - JackPeng博客](https://yuanfentiank789.github.io/2017/09/15/PlantUML-%E9%AB%98%E6%95%88%E5%9C%B0%E7%94%BB%E5%9B%BE/)
+
+## 类图
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190706145452.png)
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190706145317.png)
+
+Active Class Notation
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190706145352.png)
 
 
 
