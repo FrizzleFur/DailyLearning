@@ -11,6 +11,10 @@
 
 ![zsh配合iterm2效果.png](http://upload-images.jianshu.io/upload_images/225323-5d4602aff38a4cf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+## 工具
+
+[linux-command: Linux命令大全搜索工具，内容包含Linux命令手册、详解、学习、搜集。https://git.io/linux](https://github.com/jaywcjlove/linux-command)
+
 ## 常用命令
 
 ### man命令
@@ -256,7 +260,8 @@ abc999     //匹配2个后停止
 
 ### fzf 模糊搜索
 
-[Fzf](https://github.com/junegunn/fzf)
+[Fzf 模糊搜索](https://github.com/junegunn/fzf)🌸 A command-line fuzzy finder
+
 
 ### Ranger 文件浏览
 
