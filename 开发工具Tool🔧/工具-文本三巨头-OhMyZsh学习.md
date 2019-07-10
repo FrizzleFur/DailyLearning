@@ -126,6 +126,53 @@ haccks's Config
 
 ![](http://upload-images.jianshu.io/upload_images/225323-1574a71d992ad02d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+- Current Git branch and rich repo status:
+  - `?` — untracked changes;
+  - `+` — uncommitted changes in the index;
+  - `!` — unstaged changes;
+  - `»` — renamed files;
+  - `✘` — deleted files;
+  - `$` — stashed changes;
+  - `=` — unmerged changes;
+  - `⇡` — ahead of remote branch;
+  - `⇣` — behind of remote branch;
+  - `⇕` — diverged changes.
+- Current Mercurial bookmark/branch and rich repo status:
+  - `?` — untracked changes;
+  - `+` — uncommitted changes in the index;
+  - `!` — unstaged changes;
+  - `✘` — deleted files;
+- Indicator for jobs in the background (`✦`).
+- Current Node.js version, through nvm/nodenv/n (`⬢`).
+- Current Ruby version, through rvm/rbenv/chruby/asdf (`💎`).
+- Current Elm version (`🌳`)
+- Current Elixir version, through kiex/exenv/elixir (`💧`).
+- Current Swift version, through swiftenv (`🐦`).
+- Current Xcode version, through xenv (`🛠`).
+- Current Go version (`🐹`).
+- Current PHP version (`🐘`).
+- Current Rust version (`𝗥`).
+- Current version of Haskell GHC Compiler, defined in stack.yaml file (`λ`).
+- Current Julia version (`ஃ`).
+- Current Docker version and connected machine (`🐳`).
+- Current Amazon Web Services (AWS) profile (`☁️`) ([Using named profiles](http://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html)).
+- Current Python virtualenv.
+- Current Conda virtualenv (`🅒`).
+- Current Python pyenv (`🐍`).
+- Current .NET SDK version, through dotnet-cli (`.NET`).
+- Current Ember.js version, through ember-cli (`🐹`).
+- Current Kubectl context (`☸️`).
+- Current Terraform workspace (`🛠`).
+- Package version, if there's is a package in current directory (`📦`).
+- Current battery level and status:
+  - `⇡` - charging;
+  - `⇣` - discharging;
+  - `•` - fully charged.
+- Current Vi-mode mode ([with handy aliases for temporarily enabling](./docs/Options.md#vi-mode-vi_mode)).
+- Optional exit-code of last command ([how to enable](./docs/Options.md#exit-code-exit_code)).
+- Optional time stamps 12/24hr in format ([how to enable](./docs/Options.md#time-time)).
+- Execution time of the last command if it exceeds the set threshold.
+
 #### `.zshrc`文件的引号问题
 
 报错：`/Users/xxx/.oh-my-zsh/oh-my-zsh.sh:source:110: no such file or directory: /Users/xxx/.oh-my-zsh/themes/”refined”.zsh-theme`
