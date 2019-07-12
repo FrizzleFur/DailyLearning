@@ -198,24 +198,24 @@ Atom 专门有个模块列出所有的快捷键，这里给出一些常用的供
 | `alt-G O` | 在github上打开文件 |
 | `alt-G G` | 在github上打开项目地址 |
 | `alt-G B` | 在github上打开文件blame |
-| `alt-G H` | 在github上打开文件history |
+| `alt-G H` | 在gitmhub上打开文件history |
 | `alt-G I` | 在github上打开issues |
 | `alt-G R` | 在github打开分支比较 |
 | `alt-G C` | 拷贝当前文件在gihub上的网址 |
 
-
-
 ## 配置
 
+# 插件
 
-
-## 插件
-
-
+* minimap-git-diff
+* linter
+* git-control
+* tree-view-git-status
+* atom-beautify
+* ide-swift
+* swift-debugger
 * [autocomplete-paths](https://atom.io/packages/autocomplete-paths)
 * [minimap](https://atom.io/packages/minimap)
-
-
 
 ### 备份
 
