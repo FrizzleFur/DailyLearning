@@ -1,5 +1,7 @@
 # 学习-RxSwift
 
+* [RxSwift / GettingStarted.md在master·ReactiveX / RxSwift](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/GettingStarted.md)
+* [RxSwift/Documentation at master · ReactiveX/RxSwift](https://github.com/ReactiveX/RxSwift/tree/master/Documentation)
 
 ## 写代码熟悉RxSwift
 
@@ -126,11 +128,20 @@ Observable 对象会在有任何 Event 时候，自动将 Event 作为一个参�
 
 [RxSwift的学习之路（二）——Subjects - 简书](https://www.jianshu.com/p/6ce9cae4f410)
 
-### PublishSubject——一个只会收发新元素的观察者
-
 因为不知道怎么用中文称呼subject相关的类，但是它的功能有点像一个针对于Observable数据流的观察者，所以我就称它为观察者吧！
 
+### PublishSubject——一个只会收发新元素的观察者
+
+
+顾名思义，PublishSubject就像个出版社，到处收集内容，此时它是一个Observer，然后发布给它的订阅者，此时，它是一个Observable。
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190627113132.png)
+
+[RxSwift-四种Subject的基本用法 - 简书](https://www.jianshu.com/p/02795ee5b222)
+
 ### BehaviorSubject——一个会向每次订阅发出最近接收到的一个元素的观察者
+
+如果你希望Subject从“会员制”变成“试用制”，就需要使用BehaviorSubject。它和PublisherSubject唯一的区别，就是只要有人订阅，它就会向订阅者发送最新的一次事件作为“试用”。
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190627113246.png)
 
 ### ReplaySubject
 
@@ -164,15 +175,15 @@ onCompleted()：是 on(.completed) 的简便写法。该方法相当于 subject 
 
 ### BehaviorRelay
 
-
 * BehaviorRelay 是作为 Variable 的替代者出现的。它的本质其实也是对 BehaviorSubject 的封装，所以它也必须要通过一个默认的初始值进行创建。
 * BehaviorRelay 具有 BehaviorSubject 的功能，能够向它的订阅者发出上一个 event 以及之后新创建的 event。
 * 与 BehaviorSubject 不同的是，不需要也不能手动给 BehaviorReply 发送 completed 或者 error 事件来结束它（BehaviorRelay 会在销毁时也不会自动发送 .complete© 的 event）。
 * BehaviorRelay 有一个 value 属性，我们通过这个属性可以获取最新值。而通过它的 accept() 方法可以对值进行修改。
-
-[很好懂的Swift MVVM in Rx - 简书](https://www.jianshu.com/p/91dc64c9d86e)
+* BehaviorRelay 将取代 Variable，因为 Variable 很容易会引导我们使用命令式编程，而不是声明式编程。
 
 * 有点啰嗦，所以BehaviorRelay就是可以永久持有一个能量，并且你做任何改动，能量都会被永久变化的东西，用他来做数据源再好不过。
+* [很好懂的Swift MVVM in Rx - 简书](https://www.jianshu.com/p/91dc64c9d86e)
+* [RxRelay · RxSwift 中文文档](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/recipes/rxrelay.html)
 
 
 ## dispose和DisposeBag——让订阅者释放
@@ -199,6 +210,13 @@ let subscription = observable.subscribe { event in
 //调用这个订阅的dispose()方法
 subscription.dispose()
 ```
+
+## ObserverType
+
+在RxSwift中有一个ObserverType协议。实现ObserverType协议的是观察者对象，用于观察Observable发出的信号。对于观察到的信号有个处理方法func on(event: Event)。
+
+ObserverType: Supports push-style iteration over an observable sequence. ObserverType是观察者Observer需要遵从的协议
+
 
 ## Bind
 
@@ -228,13 +246,20 @@ http://www.hangge.com/blog/cache/detail_1940.html
 
 ## Driver
 
+> 将监听的数据信号驱动UI更新
+
+* observer.onNext() 可以触发 drive(onNext: {})
+* observer.onError() 也可触发 drive(onNext: {}), 但是返回的不是error信息，是onErrorJustReturn的值
+* observer.onError() 和 observer.onCompleted() 都会触发 .drive(onCompleted:{})
+
+
+[Swift - RxSwift的使用详解18（特征序列2：Driver）](http://www.hangge.com/blog/cache/detail_1942.html)
 
 * Driver（司机？） 是一个精心准备的特征序列。它主要是为了简化 UI 层的代码。不过如果你遇到的序列具有以下特征，你也可以使用它：
 
 * Driver的出现是为了让我们在写UI层的响应式代码的时候更加直观。
 
 * 为什么它的名字叫Driver？它意图更好的通过数据去驱动我们的应用程序。
-
 
 任何可被监听的序列都可以被转换为 Driver，只要他满足 3 个条件：
 
@@ -244,9 +269,23 @@ http://www.hangge.com/blog/cache/detail_1940.html
 
 
 
+## 操作符
+
+### merge
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190627112254.png)
+
+* 通过使用 merge 操作符你可以将多个 Observables 合并成一个，当某一个 Observable 发出一个元素时，他就将这个元素发出。
+* 如果，某一个 Observable 发出一个 onError 事件，那么被合并的 Observable 也会将它发出，并且立即终止序列。
+
+
+
+
+
+
 ## 结合Alamofire & Moya
 
-http://www.hangge.com/blog/cache/detail_2012.html
+[Swift - RxSwift的使用详解49（结合Moya使用1：数据请求）](http://www.hangge.com/blog/cache/detail_2012.html)
 
 
 

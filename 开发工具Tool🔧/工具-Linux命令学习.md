@@ -11,6 +11,10 @@
 
 ![zsh配合iterm2效果.png](http://upload-images.jianshu.io/upload_images/225323-5d4602aff38a4cf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+## 工具
+
+[linux-command: Linux命令大全搜索工具，内容包含Linux命令手册、详解、学习、搜集。https://git.io/linux](https://github.com/jaywcjlove/linux-command)
+
 ## 常用命令
 
 ### man命令
@@ -254,54 +258,84 @@ abc999     //匹配2个后停止
 `mdfind` 还提供更多的搜索选项。例如  `-onlyin` 选项可以约束搜索范围为一个目录： 
 `$ mdfind -onlyin ~/Documents essay`
 
-### fzf
+### fzf 模糊搜索
 
-[Fzf](https://github.com/junegunn/fzf)
+[Fzf 模糊搜索](https://github.com/junegunn/fzf)🌸 A command-line fuzzy finder
 
-## autojump
 
-autojump可以很方便地帮我们切换到指定目录，它的工作原理是维护一个命令行中使用过的目录的数据库。
+### Ranger 文件浏览
 
-[命令行福利——切换目录autojump | yuweiguo's blog](https://yuweiguocn.github.io/command-line-autojump/)
-
-mac下安装：
-```
-brew install autojump
-```
-
-autojump 支持 zsh，添加以下内容到 ~/.bash_profile 或 ~/.zshrc 文件中：
+[ranger/ranger: A VIM-inspired filemanager for the console](https://github.com/ranger/ranger)
 
 ```
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+pip install ranger-fm.
 ```
+#### Ranger Cheatsheet
 
-记得使用 source 命令使刚才的内容生效：
+##### General
+Shortcut | Description 
+---|---
+`ranger` | Start Ranger
+`Q` | Quit Ranger
+`R` | Reload current directory
+`?` | Ranger Manpages / Shortcuts
 
-source ~/.bash_profile
-source ~/.zshrc
-我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
+##### Movement
+Shortcut | Description 
+---|---
+`k` | up
+`j` | down
+`h` | parent directory
+`l`| subdirectory
+`gg` | go to top of list
+`G` | go t bottom of list
+`J` | half page down
+`K` | half page up
+`H` | History Back
+`L` | History Forward
 
-我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
-j te
-话不多说，来看下效果：
+##### File Operations
+Shortcut | Description 
+---|---
+`<Enter>` | Open
+`r` | open file with 
+`z` | toggle settings
+`o` | change sort order
+`zh` | view hidden files
+`cw` | rename current file
+`yy` | yank / copy
+`/` | search for files `:search`
+`n` | next match
+`N``| prev match
+`<delete>` | Delete
+  
+##### Commands
+Shortcut | Description 
+---|---
+`:` | Execute Range Command
+`!` | Execute Shell Command
+`chmod` | Change file Permissions
+`du` | Disk Usage Current Directory
 
+##### Tabs
+Shortcut | Description 
+---|---
+`C-n` | Create new tab
+`C-w` | Close current tab
+tab | Next tab
+shift + tab | Previous tab
+alt + [n] | goto / create [n] tab
 
-使用文件管理器打开目录：
-jo te
+##### File substituting
+Shortcut | Description 
+---|---
+`%f` | Substitute highlighted file
+`%d` | Substitute current directory
+`%s` | Substitute currently selected files
+`%t` | Substitute currently tagged files
 
-
-autojump 支持自动补全，使用Tab键查看匹配的多个目录：
-
-查看 autojump 存储的目录的状态：
-
-j -s
-
-
-可以看到每个目录都有对应权重，所以当出现匹配多个目录会跳到权重较大的目录下。
-更多选项请查看使用帮助：
-
-1
-j -h
+##### Example for substitution
+`:bulkrename %s`
 
 
 ### 其他
@@ -854,6 +888,38 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 * /usr/src/linux/Rules.make : 当有多个 Makefile 时，根据它的规则执行 make；
 
 * /usr/tmp : 已经被众多发行版抛弃的临时文件夹。
+
+## 技巧
+
+* 连续输入多个命令： 
+1. [ ; ]
+
+如果被分号(;)所分隔的命令会连续的执行下去，就算是错误的命令也会继续执行后面的命令。
+
+[root@localhost etc]# lld ; echo "ok" ; lok
+-bash: lld: command not found
+ok
+-bash: lok: command not found
+
+2. [ && ]
+
+如果命令被 && 所分隔，那么命令也会一直执行下去，但是中间有错误的命令存在就不会执行后面的命令，没错就直行至完为止。
+
+[root@localhost etc]# echo "ok" && lld && echo "ok"
+ok
+-bash: lld: command not found
+
+3. [ || ]
+
+如果每个命令被双竖线 || 所分隔，那么一遇到可以执行成功的命令就会停止执行后面的命令，而不管后面的命令是否正确与否。如果执行到错误的命令就是继续执行后一个命令，一直执行到遇到正确的命令为止。
+
+[root@localhost etc]# echo "ok" || echo "haha"
+ok
+[root@localhost etc]# lld || echo "ok" || echo "haha"
+-bash: lld: command not found
+ok
+
+
 
 ## IDE皮肤主题
 
