@@ -1,6 +1,10 @@
 # 工具-文本三巨头-Tmux学习
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713023841.png)
+
 ### 会话
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713023810.png)
 
 #### 新建会话
 
@@ -150,6 +154,7 @@ Tmux Resurrec提供如下两个操作：
 ## 参考
 
 * [Tmux使用手册 | louis blog](http://louiszhai.github.io/2017/09/30/tmux/#Buffer%E7%BC%93%E5%AD%98)
+* [程序员内功系列--Tmux篇 | iTimothy](https://xiaozhou.net/learn-the-command-line-tmux-2018-04-27.html)
 * [tmux美化](https://github.com/gpakosz/.tmux)
 * [Tmux 入门介绍 - 文章 - 伯乐在线](http://blog.jobbole.com/87278/)
 * [我的tmux配置及说明【k-tmux】](http://www.wklken.me/posts/2015/08/06/linux-tmux.html)

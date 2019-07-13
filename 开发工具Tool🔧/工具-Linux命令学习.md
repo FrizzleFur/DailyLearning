@@ -338,52 +338,6 @@ Shortcut | Description
 `:bulkrename %s`
 
 
-### autojump 快速跳转
-
-autojump可以很方便地帮我们切换到指定目录，它的工作原理是维护一个命令行中使用过的目录的数据库。
-
-[命令行福利——切换目录autojump | yuweiguo's blog](https://yuweiguocn.github.io/command-line-autojump/)
-
-mac下安装：
-```
-brew install autojump
-```
-
-autojump 支持 zsh，添加以下内容到 ~/.bash_profile 或 ~/.zshrc 文件中：
-
-```
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-```
-
-记得使用 source 命令使刚才的内容生效：
-
-source ~/.bash_profile
-source ~/.zshrc
-我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
-
-我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
-j te
-话不多说，来看下效果：
-
-
-使用文件管理器打开目录：
-jo te
-
-
-autojump 支持自动补全，使用Tab键查看匹配的多个目录：
-
-查看 autojump 存储的目录的状态：
-
-j -s
-
-
-可以看到每个目录都有对应权重，所以当出现匹配多个目录会跳到权重较大的目录下。
-更多选项请查看使用帮助：
-
-1
-j -h
-
-
 ### 其他
 
 #### Finder标题栏显示路径

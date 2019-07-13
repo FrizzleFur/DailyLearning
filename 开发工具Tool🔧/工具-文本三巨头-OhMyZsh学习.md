@@ -205,28 +205,106 @@ Elegant iTerm2 theme with bright colors
 
 ### Resource其他资源
 
-#### `Zsh`插件 Plugins
+## `Zsh`插件 Plugins
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15129592017167.jpg)
 
-[Awesome-Zsh-Plugins](https://github.com/unixorn/awesome-zsh-plugins)插件库
+* [Awesome-Zsh-Plugins](https://github.com/unixorn/awesome-zsh-plugins)插件库
+* [程序员内功系列--常用命令行工具 | iTimothy](https://xiaozhou.net/learn-the-command-line-tools-md-2018-10-11.html)
 
-## zplug
+### vim-plug
 
-🌺 Zplug is a next-generation ZSH plugin manager.
-安装
+🌺 Minimalist Vim Plugin Manager
+
+异步下载plug
+[junegunn/vim-plug: Minimalist Vim Plugin Manager](https://github.com/junegunn/vim-plug)
+
+
+### autojump 快速跳转
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713020049.gif)
+
+
+autojump可以很方便地帮我们切换到指定目录，它的工作原理是维护一个命令行中使用过的目录的数据库。
+
+[命令行福利——切换目录autojump | yuweiguo's blog](https://yuweiguocn.github.io/command-line-autojump/)
+
+mac下安装：
 ```
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+brew install autojump
 ```
-* Add a zplug section to your .zshrc:
-* List the packages with zplug commands
-* zplug load to source the plugins and add commands to your $PATH
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190615200555.png)
-source ~/.zplug/init.zsh
+
+autojump 支持 zsh，添加以下内容到 ~/.bash_profile 或 ~/.zshrc 文件中：
+
+```
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+```
+
+记得使用 source 命令使刚才的内容生效：
+
+source ~/.bash_profile
+source ~/.zshrc
+我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
+
+我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
+j te
+话不多说，来看下效果：
+
+
+使用文件管理器打开目录：
+jo te
+
+
+autojump 支持自动补全，使用Tab键查看匹配的多个目录：
+
+查看 autojump 存储的目录的状态：
+
+j -s
+
+
+可以看到每个目录都有对应权重，所以当出现匹配多个目录会跳到权重较大的目录下。
+更多选项请查看使用帮助：
+
+1
+j -h
 
 
 
-### `Zsh` 命令
+### thefuck
+
+thefuck 是一个非常有趣的命令行软件，它能自动帮你纠正敲错的命令。平时在快速输入命令的时候，难免会有一些字母输入错误，这个时候，不用担心，直接再输入一个 fuck，吐槽一下，thefuck 就能自动根据你的输入，猜测出你要输入的命令，并自动帮你纠正，方便得一bi:
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713020336.gif)
+
+
+### tig
+tig 的界面看起来比起 git log 要酷炫不少，而且使用起来也挺方便。此外，tig 的默认按键绑定还跟Vim比较类似，真是Vimer的福音。
+
+tig 在Mac OS下的安装:
+```linux
+brew install tig
+```
+
+
+### git summary
+
+平时我们在多人合作开发一个项目的时候，想要大致了解一下每个人对这个项目提交的commit数量和大致的贡献度，那么 git summary 这个命令绝对能满足你的要求：
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713021037.png)
+```linux
+brew install git-extras
+```
+
+### skm
+
+SKM，全称SSH Key Manager，是一个在命令行下帮助你方便的管理和切换多个SSH key的工具。想象一下，如果你是运维人员，不同的服务器也许有不同的SSH Key来登录，又或者你是一个开发人员，有自己的SSH Key，用来开发和提交代码到自己的git仓库，或许还有公司的SSH Key，用来开发公司的项目。基于以上的情况，需要经常切换SSH Key。而用上了SKM，就方便多了，使用方法类似于 nvm，方便的创建，管理，切换系统当前默认SSH Key，用起来简直不要太爽！
+
+```linux
+brew tap timothyye/tap
+brew install timothyye/tap/skm
+```
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713021155.png)
+
+## `Zsh` 命令
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301106716847.jpg)
 
