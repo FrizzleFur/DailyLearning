@@ -359,6 +359,10 @@ Xcode使用attach调试进程
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190614141814.png)
 
+* [Memory Graph Debugger - Debugging in iOS - Xcode, Swift, iOS - raywenderlich.com - YouTube](https://www.youtube.com/watch?v=uz1_AiaQ7b0)
+* [Retain Cycles: How to Detect with Instruments Profiler! - YouTube](https://www.youtube.com/watch?v=sp8qEMY9X6Q)
+
+
 ## 问题
 
 ## Xcode链接iphone一直闪断

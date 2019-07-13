@@ -313,54 +313,62 @@ brew install timothyye/tap/skm
 
 the_silver_searcher: A code searching tool similar to ack, with a focus on speed.
 
-
 ```
 brew install the_silver_searcher
 ```
+## Plugin插件
 
 
-## Vim党插件 Vi-mode
-
-让输入命令vim化：
-
-[oh-my-zsh/plugins/vi-mode at master · robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/vi-mode)
-
+* zsh-autosuggestions
+* autojump
+* sublime 
+    * 支持sublime打开
+* Vim党插件 Vi-mode 
+    * 让输入命令vim化：[oh-my-zsh/plugins/vi-mode at master · robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/vi-mode)
 
 ## 我的Zsh配置
 
+### `.zshrc`文件
 
-```
+```linux
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/mac/.oh-my-zsh"
+# RVM Path
+export PATH=/usr/local/bin:$PATH
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-export PATH=/Users/mac/Documents/development/FlutterSDK/flutter/bin:$PATH
+
+
+# Flutter Path
+export PATH=/Users/mac/Documents/development/ByteFlutter/TTFlutterSDK/flutter/bin:$PATH
+export PATH="$PATH:/Users/mac/Documents/development/ByteFlutter/TTFlutterSDK/flutter/bin/cache/dart-sdk/bin/"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+# Flutter config
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 export PUB_HOSTED_URL=http://dart-pub.byted.org
+# deprecated path
+# export PATH=/Users/mac/Documents/development/FlutterSDK/flutter/bin:$PATH
+# export PATH="$PATH:/Users/mac/Documents/development/FlutterSDK/flutter/bin/cache/dart-sdk/bin/"
 
+# Zsh Config
 
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/mac/.oh-my-zsh"
 # ZSH_THEME="robbyrussell"
 ZSH_THEME="spaceship"
 # ZSH_THEME=powerlevel10k/powerlevel10k
 
-# User configuration
-
+# Source file
 source ~/.bash_profile
 source $ZSH/oh-my-zsh.sh
 
-
-# Example aliases
+# Zsh aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vi="vim"
-alias nvi="nvim"
-alias tnew="tmux new -s"
+
 
 eval $(thefuck --alias)
-
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -370,38 +378,26 @@ eval $(thefuck --alias)
 ## autojump 编译脚本
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 
-
-## 插件
-
-# zplug
-# Check if zplug is installed
-if [[ ! -d ~/.zplug ]]; then
-    git clone https://github.com/zplug/zplug ~/.zplug
-    source ~/.zplug/init.zsh && zplug update --self
-fi
-
-# Essential
-source ~/.zplug/init.zsh
-
-# What does this do?
-zplug "plugins/vi-mode", from:oh-my-zsh
-# zplug romkatv/powerlevel10k, use:powerlevel10k.zsh-theme
-
-# Then, source packages and add commands to $PATH
-zplug load --verbose
-
 ## 添加插件git
-plugins=(git)
-## 添加插件autojump
-plugins=(git autojump)
-## 添加插件vi-mode
-plugins=(git vi-mode)
+plugins=(zsh-autosuggestions autojump sublime)
+# plugins=(git sublime)
+# # ## 添加插件docker
+# # plugins=(docker)
+
+# fzf search
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-  # Set Spaceship ZSH as a prompt
-  autoload -U promptinit; promptinit
-  prompt spaceship
+# Set Spaceship ZSH as a prompt
+autoload -U promptinit; promptinit
+# prompt spaceshipI
+
+
+# Ruby Config
+
+export PATH="$PATH:/Users/mac/.rvm/rubies/ruby-2.5.1/bin"
+export PATH=/Users/mac/.rvm/rubies/ruby-2.5.1/bin:$PATH
+export PATH="$GEM_HOME/bin:$PATH"
 ```
 
 ## 参考
