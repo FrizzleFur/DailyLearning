@@ -598,6 +598,17 @@ sudo rm -rf -v /Volumes/macOSSierra/Backups.backupdb/xxx/xxxx
     Ctrl+a  |  移动到当前行的开头
     Ctrl+e |   移动到当前行的结尾
 
+
+## 插件
+[程序员内功系列--常用命令行工具 | iTimothy](https://xiaozhou.net/learn-the-command-line-tools-md-2018-10-11.html)
+
+
+* skm
+* autojump
+* thefuck
+* tig
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190714171426.png)
+
 ## 工具软件
 
 ### iTerm2
