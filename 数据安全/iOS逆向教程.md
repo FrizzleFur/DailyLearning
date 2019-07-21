@@ -1,16 +1,10 @@
 # iOS逆向
 
+## Hopper 系列教程
+* [【MacOS】 Hopper教程之分析CrackMe#1爆破并KeyGen系列教程（一） - YouTube](https://www.youtube.com/watch?v=yjvlNQNCm6w&feature=youtu.be)
+* [Hopper 系列教程之入门 CrackMe 分析 | ＊tree_fly 's Blog](https://itreefly.com/posts/29d95a48.html)
 
 ## App脱壳
-
-
-
-
-
-
-
-
-
 
 
 ## Hopper+LLDB调试第三方App

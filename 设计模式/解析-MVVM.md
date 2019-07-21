@@ -173,11 +173,24 @@ MVC模式的关键是实现了视图和模型的分离。这是如何实现的�
 —— 其实我觉得这个MVC算是很基础的工程架构，不算很复杂，所以应用很广泛。
 
 ## MVVM模式
+MVVM（Model-View-ViewModel）是一种体系结构或模式，它使组件的依赖性变得简单，因为View依赖于ViewModel，而ViewModel依赖于模型线性。它的事件流是线性的，相反，从Model到ViewModel和ViewModel到View。
+
+![MVVM](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190721093701.png)
+
+另一方面，在MVC（模型 - 视图 - 控制器）架构或模式中，Controller依赖于模型和视图，其事件流程从模型到控制器和视图到控制器。
+
+![MVC](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190721093724.png)
+
+
+MVC的问题在于，随着项目的发展，Controller往往会变得庞大而复杂，因为它必须同时处理模型和视图(几乎覆盖所有)。实际上，MVC是Web应用程序中的一个很好的模式，支持[Ruby on Rails](http://rubyonrails.org/)或[ASP.NET MVC等框架](http://www.asp.net/mvc)，但在iOS应用程序中，MVC通常会生成单片且难以维护的代码。
+
+对于MVC的缺点，MVVM越来越受欢迎来开发移动应用程序或桌面应用程序。在iOS应用程序中，MVVM的“视图”由“View”（UIView）和“ViewController”（UIViewController）组成。视图逻辑（例如，值`1000`应显示为`"1,000"`）在ViewModel中实现。View只使用ViewModel提供的值来显示。Model负责业务逻辑。**由于责任分离，MVVM架构中的iOS应用程序更容易测试**。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190721093906.png)
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15359952531157.jpg)
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190304081524.png)
-
 
 为了解决这个问题，我们的首要任务是清理视图控制器的视图控制器，分为两部分：视图和视图模型。具体地说，我们要：
 
@@ -397,9 +410,25 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 基本着五种绑定能够覆盖业务中的大部分的场景
 
 
+## 模块职责
+
+* Model模型对应的管理类, 负责添加, 删除, 通知, 保存等功能, 仅提供能力, 无主动行为
+
+
+## 依赖
+
+我们在MVVM架构中了解了依赖于ViewModel和ViewModel的View。当我们编写代表模型，视图或ViewModel的协议，类或结构时，**我们如何强制依赖的方向**？如果将所有类型放在目录中，甚至放在应用程序目标中，则很容易混乱。
+
+
+iOS 8引入了动态框架包含Model，View和ViewModel框架的iOS应用程序的体系结构（如下图所示）确保依赖关系的方向是从View到ViewModel和ViewModel到Model，应用程序注入了依赖关系。例如，如果在ViewModel框架中创建一个类型，它可以在Model框架中引用类型，但不能在View框架中引用那些类型。
+
+该体系结构保持了依赖关系方向的一致性，使应用程序易于开发，测试和维护。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190721094213.png)
 
 ## 参考
 
+* [使用ReactiveCocoa进行MVVM架构中的依赖注入第1部分：简介](https://yoichitgy.github.io/post/dependency-injection-in-mvvm-architecture-with-reactivecocoa-part-1-introduction/)
 * [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
 * [不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
 
