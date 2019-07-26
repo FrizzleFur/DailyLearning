@@ -204,6 +204,8 @@ MVC的问题在于，随着项目的发展，Controller往往会变得庞大而�
 ### ViewModel
 
 MVVM 中的 viewModel 的主要职责就是从 model 层获取 view 所需的数据，并且将这些数据转换成 view 能够展示的形式。
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190721132712.png)
+
 
 ### ViewModel Binding
 
