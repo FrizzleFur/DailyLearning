@@ -1,6 +1,7 @@
 # 解析-Flutter
 
 
+
 ## Why Flutter
 
 
@@ -141,6 +142,7 @@ touch ~/.android/repositories.cfg
 
 ## 参考
 
+* [OpenFlutter/Flutter-Notebook: 日更的FlutterDemo合集，今天你fu了吗](https://github.com/OpenFlutter/Flutter-Notebook)
 * [Flutter · 语雀](https://www.yuque.com/xytech/flutter)
 * [Flutter中文网](https://flutterchina.club/)
 * [Flutter 社区中文资源](https://flutter-io.cn/)
