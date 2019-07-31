@@ -166,6 +166,11 @@
 
 ## 技术路线
 
+
+### 技能图谱
+
+[程序员技能图谱（图片预览版）](https://github.com/TeamStuQ/skill-map)
+
 ### 基础
 
 <!--![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163318.png)-->
