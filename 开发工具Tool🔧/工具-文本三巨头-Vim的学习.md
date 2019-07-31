@@ -437,6 +437,9 @@ defaults delete  com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-X.X
 
 另：可在 Xcode 中的 `Edit` -> `XVim` 关闭或启用。
 
+* Xcode11 ： [Xcode 11 · Issue #236 · XVimProject/XVim2](https://github.com/XVimProject/XVim2/issues/236)
+    * 下载Develop分支
+
 ## Vim工具
 
 ### SpaceVim
