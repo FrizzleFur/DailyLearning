@@ -612,6 +612,7 @@ sudo rm -rf -v /Volumes/macOSSierra/Backups.backupdb/xxx/xxxx
 * autojump
 * thefuck
 * tig
+* tree:  brew install tree
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190714171426.png)
 
 ## 工具软件
