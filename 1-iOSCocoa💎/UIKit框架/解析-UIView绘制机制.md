@@ -6,6 +6,7 @@
 --- | --- | --- | ---
 1 | 2018-04-14 | 新建文章
 2 | 2018-05-28 | 整理目录，完善标题
+3 | 2019-08-01 | 完善code提示
 
 > UIView的`setNeedsLayout`, `layoutIfNeeded` 和` layoutSubviews` 方法之间的关系解释
 
@@ -27,7 +28,7 @@
 
 ![](https://i.loli.net/2018/12/09/5c0c78c541bbb.jpg)
 
-```
+```objc
 - (CGSize)sizeThatFits:(CGSize)size
 - (void)sizeToFit
 
@@ -310,7 +311,7 @@ UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行drawR
 
 假设我们创建一个UILabel：
 
-```
+```objc
 UILabel* label = [[UILabel alloc]initWithFrame:CGRectMake(10, 50, 300, 14)];
 label.backgroundColor = [UIColor whiteColor];
 label.font = [UIFont systemFontOfSize:14.0f];
@@ -332,7 +333,9 @@ label.text = @"test";
 ```objc
 [CATransaction begin]
 ```
+
 在Runloop结束的时候调用
+
 ```objc
 [CATransaction commit]
 ```
@@ -415,12 +418,15 @@ GPU大致的工作模式如下：
 
 Compositing是指将多个纹理拼到一起的过程，对应UIKit，是指处理多个view合到一起的情况，如
 
-[self.view addsubview : subview]。
+```swift
+[self.view addsubview : subview];
+```
+
 如果view之间没有叠加，那么GPU只需要做普通渲染即可。 如果多个view之间有叠加部分，GPU需要做blending。
 
 加入两个view大小相同，一个叠加在另一个上面，那么计算公式如下：
 
-```
+```objc
 R = S+D*(1-Sa)
 ```
 
@@ -539,7 +545,7 @@ shadowRadius = 3.0
 
 layer中与阴影相关的属性有以下几个
 
-```
+```objc
 (CGColorRef *) shadowColor//阴影颜色
 (float) shadowOpacity//阴影透明度
 (CGSize) shadowOffset//阴影偏移量
@@ -550,7 +556,7 @@ layer中与阴影相关的属性有以下几个
 
 ### 3. shadowColor
 
-```
+```objc
 - (void)p_setupSubViews {
     self.view.backgroundColor = [UIColor whiteColor];
     [self p_setupViewWithY:100 shadowColor:[UIColor redColor]];
@@ -575,7 +581,7 @@ shadow color
 
 ### 4. shadowOpacity
 
-```
+```objc
 - (void)p_setupSubViews {
     self.view.backgroundColor = [UIColor whiteColor];
     [self p_setupViewWithY:100 shadowOpacity:0.2];
@@ -599,7 +605,7 @@ shadow opacity
 
 ### 5. shadowOffset
 
-```
+```swift
 - (void)p_setupSubViews {
     self.view.backgroundColor = [UIColor whiteColor];
     [self p_setupViewWithY:100 shadowOffset:CGSizeMake(0, 0)];
@@ -629,7 +635,7 @@ shadow offset
 
 shadowRadius其实可以理解为阴影的宽度
 
-```
+```swift
 - (void)p_setupSubViews {
     self.view.backgroundColor = [UIColor whiteColor];
     [self p_setupViewWithY:100 shadowRadius:0];
@@ -657,7 +663,7 @@ shadow radius
 
 ### 7. shadowPath
 
-```
+```swift
 - (void)p_setupSubViews {
     self.view.backgroundColor = [UIColor whiteColor];
     [self p_setupViewWithY1:100];
