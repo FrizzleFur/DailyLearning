@@ -567,16 +567,15 @@ self.tableView.rowHeight = 88;
 
 我们要关注三个存储容器的变化情况：
 
-*   `NSMutableDictionary` 类型 **_cachedCells**：用来存储当前屏幕上所有 Cell 与其对应的 indexPath。以键值对的关系进行存储。
-*   `NSMutableDictionary` 类型 **availableCells**：当列表发生滑动的时候，部分 Cell 从屏幕移出，这个容器会对 `_cachedCells`进行拷贝，然后将屏幕上此时的 Cell 全部去除。即最终取出所有退出屏幕的 Cell。
-*   `NSMutableSet` 类型 **_reusableCells**：用来收集曾经出现过此时未出现在屏幕上的 Cell。当再出滑入主屏幕时，则直接使用其中的对象根据 `CGRectIntersectsRect` Rect 碰撞试验进行复用。
+* `NSMutableDictionary` 类型 **_cachedCells**：用来存储当前屏幕上所有 Cell 与其对应的 indexPath。以键值对的关系进行存储。
+* `NSMutableDictionary` 类型 **availableCells**：当列表发生滑动的时候，部分 Cell 从屏幕移出，这个容器会对 `_cachedCells`进行拷贝，然后将屏幕上此时的 Cell 全部去除。即最终取出所有退出屏幕的 Cell。
+* `NSMutableSet` 类型 **_reusableCells**：用来收集曾经出现过此时未出现在屏幕上的 Cell。当再出滑入主屏幕时，则直接使用其中的对象根据 `CGRectIntersectsRect` Rect 碰撞试验进行复用。
 
 在整个核心复用阶段，这三个容器都充当着很重要的角色。我们给出以下的场景实例，例如下图的一个场景，图 ① 为页面刚刚载入的阶段，图 ② 为用户向下滑动一个单元格时的状态：
 
 ![核心处理阶段容器变化](http://7xwh85.com1.z0.glb.clouddn.com/Tablet%209%E2%80%B3%20Landscape.png)
 
 当到状态 ② 的时候，我们发现 `_reusableCells` 容器中，已经出现了状态 ① 中已经退出屏幕的 Cell 0。而当我们重新将 Cell 0 滑入界面的时候，在系统 `addView` 渲染阶段，会直接将 `_reusableCells` 中的 Cell 0 立即取出进行渲染，从而代替创建新的实例再进行渲染，简化了时间与性能上的开销。
-
 
 
 ## 重用机制的实现
@@ -651,6 +650,98 @@ self.superview insertSubview:containerView aboveSubview];
         // Fallback on earlier versions
     」
 ```
+
+
+
+
+
+## Diffable Data Source 新 API
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190801141435.png)
+
+如上图所示在 iOS 13 中 Apple 引入了新的 API Diffable Data Source ，让开发者可以更简单高效的实现 UITableView、UICollectionView 的局部数据刷新。可能使用过 IGListKit 、RxCocoa 或者 DeepDiff 的读者对于 Diff 概念并不陌生
+
+
+![](https://pic-mike.eeoss-cn-hongkong.aliyuncs.com/Blog/20190801141407.png)
+
+
+它是用来维护 TableView 的数据源，Section 和 Item 遵循 IdentifierType，从而确保每条数据的唯一性，初始化方法如下：
+
+```swift
+init(tableView: UITableView, cellProvider: @escaping UITableViewDiffableDataSource<SectionIdentifierType, ItemIdentifierType>.CellProvider)
+
+typealias UITableViewDiffableDataSource<SectionIdentifierType, ItemIdentifierType>.CellProvider = (UITableView, IndexPath, ItemIdentifierType) -> UITableViewCell?
+
+open class UITableViewDiffableDataSource<SectionIdentifierType, ItemIdentifierType> : NSObject, UITableViewDataSource where SectionIdentifierType : Hashable, ItemIdentifierType : Hashable
+```
+
+通过使用 apply 我们无需计算变更的 indexPaths，也无需调用 reloadSections，即可安全在在主线程或后台线程更新 UI, 仅需简单的将需要变更后的数据通过 NSDiffableDataSourceSnapshot 计算出来，NSDiffableDataSourceSnapshot 的定义如下：
+
+* 集中的数据源
+    * UICollectionViewDiffableDataSource
+    * UITableViewDiffableDataSource
+    * NSCollectionViewDiffableDataSource
+
+### Snapshot
+
+* 当前UI状态的事实
+* 数据源快照
+* Section 和 Item 都有唯一的 ID
+* 不再需要依赖 IndexPath
+
+```swift
+class NSDiffableDataSourceSnapshot<SectionIdentifierType, ItemIdentifierType> where SectionIdentifierType : Hashable, ItemIdentifierType : Hashable
+```
+
+DataSourceSnapshot 和 DiffableDataSource 定义类似，如其名字一样用来表示变更后的数据源，其有 append、delete、move、insert 等实现数据源的变更。
+
+* DiffableDataSource 负责当前数据源配置，DataSourceSnapshot 负责变更后的数据源处理
+* DiffableDataSource 通过调用自身 apply 方法将 DataSourceSnapshot 变更后的数据更新同步到 UITableView 或 UICollectionView 的 UI，
+* 值得注意的是为了确保 Diff 生效，所以数据必须具有唯一 Identifier，且遵循 Hashable 协议
+
+构建快照时：
+
+```swift
+let snapshot = NSDiffableDataSourceSnapshot<Section, UUID>()
+```
+
+空快照
+
+```swift
+let snapshot = dataSource.snapshot()
+```
+
+当前数据源的快照
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190801143830.png)
+
+* Applying a Snapshot
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190801152324.png)
+
+
+### 标识符
+
+标识符需要满足以下条件：
+
+* 必须唯一
+* 遵守 `Hashable` 协议
+* 使用数据模型或者对象的 ID
+
+```swift
+struct MyModel: Hashable {
+    let identifier = UUID( )
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
+    }
+    static func == (lhs: MyModel, rhs: MyModel) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+}
+```
+
+
+
 
 ## 参考 
 
