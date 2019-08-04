@@ -282,8 +282,10 @@ http://www.hangge.com/blog/cache/detail_1940.html
 
 ## 相关Tip
 
-
-其实Rxswift是可以返回一个多参数的Observable<(String, Bool)> 
+* Observable如果未被订阅，其实不会发出信号📶
+* 订阅的Event时，如果未用OnNext解包，有一个Optional的element, element才是事件的信号内容
+* 如果一个Observable被终止了OnCompleted/OnError,那么后续的订阅无效。但可以收到OnCompleted的通知。
+* 其实Rxswift是可以返回一个多参数的Observable<(String, Bool)> 
 
 ```swift
         container.register(LarkCustomerServiceAPI.self) { (r) -> LarkCustomerServiceAPI in

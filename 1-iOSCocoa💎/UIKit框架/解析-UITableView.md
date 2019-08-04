@@ -686,7 +686,7 @@ open class UITableViewDiffableDataSource<SectionIdentifierType, ItemIdentifierTy
 
 * 当前UI状态的事实
 * 数据源快照
-* Section 和 Item 都有唯一的 ID
+* 包含`Section`和`Item`各自的唯一ID
 * 不再需要依赖 IndexPath
 
 ```swift

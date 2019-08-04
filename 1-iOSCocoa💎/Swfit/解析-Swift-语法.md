@@ -1194,3 +1194,9 @@ private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
     // function implementation goes here
 }
 ```
+
+
+## 参考
+
+* [把“The Swift Programming Language”读薄 - Hawstein的博客](http://hawstein.com/2014/07/01/make-thiner-tspl/#Inheritance)
+* [构造过程 |《Swift 编程语言》| iOS 开发者论坛](https://learnku.com/docs/the-swift-programming-language/4.2/Initialization/3535)
