@@ -1196,7 +1196,37 @@ private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
 ```
 
 
+
+### Key Considerations
+
+*   Files are organized in the following order:
+    *   Default header created by Xcode
+    *   Import statements
+    *   Delegate protocols that are associated only with the major type declaration of the file
+    *   The major type declaration of the file
+    *   Inner type declarations
+    *   Properties
+        *   Inherited
+        *   Protocol
+        *   `IBOutlet`s
+        *   Open
+        *   Public
+        *   Internal
+        *   Private
+    *   Functions
+        *   Inherited
+        *   Protocol
+        *   Open
+        *   Public
+        *   Internal
+        *   Private
+    *   Extension Protocol Conformances
+
+
+
+
 ## 参考
 
 * [把“The Swift Programming Language”读薄 - Hawstein的博客](http://hawstein.com/2014/07/01/make-thiner-tspl/#Inheritance)
 * [构造过程 |《Swift 编程语言》| iOS 开发者论坛](https://learnku.com/docs/the-swift-programming-language/4.2/Initialization/3535)
+* [swift-best-practices/OrganizationWithinAFile.md at master · Lickability/swift-best-practices](https://github.com/Lickability/swift-best-practices/blob/master/OrganizationWithinAFile.md)

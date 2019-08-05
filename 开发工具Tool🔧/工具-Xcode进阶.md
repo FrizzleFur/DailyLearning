@@ -153,7 +153,7 @@ property (nonatomic, <#type#>) <#className#> *propertyName;/**< <#remark#> */
 * 使用`Cmd + 5`切换到issue模板
 * `Cmd + Option + J`跳转到fiter过滤，输入`user-defined`就可以查看到
 
-### 快捷键
+## 快捷键
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15376702477628.jpg)
 
@@ -161,8 +161,7 @@ property (nonatomic, <#type#>) <#className#> *propertyName;/**< <#remark#> */
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15376703183349.jpg)
 
-* 显示注释 `Cmd + Option + /`
-* 
+
 #### 1. Open Quickly
 
 相信大家都熟悉 `⌘ + ⌥ + O` ，但是你知道怎么在辅助编辑器中打开吗？按住`Alt + Enter`， enjoy~
@@ -194,6 +193,13 @@ The rest of the jump bar consists of heierarchial navigation with each level giv
 
 #### 9. Filter in Navigator  
 本来热键是`⌘ + ⌥ + J`,发现貌似不起作用，就改成`⌘ + ⌥ + O`
+
+####  10. 显示注释
+
+* 显示注释 `Cmd + Option + /`
+
+####  11. 切换焦点
+* 切换焦点`Control + ` `
 
 
 ## Xcode插件
