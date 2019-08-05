@@ -173,6 +173,9 @@ MVC模式的关键是实现了视图和模型的分离。这是如何实现的�
 —— 其实我觉得这个MVC算是很基础的工程架构，不算很复杂，所以应用很广泛。
 
 ## MVVM模式
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190805141346.png)
+
 MVVM（Model-View-ViewModel）是一种体系结构或模式，它使组件的依赖性变得简单，因为View依赖于ViewModel，而ViewModel依赖于模型线性。它的事件流是线性的，相反，从Model到ViewModel和ViewModel到View。
 
 ![MVVM](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190721093701.png)
@@ -414,13 +417,16 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 ## 模块职责
 
-* Model模型对应的管理类, 负责添加, 删除, 通知, 保存等功能, 仅提供能力, 无主动行为
+* Model模型对应的管理类, 负责添加, 删除, 通知, 保存等功能, 仅提供能力, 无主动行为,Models are the application's dynamic data structure, independent of the user interface. They directly manage the data and business logic of the application.
+* View: Views are responsible for rendering content and handling user interaction with that content.
+* View Model：A view model is a view's model. It has the data needed to populate a particular kind of view and the presentation logic needed to transform that data into properties that can be rendered.
+* Controller: Controllers are responsible for controlling the flow of the application execution.
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190805173404.png)
 
 
 ## 依赖
 
 我们在MVVM架构中了解了依赖于ViewModel和ViewModel的View。当我们编写代表模型，视图或ViewModel的协议，类或结构时，**我们如何强制依赖的方向**？如果将所有类型放在目录中，甚至放在应用程序目标中，则很容易混乱。
-
 
 iOS 8引入了动态框架包含Model，View和ViewModel框架的iOS应用程序的体系结构（如下图所示）确保依赖关系的方向是从View到ViewModel和ViewModel到Model，应用程序注入了依赖关系。例如，如果在ViewModel框架中创建一个类型，它可以在Model框架中引用类型，但不能在View框架中引用那些类型。
 
@@ -433,6 +439,7 @@ iOS 8引入了动态框架包含Model，View和ViewModel框架的iOS应用程序
 * [使用ReactiveCocoa进行MVVM架构中的依赖注入第1部分：简介](https://yoichitgy.github.io/post/dependency-injection-in-mvvm-architecture-with-reactivecocoa-part-1-introduction/)
 * [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
 * [不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
+* [swift-best-practices/CombinedDocument.md at master · Lickability/swift-best-practices](https://github.com/Lickability/swift-best-practices/blob/master/CombinedDocument.md)
 
 * [How not to get desperate with MVVM implementation – Flawless App Stories – Medium](https://medium.com/flawless-app-stories/how-to-use-a-model-view-viewmodel-architecture-for-ios-46963c67be1b)
 * [leichunfeng/MVVMReactiveCocoa: GitBucket iOS App](https://github.com/leichunfeng/MVVMReactiveCocoa)

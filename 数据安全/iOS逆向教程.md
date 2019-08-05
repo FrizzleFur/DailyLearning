@@ -524,6 +524,7 @@ upadte: 更新增加资源方式，直接往MonkeyApp里面增加资源即可，
 
 1. [iOS逆向工程之App脱壳 - 青玉伏案 - 博客园](http://www.cnblogs.com/ludashi/p/5725743.html)
 2. [iOS逆向工程之Hopper+LLDB调试第三方App - 青玉伏案 - 博客园](https://www.cnblogs.com/ludashi/p/5730338.html)
+3. [分析一个App需要的技术手段](https://mp.weixin.qq.com/s/ZmDd3tOkHwSqCCsG7kfokQ)
 
 ### App
 
