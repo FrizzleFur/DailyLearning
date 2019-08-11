@@ -456,7 +456,6 @@ defaults delete  com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-X.X
 
 #### 安装：
 
-
 ```
 [1] 安装SpaceVim工具
 # 需要先安装git和curl工具

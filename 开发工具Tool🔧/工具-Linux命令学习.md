@@ -906,6 +906,27 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
 * /usr/tmp : 已经被众多发行版抛弃的临时文件夹。
 
+
+## Plugin
+
+Tig
+* 安装成功后，在 Repo 文件夹下，输入 【 tig 】+ 【 Enter 】即可进入 tig 模式。此时展现在面前的将会是本地所有的 commit 记录以及分支的演化。
+* 【 j 】【 k 】可上下切换选中的行，【 Enter 】可分屏查看当前 commit 记录详情，【 l 】小写的 L，全屏查看 commit 记录。
+* 【 r 】进入 refs view  模式，查看所有分支，使用 【 j/k 】上下切换， 【 Enter 】查看分支演化。
+* 【 s 】进入 status view，效果同 git status 命令，会展示所有 Untracked 和 UnStaged 文件。 选中 Unstaged 的文件键入【 u 】效果同 git add ，选中 staged 的文件键入 【 u 】效果同 git reset，即撤销 add 操作。【 Enter 】查看分屏查看当前文件的修改记录。
+* status view 模式下键入 【 C 】进入 vim 编辑器，【 i 】进入编辑模式，在第一行输入 commit 信息，【 :x 】退出并保存。【 m 】查看 commit 记录。
+* 【 c 】进入 stash view 模式，全屏查看修改记录，可配合 【 s 】 使用。
+* 【 t 】进入 tree view 模式，git 目录会以文件夹的形式展示。【 Enter】进入子目录，【 , 】返回上一级目录。
+* 【 m 】进入 main view 查看当前分支的所有 commit 记录，使用 【 j/k 】上下切换，【 回车 】可分屏查看 commit  详情。同样，【 j/k 】上下移动，【空格】翻页。
+* main view 可以认为是主页。
+* 【 / 】输入关键字可进行搜索。
+* 【 R 】刷新当前页面，可退出搜索的高亮状态。
+* 【 Q 】退出 tig。
+* 【 h 】查看快捷键帮助。
+
+[颠覆 Git 命令使用体验的神器 -- tig - 简书](https://www.jianshu.com/p/e4ca3030a9d5)
+
+
 ## 技巧
 
 * 连续输入多个命令： 
