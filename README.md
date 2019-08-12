@@ -122,7 +122,7 @@
 
 - [Go 开发者路线图](https://github.com/Quorafind/golang-developer-roadmap-cn)
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/  Blog/20190501122155.png)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190501122155.png)
 
 ## 异步编程
 
