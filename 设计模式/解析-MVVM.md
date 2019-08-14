@@ -5,6 +5,9 @@
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15235264488103.jpg)
 
 > 之前对MVVM模式的理解太浅，以为只是把VC请求放在了VM中，其实VM可以绑定View,并将Model变化的情况，通过ViewModel更新所绑定的view.
+> ViewModel: 提供并管理数据（状态等）
+> ViewModel：符合设计模式的单一职责原则
+
 
 [不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
 

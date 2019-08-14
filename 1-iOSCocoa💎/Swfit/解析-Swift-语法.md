@@ -1195,8 +1195,15 @@ private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
 }
 ```
 
+##  == and === 
 
+ != and !==
+ 
+*  == is the equality operator, test 2 things are equal, for whatever definition of “equal” ,For example, 5 == 5 is true.
+*  `===` is the identity operator, which checks whether two instances of a class point to the same memory. This is different from equality, because two objects that were created independently using the same values will be considered equal using `==` but not `===` **because they are different objects**.
 
+ [What’s the difference between == and ===? - free Swift 5.0 example code and tips](https://www.hackingwithswift.com/example-code/language/whats-the-difference-between-equalsequals-and-equalsequalsequals)
+ 
 ### Key Considerations
 
 *   Files are organized in the following order:
