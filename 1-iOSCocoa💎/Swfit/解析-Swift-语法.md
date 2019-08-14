@@ -487,6 +487,24 @@ Final
 * final 修饰的 class 任何地方都不能不能被继承
 * final 修饰的 func 任何地方都不能被 Override
 
+## Optional
+
+```swift
+public enum Optional<Wrapped> : ExpressibleByNilLiteral {
+
+    /// The absence of a value.
+    ///
+    /// In code, the absence of a value is typically written using the `nil`
+    /// literal rather than the explicit `.none` enumeration case.
+    case none
+
+    /// The presence of a value, stored as `Wrapped`.
+        case some(Wrapped) 
+```
+
+* none: 没有值
+* Optional(variable) 可选值
+* !, 强制解包，从可选值中获取非空值，不推荐用，须为！负责
 
 ## 使用“Markdown方言”编写代码注释
 
@@ -945,6 +963,136 @@ Swift主要为我们提供了以下四种”named types“ 分别是：enum、st
 * 什么时候该用引用类型（class）：
     * 要用==运算符来比较实例**身份**的时候
     * 你希望有创建一个共享的、可变对象的时候
+## 类和结构体
+
+在swift中，为了安全性的考虑，将`Int`,`Double`类型都用`Struct`结构体来标识
+```swift
+/// A signed integer value type.
+///
+/// On 32-bit platforms, `Int` is the same size as `Int32`, and
+/// on 64-bit platforms, `Int` is the same size as `Int64`.
+public struct Int : FixedWidthInteger, SignedInteger {
+
+    /// A type that represents an integer literal.
+    public typealias IntegerLiteralType = Int
+    
+    /// A double-precision, floating-point value type.
+public struct Double {
+
+    /// Creates a value initialized to zero.
+    public init()
+    
+public struct CGFloat {
+
+```
+
+#### 比较结构体和类
+
+* 类是引用类型
+* 结构体是值类型
+
+Swift 中结构体和类有很多共同点，二者皆可：
+
+* 定义属性以存储值
+* 定义方法以提供功能
+* 定义下标以提供下标语法访问其值
+* 定义构造器以设置其初始化状态
+* 通过扩展以增加默认实现功能
+* 遵循协议以提供某种标准功能
+* 每当你定义一个新的结构体或类都是定义一个全新的 Swift 类型
+
+类又有一些结构体没有的额外功能：
+
+* 继承让一个类可以继承另一个类的特征
+* 类型转换让你在运行时可以检查和解释一个类实例
+* 析构器让一个类的实例可以释放任何被其所分配的资源
+* 引用计数允许对一个类实例进行多次引用
+* 更多信息请参阅 继承，类型转换，析构过程 和 自动引用计数。
+
+```swift
+struct SomeStructure {
+    // structure definition goes here
+}
+class SomeClass {
+    // class definition goes here
+}
+
+struct Resolution {
+    var width = 0
+    var height = 0
+}
+class VideoMode {
+    var resolution = Resolution()
+    var interlaced = false
+    var frameRate = 0.0
+    var name: String?
+}
+
+// 结构体与类实例
+// 结构体和类创建实例的语法非常相似：
+let someResolution = Resolution()
+let someVideoMode = VideoMode()
+
+```
+
+* 结构体类型的成员构造器
+    * 所有结构体都有一个用于初始化结构体实例的成员属性，并且是自动生成的成员构造器。实例属性的初始化值通过属性名称传递到成员构造器中：
+* 与结构体不同，类没有默认的成员构造器
+
+```swift
+let vga = Resolution(width: 640, height: 480)
+```
+
+
+#### 值类型的结构体和枚举
+
+* 值类型是一种赋值给变量或常量，或传递给函数时，**值会被拷贝的**类型。
+* 其实你在之前的章节中已广泛的使用了值类型。其实 Swift 中的所有基本类型 --- 整数，浮点数，布尔，字符串，数组和字典 --- 它们都是值类型，其底层也是以结构体实现的。
+
+
+这个示例用了上面的 Resolution 结构体：
+
+```swift
+let hd = Resolution(width: 1920, height: 1080)
+var cinema = hd
+```
+
+声明了一个名为 hd 的常量并使用全高清视频的宽高（ 1920 像素宽，1080 像素高 ）将其初始化为 Resolution 的实例。
+
+还声明了一个名为 cinema 的变量并使用当前 hd 的值为其赋值。 **因为 Resolution 是一个结构体，所以会制作一个当前实例的副本赋值给 cinema 。虽然 hd 和 cinema 现在有同样的宽高，但是他们在底层是完全不同的两个实例**。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190814133621.png)
+
+#### 类是引用类型
+
+* 与值类型不同，赋值给变量或常量，或是传递给函数时，引用类型并不会拷贝。引用的不是副本而是已经存在的实例。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190814133858.png)
+
+
+以上的例子还显示了引用类型推断有多费劲。如果 tenEighty 和 alsoTenEighty 在你的代码中相距甚远，那么可能很难找到改变视频模式的所有地方。无论你在哪里使用 tenEighty，都需要考虑用到 alsoTenEighty 的代码，反之亦然。相反，值类型就很好推断，因为在你的源文件中相同值相互作用的所有代码是紧密相连的。
+
+### 恒等运算符
+
+因为类是引用类型，在底层可能多个常量和变量引用同一个类的实例。（ 同样的理论对结构体和枚举来说并不有效，因为当它们赋值给常量或变量，或是传递给函数时，总是拷贝的。）
+
+有时找出两个常量或变量是否引用同一个类的实例很有帮助。为此，Swift 提供了恒等运算符：
+
+* 等价于 (===)
+* 非等价 (!==)
+ 使用他们来检查两个常量或变量是否引用同一个实例：
+ 
+```swift
+if tenEighty === alsoTenEighty {
+    print("tenEighty and alsoTenEighty refer to the same VideoMode instance.")
+    }
+// 打印 "tenEighty and alsoTenEighty refer to the same VideoMode instance."
+```
+
+*  == is the equality operator, test 2 things are equal, for whatever definition of “equal” ,For example, 5 == 5 is true.
+*  `===` is the identity operator, which checks whether two instances of a class point to the same memory. This is different from equality, because two objects that were created independently using the same values will be considered equal using `==` but not `===` **because they are different objects**.
+
+ [What’s the difference between == and ===? - free Swift 5.0 example code and tips](https://www.hackingwithswift.com/example-code/language/whats-the-difference-between-equalsequals-and-equalsequalsequals)
 
 
 ## 闭包
@@ -1220,136 +1368,6 @@ private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
         *   Private
     *   Extension Protocol Conformances
 
-## 类和结构体
-
-在swift中，为了安全性的考虑，将`Int`,`Double`类型都用`Struct`结构体来标识
-```swift
-/// A signed integer value type.
-///
-/// On 32-bit platforms, `Int` is the same size as `Int32`, and
-/// on 64-bit platforms, `Int` is the same size as `Int64`.
-public struct Int : FixedWidthInteger, SignedInteger {
-
-    /// A type that represents an integer literal.
-    public typealias IntegerLiteralType = Int
-    
-    /// A double-precision, floating-point value type.
-public struct Double {
-
-    /// Creates a value initialized to zero.
-    public init()
-    
-public struct CGFloat {
-
-```
-
-#### 比较结构体和类
-
-* 类是引用类型
-* 结构体是值类型
-
-Swift 中结构体和类有很多共同点，二者皆可：
-
-* 定义属性以存储值
-* 定义方法以提供功能
-* 定义下标以提供下标语法访问其值
-* 定义构造器以设置其初始化状态
-* 通过扩展以增加默认实现功能
-* 遵循协议以提供某种标准功能
-* 每当你定义一个新的结构体或类都是定义一个全新的 Swift 类型
-
-类又有一些结构体没有的额外功能：
-
-* 继承让一个类可以继承另一个类的特征
-* 类型转换让你在运行时可以检查和解释一个类实例
-* 析构器让一个类的实例可以释放任何被其所分配的资源
-* 引用计数允许对一个类实例进行多次引用
-* 更多信息请参阅 继承，类型转换，析构过程 和 自动引用计数。
-
-```swift
-struct SomeStructure {
-    // structure definition goes here
-}
-class SomeClass {
-    // class definition goes here
-}
-
-struct Resolution {
-    var width = 0
-    var height = 0
-}
-class VideoMode {
-    var resolution = Resolution()
-    var interlaced = false
-    var frameRate = 0.0
-    var name: String?
-}
-
-// 结构体与类实例
-// 结构体和类创建实例的语法非常相似：
-let someResolution = Resolution()
-let someVideoMode = VideoMode()
-
-```
-
-* 结构体类型的成员构造器
-    * 所有结构体都有一个用于初始化结构体实例的成员属性，并且是自动生成的成员构造器。实例属性的初始化值通过属性名称传递到成员构造器中：
-* 与结构体不同，类没有默认的成员构造器
-
-```swift
-let vga = Resolution(width: 640, height: 480)
-```
-
-
-#### 值类型的结构体和枚举
-
-* 值类型是一种赋值给变量或常量，或传递给函数时，**值会被拷贝的**类型。
-* 其实你在之前的章节中已广泛的使用了值类型。其实 Swift 中的所有基本类型 --- 整数，浮点数，布尔，字符串，数组和字典 --- 它们都是值类型，其底层也是以结构体实现的。
-
-
-这个示例用了上面的 Resolution 结构体：
-
-```swift
-let hd = Resolution(width: 1920, height: 1080)
-var cinema = hd
-```
-
-声明了一个名为 hd 的常量并使用全高清视频的宽高（ 1920 像素宽，1080 像素高 ）将其初始化为 Resolution 的实例。
-
-还声明了一个名为 cinema 的变量并使用当前 hd 的值为其赋值。 **因为 Resolution 是一个结构体，所以会制作一个当前实例的副本赋值给 cinema 。虽然 hd 和 cinema 现在有同样的宽高，但是他们在底层是完全不同的两个实例**。
-
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190814133621.png)
-
-#### 类是引用类型
-
-* 与值类型不同，赋值给变量或常量，或是传递给函数时，引用类型并不会拷贝。引用的不是副本而是已经存在的实例。
-
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190814133858.png)
-
-
-以上的例子还显示了引用类型推断有多费劲。如果 tenEighty 和 alsoTenEighty 在你的代码中相距甚远，那么可能很难找到改变视频模式的所有地方。无论你在哪里使用 tenEighty，都需要考虑用到 alsoTenEighty 的代码，反之亦然。相反，值类型就很好推断，因为在你的源文件中相同值相互作用的所有代码是紧密相连的。
-
-### 恒等运算符
-
-因为类是引用类型，在底层可能多个常量和变量引用同一个类的实例。（ 同样的理论对结构体和枚举来说并不有效，因为当它们赋值给常量或变量，或是传递给函数时，总是拷贝的。）
-
-有时找出两个常量或变量是否引用同一个类的实例很有帮助。为此，Swift 提供了恒等运算符：
-
-* 等价于 (===)
-* 非等价 (!==)
- 使用他们来检查两个常量或变量是否引用同一个实例：
- 
-```swift
-if tenEighty === alsoTenEighty {
-    print("tenEighty and alsoTenEighty refer to the same VideoMode instance.")
-    }
-// 打印 "tenEighty and alsoTenEighty refer to the same VideoMode instance."
-```
-
-*  == is the equality operator, test 2 things are equal, for whatever definition of “equal” ,For example, 5 == 5 is true.
-*  `===` is the identity operator, which checks whether two instances of a class point to the same memory. This is different from equality, because two objects that were created independently using the same values will be considered equal using `==` but not `===` **because they are different objects**.
-
- [What’s the difference between == and ===? - free Swift 5.0 example code and tips](https://www.hackingwithswift.com/example-code/language/whats-the-difference-between-equalsequals-and-equalsequalsequals)
 
 ## 参考
 
