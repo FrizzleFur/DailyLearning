@@ -9,7 +9,6 @@
 
 ### zsh切换bash bash切换zsh
 
-
 1. `zsh`切换`bash`
 `chsh -s /bin/bash`
 2. `bash`切换`zsh`
@@ -127,6 +126,53 @@ haccks's Config
 
 ![](http://upload-images.jianshu.io/upload_images/225323-1574a71d992ad02d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+- Current Git branch and rich repo status:
+  - `?` — untracked changes;
+  - `+` — uncommitted changes in the index;
+  - `!` — unstaged changes;
+  - `»` — renamed files;
+  - `✘` — deleted files;
+  - `$` — stashed changes;
+  - `=` — unmerged changes;
+  - `⇡` — ahead of remote branch;
+  - `⇣` — behind of remote branch;
+  - `⇕` — diverged changes.
+- Current Mercurial bookmark/branch and rich repo status:
+  - `?` — untracked changes;
+  - `+` — uncommitted changes in the index;
+  - `!` — unstaged changes;
+  - `✘` — deleted files;
+- Indicator for jobs in the background (`✦`).
+- Current Node.js version, through nvm/nodenv/n (`⬢`).
+- Current Ruby version, through rvm/rbenv/chruby/asdf (`💎`).
+- Current Elm version (`🌳`)
+- Current Elixir version, through kiex/exenv/elixir (`💧`).
+- Current Swift version, through swiftenv (`🐦`).
+- Current Xcode version, through xenv (`🛠`).
+- Current Go version (`🐹`).
+- Current PHP version (`🐘`).
+- Current Rust version (`𝗥`).
+- Current version of Haskell GHC Compiler, defined in stack.yaml file (`λ`).
+- Current Julia version (`ஃ`).
+- Current Docker version and connected machine (`🐳`).
+- Current Amazon Web Services (AWS) profile (`☁️`) ([Using named profiles](http://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html)).
+- Current Python virtualenv.
+- Current Conda virtualenv (`🅒`).
+- Current Python pyenv (`🐍`).
+- Current .NET SDK version, through dotnet-cli (`.NET`).
+- Current Ember.js version, through ember-cli (`🐹`).
+- Current Kubectl context (`☸️`).
+- Current Terraform workspace (`🛠`).
+- Package version, if there's is a package in current directory (`📦`).
+- Current battery level and status:
+  - `⇡` - charging;
+  - `⇣` - discharging;
+  - `•` - fully charged.
+- Current Vi-mode mode ([with handy aliases for temporarily enabling](./docs/Options.md#vi-mode-vi_mode)).
+- Optional exit-code of last command ([how to enable](./docs/Options.md#exit-code-exit_code)).
+- Optional time stamps 12/24hr in format ([how to enable](./docs/Options.md#time-time)).
+- Execution time of the last command if it exceeds the set threshold.
+
 #### `.zshrc`文件的引号问题
 
 报错：`/Users/xxx/.oh-my-zsh/oh-my-zsh.sh:source:110: no such file or directory: /Users/xxx/.oh-my-zsh/themes/”refined”.zsh-theme`
@@ -159,28 +205,106 @@ Elegant iTerm2 theme with bright colors
 
 ### Resource其他资源
 
-#### `Zsh`插件 Plugins
+## `Zsh`插件 Plugins
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15129592017167.jpg)
 
-[Awesome-Zsh-Plugins](https://github.com/unixorn/awesome-zsh-plugins)插件库
+* [Awesome-Zsh-Plugins](https://github.com/unixorn/awesome-zsh-plugins)插件库
+* [程序员内功系列--常用命令行工具 | iTimothy](https://xiaozhou.net/learn-the-command-line-tools-md-2018-10-11.html)
 
-## zplug
+### vim-plug
 
-🌺 Zplug is a next-generation ZSH plugin manager.
-安装
+🌺 Minimalist Vim Plugin Manager
+
+异步下载plug
+[junegunn/vim-plug: Minimalist Vim Plugin Manager](https://github.com/junegunn/vim-plug)
+
+
+### autojump 快速跳转
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713020049.gif)
+
+
+autojump可以很方便地帮我们切换到指定目录，它的工作原理是维护一个命令行中使用过的目录的数据库。
+
+[命令行福利——切换目录autojump | yuweiguo's blog](https://yuweiguocn.github.io/command-line-autojump/)
+
+mac下安装：
 ```
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+brew install autojump
 ```
-* Add a zplug section to your .zshrc:
-* List the packages with zplug commands
-* zplug load to source the plugins and add commands to your $PATH
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190615200555.png)
-source ~/.zplug/init.zsh
+
+autojump 支持 zsh，添加以下内容到 ~/.bash_profile 或 ~/.zshrc 文件中：
+
+```
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+```
+
+记得使用 source 命令使刚才的内容生效：
+
+source ~/.bash_profile
+source ~/.zshrc
+我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
+
+我们可以使用更简洁的命令 j 来实现目录跳转，j 是对 autojump 命令的包装。在使用 autojump 切换目录前，需要在命令行中使用过该目录。跳转到包含 te 的目录：
+j te
+话不多说，来看下效果：
+
+
+使用文件管理器打开目录：
+jo te
+
+
+autojump 支持自动补全，使用Tab键查看匹配的多个目录：
+
+查看 autojump 存储的目录的状态：
+
+j -s
+
+
+可以看到每个目录都有对应权重，所以当出现匹配多个目录会跳到权重较大的目录下。
+更多选项请查看使用帮助：
+
+1
+j -h
 
 
 
-### `Zsh` 命令
+### thefuck
+
+thefuck 是一个非常有趣的命令行软件，它能自动帮你纠正敲错的命令。平时在快速输入命令的时候，难免会有一些字母输入错误，这个时候，不用担心，直接再输入一个 fuck，吐槽一下，thefuck 就能自动根据你的输入，猜测出你要输入的命令，并自动帮你纠正，方便得一bi:
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713020336.gif)
+
+
+### tig
+tig 的界面看起来比起 git log 要酷炫不少，而且使用起来也挺方便。此外，tig 的默认按键绑定还跟Vim比较类似，真是Vimer的福音。
+
+tig 在Mac OS下的安装:
+```linux
+brew install tig
+```
+
+
+### git summary
+
+平时我们在多人合作开发一个项目的时候，想要大致了解一下每个人对这个项目提交的commit数量和大致的贡献度，那么 git summary 这个命令绝对能满足你的要求：
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713021037.png)
+```linux
+brew install git-extras
+```
+
+### skm
+
+SKM，全称SSH Key Manager，是一个在命令行下帮助你方便的管理和切换多个SSH key的工具。想象一下，如果你是运维人员，不同的服务器也许有不同的SSH Key来登录，又或者你是一个开发人员，有自己的SSH Key，用来开发和提交代码到自己的git仓库，或许还有公司的SSH Key，用来开发公司的项目。基于以上的情况，需要经常切换SSH Key。而用上了SKM，就方便多了，使用方法类似于 nvm，方便的创建，管理，切换系统当前默认SSH Key，用起来简直不要太爽！
+
+```linux
+brew tap timothyye/tap
+brew install timothyye/tap/skm
+```
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190713021155.png)
+
+## `Zsh` 命令
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301106716847.jpg)
 
@@ -189,54 +313,62 @@ source ~/.zplug/init.zsh
 
 the_silver_searcher: A code searching tool similar to ack, with a focus on speed.
 
-
 ```
 brew install the_silver_searcher
 ```
+## Plugin插件
 
 
-## Vim党插件 Vi-mode
-
-让输入命令vim化：
-
-[oh-my-zsh/plugins/vi-mode at master · robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/vi-mode)
-
+* zsh-autosuggestions
+* autojump
+* sublime 
+    * 支持sublime打开
+* Vim党插件 Vi-mode 
+    * 让输入命令vim化：[oh-my-zsh/plugins/vi-mode at master · robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/vi-mode)
 
 ## 我的Zsh配置
 
+### `.zshrc`文件
 
-```
+```linux
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/mac/.oh-my-zsh"
+# RVM Path
+export PATH=/usr/local/bin:$PATH
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-export PATH=/Users/mac/Documents/development/FlutterSDK/flutter/bin:$PATH
+
+
+# Flutter Path
+export PATH=/Users/mac/Documents/development/ByteFlutter/TTFlutterSDK/flutter/bin:$PATH
+export PATH="$PATH:/Users/mac/Documents/development/ByteFlutter/TTFlutterSDK/flutter/bin/cache/dart-sdk/bin/"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+# Flutter config
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 export PUB_HOSTED_URL=http://dart-pub.byted.org
+# deprecated path
+# export PATH=/Users/mac/Documents/development/FlutterSDK/flutter/bin:$PATH
+# export PATH="$PATH:/Users/mac/Documents/development/FlutterSDK/flutter/bin/cache/dart-sdk/bin/"
 
+# Zsh Config
 
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/mac/.oh-my-zsh"
 # ZSH_THEME="robbyrussell"
 ZSH_THEME="spaceship"
 # ZSH_THEME=powerlevel10k/powerlevel10k
 
-# User configuration
-
+# Source file
 source ~/.bash_profile
 source $ZSH/oh-my-zsh.sh
 
-
-# Example aliases
+# Zsh aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vi="vim"
-alias nvi="nvim"
-alias tnew="tmux new -s"
+
 
 eval $(thefuck --alias)
-
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -246,38 +378,26 @@ eval $(thefuck --alias)
 ## autojump 编译脚本
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 
-
-## 插件
-
-# zplug
-# Check if zplug is installed
-if [[ ! -d ~/.zplug ]]; then
-    git clone https://github.com/zplug/zplug ~/.zplug
-    source ~/.zplug/init.zsh && zplug update --self
-fi
-
-# Essential
-source ~/.zplug/init.zsh
-
-# What does this do?
-zplug "plugins/vi-mode", from:oh-my-zsh
-# zplug romkatv/powerlevel10k, use:powerlevel10k.zsh-theme
-
-# Then, source packages and add commands to $PATH
-zplug load --verbose
-
 ## 添加插件git
-plugins=(git)
-## 添加插件autojump
-plugins=(git autojump)
-## 添加插件vi-mode
-plugins=(git vi-mode)
+plugins=(zsh-autosuggestions autojump sublime)
+# plugins=(git sublime)
+# # ## 添加插件docker
+# # plugins=(docker)
+
+# fzf search
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-  # Set Spaceship ZSH as a prompt
-  autoload -U promptinit; promptinit
-  prompt spaceship
+# Set Spaceship ZSH as a prompt
+autoload -U promptinit; promptinit
+# prompt spaceshipI
+
+
+# Ruby Config
+
+export PATH="$PATH:/Users/mac/.rvm/rubies/ruby-2.5.1/bin"
+export PATH=/Users/mac/.rvm/rubies/ruby-2.5.1/bin:$PATH
+export PATH="$GEM_HOME/bin:$PATH"
 ```
 
 ## 参考

@@ -90,8 +90,6 @@ Flutter 作为 Google 新一代的跨平台框架，有较多的优点，但跟�
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190221171251.png)
 
 
-
-
 ## Flutter配置
 
 使用flutter doctor，解决好问题
@@ -108,9 +106,6 @@ Doctor summary (to see all details, run flutter doctor -v):
 
 • No issues found!
 ```
-
-
-
 
 
 Mac上配置遇到的问题:
@@ -133,6 +128,15 @@ flutter doctor --android-licenses
 touch ~/.android/repositories.cfg
 
 ```
+
+
+## Flutter 路由库 Boost 
+
+[码上用它开始Flutter混合开发——FlutterBoost](https://mp.weixin.qq.com/s?__biz=MzU4MDUxOTI5NA==&mid=2247484367&idx=1&sn=fcbc485f068dae5de9f68d52607ea08f&chksm=fd54d7deca235ec86249a9e3714ec18be8b2d6dc580cae19e4e5113533a6c5b44dfa5813c4c3&scene=0&subscene=131&clicktime=1551942425&ascene=7&devicetype=android-28&version=2700033b&nettype=ctnet&abtest_cookie=BAABAAoACwASABMABAAklx4AVpkeAMSZHgDWmR4AAAA%3D&lang=zh_CN&pass_ticket=1qvHqOsbLBHv3wwAcw577EHhNjg6EKXqTfnOiFbbbaw%3D&wx_header=1)
+
+简单的理解，我们想做到把Flutter容器做成浏览器的感觉。填写一个页面地址，然后由容器去管理页面的绘制。在Native侧我们只需要关心如果初始化容器，然后设置容器对应的页面标志即可。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190630103508.png)
 
 
 ## 参考

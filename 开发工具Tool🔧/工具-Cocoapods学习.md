@@ -1,6 +1,11 @@
 
 # CocoaPods 解析
 
+> CocoaPods是用Ruby构建的，它可以使用macOS上的默认Ruby进行安装。您可以使用Ruby版本管理器，但我们建议您使用macOS上提供的标准Ruby，除非您知道自己在做什么。
+
+
+[iOS-安装和使用 CocoaPods - 简书](https://www.jianshu.com/p/6706cae47e48#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85rvm%E7%8E%AF%E5%A2%83)
+
 pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，Podfile.lock会锁定当前各依赖库的版本,。这样多人协作的时候，可以防止第三方库升级时造成大家各自的第三方库版本不一致.其中前者并不会修改 Podfile.lock 中显示指定的版本，**而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
 **
 
@@ -29,8 +34,29 @@ In addition to the logic operators CocoaPods has an optimisic operator ~>:
 '~> 0.1' Version 0.1 and the versions up to 1.0, not including 1.0 and higher 1.0以下(不含1.0)，0.1以上（含0.1）
 '~> 0' Version 0 and higher, this is basically the same as not having it. 0和以上，等于没有此约束
 
+### Pod 升级/降级
+[ios - How to downgrade or install an older version of Cocoapods - Stack Overflow](https://stackoverflow.com/questions/20487849/how-to-downgrade-or-install-an-older-version-of-cocoapods)
 
-## 总结
+1. 先卸载，在安装
+to remove your current version you could just run:
+
+sudo gem uninstall cocoapods
+you can install a specific version of cocoa pods via the following command:
+
+sudo gem install cocoapods -v 0.25.0
+You can use older installed versions with following command:
+
+pod _0.25.0_ setup
+
+1. 在某工程中使用指定版本Pod
+Actually, you don't need to downgrade – if you need to use older version in some projects, just specify the version that you need to use after pod command.
+
+pod _0.37.2_ setup
+
+
+
+
+#### 总结
 
 pod install只会将Podfile的信息写入到Podfile.lock, 但是不修改Pods已安装的依赖库的版本信息。pod update不但会将Podfile的信息写入到Podfile.lock文件中, 还会更新Pods已安装的依赖库的版本信息。
 
