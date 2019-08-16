@@ -1369,6 +1369,23 @@ private func someFunction() -> (SomeInternalClass, SomePrivateClass) {
     *   Extension Protocol Conformances
 
 
+
+## 两阶段初始化
+
+```
+Class initialization in Swift is a two-phase process. In the first phase, each stored property is assigned an initial value by the class that introduced it. Once the initial state for every stored property has been determined, the second phase begins, and each class is given the opportunity to customize its stored properties further before the new instance is considered ready for use.
+```
+
+由于两阶段初始化，Swift具有这种行为。来自Apple的Swift说明
+
+Swift中的类初始化是一个两阶段的过程。在第一阶段，每个存储的属性都由引入它的类分配初始值。一旦确定了每个存储属性的初始状态，第二阶段就开始了，并且每个类都有机会在新实例被认为可以使用之前进一步定制其存储的属性。
+
+在第一阶段结束之前，类需要某种默认值。定制值是第二阶段的一部分。
+
+Objective-C没有这种行为，因为它总是可以0为基元和nil对象提供默认值，但是在Swift中没有提供这种默认值的机制。
+
+ref: [ios - 为什么我在Swift中初始化变量的行上得到“初始化之前使用的变量”错误？ - 堆栈溢出](https://stackoverflow.com/questions/27038889/why-do-i-get-a-variable-used-before-being-initialized-error-on-the-line-that-i/27039119)
+
 ## 参考
 
 * [把“The Swift Programming Language”读薄 - Hawstein的博客](http://hawstein.com/2014/07/01/make-thiner-tspl/#Inheritance)
