@@ -1,5 +1,12 @@
 # 解析-RxSwift
 
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190817191938.png)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190817191952.png)
+
+
+
 * [RxSwift / GettingStarted.md在master·ReactiveX / RxSwift](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/GettingStarted.md)
 * [RxSwift/Documentation at master · ReactiveX/RxSwift](https://github.com/ReactiveX/RxSwift/tree/master/Documentation)
 
@@ -335,3 +342,4 @@ http://www.hangge.com/blog/cache/detail_1940.html
 ## 参考
 
 1. [Binder · RxSwift 中文文档](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/rxswift_core/observer/binder.html)
+2. [How To Write High Quailty Program With ReSwift & RxSwift](https://www.bilibili.com/video/av7333397/?spm_id_from=333.788.videocard.0)

@@ -199,7 +199,12 @@ The rest of the jump bar consists of heierarchial navigation with each level giv
 * 显示注释 `Cmd + Option + /`
 
 ####  11. 切换焦点
+
 * 切换焦点`Control + ` `
+
+####  12. 格式化代码
+
+* formate code `Control + i `
 
 
 ## Xcode插件
