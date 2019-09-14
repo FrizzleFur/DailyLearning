@@ -153,6 +153,15 @@ property (nonatomic, <#type#>) <#className#> *propertyName;/**< <#remark#> */
 * 使用`Cmd + 5`切换到issue模板
 * `Cmd + Option + J`跳转到fiter过滤，输入`user-defined`就可以查看到
 
+## StoryBoard
+
+* 快速添加navi和tab
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190914151129.png)
+
+
+
 ## 快捷键
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15376702477628.jpg)
@@ -162,20 +171,20 @@ property (nonatomic, <#type#>) <#className#> *propertyName;/**< <#remark#> */
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15376703183349.jpg)
 
 
-#### 1. Open Quickly
+### 1. Open Quickly
 
 相信大家都熟悉 `⌘ + ⌥ + O` ，但是你知道怎么在辅助编辑器中打开吗？按住`Alt + Enter`， enjoy~
 
-#### 2. 交换上下行代码：  `⌘ + ⌥ + [` or `⌘ + ⌥ + ]`
+### 2. 交换上下行代码：  `⌘ + ⌥ + [` or `⌘ + ⌥ + ]`
 
-#### 3. To jump to the definition. 光标所在处`⌘ + ⌃ + J`
+### 3. To jump to the definition. 光标所在处`⌘ + ⌃ + J`
 或者在辅助编辑器中打开
 
-#### 4.切换多个编辑器焦点：
+### 4.切换多个编辑器焦点：
 
  `⌘ + J`
  
-#### 5. 文件切换
+### 5. 文件切换
 
 * ⌃+1 - Related items menu that shows files related to what you are currently working on
 * ⌃+2 - Previous and next buttons to navigate 
@@ -185,24 +194,24 @@ The rest of the jump bar consists of heierarchial navigation with each level giv
 * ⌃+5 - Switch between header and implementation files
 * ⌃+6 - Navigation within a file   
 
-#### 6. 在辅助编辑器中跳转到变量的定义： `⌘ + Alt` + 鼠标点击对应变量名
+### 6. 在辅助编辑器中跳转到变量的定义： `⌘ + Alt` + 鼠标点击对应变量名
      
-#### 7. 在点击文件名时候，按住`Alt`将让文件在辅助编辑器中打开
+### 7. 在点击文件名时候，按住`Alt`将让文件在辅助编辑器中打开
 
-#### 8. 在光标位置显示Help: `⌃ + ⌘ + ⇧ + /`
+### 8. 在光标位置显示Help: `⌃ + ⌘ + ⇧ + /`
 
-#### 9. Filter in Navigator  
+### 9. Filter in Navigator  
 本来热键是`⌘ + ⌥ + J`,发现貌似不起作用，就改成`⌘ + ⌥ + O`
 
-####  10. 显示注释
+###  10. 显示注释
 
 * 显示注释 `Cmd + Option + /`
 
-####  11. 切换焦点
+###  11. 切换焦点
 
 * 切换焦点`Control + ` `
 
-####  12. 格式化代码
+###  12. 格式化代码
 
 * formate code `Control + i `
 
