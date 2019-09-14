@@ -860,6 +860,7 @@ var addExp :(Int,Int)-> (Int) = { (a,b) -> (Int) in
 
 ### 嵌套函数
 
+* 可能返回的是一个函数
 * 避免外部直接调用一些内部函数
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915020612.png)
