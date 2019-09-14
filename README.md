@@ -165,11 +165,18 @@
 
 ## 技术路线
 
+
+### 技能图谱
+
+[程序员技能图谱（图片预览版）](https://github.com/TeamStuQ/skill-map)
+
 ### 基础
 
 <!--![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163318.png)-->
 
 ### 前端
+
+[b3log/30-seconds-zh_CN: 📙 前端知识精选集，包含 HTML、CSS、JavaScript、React、Node、安全等方面，每天仅需 30 秒。](https://github.com/b3log/30-seconds-zh_CN)
 
 <!--![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190218163505.png)
 -->

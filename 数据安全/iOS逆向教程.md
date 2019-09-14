@@ -1,16 +1,10 @@
 # iOS逆向
 
+## Hopper 系列教程
+* [【MacOS】 Hopper教程之分析CrackMe#1爆破并KeyGen系列教程（一） - YouTube](https://www.youtube.com/watch?v=yjvlNQNCm6w&feature=youtu.be)
+* [Hopper 系列教程之入门 CrackMe 分析 | ＊tree_fly 's Blog](https://itreefly.com/posts/29d95a48.html)
 
 ## App脱壳
-
-
-
-
-
-
-
-
-
 
 
 ## Hopper+LLDB调试第三方App
@@ -530,6 +524,7 @@ upadte: 更新增加资源方式，直接往MonkeyApp里面增加资源即可，
 
 1. [iOS逆向工程之App脱壳 - 青玉伏案 - 博客园](http://www.cnblogs.com/ludashi/p/5725743.html)
 2. [iOS逆向工程之Hopper+LLDB调试第三方App - 青玉伏案 - 博客园](https://www.cnblogs.com/ludashi/p/5730338.html)
+3. [分析一个App需要的技术手段](https://mp.weixin.qq.com/s/ZmDd3tOkHwSqCCsG7kfokQ)
 
 ### App
 

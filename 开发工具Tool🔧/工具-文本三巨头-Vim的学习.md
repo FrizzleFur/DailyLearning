@@ -437,6 +437,9 @@ defaults delete  com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-X.X
 
 另：可在 Xcode 中的 `Edit` -> `XVim` 关闭或启用。
 
+* Xcode11 ： [Xcode 11 · Issue #236 · XVimProject/XVim2](https://github.com/XVimProject/XVim2/issues/236)
+    * 下载Develop分支
+
 ## Vim工具
 
 ### SpaceVim
@@ -452,7 +455,6 @@ defaults delete  com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-X.X
 (SpaceVim 的默认界包括 tagbar 、vimfiler 、以及 airline 界面，配色主题采用的 gruvbox。)
 
 #### 安装：
-
 
 ```
 [1] 安装SpaceVim工具

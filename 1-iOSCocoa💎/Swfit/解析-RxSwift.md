@@ -1,4 +1,11 @@
-# 学习-RxSwift
+# 解析-RxSwift
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190817191938.png)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190817191952.png)
+
+
 
 * [RxSwift / GettingStarted.md在master·ReactiveX / RxSwift](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/GettingStarted.md)
 * [RxSwift/Documentation at master · ReactiveX/RxSwift](https://github.com/ReactiveX/RxSwift/tree/master/Documentation)
@@ -280,6 +287,39 @@ http://www.hangge.com/blog/cache/detail_1940.html
 
 
 
+## 相关Tip
+
+* Observable如果未被订阅，其实不会发出信号📶
+* 订阅的Event时，如果未用OnNext解包，有一个Optional的element, element才是事件的信号内容
+* 如果一个Observable被终止了OnCompleted/OnError,那么后续的订阅无效。但可以收到OnCompleted的通知。
+* 其实Rxswift是可以返回一个多参数的Observable<(String, Bool)> 
+
+```swift
+        container.register(LarkCustomerServiceAPI.self) { (r) -> LarkCustomerServiceAPI in
+            let configurationAPI = r.resolve(ConfigurationAPI.self)!
+            let zendeskAPI = r.resolve(ZendeskAPI.self)!
+            return LarkCustomerService(fetchConfigClosure: { () -> Observable<(String, Bool)> in
+                return configurationAPI.getAppConfig().flatMap { (appConfig) -> Observable<(String, Bool, Bool)> in
+                    let zendeskLink = appConfig.zendesk.webFormURL
+                    let isOncallChat = appConfig.zendesk.oncallChat
+                    let isZendeskLinkObservable = zendeskAPI.getGetLinkExtraData(link: zendeskLink)
+                    return Observable.combineLatest(Observable.just(zendeskLink), isZendeskLinkObservable, Observable.just(isOncallChat), resultSelector: { (link, flag, isOncallChat) in
+                        (link, flag, isOncallChat) })
+                }.map { (originWebUrl, isZendeskLink, isOncallChat) -> (String, Bool) in
+                    // 默认backup逻辑跳值班号，返回true
+                    guard !originWebUrl.isEmpty else { return ("", true) }
+                    var urlComponents = URLComponents(string: originWebUrl)!
+                    var queryItems = urlComponents.queryItems ?? []
+                    if isZendeskLink { queryItems.append(URLQueryItem(name: "show_right_button", value: "false")) }
+//                    if isOncallChat { queryItems.append(URLQueryItem(name: LarkCustomerService.goToOncallChatKey, value: "true")) }
+                    urlComponents.queryItems = queryItems
+                    let zendeskUrl = urlComponents.url!.absoluteString
+                    print("check Zendesk isOncallChat = \(isOncallChat), zendeskUrl = \(zendeskUrl)")
+                    return (zendeskUrl, isOncallChat)
+                }
+            })
+        }.inObjectScope(.container)
+```
 
 
 
@@ -302,3 +342,4 @@ http://www.hangge.com/blog/cache/detail_1940.html
 ## 参考
 
 1. [Binder · RxSwift 中文文档](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/content/rxswift_core/observer/binder.html)
+2. [How To Write High Quailty Program With ReSwift & RxSwift](https://www.bilibili.com/video/av7333397/?spm_id_from=333.788.videocard.0)
