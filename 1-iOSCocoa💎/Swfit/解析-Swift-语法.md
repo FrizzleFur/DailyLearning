@@ -817,23 +817,52 @@ var addExp :(Int,Int)-> (Int) = { (a,b) -> (Int) in
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190914130006.png)
 
-### * 多返回值
+### 多返回值
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190914130315.png)
 
-### * 参数默认值
+### 参数默认值
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915005357.png)
 
-### * 可变参数
+### 可变参数
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915005825.png)
 
-### * 输入输出参数
+### 输入输出参数
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915012036.png)
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915014330.png)
+
+### 内敛函数
+
+直接拿函数体，减少函数的内存开销
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915015132.png)
+
+### 函数类型
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915015653.png)
+
+* 函数类型作为函数参数
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915015803.png)
+
+* 函数类型作为函数返回值
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915020158.png)
+
+### typealias别名
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915020400.png)
+ 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915020518.png)
 
 
+### 嵌套函数
+
+* 避免外部直接调用一些内部函数
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915020612.png)
 
 ##  Swift：细说实体访问等级
 
