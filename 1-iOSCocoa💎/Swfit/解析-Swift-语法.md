@@ -821,6 +821,11 @@ var addExp :(Int,Int)-> (Int) = { (a,b) -> (Int) in
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190914130315.png)
 
+* 参数默认值
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190914163037.png)
+
+
 
 ##  Swift：细说实体访问等级
 
