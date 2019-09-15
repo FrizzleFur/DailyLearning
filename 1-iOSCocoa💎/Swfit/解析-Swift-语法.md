@@ -728,6 +728,13 @@ if tenEighty === alsoTenEighty {
 
  [What’s the difference between == and ===? - free Swift 5.0 example code and tips](https://www.hackingwithswift.com/example-code/language/whats-the-difference-between-equalsequals-and-equalsequalsequals)
 
+## 可选值
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915133014.png)
+
+* 强制解包
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915133317.png)
 
 ## 闭包
 
@@ -864,6 +871,12 @@ var addExp :(Int,Int)-> (Int) = { (a,b) -> (Int) in
 * 避免外部直接调用一些内部函数
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915020612.png)
+
+## 枚举
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915132527.png)
+
+
 
 ##  Swift：细说实体访问等级
 
