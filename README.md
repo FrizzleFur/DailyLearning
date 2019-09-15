@@ -2,6 +2,8 @@
 
 > 记录点滴成长
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190317165122.png)
+
 ## 文件目录
 
 * Cocoa💎
@@ -43,7 +45,7 @@
 
 ## 学习资源
 
-* [AwesomeLearning](https://github.com/FrizzleFur/DailyLearning/blob/master/LearningGuide/Awesome%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90.md) 自己整理的学习资料
+* [iOS Cocoa](https://github.com/FrizzleFur/DailyLearning/tree/master/1-iOSCocoa%F0%9F%92%8E) iOS核心
 
 * [三方轮子解析💡](https://github.com/FrizzleFur/DailyLearning/tree/master/%E4%B8%89%E6%96%B9%E8%BD%AE%E5%AD%90%E8%A7%A3%E6%9E%90%F0%9F%92%A1)
 
@@ -58,7 +60,7 @@
 ---- | ----
 [OneV's Den](https://onevcat.com/#blog)| 王巍，喵神，知名iOS/Unity 开发者，现居日本，就职于LINE[微博@onevcat](http://weibo.com/onevcat?from=myfollow_group)
 [SwiftOldDriver/iOS-Weekly: 🇨🇳 老司机 iOS 周报](https://github.com/SwiftOldDriver/iOS-Weekly) | iOS最新周报
-[ChenYilong](https://github.com/ChenYilong)| [微博@iOS程序犭袁](http://weibo.com/luohanchenyilong?refer_flag=1005055013_&is_all=1)有iOS9AdaptationTips,iOSInterviewQuestions等多个上千star的项目
+[draveness/analyze](https://github.com/draveness/analyze)| “灯塔”的知名库源码分析
 [MMao](https://michaelmao.co) | 我的小博客
 
 ## Read
@@ -120,7 +122,6 @@
 
 - [Go 开发者路线图](https://github.com/Quorafind/golang-developer-roadmap-cn)
 
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/  Blog/20190501122155.png)
 
 ## 异步编程
 
@@ -149,9 +150,7 @@
 * 重启浏览器即可添加支持。
 * 目前PWA应用没有统一的应用商店，用户在访问支持PWA的网址时将自动启动。
 
-
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15256848635235.jpg)
-![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15256848889827.jpg)
 
 
 ## 工具
