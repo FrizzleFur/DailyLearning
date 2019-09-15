@@ -736,6 +736,20 @@ if tenEighty === alsoTenEighty {
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915133317.png)
 
+* 可选项绑定，解包
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915133632.png)
+
+* 隐式解包
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915133930.png)
+
+* 多重可选
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190915134449.png)
+
+
+
 ## 闭包
 
 * 闭包是引用类型
