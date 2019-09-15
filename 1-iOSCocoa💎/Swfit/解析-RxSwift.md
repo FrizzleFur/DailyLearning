@@ -278,6 +278,14 @@ http://www.hangge.com/blog/cache/detail_1940.html
 
 ## 操作符
 
+### flatMap
+
+* 对信号中的信号做映射转换，多维信号情况
+
+### map
+
+* 对信号的值做映射转换
+
 ### merge
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190627112254.png)
