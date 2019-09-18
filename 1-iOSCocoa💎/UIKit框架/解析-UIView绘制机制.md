@@ -84,6 +84,10 @@ You should override this method only if the autoresizing behaviors of the subvie
 
 在视图第一次显示之前，标记总是“需要刷新”的，可以直接调用`[view layoutIfNeeded]`.
 
+* layoutIfNeeded
+* 使用此方法可强制视图立即更新其布局。使用“自动布局”时，布局引擎会根据需要更新视图的位置，以满足约束的更改。使用以根视图接收消息的视图，此方法从根开始布局视图子树。如果没有待处理的布局更新，则此方法退出而不修改布局或调用任何与布局相关的回调。
+
+
 ### 重绘
 
 - drawRect:(CGRect)rect方法：重写此方法，执行重绘任务
