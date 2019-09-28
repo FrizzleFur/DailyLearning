@@ -383,6 +383,23 @@ Xcode使用attach调试进程
 * [Retain Cycles: How to Detect with Instruments Profiler! - YouTube](https://www.youtube.com/watch?v=sp8qEMY9X6Q)
 
 
+### 【Xcode使用技巧】通过Xcode查看真机中应用程序的数据文件
+
+有时候开发调试时，需要查看真机中应用的文件，比如sqlite之类的，可按以下步骤进行：
+
+环境：Xcode Version 7.2.1，iPad2。
+
+1）点击Xcode的Window菜单项，选择Devices选项。
+
+2）点击左边设备一览中的iPad2，右边「Installed Apps」会显示出iPad上的所有第三方应用。
+
+3）选中要查看的应用。
+
+4）点击下面的设置按钮，选择「Download Container…」按钮，把应用数据下载到Mac上，生成一个.xcappdata文件。
+
+5）在.xcappdata文件上点击右键，选择Show package contents 查看包内容，就可以看到真机应用程序的数据文件了。
+
+
 ## 问题
 
 ## Xcode链接iphone一直闪断
