@@ -3,9 +3,10 @@
 
 ## git 为不同的项目设置不同的用户名和邮箱
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15380102461500.jpg)
 
-![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/15380102181054.jpg)
+在本地仓库中，会有一个隐藏的.git的文件夹,在这个之外的被称为工作区域，而.git的文件夹，其实是记录文件信息的本地仓库, 包含了index和带HEAD指针本地仓库
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20191001071905.png)
 
 1. 到`.git`文件夹📂中查看config文件。
 ```
