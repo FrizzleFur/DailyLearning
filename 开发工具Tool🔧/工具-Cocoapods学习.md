@@ -9,6 +9,12 @@
 pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，Podfile.lock会锁定当前各依赖库的版本,。这样多人协作的时候，可以防止第三方库升级时造成大家各自的第三方库版本不一致.其中前者并不会修改 Podfile.lock 中显示指定的版本，**而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
 **
 
+## Pod结构
+
+pod将一些配置放在了2个文件中进行管理，podfile和podfile.lock分别担任不同的职责。
+podfile:  告诉pod目前工程依赖了哪些库，执行`pod update`命令时去拉去podfile中制定的依赖库，同时更新podfile.lock中各库的版本
+podfile.lock  执行`pod install`时会依据当前podfile.lock文件各个库的版本将本地对应版本的各个库安装到`Pod`文件夹中。
+
 
 ## pod版本
 
@@ -35,6 +41,7 @@ In addition to the logic operators CocoaPods has an optimisic operator ~>:
 '~> 0' Version 0 and higher, this is basically the same as not having it. 0和以上，等于没有此约束
 
 ### Pod 升级/降级
+
 [ios - How to downgrade or install an older version of Cocoapods - Stack Overflow](https://stackoverflow.com/questions/20487849/how-to-downgrade-or-install-an-older-version-of-cocoapods)
 
 1. 先卸载，在安装
