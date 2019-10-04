@@ -385,12 +385,13 @@ Xcode使用attach调试进程
 
 ## 问题
 
-## Xcode链接iphone一直闪断
+## Xcode链接iPhone一直闪断
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15326666022413.jpg)
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15326666332024.jpg)
 
 发现一个Xcode链接iphone一直闪断的问题，提示说软件下载更新才能连接，但是下载失败，还以为是数据线接触不良或者是Xcode版本不支持，后来发现开启省电模式就可以了。
+
 [A software update is required to connect to your iOS device / iPhone - Ask Different](https://apple.stackexchange.com/questions/327310/a-software-update-is-required-to-connect-to-your-ios-device-iphone)
 
 The problem can be fixed by installing XCode beta.
