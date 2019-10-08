@@ -76,8 +76,36 @@ target stop-hook、watchpoint 的增删改查命令与 breakpoint 的基本相�
 
 
 
+## 其他技巧
+
+**watchpoint**
+
+    
+一般情况下可以在属性的 set 方法中添加断点，这样就能监控属性的设置。但是有时候，由于不涉及到方法，而是直接操作内存，无法使用断点，但是我们仍要监视某一个值是否变化，这个时候就可以用watchpoint来监视。
+
+当指针指向变化时，watchpoint会触发:
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20191005181243.png)
+
+set
+添加watchpoint的方式如上图所示
+
+(lldb) watchpoint set variable xxx
+注意，貌似不能用 self->xxx 的形式，而要直接用 _xxx 的形式，否则一直都是下面的错误：
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20191005181333.png)
+
+disable/delete/enable
+watchpoint资源也是比较有限的，对于不需要监听的对象要及时释放。每个watchpoint都有一个序号，操作对应的需要即可：
+
+**run**
+
+调试的时候经常需要重新启动程序。但是如果重新Run程序，需要重新编译，非常浪费时间。可以在 lldb 中输入run就能直接让程序重新加载了。
+
+
+
 ## 参考
 
-1. [LLDB to GDB Command Map](https://lldb.llvm.org/lldb-gdb.html)
-2. [LLDB 知多少](https://mp.weixin.qq.com/s/VEpClFwTQn66f8INeHRFlQ)
-3. [DerekSelander/lldb_fix: RESOLVED IN XCODE 10.2! Fix for LLDB (in Xcode 10) which incorrectly imports the wrong API headers](https://github.com/DerekSelander/lldb_fix)
+1. [lldb 调试方法 | Zachary's blog](https://zhang759740844.github.io/2016/09/21/lldb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95/)
+2. [LLDB to GDB Command Map](https://lldb.llvm.org/lldb-gdb.html)
+3. [LLDB 知多少](https://mp.weixin.qq.com/s/VEpClFwTQn66f8INeHRFlQ)
+4. [DerekSelander/lldb_fix: RESOLVED IN XCODE 10.2! Fix for LLDB (in Xcode 10) which incorrectly imports the wrong API headers](https://github.com/DerekSelander/lldb_fix)

@@ -78,6 +78,8 @@
 * **`管道命令 |` ：将前面的结果给后面的命令，例如：`ls -la | wc`，将ls的结果加油wc命令来统计字数**
 * || 表示上一条命令执行失败后，才执行下一条命令，如 cat nofile || echo "fail"
 *  `重定向 > 是覆盖模式，>> 是追加模式`，例如：`echo "Java3y,zhen de hen xihuan ni" > qingshu.txt`把左边的输出放到右边的文件里去
+*  • 终端查找以‘.log’结尾的文件 `find . -name '*.log'`
+
 
 ### Linux命令重点
 
