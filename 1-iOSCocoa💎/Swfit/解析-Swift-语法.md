@@ -805,7 +805,7 @@ func add(num1: Int , num2 : Int) -> Int{
 }
 
 //MARK: -  声明了方法
-var addExp :(Int,Int)-> (Int) = { (a,b) -> (Int) in
+var addExp: (Int,Int)-> (Int) = { (a,b) -> (Int) in
     return a * b
 }
 
@@ -1456,6 +1456,7 @@ if let index = mixStr.characters.index(of: "很") {
 
 ## 参考
 
+* [Swiftly](https://swiftly.dev/)
 * [把“The Swift Programming Language”读薄 - Hawstein的博客](http://hawstein.com/2014/07/01/make-thiner-tspl/#Inheritance)
 * [构造过程 |《Swift 编程语言》| iOS 开发者论坛](https://learnku.com/docs/the-swift-programming-language/4.2/Initialization/3535)
 * [swift-best-practices/OrganizationWithinAFile.md at master · Lickability/swift-best-practices](https://github.com/Lickability/swift-best-practices/blob/master/OrganizationWithinAFile.md)
