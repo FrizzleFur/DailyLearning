@@ -811,6 +811,32 @@ var addExp: (Int,Int)-> (Int) = { (a,b) -> (Int) in
 
 ```
 
+### Computed Properties
+ 
+
+In addition to stored properties, classes, structures, and enumerations can define computed properties, which do not actually store a value. Instead, they provide a getter and an optional setter to retrieve and set other properties and values indirectly.
+
+计算属性 
+除了存储的属性，类，结构和枚举可以定义计算属性，实际上不存储值。相反，它们提供了一个getter和一个可选的setter来检索和间接设置其他属性和值。 
+
+```swift
+struct AlternativeRect {
+    var origin = Point()
+    var size = Size()
+        var center: Point {
+        get {
+            let centerX = origin.x + (size.width / 2)
+            let centerY = origin.y + (size.height / 2)
+            return Point(x: centerX, y: centerY)
+        }
+        set {
+            origin.x = newValue.x - (size.width / 2)
+            origin.y = newValue.y - (size.height / 2)
+        }
+    }
+}
+```
+
 
 
 ## 函数
