@@ -535,6 +535,11 @@ Swift主要为我们提供了以下四种”named types“ 分别是：enum、st
 
 * [Swift中enum、struct、class三者异同 - 简书](https://www.jianshu.com/p/78a6a4941516)
 
+## 字典Dictionary
+
+### Copy Behavior
+Swift’s dictionaries are value types. This means that dictionaries are copied when they are assigned to a new constant or variable, or when they are passed to a function or method.
+
 
 ## 结构体
 
