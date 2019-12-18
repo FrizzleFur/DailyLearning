@@ -3,6 +3,7 @@
 
 > CocoaPods是用Ruby构建的，它可以使用macOS上的默认Ruby进行安装。您可以使用Ruby版本管理器，但我们建议您使用macOS上提供的标准Ruby，除非您知道自己在做什么。
 
+[Cocoapods文档](https://rubydoc.info/gems/cocoapods/Pod/Podfile)
 
 [iOS-安装和使用 CocoaPods - 简书](https://www.jianshu.com/p/6706cae47e48#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85rvm%E7%8E%AF%E5%A2%83)
 
