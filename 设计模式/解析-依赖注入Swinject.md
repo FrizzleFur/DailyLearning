@@ -1,6 +1,5 @@
 # 解析-依赖注入Swinject
 
-
 # 背景
 
 ## 什么是依赖
@@ -102,14 +101,11 @@ The ability to automatically compose an object graph from maps between Abstracti
 
 ## 基本用法
 
-
 假设我们正在编写一款与动物玩的游戏。首先，我们将编写没有依赖注入的程序。这是Cat代表动物的类，
-
 
 ```swift
 class Cat {
     let name: String
-    
         init(name: String) {
         self.name = name
     }
@@ -122,7 +118,6 @@ class Cat {
 
 和PetOwner类有一个Cat作为宠物玩的实例。
 
-
 ```swift
 class PetOwner {
     let pet = Cat(name: "Mimi")
@@ -132,7 +127,9 @@ class PetOwner {
     }
 }
 ```
+
 现在我们可以实例化PetOwner的play方法。
+
 ```swift
 let petOwner = PetOwner()
 print(petOwner.play()) // prints "I'm playing with Mimi. Meow!"
