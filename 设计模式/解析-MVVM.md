@@ -8,13 +8,26 @@
 > ViewModel: 提供并管理数据（状态等）
 > ViewModel：符合设计模式的单一职责原则
 
-
+[iPlayground 2019 | 從MVC到MVVM，再到MVVMC的開發經驗分享](https://www.youtube.com/watch?v=0GQXVfahdI4&list=PLJN8Q2M8xECkvIbNFM30Bu91qbN92SXND&index=17)
+* Model
+* View
+* ViewModel
+* Coordinator
+ 
 [不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
 
 对于 MVVM 来说，**我们可以把 view 看作是 viewModel 的可视化形式，viewModel 提供了 view 所需的数据和命令。因此，viewModel 的可测试性可以帮助我们极大地提高应用的质量**。
 
 [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
 
+## Controller 背负的责任
+
+* Fetch models
+* Layout views
+* Routing logic 
+* Handle actions
+* Handler delegates
+* Miscellaneous
 
 ## 从MVC谈起
 
