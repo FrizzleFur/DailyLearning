@@ -269,6 +269,9 @@ abc999     //匹配2个后停止
 
 [Fzf 模糊搜索](https://github.com/junegunn/fzf)🌸 A command-line fuzzy finder
 
+### fd
+
+[fd](https://github.com/sharkdp/fd) 好用的搜索
 
 ### Ranger 文件浏览
 

@@ -329,6 +329,18 @@ http://www.hangge.com/blog/cache/detail_1940.html
         }.inObjectScope(.container)
 ```
 
+#### throttle & debounce
+
+* [通过示例解释去抖和节流](https://css-tricks.com/debouncing-throttling-explained-examples/)
+防抖动和节流是两种相似（但不同！）的技术，用于控制我们允许某个函数随时间执行多少次。
+* throttle: 适合Button、Switch的短时间多次点击切换
+* debounce: 适合于TextField用户输入是否完成
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20200310105357.png)
+debounce：将短时间内多次触发的事件合并成一次事件响应函数执行（往往是在第一次事件或者在最后一次事件触发时执行），即该段时间内仅一次真正执行事件响应函数。
+throttle：假如在短时间内同一事件多次触发，那么每隔一段更小的时间间隔就会执行事件响应函数，即该段时间内可能多次执行事件响应函数。
+
+debounce：假如我在电梯里面正准备关门，这时 A 想要坐电梯，那么出于礼貌我会按下开门键，然后等他走进电梯后再尝试关门；等 A 进电梯后，又发现 B 也想要坐电梯，那么同样出于礼貌我会按下开门键，然后等他走进电梯。那么假如一直有人想要坐电梯的话，我就会不断地延后按下关门键的时机，直至没有人想要坐电梯（现实生活中我这样做的话，估计每天除了坐电梯就可以什么都不做了）。
+throttle：实际上我每天都有工作要完成，不可能在电梯里无限地等别人。那么这回我任性一点，规定我只等 30 秒，不管到时候有没有人想要坐电梯，我都会按下关门键走掉。
 
 
 ## 结合Alamofire & Moya

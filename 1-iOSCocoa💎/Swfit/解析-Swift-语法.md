@@ -528,6 +528,16 @@ public enum Optional<Wrapped> : ExpressibleByNilLiteral {
  map：可以对数组中的每一个元素做一次处理
 
 
+## defer
+
+很简单，用一句话概括，就是 defer block 里的代码会在函数 return 之前执行，无论函数是从哪个分支 return 的，还是有 throw，还是自然而然走到最后一行。
+**场景**
+
+调 completion block
+这是一个让我感觉“如果当时知道 defer ”就好了的场景，就是有时候一个函数分支比较多，可能某个小分支 return 之前就忘了调 completion block，结果藏下一个不易发现的 bug。用 defer 就可以不用担心这个问题了：
+
+[swift 的 defer 几个简单的使用场景 - 简书](https://www.jianshu.com/p/a71d87d92459)
+
 ## enum、struct、class和protocol
 
 
