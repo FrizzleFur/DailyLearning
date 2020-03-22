@@ -34,11 +34,7 @@
 }
 ```
 
-
-
-
 4. API
-
 
 4.1 Objective-C API
 // 为指定的 web view （WKWebView/UIWebView/WebView）创建一个 JavaScript Bridge 
@@ -66,4 +62,4 @@ callHandler(handlerName: String, data: undefined, responseCallback: function);
 
 * [WebViewJavascriptBridge 从原理到实战 - 简书](https://www.jianshu.com/p/6f34903be630)
 1. [WebViewJavascriptBridge 原理解析 - iOS - 掘金](https://juejin.im/entry/58e4a76a44d904006d2a7778#OC%E5%8F%91%E6%B6%88%E6%81%AF%E7%BB%99WEB)
-2. [WebViewJavascriptBridge的详细使用 - 简书](https://www.jianshu.com/p/ba6358b1eec3))
+2. [WebViewJavascriptBridge的详细使用 - 简书](https://www.jianshu.com/p/ba6358b1eec3)

@@ -3,13 +3,14 @@
 > WKWebView 是苹果在 WWDC 2014 上推出的新一代 webView 组件，用以替代 UIKit 中笨重难用、内存泄漏的 UIWebView。WKWebView 拥有60fps滚动刷新率、和 safari 相同的 JavaScript 引擎等优势。
 
 
-
 在 UIWebView 上当内存占用太大的时候，App Process 会 crash；而在 WKWebView 上当总体的内存占用比较大的时候，WebContent Process 会 crash，从而出现白屏现象。在 WKWebView 中加载下面的测试链接可以稳定重现白屏现象:
 
 
+UIWebView使用时间较长，只要在cookieStorage中设置了相应的cookie，每次就会自动带上；
+但是这样的弊端是随着与H5的交互增加，Cookie占用的空间越来越大，每次交互都夹带大量的cookie，不仅增加服务器端压力，也浪费用户的流量。比如每次交互都夹带5kb的cookie内容，但是真正用到的只有两三百字节。
+
 
 ### WKWebView Cookie存储
-
 
 业界普遍认为 WKWebView 拥有自己的私有存储，不会将 Cookie 存入到标准的 Cookie 容器 NSHTTPCookieStorage 中。
 
@@ -55,6 +56,7 @@ WKUserScript * cookieScript = [[WKUserScript alloc] initWithSource: @"document.c
 
 * 如果WKWebView在加载url的时候需要添加cookie，需要先手动获取当前NSHTTPCookieStorage中的所有cookie，然后将cookie放到NSMutableURLRequest请求头中
 
+
 ```objc
 - (void)loadRequestWithUrlString:(NSString *)urlString {
     
@@ -80,7 +82,55 @@ WKUserScript * cookieScript = [[WKUserScript alloc] initWithSource: @"document.c
     [self loadRequest:request];
 }
 
+/// WKWebview
+    WKWebViewConfiguration *webConfig = [[WKWebViewConfiguration alloc] init];
+    // 设置偏好设置
+    webConfig.preferences = [[WKPreferences alloc] init];
+    // 默认为0
+    webConfig.preferences.minimumFontSize = 10;
+    // 默认认为YES
+    webConfig.preferences.javaScriptEnabled = YES;
+    // 在iOS上默认为NO，表示不能自动通过窗口打开
+    webConfig.preferences.javaScriptCanOpenWindowsAutomatically = NO;
+
+    // web内容处理池
+    webConfig.processPool = [[WKProcessPool alloc] init];
+    // 将所有cookie以document.cookie = 'key=value';形式进行拼接
+    #warning 然而这里的单引号一定要注意是英文的，不要问我为什么告诉你这个(手动微笑)
+    NSString *cookieValue = @"document.cookie = 'fromapp=ios';document.cookie = 'channel=appstore';";
+
+    // 加cookie给h5识别，表明在ios端打开该地址
+    WKUserContentController* userContentController = WKUserContentController.new;
+    WKUserScript * cookieScript = [[WKUserScript alloc]
+                                   initWithSource: cookieValue
+                                   injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
+    [userContentController addUserScript:cookieScript];
+    webConfig.userContentController = userContentController;
+
+    WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:frame configuration:webConfig];
+
+    wkWebView.UIDelegate = wkWebView;
+    wkWebView.navigationDelegate = wkWebView;
 ```
+
+
+# 相比于UIWebView的优势：
+
+* 在性能、稳定性、占用内存方面有很大提升；
+* 允许JavaScript的Nitro库加载并使用（UIWebView中限制）
+* 增加加载进度属性：estimatedProgress，不用在自己写假进度条了
+* 支持了更多的HTML的属性
+
+## 具体分析WKWebView的优劣势
+1. 内存占用是UIWebView的1/4~1/3
+2. 页面加载速度有提升，有的文章说它的加载速度比UIWebView提升了一倍左右。
+3. 更为细致地拆分了 UIWebViewDelegate 中的方法
+4. 自带进度条。不需要像UIWebView一样自己做假进度条（通过NJKWebViewProgress和双层代理技术实现），技术复杂度和代码量，根贴近实际加载进度优化好的多。
+5. 允许JavaScript的Nitro库加载并使用（UIWebView中限制）
+6. 可以和js直接互调函数，不像UIWebView需要第三方库WebViewJavascriptBridge来协助处理和js的交互。
+7. 不支持页面缓存，需要自己注入cookie,而UIWebView是自动注入cookie。
+8. 无法发送POST参数问题
+
 
 ## 参考
 
