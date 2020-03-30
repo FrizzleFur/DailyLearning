@@ -259,15 +259,17 @@ Download plug.vim and put it in the "autoload" directory.
     * curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-位置在：~/.local/share/nvim/site/autoload/
+NeoVim的配置文件路径在：`~/.config/nvim/init.vim`
+位置在：`~/.local/share/nvim/site/autoload/`
+
+```linux
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
-
-
-
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
 
 在~/.config/nvim/init.vim中最开始的地方添加如下的内容,安装nerdtree插件
 
