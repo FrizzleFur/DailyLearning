@@ -105,6 +105,11 @@ eg：”车”为一个抽象概念，在现实中并无法直接用来定义对
 
 一个软件可以正确地运行在不同环境下，则认为软件可移植性高，也可以叫，软件在不同平台下是健壮的。
 
+## 工具
+
+墙裂推荐 [PlantUML](https://plantuml.com/zh/class-diagram)
+
 ## 参考
 
 1. [看懂UML类图和时序图 — Graphic Design Patterns](https://design-patterns.readthedocs.io/zh_CN/latest/read_uml.html)
+2. [UML基本表示法](https://www.w3cschool.cn/uml_tutorial/uml_tutorial-5y1i28pl.html)
