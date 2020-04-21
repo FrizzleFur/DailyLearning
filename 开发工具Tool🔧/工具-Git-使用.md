@@ -331,6 +331,24 @@ Git分支十分强大，在团队开发中应该充分应用。
 合并分支时，加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并。
 
 
+## The Git Add Patch Command
+
+Action
+y	stage this hunk
+n	do not stage this hunk
+q	quit; do not stage this hunk or any of the remaining ones
+a	stage this hunk and all later hunks in the file
+d	do not stage this hunk or any of the later hunks in the file
+g	select a hunk to go to
+/	search for a hunk matching the given regex
+j	leave this hunk undecided, see next undecided hunk
+J	leave this hunk undecided, see next hunk
+k	leave this hunk undecided, see previous undecided hunk
+K	leave this hunk undecided, see previous hunk
+s	split the current hunk into smaller hunks
+e	manually edit the current hunk
+?	print help
+
 ## 参考
 
 ### 阮一峰老师的 Git 教程
