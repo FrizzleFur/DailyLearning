@@ -6,7 +6,6 @@
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190817191952.png)
 
 
-
 * [RxSwift / GettingStarted.md在master·ReactiveX / RxSwift](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/GettingStarted.md)
 * [RxSwift/Documentation at master · ReactiveX/RxSwift](https://github.com/ReactiveX/RxSwift/tree/master/Documentation)
 
@@ -144,6 +143,12 @@ Observable 对象会在有任何 Event 时候，自动将 Event 作为一个参�
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190627113132.png)
 
 [RxSwift-四种Subject的基本用法 - 简书](https://www.jianshu.com/p/02795ee5b222)
+
+
+## Relay
+
+主要应用于UI层, Relay不会出现错误或完成事件。这不仅使运行时崩溃更容易检测，而且还更容易检测到由于意外行为引起的错误。
+
 
 ### BehaviorSubject——一个会向每次订阅发出最近接收到的一个元素的观察者
 
@@ -293,6 +298,27 @@ http://www.hangge.com/blog/cache/detail_1940.html
 * 通过使用 merge 操作符你可以将多个 Observables 合并成一个，当某一个 Observable 发出一个元素时，他就将这个元素发出。
 * 如果，某一个 Observable 发出一个 onError 事件，那么被合并的 Observable 也会将它发出，并且立即终止序列。
 
+
+### concat & combineLatest & merge & zip
+
+都是聚合Observable信号，主要区别如下：
+
+- concat: concat 操作符将多个 Observables 按顺序串联起来，当前一个 Observable 元素发送完毕后，后一个 Observable 才可以开始发出元素。
+
+concat 将等待前一个 Observable 产生完成事件后，才对后一个 Observable 进行订阅。如果后一个是“热” Observable ，在它前一个 Observable 产生完成**所有事件**前，所产生的元素将不会被发送出来。
+(感觉有点像超市购物车排队结账，东西都结账完成)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20200424145918.png)
+
+- merge:
+  
+merge concat Observables 按顺序串联起来，而是将他们合并到一起，不需要 Observables 按先后顺序发出元素。
+
+
+
+- combineLatest： 
+
+- 
 
 
 ## 相关Tip

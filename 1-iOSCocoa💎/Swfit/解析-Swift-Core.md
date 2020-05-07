@@ -1,9 +1,10 @@
-##  面向协议的 MVVM 架构介绍
+#  面向协议的 MVVM 架构介绍
+
 在 Swift 中用值类型来替代引用类型，比以前在 Objective-C 中要容易许多，这可以让您的代码更简洁，并且更不容易出错。然而，当需要在多个类型当中共享代码的时候，许多人往往会回避使用值类型，而转为使用继承来实现。
 
 通过 Natasha 在 do{iOS} 2015 上对 MVVM 的介绍，您可以学习到如何使用协议来实现这个功能，而不再采用继承的方式！Natasha The Robot 将会引导您跟随她学习和使用面向协议编程的过程，使用 Swift 2.0 的特性来创建漂亮、稳定的代码。
 
-为什么要简化 Swift 中的代码呢？ (0:00)
+为什么要简化 Swift 中的代码呢？ 
 嗨，我是 Natasha。就是 Twitter 上的 @NatashaTheRobot。关于我的个人介绍的话我还想多说一些：我有一个 每日 Swift 周报，还有一个写了许多关于 Swift 文章的博客，自 Swift 第一天推出以来，我就已经在大量地研究 Swift 了。
 
 作为一名 Objective-C 开发者，我基本上是在 Swift 刚刚推出的时候开始学习 Objective-C 代码的——这导致我使用了很多的引用类型。我习惯性将所有东西声明为类，因为我已经习惯了面向对象编程。这也正是 Objective-C 的思想。
@@ -49,6 +50,7 @@ Your balance is $6,729,383.99
 
 相反，您可以让模型变得清晰，然后仅仅只用于映射您的原始数据。这是您视图模型的初始状态：
 
+```swift
 struct AccountViewModel {
     let displayBalance: String
 
@@ -57,9 +59,12 @@ struct AccountViewModel {
         displayBalance = "Your balance is \(formattedBalance)"
     }
 }
+```
+
 您的视图模型实际上会读取您的数据模型，然后将其中的信息进行格式化，从而准备展示到视图当中。这就是视图模型的魅力所在。这很容易进行测试。您可以将带有账户信息的模型放进去，然后测试显示就可以了，而在此之前，如果您想要测试您的视图控制器或者视图，这是非常非常难的，因为输出特别纷繁复杂。
 
-Zoetrope 模型 (8:29)
+## Zoetrope 模型 (8:29)
+
 注意到我的视图模型是值类型的。那么这个在 Swift 中是如何起作用的呢？
 
 关键在于，您的视图控制器需要维持视图模型的最新版本。值类型是一种数据类型。它不应该成为真实的数据，它只是数据在某个时间点的一份拷贝而已。您的视图控制器需要跟踪这些信息，决定哪个拷贝数据应该展示给用户（也就是最新的拷贝）。
@@ -76,6 +81,7 @@ var viewModel = ViewModel(model: Account)
 
 这个操作应该是非常简单的，但是它也会变得很复杂。这里有一个问题：在我们的表视图单元格当中，其中的每一个单独组件都需要以某种方式来进行格式化。如果其中有标签 (label) 的话，那么您必须要定义它的字体，字体颜色，字体大小，等等。如果是开关 (switch) 的话，那么当开关打开的时候会发生些什么？初始状态是关闭还是打开？对于这种拥有这两个元素的简单的表视图单元格来说，我已经有 6 种不同的方式来对它进行配置：
 
+```swift
 class SwitchWithTextTableViewCell: UITableViewCell {
     func configure(
         title: String,
@@ -88,6 +94,7 @@ class SwitchWithTextTableViewCell: UITableViewCell {
         // 在这里配置视图
     }
 }
+``
 您可以想象得到，我们绝大多数人进行配置的表视图单元格比着远复杂得多。在我的代码当中，这种 configure 方法将非常非常累赘。添加一个副标题将会导致多出额外的三个属性需要设置。在 Swift 中您可以用默认值来获得一些辅助，但是使用这种臃肿的 configure 方法不是非常简洁。
 
 在您实际上调用此方法的视图控制器当中，我们持有了所有存放在其中的信息栈。它看���来并不是很好看；这让人感觉很不好，但是我一直没想到有更好的办法，直到协议的出现。
@@ -95,6 +102,7 @@ class SwitchWithTextTableViewCell: UITableViewCell {
 视图模型及协议 (12:05)
 对于单元格来说，我们不应该使用这些臃肿的配置方法，而是应该将每个部分单独拿出来，然后将其放大一个 SwiftchWithTextCellProtocol 的协议当中。这让我感觉到非常开心。这样子，我就可以让我的视图模型实现这个协议，然后在这里设置所有的属性。现在，我就不用再去使用臃肿的配置方法了，但是我仍然需要有一种方式来确保每个单独的属性实际上都被设置了。
 
+```swift
 protocol SwitchWithTextCellProtocol {
     var title: String { get }
     var titleFont: UIFont { get }
@@ -105,23 +113,32 @@ protocol SwitchWithTextCellProtocol {
 
     func onSwitchToggleOn(on: Bool)
 }
+```
+
 通过 Swift 2.0 当中的协议扩展，我就可以通过默认值做一些处理了。如果对于大多数单元格来说，可以确定某一种颜色的话，那么您就可以对其建立扩展，然后设置该颜色即可。所有的实现此协议的视图模型都没必要再去设置这个颜色了。这个做法非常棒：
 
+```swift
 extension SwitchWithTextCellProtocol {
     var switchColor: UIColor {
         return .purpleColor()
     }
 }
+```
+
 现在，我的 configure 方法只需要获取某个实现此协议的值就可以了：
 
+```swift
 class SwitchWithTextTableViewCell: UITableViewCell {
     func configure(withDelegate delegate: SwitchWithTextCellProtocol)
     {
         // 在这里配置方法
     }
 }
+```
+
 这个方法只有一个参数，这对之前的那个六个参数（甚至更多）的方法来说是一个重大的改进。这是我现在的视图模型的一个示例：
 
+```swift
 struct MinionModeViewModel: SwitchWithTextCellProtocol {
     var title = "Minion Mode!!!"
     var switchOn = true
@@ -138,10 +155,13 @@ struct MinionModeViewModel: SwitchWithTextCellProtocol {
         }
     }
 }
+```
+
 它实现了这个协议，然后配置了所有相关的信息。正如您在前面的示例中看到的那样，您可以用您的模型对象来初始化视图模型了。现在，如果您需要诸如外汇收益之类的信息的话，您实际上可以在您视图模型的各个地方使用这个信息，以便能够指明如何对其进行配置，并将视图展示出来。
 
 因此，这个操作将会非常简单。现在，我的 cellForRowAtIndexPath() 也变得非常的简明了：
 
+```swift
 // YourViewController.swift
 let cell = tableView.dequeueReusableCellWithIdentifier("SwitchWithTextTableViewCell", forIndexPath: indexPath) as! SwitchWithTextTableViewCell
 
@@ -149,6 +169,8 @@ let cell = tableView.dequeueReusableCellWithIdentifier("SwitchWithTextTableViewC
 cell.configure(withDelegate: MinionModeViewModel())
 
 return cell
+```
+
 我将单元格 dequeue 出来，然后调用了我视图模型的 configure 方法。在这个例子当中，我没有对它的 frame 进行任何的配置，它同样也没有包含模型层，但是您同样可以将这个模型放到视图控制器层级，以便对其进行跟踪。您同样可以在视图模型当中传递这些信息，这样您的单元格就可以生成了。当我们重构之后，我们只需要三行代码就可以完成配置了。
 
 进一步的抽象 (14:10)
@@ -158,6 +180,7 @@ return cell
 
 我认为这是一个非常绝妙的想法。我将我的逻辑进行了分离，然后再创建了单元格数据存储和单元格委托：
 
+```swift
 protocol SwitchWithTextCellDataSource {
     var title: String { get }
     var switchOn: Bool { get }
@@ -170,21 +193,30 @@ protocol SwitchWithTextCellDelegate {
     var textColor: UIColor { get }
     var font: UIFont { get }
 }
+```
+
 接下来，我让我的 configure 方法同时接收这两个协议。因为委托可以全部在协议扩展中使用默认值进行配置，比如说字体、颜色之类的信息，这样在理论上我可以不用向里面传递任何东西进去；我可以只用创建一个模型就可以了：
 
+```swift
 // SwitchWithTextTableViewCell
 func configure(withDataSource dataSource: SwitchWithTextCellDataSource, delegate: SwitchWithTextCellDelegate?)
 {
     // 在这里配置视图
 }
+```
+
 现在我可以使用扩展来改进我的视图模型了。我会使用一个实现数据源的代码块，然后给定要传递给视图当中的原始信息：
 
+```swift
 struct MinionModeViewModel: SwitchWithTextCellDataSource {
     var title = "Minion Mode!!!"
     var switchOn = true
 }
+```
+
 接下来，我会在一个单独的视图模型的部分当中使用处理字体、颜色之类的委托，然后在其中进行相关的配置。
 
+```swift
 extension MinionModeViewModel: SwitchWithTextCellDelegate {
     var switchColor: UIColor {
         return .yellowColor()
@@ -198,13 +230,18 @@ extension MinionModeViewModel: SwitchWithTextCellDelegate {
         }
     }
 }
+```
+
 最终，我的表视图单元格变得非常简单：
 
+```swift
 // SettingsViewController
 
 let viewModel = MinionModeViewModel()
 cell.configure(withDataSource: viewModel, delegate: viewModel)
 return cell
+```
+
 我仅仅只用创建了我的视图模型，然后将其传递到配置方法当中，然后返回单元格，就完毕了。
 
 Swift 2.0 中的 Mixin 和 Trait (16:32)

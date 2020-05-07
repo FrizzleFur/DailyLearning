@@ -5,6 +5,8 @@
 
 ## iOS 
 
+[Awesome Open Source](https://awesomeopensource.com/projects/rxswift)
+
 ### iOS Check
 
 1. [SwipeTableView](https://github.com/Roylee-ML/SwipeTableView) 看了架构，类似捕手发现的模块,tabBar下面对应一个滚动的多个竖直方向的视图，
@@ -53,6 +55,10 @@
 ### Swift 
 
 * [SwiftGuide](https://github.com/ipader/SwiftGuide)
+
+#### RxSwift
+
+* (RxSwift-Tutorial)[https://awesomeopensource.com/project/aidevjoe/RxSwift-Tutorial]
 
 #### [Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application)
 

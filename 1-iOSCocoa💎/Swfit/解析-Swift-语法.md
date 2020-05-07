@@ -319,8 +319,156 @@ func someFunction<T: SomeClass, U: SomeProtocol>(someT: T, someU: U) {
 
 ```
 
+##### Swift --- 泛型（Generics）和关联类型（Associated Type）
+
 上面这个假定函数有两个类型参数。第一个类型参数T，有一个需要T必须是SomeClass子类的类型约束；第二个类型参数U，有一个需要U必须遵循SomeProtocol协议的类型约束。
 
+泛型可以将类型参数化，提高代码复用率，减少代码量
+```swift
+func swapValues<T>(_ a: inout T, _ b: inout T) {
+      (a, b) = (b, a)
+  }
+  var n1 = 10
+  var n2 = 20
+  swapValue(&n1, &n2)
+```
+
+泛型函数赋值给变量
+```swift
+var fn:(inout: Int, inout: Int) -> () = swapValues
+fn(&n1, &n2)
+var test<T1, T2>(_ t1: T1, _ t2: T2) {}
+var fn: (Int, Double) -> () = test
+```swift
+
+类泛型
+
+```swift
+class Stack<E> {
+    var elements = [E]()
+    func push(_ element: E) { elements.append(element) }
+    func pop() -> E { elements.removeLast() }
+    func top() -> E { elements.last! }
+    func size() -> Int { elements.count }
+}
+var stack = Stack<Int>()
+class SubStack<E> : Stack<E> {}
+```
+
+结构体泛型
+```swift
+struct Stack<E> {
+    var elements = [E]()
+    mutating func push(_ element: E) { elements.append(element) }
+    mutating func pop() -> E { elements.removeLast() }
+    func top() -> E { elements.last! }
+    func size() -> Int { elements.count }
+}
+```
+
+枚举泛型
+```swift
+enum Score<T> {
+    case point<T>
+    case grade(String)
+}
+let score0 = Score<Int>.point(100)
+let score1 = Score.point(99)
+let score2 = Score.point(99.5)
+let score3 = Score<Int>.grade("A")   //必须初始化泛型类型
+
+关联类型Associated Type
+关联类型的作用：给协议中用到的类型定义一个占位名称
+协议中可以拥有多个关联类型
+ protocol Stackable {
+    associatedtype Element //关联类型
+    //associatedtype Element2 //关联类型
+    mutating func push(_ element: Element) 
+    mutating func pop() -> Element
+    func top() -> Element
+    func size() -> Int 
+}
+
+ class StringStack : Stackable {
+     //给关联类型设定真实类型
+     //typealias Element = String
+     var elements = [String]()
+    func push(_ element: String) { elements.append(element) }
+    func pop() -> String { elements.removeLast() }
+    func top() -> String { elements.last! }
+    func size() -> Int { elements.count }
+ }
+```
+
+类型约束：
+protocol Stackable {
+    associatedtype : Equatable
+}
+class Stack<E: Equatable> : Stackable {
+    typealias Element = E
+}
+
+func equal<S1: Stackable, S2: Stackable>(_ s1: S1, _ s2: S2) -> BOOl 
+where S1.Element == S2.Element, S1.Element : Hashable {
+    return false
+}
+
+协议类型的注意点：
+关联类型不能直接作为返回值
+protocol Runnable {
+    associatedtype Speed
+    var speed: Speed { get }
+}
+class Person : Runnable {
+    var speed: Double { 0.0 }
+}
+class Car : Runnable {
+    var speed: Int { 0 }
+   func run()  {}
+}
+
+解决方案1
+
+func get<T: Runnable>(_ type: Int) -> T {
+    if type == 0 {
+        return Student() as! T
+    }
+    return Person() as! T
+}
+var r1 = get(0)
+var r1 = get(1)
+
+解决方案2
+不透明类型，只能返回一种类型，屏蔽具体类型，只暴露协议类型
+
+func get(_ type: Int) -> some Runable {
+    //if type == 0 {
+    //    return Student()
+    //}
+    return Person()
+}
+var r1 = get(0)
+r1.speed   //Runable.Speed
+//ri.run() 不能调用
+
+
+some除了用在返回值类型上，一般还可以用在属性类型上
+protocol Runnable { associatedtype Speed }
+class Dog : Runnable { typealias Speed = Double }
+class Person {
+    var pet: some Runnable {
+        return Dog()
+    }
+}
+
+或者 下面这种也是一种看不到真实类型的方式
+protocol Runnable {  }
+class Dog : Runnable { }
+class Person {
+    var pet: Runnable {
+        return Dog()
+    }
+}
 
 ## 基本操作符（Basic operators）
 
@@ -914,7 +1062,82 @@ struct AlternativeRect {
 }
 ```
 
+## static 和class 
 
+- static 可以在类、结构体、或者枚举中使用。而 class 只能在类中使用。
+- static 可以修饰存储属性，static 修饰的存储属性称为静态变量(常量)。而 class 不能修饰存储属性。
+- static 修饰的计算属性不能被重写。而 class 修饰的可以被重写。
+- static 修饰的静态方法不能被重写。而 class 修饰的类方法可以被重写。
+- class 修饰的计算属性被重写时，可以使用 static 让其变为静态属性。
+- class 修饰的类方法被重写时，可以使用 static 让方法变为静态方法。
+
+### static
+
+使用Swift，您可以创建属于类型而不是类型实例的属性和方法。这有助于通过存储共享数据来有意义地组织数据。
+Swift将这些共享属性称为“静态属性”，而您只需使用static关键字即可创建一个。完成后，您可以使用类型的全名来访问属性。这是一个简单的示例：
+
+```swift
+struct TaylorFan {
+    static var favoriteSong = "Look What You Made Me Do"
+
+    var name: String
+    var age: Int
+}
+
+let fan = TaylorFan(name: "James", age: 25)
+print(TaylorFan.favoriteSong)
+```
+
+static 适用的场景(class/struct/enum)
+
+- 修饰存储属性
+- 修饰计算属性
+- 修饰类型方法
+
+```swift
+struct Point {
+    let x: Double
+    let y: Double
+//    修饰存储属性
+    static let zero = Point(x: 0, y: 0)
+//    修饰计算属性
+    static var ones: [Point] {
+        return [Point(x: 1, y: 1)]
+    }
+//    修饰类型方法
+    static func add(p1: Point, p2: Point) -> Point {
+        return Point(x: p1.x + p2.x, y: p1.y + p2.y)
+    }
+}
+```
+
+###  class 适用的场景
+
+- 修饰类方法
+- 修饰计算属性
+
+```swift
+class MyClass {
+//    修饰计算属性
+    class var age: Int {
+        return 10
+    }
+//    修饰类方法
+    class func testFunc() {
+        
+    }
+}
+```
+
+- class不能修饰类的存储属性，static可以修饰类的存储属性
+- 在protocol中使用static来修饰类型域上的方法或者计算属性
+- static修饰的类方法不能继承；class修饰的类方法可以继承
+- static能修饰class/struct/enum的计算属性、存储属性、类型方法;class能修饰类的计算属性和类方法
+- static修饰的类方法不能继承；class修饰的类方法可以继承
+- 在protocol中要使用static
+
+
+ref: [深入理解Swift中static和class关键字 - 掘金](https://juejin.im/post/5c81e255f265da2dc9732b71)
 
 ## 函数
 
