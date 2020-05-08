@@ -20,6 +20,16 @@ com.apple.dt.Xcode ShowBuildOperationDuration -bool YES
 
 
 
+### Xcode黑魔法
+
+Run without building
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20200511150422.png)
+
+连接已经跑起来的程序：去除编译等待时间
+
+’command + shift + R’
+
 ### Xcode切换窗口快捷键
 
 >今天在开发的过程，发现一个经常用到的切换多个`Xcode`窗口的快捷键的使用

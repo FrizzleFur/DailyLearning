@@ -1,4 +1,6 @@
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20200511183414.png)
+
 ## 1、创建事件序列 - 向订阅者发送新产生的事件信息
 create : 通过传入的元素来创建可观测序列
 
@@ -1136,4 +1138,7 @@ output:
 
 # Ref
 
-* [](https://github.com/jhw-dev/RxSwift-CN)
+* [官方中文翻译文档](https://github.com/jhw-dev/RxSwift-CN)
+* [RxCocoa文档](http://cocoadocs.org/docsets/RxCocoa/3.5.0/index.html)
+* [RxSwift解读](http://adamborek.com/)
+* [RxSwift-UnitTest](https://www.raywenderlich.com/7408-testing-your-rxswift-code)

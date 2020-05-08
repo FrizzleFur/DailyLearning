@@ -19,7 +19,7 @@
 * [MVVM-C with Swift - Marco Santa Dev](https://marcosantadev.com/mvvmc-with-swift/)
 * [不再对 MVVM 感到绝望 - 掘金](https://juejin.im/post/5a782d0d5188257a856f1dd7)
 
-对于 MVVM 来说，**我们可以把 view 看作是 viewModel 的可视化形式，viewModel 提供了 view 所需的数据和命令。因此，viewModel 的可测试性可以帮助我们极大地提高应用的质量**。
+对于 MVVM 来说，**我们可以把 view 看作是 viewModel 的可视化形式，viewModel 提供了 view 所需的数据和命令。因此，viewModel的可测试性可以帮助我们极大地提高应用的质量**。
 
 [MVVM With ReactiveCocoa - 雷纯锋的技术博客](http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/)
 
@@ -452,6 +452,10 @@ iOS 8引入了动态框架包含Model，View和ViewModel框架的iOS应用程序
 该体系结构保持了依赖关系方向的一致性，使应用程序易于开发，测试和维护。
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190721094213.png)
+
+## Data Binding
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20200507220537.png)
 
 ## 参考
 
