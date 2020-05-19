@@ -309,6 +309,17 @@ brew install timothyye/tap/skm
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15301106716847.jpg)
 
 
+### 问题
+
+1. mac如何打开iterm2自动执行source .bash_profile
+
+但这种情况关掉终端或者iterm2再打开就需要重新source，在iterm2中可以修改.zshrc，这样iterm2在启动时就会自动source
+vim /Users/user/.zshrc
+在最后一行 添加
+source /Users/user/.bash_profile
+这样每次启动iterm2就自动source了
+
+
 ##  搜索
 
 the_silver_searcher: A code searching tool similar to ack, with a focus on speed.
