@@ -511,6 +511,17 @@ xcrun instruments -w <device_id>
 [[iOS 11][Xcode 9] launch, install, start hangs Simulator · Issue #209 · ios-control/ios-sim](https://github.com/ios-control/ios-sim/issues/209)
 
 
+## xcode 卡在"xcode and ios sdk license aggrement"协议确认页面的解决办法
+
+当前老系统，新装完 “macOS Mojava”, Xcode 下载完后直接打开应用弹出协议确认框，点Agree按钮死活没反应，使用下面的命令行办法解决。
+
+打开命令行
+运行 xcodebuild -h, 如果有提示 xcode-select: error: tool 'xcodebuild' requires Xcode, but active developer directory '/Library/Developer/CommandLineTools' is a command line tools instance，运行这个命令切换XCODE目录sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer/，需要输入密码。
+运行sudo xcodebuild -license点回车后会出来一大段协议内容，一直按空格直接出现输入框提示确认，输入agree点确认即可。
+现在可以直接打开xcode了。
+
+
+
 ## 多个项目切换快捷键
 
 `Cmd + ~`
