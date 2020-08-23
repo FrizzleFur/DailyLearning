@@ -83,6 +83,13 @@ SwiftUI 的框架提供了几个核心概念：
 [与UIKit结合-官方](https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit)
 
 
+## 总结
+
+* SwiftUI 的 view 是值,而非对象:它们是不可变的,用来暂时描述屏幕上应该显示什么。
+* 我们在一个 view 上几乎所有的方法调用 (像是 frame 或 background) 都会将 view 包装在一个修饰器中。因此,这些调用的顺序很重要,这一点和 UIView 里的属性不同。
+* 布局是自上而下的:父 view 向子 view 提供它们的可用空间,子 view 基于这个空间来决定自己的尺寸。
+* 我们不能直接更新屏幕上的内容。相反,我们必须修改状态属性 (比如 @State 或@ObservedObject),然后让 SwiftUI 去找出 view 树的变化方式。
+
 ## TODO
 
 1. 学习拓展库 [SwiftUIX](https://github.com/SwiftUIX/SwiftUIX)
