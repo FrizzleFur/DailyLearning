@@ -1,0 +1,98 @@
+{
+  "main": {
+    "id": "ba7620b3818fe4f3",
+    "type": "split",
+    "children": [
+      {
+        "id": "64d882b7af29c83a",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "1-iOSCocoa💎/动画/解析-核心动画.md",
+            "mode": "preview"
+          }
+        },
+        "group": "f4550242ccf57168"
+      },
+      {
+        "id": "28b56e79fa9064ba",
+        "type": "leaf",
+        "active": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "1-iOSCocoa💎/动画/解析-核心动画.md",
+            "mode": "source"
+          }
+        },
+        "group": "f4550242ccf57168"
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "656fa172523651bf",
+    "type": "split",
+    "children": [
+      {
+        "id": "6ff2d3c86c6820d2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b292edb7a5ad65b3",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "53754bdcb1f5fbc8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": ""
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "bbcb381a203c8c75",
+    "type": "split",
+    "children": [
+      {
+        "id": "648b1b95308b2f97",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5269dbca8845a104",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "1-iOSCocoa💎/动画/解析-核心动画.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "lastOpenFiles": [
+    "1-iOSCocoa💎/动画/解析-核心动画.md",
+    "1-iOSCocoa💎/底层重点知识/OC的类和元类.md",
+    "1-iOSCocoa💎/底层重点知识/解析-分类和类拓展.md",
+    "1-iOSCocoa💎/底层重点知识/KVO解析/解析-KVC.md",
+    "大前端❤️/解析-前端资源.md"
+  ]
+}
