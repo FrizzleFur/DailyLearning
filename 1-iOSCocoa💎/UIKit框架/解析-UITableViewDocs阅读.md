@@ -1,95 +1,46 @@
-# UITableView阅读
+# UITableView的重用机制
 
-
-> `UITableView`:A view that presents data using rows arranged in a single column.
->An instance of `UITableView` (or simply, a table view) is a means for displaying and editing hierarchical lists of information.
+遇到一个table重用的问题，在看了文章后发现自己理解的还不够深入和准确，在此记录📝
 
 
 
-## 介绍
+重用实现分析：
 
-表格视图显示一个列表，在一个单一的物品栏。表格是UIScrollView的子类，它允许用户滚动表，虽然表格只允许纵向滚动。这些细胞包括表的每个项目UITableViewCell对象；UITableView使用这些对象绘制的表行可见。细胞内容标题和图像可以有，右边缘的辅助视图。标准附件意见披露指标或详细信息按钮；前者导致一个新的水平层次数据，后者导致了所选项目的详细视图。辅助视图也可以框架控件，如开关和滑块，也可以是自定义的视图。表格视图可以进入编辑模式，用户可以插入，删除，排序表中的行。
+查看UITableView头文件，会找到NSMutableArray* visiableCells，和NSMutableDictnery* reusableTableCells两个结构。visiableCells内保存当前显示的cells，reusableTableCells保存可重用的cells。
 
-表格视图是由零个或多个部分，每一个都有自己的行。部分确定的表格视图的索引号，和行确定一个段中的索引。任何部分可以选择之前一段标题，也可以跟随一段尾。
+TableView显示之初，reusableTableCells为空，那么tableView dequeueReusableCellWithIdentifier:CellIdentifier返回nil。开始的cell都是通过[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]来创建，而且cellForRowAtIndexPath只是调用最大显示cell数的次数。
 
+比如：有100条数据，iPhone一屏最多显示10个cell。程序最开始显示TableView的情况是：
 
-### 获取Table中view的坐标
+1. 用[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]创建10次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且10个cell全部都加入到visiableCells数组，reusableTableCells为空。
 
-```objc
-- (CGRect)rectForSection:(NSInteger)section;                                    // includes header, footer and all rows
-- (CGRect)rectForHeaderInSection:(NSInteger)section;
-- (CGRect)rectForFooterInSection:(NSInteger)section;
-- (CGRect)rectForRowAtIndexPath:(NSIndexPath *)indexPath;
+2. 向下拖动tableView，当cell1完全移出屏幕，并且cell11(它也是alloc出来的，原因同上)完全显示出来的时候。cell11加入到visiableCells，cell1移出visiableCells，cell1加入到reusableTableCells。
 
-- (nullable NSIndexPath *)indexPathForRowAtPoint:(CGPoint)point;                         // returns nil if point is outside of any row in the table
-- (nullable NSIndexPath *)indexPathForCell:(UITableViewCell *)cell;                      // returns nil if cell is not visible
-- (nullable NSArray<NSIndexPath *> *)indexPathsForRowsInRect:(CGRect)rect;                              // returns nil if rect not valid
+3. 接着向下拖动tableView，因为reusableTableCells中已经有值，所以，当需要显示新的cell，cellForRowAtIndexPath再次被调用的时候，tableView dequeueReusableCellWithIdentifier:CellIdentifier，返回cell1。cell1加入到visiableCells，cell1移出reusableTableCells；cell2移出visiableCells，cell2加入到reusableTableCells。之后再需要显示的Cell就可以正常重用了。
 
-```
+所以整个过程并不难理解，但需要注意正是因为这样的原因：配置Cell的时候一定要注意，对取出的重用的cell做重新赋值，不要遗留老数据。
 
-### UITableViewStyle
+一些情况：
 
-当你创建一个表格实例必须指定表的风格，这种风格是无法改变的:
+使用过程中，我注意到，并不是只有拖动超出屏幕的时候才会更新reusableTableCells表，还有：
 
-`UITableViewStylePlain`
-A plain table view. Any section headers or footers are displayed as inline separators and float when the table view is scrolled.
-简朴表格视图。任何部分的页眉或页脚显示为内联分离器和浮在表视图滚动。
+1. **reloadData**，这种情况比较特殊。一般是部分数据发生变化，需要重新刷新cell显示的内容时调用。在cellForRowAtIndexPath调用中，所有cell都是重用的。我估计reloadData调用后，把visiableCells中所有cell移入reusableTableCells，visiableCells清空。cellForRowAtIndexPath调用后，再把reuse的cell从reusableTableCells取出来，放入到visiableCells。
 
-`UITableViewStyleGrouped`
-A table view whose sections present distinct groups of rows. The section headers and footers do not float.
-一个表视图，其节显示不同的行组。本节的页眉和页脚不浮。
+2. reloadRowsAtIndex，刷新指定的IndexPath。如果调用时reusableTableCells为空，那么cellForRowAtIndexPath调用后，是新创建cell，新的cell加入到visiableCells。老的cell移出visiableCells，加入到reusableTableCells。于是，之后的刷新就有cell做reuse了。
 
-### NSIndexPath
+注意：
 
-Many methods of UITableView take NSIndexPath objects as parameters and return values. UITableView declares a category on NSIndexPath that enables you to get the represented row index (row property) and section index (section property), and to construct an index path from a given row index and section index (indexPathForRow:inSection: method). Especially in table views with multiple sections, you must evaluate the section index before identifying a row by its index number.
+1-重取出来的cell是有可能已经捆绑过数据或者加过子视图的，所以，如果有必要，要清除数据（比如textlabel的text）和remove掉add过的
+子视图（使用tag）。
+2-这样设计的目的是为了避免频繁的 alloc和delloc cell对象而已,没有多复杂。
+3-设计的关键是实现cell和数据的完全分离
 
+重点：避免重用机制出错
 
-### DataSource & Delegate
+1.重用机制调用的就是dequeueReusableCellWithIdentifier这个方法，方法的意思就是“**出列可重用的cell**”，因而只要将它换为cellForRowAtIndexPath（只从要更新的cell的那一行取出cell），就可以不使用重用机制，因而问题就可以得到解决，但会浪费一些空间
 
-一个UITableView对象必须有一个对象，作为一个数据源和一个对象作为代表；通常这些对象是应用程序的代理或更频繁，一个自定义UITableViewController对象。数据源必须采用uitableviewdatasource协议和委托必须采用uitableviewdelegate协议。数据源提供的信息，表格需要构建表和管理数据模型时，一个表的行插入，删除或重新排序。委托管理表行配置和选择、行重新排序、突出显示、附件视图和编辑操作。
-
-
-### 刷新
-
-Changing UITableView section header without tableView:titleForHeaderInSection
-
-```objc
-[self.tableView beginUpdates];
-[self.tableView endUpdates];
-// forces the tableView to ask its delegate/datasource the following:
-//   numberOfSectionsInTableView:
-//   tableView:titleForHeaderInSection:
-//   tableView:titleForFooterInSection:
-//   tableView:viewForHeaderInSection:
-//   tableView:viewForFooterInSection:
-//   tableView:heightForHeaderInSection:
-//   tableView:heightForFooterInSection:
-//   tableView:numberOfRowsInSection:
-```
-
-[iphone - Changing UITableView section header without tableView:titleForHeaderInSection - Stack Overflow](https://stackoverflow.com/questions/1586420/changing-uitableview-section-header-without-tableviewtitleforheaderinsection)
-
-
-## cell分割线 设置间距
-
-```objc
-// 分割线左间距
-    cell.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
-```
-
-## 隐藏导航的时候露出状态白线
-
-```objc
- // 取消自动调整内容内间距
-    if (@available(iOS 11.0, *)) {
-        [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
-    } else {
-        // Fallback on earlier versions
-    」
-```
 
 ## 参考 
 
-[UITableView - UIKit | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableview#//apple_ref/occ/cl/UITableView)
-
+[iOS-UITableviewCell的重用机制](https://www.jianshu.com/p/481f8fdfb9e0)
 
