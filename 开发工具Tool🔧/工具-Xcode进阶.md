@@ -520,8 +520,50 @@ xcrun instruments -w <device_id>
 运行sudo xcodebuild -license点回车后会出来一大段协议内容，一直按空格直接出现输入框提示确认，输入agree点确认即可。
 现在可以直接打开xcode了。
 
+## Xcode 能耗
+SourceKitService: Swift源代码进程
+[SourceKitService消耗CPU](https://stackoverflow.com/questions/26151954/sourcekitservice-consumes-cpu-and-grinds-xcode-to-a-halt)
+SourceKitService消耗了超过400％的CPU
 
 
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20210215121243.png)
+
+
+# Fixing Xcode
+
+[Edit Page](https://github.com/codepath/ios_guides/wiki/Fixing-Xcode/_edit)[Page History](https://github.com/codepath/ios_guides/wiki/Fixing-Xcode/_history)
+
+## [](https://guides.codepath.com/ios/Fixing-Xcode#overview)Overview
+
+Sometimes Xcode can get in an odd state. This guide is a progression of steps to reset things. After each step, test to see the problem is resolved.
+
+### [](https://guides.codepath.com/ios/Fixing-Xcode#clean-the-build)Clean the Build
+
+If the issue is building, the first step is to clean the build, which will force a clean build from scratch. Choose _Product_, and _Clean_.
+
+### [](https://guides.codepath.com/ios/Fixing-Xcode#reset-the-simulator)Reset the Simulator
+
+Launch the iOS Simulator. From the _iOS Simulator_ menu, choose _Reset Content and Settings..._, and click _Reset_ to confirm.
+
+### [](https://guides.codepath.com/ios/Fixing-Xcode#delete-derived-data)Delete Derived Data
+
+Choose _Window_ -> _Organizer_. Select the _Projects_ tab. Select your project on the left. Next to the _Derived Data_ line, there click the _Delete_ button.
+
+When Xcode creates Derived Data when it index your files, among other things.
+
+### [](https://guides.codepath.com/ios/Fixing-Xcode#delete-the-module-cache)Delete the Module Cache
+
+Within the same folder as your project's Derived Data is a Module Cache. When Code Completion stopped working, deleting this fixed it.
+
+Close Xcode and delete the `~/Library/Developer/Xcode/DerivedData/ModuleCache` directory.
+
+### [](https://guides.codepath.com/ios/Fixing-Xcode#delete-xcode-preferences)Delete Xcode Preferences
+
+A long-shot next step is to reset Xcode's preferences. In your terminal, run:
+
+```
+defaults delete com.apple.dt.Xcode
+```
 ## 多个项目切换快捷键
 
 `Cmd + ~`
