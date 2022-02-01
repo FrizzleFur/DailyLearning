@@ -1,7 +1,7 @@
 # Linux命令学习
 
  时间 |  备注
- --- | --- 
+ --- | ---
 `2017-05-01` | start
 `2018-04-30` | 添加文件重命名
 `2018-06-20` | 整理 & 添加补充`grep`命令
@@ -20,11 +20,11 @@
 ### man命令
 
 >常用工具命令 man命令是Linux下的帮助指令，通过man指令可以查看Linux中的指令帮助、配置文件帮助和编程帮助等信息。
-> 语法 man(选项)(参数) 
+> 语法 man(选项)(参数)
   -a：在所有的man帮助手册中搜索；
-  -f：等价于whatis指令，显示给定关键字的简短描述信息； 
+  -f：等价于whatis指令，显示给定关键字的简短描述信息；
   -P：指定内容时使用分页程序；
-  -M：指定man手册搜索的路径。 
+  -M：指定man手册搜索的路径。
 来自: [man命令_Linux man 命令用法详解](http://man.linuxde.net/man)
 
 * 不区分大小写智能提示。我是不喜欢大小写区分的那种人，所以用了 `zsh` 之后，经常按 `Tab` 进行提示。
@@ -114,7 +114,7 @@ $?: 存储上一次命令的返回结果
 
 栗子：
 $ which git>/dev/null && git --help  // 如果存在git命令，执行git --help命令
-$ echo $? 
+$ echo $?
 
 ### 管道命令
 
@@ -141,11 +141,61 @@ cat etc/passwd | grep -n -c 'fanco'
 
 * [Linux管道命令（pipe） - 简书](https://www.jianshu.com/p/9c0c2b57cb73)
 
+
+### tree 命令
+
+[查看文件树命令](https://www.runoob.com/linux/linux-comm-tree.html)
+
+语法
+
+```linux
+tree [-aACdDfFgilnNpqstux][-I <范本样式>][-P <范本样式>][目录...]
+```
+
+参数说明：
+
+```linux
+-a 显示所有文件和目录。
+-A 使用ASNI绘图字符显示树状图而非以ASCII字符组合。
+-C 在文件和目录清单加上色彩，便于区分各种类型。
+-d 显示目录名称而非内容。
+-D 列出文件或目录的更改时间。
+-f 在每个文件或目录之前，显示完整的相对路径名称。
+-F 在执行文件，目录，Socket，符号连接，管道名称名称，各自加上"*","/","=","@","|"号。
+-g 列出文件或目录的所属群组名称，没有对应的名称时，则显示群组识别码。
+-i 不以阶梯状列出文件或目录名称。
+-L level 限制目录显示层级。
+-l 如遇到性质为符号连接的目录，直接列出该连接所指向的原始目录。
+-n 不在文件和目录清单加上色彩。
+-N 直接列出文件和目录名称，包括控制字符。
+-p 列出权限标示。
+-P<范本样式> 只显示符合范本样式的文件或目录名称。
+-q 用"?"号取代控制字符，列出文件和目录名称。
+-s 列出文件或目录大小。
+-t 用文件和目录的更改时间排序。
+-u 列出文件或目录的拥有者名称，没有对应的名称时，则显示用户识别码。
+-x 将范围局限在现行的文件系统中，若指定目录下的某些子目录，其存放于另一个文件系统上，则将该子目录予以排除在寻找范围外。
+```
+
+如果想模糊匹配查询
+
+可以使用`-P`命令：
+比如想查询目录里`filter`开头，以`render`结尾的文件：
+
+```linux
+❯ tree -P 'filter*' | grep 'render'
+│   │   │   │   ├── filter_text_render.dart
+│   │   │   │   ├── filter_time_window_render.dart
+│   │   │   │   │   ├── filter_tree_select_multi_render.dart
+│   │   │   │       ├── filter_tree_select_single_render.dart
+│   │   │   │   ├── filter_user_render.dart
+```
+
 ### less 命令
 
 #### 1．命令格式：
 
-less [参数]  文件 
+less [参数]  文件
 
 #### 2．命令功能：
 
@@ -463,7 +513,7 @@ mv + 文件名 + 路径
 【说明】
 
 关键词  | 介绍
- ----- | ----- 
+ ----- | -----
 源文件或目录	|被复制的文件或目录
 目标文件或目录 |	被复制的文件或目录，所要到达的位置。
 
@@ -505,7 +555,7 @@ mv /a /b/c
 ```
    结果： 操作成功后都会有提示信息。
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15130866514954.jpg)
-   
+
 2. 一次删除两个目录，用空格分开： 空目录1、空目录2
 
 ```
@@ -554,8 +604,8 @@ eg2：   目录1122/1  1122/2
      rm 1122/1/b
 ```
 
-     结果：没有任何提示 
-   
+     结果：没有任何提示
+
 ###### 2. `-r`：删除此目录下的所有文件，但是此目录不删除
 
     目录：1122/1 1122/2
@@ -565,7 +615,7 @@ eg2：   目录1122/1  1122/2
 ```
 
      结果：删除1122/1  1122/22
- 
+
 ###### 3. 组合删除
 
 **删除该目录以及该目录下的所有文件**
@@ -774,7 +824,7 @@ Copying fonts...
 Powerline fonts installed to /Users/WENBO/Library/Fonts
 ```
 
-### Powerlevel9k  
+### Powerlevel9k
 
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15309458898475.jpg)
 
@@ -934,7 +984,7 @@ Tig
 
 ## 技巧
 
-* 连续输入多个命令： 
+* 连续输入多个命令：
 1. [ ; ]
 
 如果被分号(;)所分隔的命令会连续的执行下去，就算是错误的命令也会继续执行后面的命令。
@@ -981,7 +1031,7 @@ alias updateLark="git pull --rebase && git submodule update --init --recursive &
 alias flt-app="flutter run --use-application-binary"
 alias slt=swiftlint
 alias eesf=EEScaffold
-	
+
 alias vi="vim"
 alias nvi="nvim"
 alias tnew="tmux new -s"
