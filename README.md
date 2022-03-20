@@ -12,8 +12,8 @@
     * 动画
     * 多线程
     * 数据存储
-    * Web相关  
-    * 底层重点知识  
+    * Web相关
+    * 底层重点知识
 * 大前端❤️
     * 解析-Flutter
     * 解析-Weex
@@ -24,7 +24,7 @@
     * 解析-组件化架构
     ...
 * Swfit
-* 三方轮子解析💡 
+* 三方轮子解析💡
 * 阅读笔记
 * CS基础
     * 解析-算法
@@ -75,7 +75,7 @@
 ## 面试
 
 *  [ChenYilong/iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8A%EF%BC%89.md#16-objc%E4%B8%AD%E5%90%91%E4%B8%80%E4%B8%AAnil%E5%AF%B9%E8%B1%A1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E5%B0%86%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88)
-* [面试了1000人后，我想说说简历如何写](http://m.quzhiboapp.com/#!/intro/80)
+* [请你出一套iOS面试题 #30](https://github.com/FrizzleFur/DailyLearning/issues/30)
 * [面试总结 · Issue #1 · FrizzleFur/DailyLearning](https://github.com/FrizzleFur/DailyLearning/issues/1)
 
 ## Todo
@@ -88,9 +88,9 @@
 * 算法复习
 * Flutter-豆瓣demo练习
 
-## Swift 
+## Swift
 
-### RxSwift 
+### RxSwift
 
 * [RxSwift 中文文档 · RxSwift 中文文档](https://beeth0ven.github.io/RxSwift-Chinese-Documentation/)
 * [介绍 - 《RxSwift 中文文档（非官方）》 - 书栈网 · BookStack](https://www.bookstack.cn/read/RxSwift-Chinese-Documentation/README.md)
@@ -125,7 +125,7 @@
 
 ## 异步编程
 
-*  [alibaba/coobjc](https://github.com/alibaba/coobjc)  coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc. 
+*  [alibaba/coobjc](https://github.com/alibaba/coobjc)  coobjc provides coroutine support for Objective-C and Swift. We added await method、generator and actor model like C#、Javascript and Kotlin. For convenience, we added coroutine categories for some Foundation and UIKit API in cokit framework like NSFileManager, JSON, NSData, UIImage etc. We also add tuple support in coobjc.
     * [阿里开源 iOS 协程开发框架 coobjc 源码分析](https://mp.weixin.qq.com/s/Vy_fsn95dgag4KumpQPlTw)
 
 
