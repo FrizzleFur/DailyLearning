@@ -1,19 +1,22 @@
 ## MVVM解析
 
+- [ ] TODO， Demo实践
+
+
 > MVVM 衍生于 MVC ，是对 MVC 的一种演进，它促进了 UI 代码与业务逻辑的分离。
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15235264488103.jpg)
 
 > 之前对MVVM模式的理解太浅，以为只是把VC请求放在了VM中，其实VM可以绑定View,并将Model变化的情况，通过ViewModel更新所绑定的view.
-> ViewModel: 提供并管理数据（状态等）
-> ViewModel：符合设计模式的单一职责原则
+> * ViewModel: 提供并管理数据（状态等）
+> * ViewModel：符合设计模式的单一职责原则
 
 [iPlayground 2019 | 從MVC到MVVM，再到MVVMC的開發經驗分享](https://www.youtube.com/watch?v=0GQXVfahdI4&list=PLJN8Q2M8xECkvIbNFM30Bu91qbN92SXND&index=17)
 * Model
 * View
 * ViewModel
 * Coordinator
- 
+
  ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20200507151435.png)
 
 * [MVVM-C with Swift - Marco Santa Dev](https://marcosantadev.com/mvvmc-with-swift/)
@@ -78,7 +81,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
     cell.dateLabel.text = dateFormateer.string(from: photo.created_at)
     //.....................
 }
-  
+
 func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return self.photos.count
 }
@@ -106,7 +109,45 @@ func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -
 
 参考代码： [PhotoList/PhotoListViewController.swift](https://github.com/koromiko/Tutorial/blob/MVC/MVVMPlayground/MVVMPlayground/Module/PhotoList/PhotoListViewController.swift)
 
-### MVC的设计模式
+### MVC的优缺点
+
+#### 优点
+
+* 耦合性低
+  * 视图层和业务层分离，这样就允许更改视图层代码而不用重新编译模型和控制器代码，同样，一个应用的业务流程或者业务规则的改变只需要改动MVC的模型层即可。因为模型与控制器和视图相分离，所以很容易改变应用程序的数据层和业务规则。
+  * 模型是自包含的，并且与控制器和视图相分离，所以很容易改变应用程序的数据层和业务规则。如果把数据库从MySQL移植到Oracle，或者改变基于RDBMS数据源到LDAP，只需改变模型即可。一旦正确的实现了模型，不管数据来自数据库或是LDAP服务器，视图将会正确的显示它们。由于运用MVC的应用程序的三个部件是相互独立，改变其中一个不会影响其它两个，所以依据这种设计思想能构造良好的松耦合
+
+* 重用性高
+  * 随着技术的不断进步，需要用越来越多的方式来访问应用程序。MVC模式允许使用各种不同样式的视图来访问同一个服务器端的代码，因为多个视图能共享一个模型，它包括任何WEB（HTTP）浏览器或者无线浏览器（wap），比如，用户可以通过电脑也可通过手机来订购某样产品，虽然订购的方式不一样，但处理订购产品的方式是一样的。由于模型返回的数据没有进行格式化，所以同样的构件能被不同的界面使用。例如，很多数据可能用HTML来表示，但是也有可能用WAP来表示，而这些表示所需要的命令是改变视图层的实现方式，而控制层和模型层无需做任何改变。由于已经将数据和业务规则从表示层分开，所以可以最大化的重用代码了。模型也有状态管理和数据持久性处理的功能，例如，基于会话的购物车和电子商务过程也能被Flash网站或者无线联网的应用程序所重用。 [11]
+
+* 生命周期成本低
+  * MVC使开发和维护用户接口的技术含量降低。
+* 部署快
+  * 使用MVC模式使开发时间得到相当大的缩减，它使程序员（Java开发人员）集中精力于业务逻辑，界面程序员（HTML和JSP开发人员）集中精力于表现形式上。
+* 可维护性高
+  * 分离视图层和业务逻辑层也使得WEB应用更易于维护和修改。
+* 有利软件工程化管理
+  * 由于不同的层各司其职，每一层不同的应用具有某些相同的特征，有利于通过工程化、工具化管理程序代码。控制器也提供了一个好处，就是可以使用控制器来联接不同的模型和视图去完成用户的需求，这样控制器可以为构造应用程序提供强有力的手段。给定一些可重用的模型和视图，控制器可以根据用户的需求选择模型进行处理，然后选择视图将处理结果显示给用户。
+
+#### 缺点
+
+* 没有明确的定义
+  * 完全理解MVC并不是很容易。使用MVC需要精心的计划，由于它的内部原理比较复杂，所以需要花费一些时间去思考。同时由于模型和视图要严格的分离，这样也给调试应用程序带来了一定的困难。每个构件在使用之前都需要经过彻底的测试。
+  * 不适合小型，中等规模的应用程序
+  * 花费大量时间将MVC应用到规模并不是很大的应用程序通常会得不偿失。
+  * 增加系统结构和实现的复杂性
+  * 对于简单的界面，严格遵循MVC，使模型、视图与控制器分离，会增加结构的复杂性，并可能产生过多的更新操作，降低运行效率。
+* 视图与控制器间的过于紧密的连接
+  * 视图与控制器是相互分离，但却是联系紧密的部件，视图没有控制器的存在，其应用是很有限的，反之亦然，这样就妨碍了他们的独立重用。
+* 视图对模型数据的低效率访问
+  * 依据模型操作接口的不同，视图可能需要多次调用才能获得足够的显示数据。对未变化数据的不必要的频繁访问，也将损害操作性能。
+  * 一般高级的界面工具或构造器不支持模式
+  * 改造这些工具以适应MVC需要和建立分离的部件的代价是很高的，会造成MVC使用的困难。
+
+
+
+
+### MVC里的设计模式
 
 MVC模式中应用到了那些设计模式？
 
@@ -165,7 +206,7 @@ MVC模式的关键是实现了视图和模型的分离。这是如何实现的�
 * 控制器提供处理过程控制，它在模型和视图之间起连接作用。
 * 控制器本身不输出任何信息和做任何处理，它只负责把用户的请求转成针对Model的操作，和调用相应的视图来显示Model处理后的数据。
 * 同样的数据，可以有不同的显示和进行各种处理。显示仅仅是表现数据，而处理是根据用户请求改变数据的过程，不但包含业务逻辑，也要提供响应策略。
-* 响应策略由控制器负责，视图可以使用不同的控制器提供不同的响应方式，这是策略(Strategy)模式的应用。 
+* 响应策略由控制器负责，视图可以使用不同的控制器提供不同的响应方式，这是策略(Strategy)模式的应用。
 
 ### MVC的优缺点
 
@@ -190,6 +231,85 @@ MVC模式的关键是实现了视图和模型的分离。这是如何实现的�
 （3）完全理解MVC并不是很容易。使用MVC需要精心的计划，由于它的内部原理比较复杂，所以需要花费一些时间去思考。 同时由于模型和视图要严格的分离，这样也给调试应用程序到来了一定的困难。 
 
 —— 其实我觉得这个MVC算是很基础的工程架构，不算很复杂，所以应用很广泛。
+
+## MVP模式
+
+全称：Model-View-Presenter ；MVP 是从经典的模式MVC演变而来，它们的基本思想有相通的地方Controller/Presenter负责逻辑的处理，Model提供数据，View负责显示。
+
+优点
+
+1、模型与视图完全分离，我们可以修改视图而不影响模型
+
+2、可以更高效地使用模型，因为所有的交互都发生在一个地方——Presenter内部
+
+3、我们可以将一个Presenter用于多个视图，而不需要改变Presenter的逻辑。这个特性非常的有用，因为视图的变化总是比模型的变化频繁。
+
+4、如果我们把逻辑放在Presenter中，那么我们就可以脱离用户接口来测试这些逻辑（单元测试）
+
+缺点
+
+由于对视图的渲染放在了Presenter中，所以视图和Presenter的交互会过于频繁。还有一点需要明白，如果Presenter过多地渲染了视图，往往会使得它与特定的视图的联系过于紧密。一旦视图需要变更，那么Presenter也需要变更了。比如说，原本用来呈现Html的Presenter现在也需要用于呈现Pdf了，那么视图很有可能也需要变更。
+
+### MVP与MVC区别：
+
+* 作为一种新的模式，MVP与MVC有着一个重大的区别：**在MVP中View并不直接使用Model，它们之间的通信是通过Presenter (MVC中的Controller)来进行的，所有的交互都发生在Presenter内部**，而在MVC中View会直接从Model中读取数据而不是通过 Controller。
+* **在MVC里，View是可以直接访问Model的！从而，View里会包含Model信息，不可避免的还要包括一些业务逻辑**。 在MVC模型里，更关注的Model的改变，而同时有多个对Model的不同显示，即View。所以，在MVC模型里，Model不依赖于View，但是View是依赖于Model的。不仅如此，**因为有一些业务逻辑在View里实现了，导致要更改View也是比较困难的，至少那些业务逻辑是无法重用的。**
+虽然 MVC 中的 View 的确“可以”访问 Model，但是我们不建议在 View 中依赖 Model，而是要求尽可能把所有业务逻辑都放在 Controller 中处理，而 View 只和 Controller 交互。
+
+
+
+iOS中cocoa MVC模式：
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220417190709.png)
+
+
+实际上cocoa的MVC模式：
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220417190717.png)
+
+如此看来，Cocoa MVC 模式 似乎是一个很糟糕的选择。但是让我们根据文章开头定义的特性来评估它：
+
+* 职责拆分 — View和Model实现了分离，但是View与Controller仍是紧耦合。
+* 可测性 — 由于模式的原因，你只能测试你的Model。
+* 易用性 — 相比于其他模式代码量最少。此外，每个人都熟悉它，即使经验不太丰富的开发人员也能够维护它。
+
+如果你不愿意在项目的架构上投入太多的时间，那么Cocoa MVC 就是你应该选择的模式。而且你会发现用其他维护成本较高的模式开发小的应用是一个致命的错误。
+> Cocoa MVC是开发速度最快的架构模式。
+
+MVP 实现了Cocoa的MVC的愿景
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220417190816.png)
+
+这看起来不正是苹果的MVC吗？是的，它的名字是MVP（Passive View variant，被动视图变体）。
+
+等等...这是不是意味着苹果的MVC实际上是MVP？不，不是这样。
+
+如果你仔细回忆一下，View是和Controller紧密耦合的，但是MVP的中介Presenter并没有对ViewController的生命周期做任何改变，因此View可以很容易的被模拟出来。
+
+在Presenter中根本没有和布局有关的代码，但是它却负责更新View的数据和状态。
+
+假如告诉你,UIViewController就是View呢？
+
+在MVP中，UIViewController的子类实际上是Views而不是Presenters。
+
+这种模式的可测试性得到了极大的提高，付出的代价是开发速度的一些降低，因为必须要做一些手动的数据和事件绑定
+
+* iOS示例Demo
+[ReverseScale/MVPSimpleDemo: iOS MVP Simple Demo](https://github.com/ReverseScale/MVPSimpleDemo)
+
+UserView该协议将在presenter中使用，稍后将从UIViewController实现。 基本上，协议包含在presenter中调用的用于控制视图的函数。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220417191555.png)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220417191538.png)
+
+- MVP的视图部分由UIViews和UIViewController组成
+- View委托给presenter的用户交互
+- presenter包含处理用户交互的逻辑
+- presenter与Model层进行通信，将数据转换为UI友好的格式，并更新视图
+- presenter对UIKit没有依赖性
+- 视图是passiv（转储）
+
+
+
 
 ## MVVM模式
 
@@ -248,11 +368,11 @@ viewModel.propChanged = { in
 ```
 每一次的属性prop的更新，propchanged将回调。所以我们可以更新视图根据视图的变化。很简单，对吧？
 
- 
+
 ### ViewModel 的 Binding接口
 
  我们创建的接口/性能结合在photolistviewmodel：
- 
+
 ```swift
 private var cellViewModels: [PhotoListCellViewModel] = [PhotoListCellViewModel]() {
     didSet {
@@ -456,6 +576,17 @@ iOS 8引入了动态框架包含Model，View和ViewModel框架的iOS应用程序
 ## Data Binding
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20200507220537.png)
+
+
+### MVVM与MVP区别：
+
+mvvm模式将Presener改名为View Model，**基本上与MVP模式完全一致，唯一的区别是，它采用双向绑定(data-binding): View的 变动，自动反映在View Model，反之亦然**。这样开发者就不用处理接收事件和View更新的工作，框架已经帮你做好了。
+
+### MVVM与MVC区别：
+
+**MVVM与MVC最大的区别就是：它实现了View和Model的自动同步**，也就是当Model的属性改变时，我们不用再自己手动操作Dom元素，来改变View的显示，而是改变属性后该属性对应View层显示会自动改变。
+
+
 
 ## 参考
 
