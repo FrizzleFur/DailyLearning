@@ -131,7 +131,7 @@ touch ~/.android/repositories.cfg
 ```
 
 
-## Flutter 路由库 Boost 
+## Flutter 路由库 Boost
 
 [码上用它开始Flutter混合开发——FlutterBoost](https://mp.weixin.qq.com/s?__biz=MzU4MDUxOTI5NA==&mid=2247484367&idx=1&sn=fcbc485f068dae5de9f68d52607ea08f&chksm=fd54d7deca235ec86249a9e3714ec18be8b2d6dc580cae19e4e5113533a6c5b44dfa5813c4c3&scene=0&subscene=131&clicktime=1551942425&ascene=7&devicetype=android-28&version=2700033b&nettype=ctnet&abtest_cookie=BAABAAoACwASABMABAAklx4AVpkeAMSZHgDWmR4AAAA%3D&lang=zh_CN&pass_ticket=1qvHqOsbLBHv3wwAcw577EHhNjg6EKXqTfnOiFbbbaw%3D&wx_header=1)
 
@@ -139,6 +139,20 @@ touch ~/.android/repositories.cfg
 
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190630103508.png)
 
+
+
+### Flutter在启动后的初始化流程
+
+主要在FlutterView初始化和对应的Engine中初始化UI相关的类。但是中间有非常关键的点是要注意的：
+
+- 一个进程只有一个DartVM
+- 一个FlutterView对应一个Shell
+- 一个Shell包含PlatformView、IOManager、Rasterizer和Engine
+- Engine中创建DartIsolate
+- Dart中的Isolate是一个独立的运行空间、其中包含了Platform、IO、GPU、UI四个线程，其中Platform线程是APP主线程所以是功能的
+- 如果创建多个FlutterView，他们之间是完全独立的，并且有个各自的一套Shell。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220417235634.png)
 
 ## 参考
 

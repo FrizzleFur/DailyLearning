@@ -20,7 +20,7 @@
     return _contacts.map((contact) => _ContactListItem(contact))
                     .toList();
   }
-  
+
 class _ContactListItem extends ListTile {
 
   _ContactListItem(Contact contact) :
