@@ -2,10 +2,355 @@
 # CocoaPods 解析
 
 > CocoaPods是用Ruby构建的，它可以使用macOS上的默认Ruby进行安装。您可以使用Ruby版本管理器，但我们建议您使用macOS上提供的标准Ruby，除非您知道自己在做什么。
+> * [ObjC 中国 - 深入理解 CocoaPods](https://objccn.io/issue-6-4/)
+> * [1. 版本管理工具及 Ruby 工具链环境](https://mp.weixin.qq.com/s?__biz=MzA5MTM1NTc2Ng==&mid=2458322728&idx=1&sn=3a16de4b2adae7c57bbfce45858dfe06&chksm=870e0831b0798127994902655fdee3be7d6abd53734428dd8252b8f584343aad217e77a70920&scene=178&cur_album_id=1477103239887142918#rd)
+> * [Cocoapods文档](https://rubydoc.info/gems/cocoapods/Pod/Podfile)
 
-[Cocoapods文档](https://rubydoc.info/gems/cocoapods/Pod/Podfile)
 
-[iOS-安装和使用 CocoaPods - 简书](https://www.jianshu.com/p/6706cae47e48#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85rvm%E7%8E%AF%E5%A2%83)
+软件工程中，版本控制系统是敏捷开发的重要一环，为后续的持续集成提供了保障。Source Code Manager (SCM) 源码管理就属于 VCS 的范围之中，熟知的工具有如 Git 。而 CocoaPods 这种针对各种语言所提供的 Package Manger (PM)也可以看作是 SCM 的一种。
+
+而像 Git 或 SVN 是针对项目的单个文件的进行版本控制，而 PM 则是以每个独立的 Package 作为最小的管理单元。包管理工具都是结合 SCM 来完成管理工作，对于被 PM 接管的依赖库的文件，通常会在 Git 的 .ignore 文件中选择忽略它们。
+
+例如：在 Node 项目中一般会把 node_modules 目录下的文件 ignore 掉，在 iOS / macOS 项目则是 Pods。
+
+## Package Manager
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514103735.png)
+
+从 👆 可见，PM 工具基本围绕这个两个文件来现实包管理：
+
+描述文件：声明了项目中存在哪些依赖，版本限制；
+锁存文件（Lock 文件）：记录了依赖包最后一次更新时的全版本列表。
+
+
+## CocoaPods
+
+CocoaPods  是开发 iOS/macOS 应用程序的一个第三方库的依赖管理工具。 利用 CocoaPods，可以定义自己的依赖关系（简称 Pods），以及在整个开发环境中对第三方库的版本管理非常方便。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514103918.png)
+
+* Podfile
+Podfile 是一个文件，以 DSL（其实直接用了 Ruby 的语法）来描述依赖关系，用于定义项目所需要使用的第三方库。该文件支持高度定制，你可以根据个人喜好对其做出定制。更多相关信息，请查阅 [Podfile 指南](https://guides.cocoapods.org/syntax/podfile.html#podfile)。
+
+* Podfile.lock
+这是 CocoaPods 创建的最重要的文件之一。它记录了需要被安装的 Pod 的每个已安装的版本。如果你想知道已安装的 Pod 是哪个版本，可以查看这个文件。推荐将 Podfile.lock 文件加入到版本控制中，这有助于整个团队的一致性。
+
+* Manifest.lock
+这是每次运行 pod install 命令时创建的 Podfile.lock 文件的副本。如果你遇见过这样的错误 沙盒文件与 Podfile.lock 文件不同步 (The sandbox is not in sync with the Podfile.lock)，这是因为 Manifest.lock 文件和 Podfile.lock 文件不一致所引起。由于 Pods 所在的目录并不总在版本控制之下，这样可以保证开发者运行 App 之前都能更新他们的 Pods，否则 App 可能会 crash，或者在一些不太明显的地方编译失败。
+
+
+### Ruby 生态及工具链
+对于一部分仅接触过 CocoaPods 的同学，其 PM 可能并不熟悉。其实 CocoaPods 的思想借鉴了其他语言的 PM 工具，例：`RubyGems`[7], `Bundler`[8], `npm`[9] 和 `Gradle`[10]。
+
+我们知道 CocoaPods 是通过 Ruby 语言实现的。**它本身就是一个 Gem 包**。理解了 Ruby 的依赖管理有助于我们更好的管理不同版本的 CocoaPods 和其他 Gem。同时能够保证团队中的所有同事的工具是在同一个版本，这也算是敏捷开发的保证吧。
+
+* [Why rbenv](https://github.com/rbenv/rbenv/wiki/Why-rbenv%3F)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514104914.png)
+
+### RubyGems
+
+RubyGems 是 Ruby 的一个包管理工具，这里面管理着用 Ruby 编写的工具或依赖我们称之为 Gem。
+并且 RubyGems 还提供了 Ruby 组件的托管服务，可以集中式的查找和安装 library 和 apps。当我们使用 gem install xxx 时，会通过 rubygems.org 来查询对应的 Gem Package。而 iOS 日常中的很多工具都是 Gem 提供的，例：Bundler，fastlane，jazzy，CocoaPods 等。
+
+在默认情况下 Gems 总是下载 library 的最新版本，这无法确保所安装的 library 版本符合我们预期。因此我们还缺一个工具。
+
+### Bundler
+
+Bundler 是管理 Gem 依赖的工具，**可以隔离不同项目中 Gem 的版本和依赖环境的差异，也是一个 Gem**。
+Bundler 通过读取项目中的依赖描述文件 Gemfile ，来确定各个 Gems 的版本号或者范围，来提供了稳定的应用环境。当我们使用 bundle install 它会生成 Gemfile.lock 将当前 librarys 使用的具体版本号写入其中。之后，他人再通过 bundle install 来安装 library 时则会读取 Gemfile.lock 中的 librarys、版本信息等。
+
+Gemfile
+可以说 CocoaPods 其实是 iOS 版的 RubyGems + Bundler 组合。Bundler 依据项目中的 Gemfile 文件来管理 Gem，而 CocoaPods 通过 Podfile 来管理 Pod。
+
+Gemfile 配置如下：
+
+```dart
+source 'https://gems.example.com' do
+  gem 'cocoapods', '1.8.4'是管理 Gem 依赖的工具
+  gem 'another_gem', :git => 'https://looseyi.github.io.git', :branch => 'master'
+end
+```
+
+可见，Podfile 的 DSL 写法和 Gemfile 如出一辙
+
+
+### 如何安装一套可管控的 Ruby 工具链？
+讲完了这些工具的分工，然后来说说实际的运用。我们可以使用 homebrew + rbenv + RubyGems + Bundler 这一整套工具链来控制一个工程中 Ruby 工具的版本依赖。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514105634.png)
+
+
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514110050.png)
+
+
+### 如何使用 Bundler 管理工程中的 Gem 环境
+
+下面我们来实践一下，如何使用 Bundler 来锁定项目中的 Gem 环境，从而让整个团队统一 Gem 环境中的所有 Ruby 工具版本。从而避免文件冲突和不必要的错误。
+
+下面是在工程中对于 Gem 环境的层级图，我们可以在项目中增加一个 Gemfile 描述，从而锁定当前项目中的 Gem 依赖环境。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514110139.png)
+
+
+不使用 bundle exec 执行前缀，则会使用系统环境中的 CocoaPods 版本。如此我们也就验证了工程中的 Gem 环境和系统中的环境可以通过 Bundler 进行隔离。
+
+
+### 总结
+* 通过版本管理工具演进的角度可以看出，CocoaPods 的诞生并非一蹴而就，也是不断地借鉴其他管理工具的优点，一点点的发展起来的。VCS 工具从早期的 SVN、Git，再细分出 Git Submodule，再到各个语言的 Package Manager 也是一直在发展的。
+* 虽然 CocoaPods 作为包管理工具控制着 iOS 项目的各种依赖库，但其自身同样遵循着严格的版本控制并不断迭代。希望大家可以从本文中认识到版本管理的重要性。
+* 通过实操 Bundler 管理工程的全流程，学习了 Bundler 基础，并学习了如何控制一个项目中的 Gem 版本信息。
+
+
+
+### 知识目录
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514112043.png)
+
+组件构成和对应职责
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514112416.png)
+
+
+
+### CocoaPods 初探
+
+接下来，结合 `pod install` 安装流程来展示各个组件在 `Pods` 工作流中的上下游关系。
+
+##### 命令入口
+
+每当我们输入 `pod xxx` 命令时，系统会首先调用 `pod` 命令。所有的命令都是在 `/bin` 目录下存放的脚本，当然 Ruby 环境的也不例外。我们可以通过 `which pod` 来查看命令所在位置：
+
+```
+$ which pod
+/Users/edmond/.rvm/gems/ruby-2.6.1/bin/pod
+```
+
+> 这里的显示路径不是 /usr/local/bin/pod 的原因是因为使用 RVM 进行版本控制的。
+
+
+### Pod install
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514113301.png)
+
+对应的实现如下：
+
+```ruby
+def install!
+    prepare
+    resolve_dependencies
+    download_dependencies
+    validate_targets
+    if installation_options.skip_pods_project_generation?
+        show_skip_pods_project_generation_message
+    else
+        integrate
+    end
+    write_lockfiles
+    perform_post_install_actions
+end
+
+def integrate
+    generate_pods_project
+    if installation_options.integrate_targets?
+        integrate_user_project
+    else
+        UI.section 'Skipping User Project Integration'
+    end
+end
+```
+
+[2. 整体把握 CocoaPods 核心组件](https://mp.weixin.qq.com/s?__biz=MzA5MTM1NTc2Ng==&mid=2458324020&idx=1&sn=5d57193433b93127e3f72865bdc5b173&chksm=870e032db0798a3bab5da470df244a44096fc6a2faeeb1207ae6def6edef7053c766a0f0ceb6&cur_album_id=1477103239887142918&scene=189#0x1%20Install%20%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%EF%BC%88prepare%EF%BC%89)
+
+* 在 prepare 阶段会将 pod install 的环境准备完成，包括版本一致性、目录结构以及将 pre-install 的装载插件脚本全部取出，并执行对应的 pre_install hook。
+* 0x2 解决依赖冲突（resolve_dependencies）依赖解析过程就是通过 Podfile、Podfile.lock 以及沙盒中的 manifest 生成 Analyzer 对象。Analyzer 内部会使用 Molinillo （具体的是 Molinillo::DependencyGraph 图算法）解析得到一张依赖关系表。
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514113825.png)
+另外，需要注意的是 analyze 的过程中有一个 pre_download 的阶段，即在 --verbose 下看到的 Fetching external sources 过程。这个 pre_download 阶段不属于依赖下载过程，而是在当前的依赖分析阶段。
+
+* 验证环节
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514114029.png)
+* 0x5 生成工程 (Integrate)
+* 0x6 写入依赖 (write_lockfiles)将依赖更新写入 Podfile.lock 和 Manifest.lock
+* 0x7 结束回调（perform_post_install_action）
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514114125.png)
+
+
+
+
+
+## Ruby 语言
+
+Open Class
+开始之前，我们需要了解一个 Ruby 的语言特性：Open Classes
+
+在 Ruby 中，类永远是开放的，你总是可以将新的方法加入到已有的类中，除了在你自己的代码中，还可以用在标准库和内置类中，这个特性被称为 Open Classes。说到这里作为 iOS 工程师，脑中基本能闪现出 Objective-C 的 Category 或者 Swift 的 Extensions 特性。不过，这种动态替换方法的功能也称作 Monkeypatch。(🐒  到底招谁惹谁了）
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514115318.png)
+
+需要注意，即使是已经创建好的实例，方法替换同样是生效的。另外 ⚠️ Open Class 可以跨文件、跨模块进行访问的，甚至对 Ruby 内置方法的也同样适用 (谨慎)。
+
+
+## 4. Podfile 的解析逻辑
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514115711.png)
+
+### Podfile 的主要数据结构
+
+
+* Specification
+  * Specification 即存储 PodSpec 的内容，是用于描述一个 Pod 库的源代码和资源将如何被打包编译成链接库或 framework，后续将会介绍更多的细节。
+* TargetDefinition
+  * TargetDefinition 是一个多叉树结构，每个节点记录着 Podfile 中定义的 Pod 的 Source 来源、Build Setting、Pod 子依赖等。
+* Lockfile
+  * Lockfile，顾名思义是用于记录最后一次 CocoaPods 所安装的 Pod 依赖库版本的信息快照。也就是生成的 Podfile.lock。
+  * 在 pod install 过程，Podfile 会结合它来确认最终所安装的 Pod 版本，固定 Pod 依赖库版本防止其自动更新。
+  * Lockfile 也作为 Pods 状态清单 (mainfest)，用于记录安装过程的中哪些 Pod 需要被删除或安装或更新等。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514160752.png)
+
+### Podfile 文件的读取
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514160843.png)
+
+### Xcode 工程结构
+
+
+我们先来看一个极简 Podfile 声明：
+
+```swift
+target 'Demo' do
+ pod 'Alamofire', :path => './Alamofire'
+end
+```
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514154819.png)
+
+
+* Target - 最小可编译单元
+  * 首先是 Target，它作为工程中最小的可编译单元，根据 Build Phases[3] 和 Build Settings[4] 将源码作为输入，经编译后输出结果产物。
+  * 其输出结果可以是链接库、可执行文件或者资源包等，具体细节如下：
+    - Build Setting：比如指定使用的编译器，目标平台、编译参数、头文件搜索路径等；
+    - Build 时的前置依赖、执行的脚本文件；
+    - Build 生成目标的签名、Capabilities 等属性；
+    - Input：哪些源码或者资源文件会被编译打包；
+    - Output：哪些静态库、动态库会被链接；
+- Project - Targets 的载体
+  - Project 就是一个独立的 Xcode 工程，作为一个或多个 Targets 的资源管理器，本身无法被编译。Project 所管理的资源都来自它所包含的 Targets。特点如下：
+    - 至少包含一个或多个可编译的 Target；
+    - 为所包含的 Targets 定义了一份默认编译选项，如果 Target 有自己的配置，则会覆盖 Project 的预设值；
+    - 能将其他 Project 作为依赖嵌入其中；
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514155042.png)
+- Workspace - 容器
+  - 作为纯粹的项目容器，Workspace 不参与任何编译链接过程，仅用于管理同层级的 Project，其特点：
+    - Workspace 可以包含多个 Projects；
+    - 同一个 Workspace 中的 Proejct 文件对于其他 Project 是默认可见的，这些 Projcts 会共享 workspace build directory ；
+    - 一个 Xcode Project 可以被包含在多个不同的 Workspace 中，因为每个 Project 都有独立的 Identity，默认是 Project Name；
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514155345.png)
+- Scheme - 描述 Build 过程
+  - Scheme 是对于整个 Build 过程的一个抽象，它**描述了 Xcode 应该使用哪种 Build Configurations[5] 、执行什么任务、环境参数等来构建我们所需的 Target**。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514155542.png)
+
+
+
+
+## 5. Podspec 文件分析
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514154559.png)
+
+* Podspec
+  * Podspec 是用于 描述一个 Pod 库的源代码和资源将如何被打包编译成链接库或 framework 的文件 ，而 Podspec 中的这些描述内容最终将映会映射到 Specification 类中（以下简称 Spec）。
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514161131.png)
+
+
+Podspec示例
+
+```swift
+Pod::Spec.new do |spec|
+  spec.name         = 'Reachability'
+  spec.version      = '3.1.0'
+  spec.license      = { :type => 'BSD' }
+  spec.homepage     = 'https://github.com/tonymillion/Reachability'
+  spec.authors      = { 'Tony Million' => 'tonymillion@gmail.com' }
+  spec.summary      = 'ARC and GCD Compatible Reachability Class for iOS and OS X.'
+  spec.source       = { :git => 'https://github.com/tonymillion/Reachability.git', :tag => "v#{spec.version}" }
+  spec.source_files = 'Reachability.{h,m}'
+  spec.framework    = 'SystemConfiguration'
+end
+```
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514161322.png)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514161547.png)
+
+* Subspecs
+  * 乍一听 Subspec 这个概念似乎有一些抽象，不过当你理解了上面的描述，就能明白什么是 Subspec 了。我们知道在 Xcode 项目中，target 作为最小的可编译单元，它编译后的产物为链接库或 framework。而在 CocoaPods 的世界里这些 targets 则是由 Spec 文件来描述的，它还能拆分成一个或者多个 Subspec，我们暂且把它称为 Spec 的 子模块，子模块也是用 Specification 类来描述的。
+    * 未指定 default_subspec 的情况下，Spec 的全部子模块都将作为依赖被引入；
+    - 子模块会主动继承其父节点 Spec 中定义的 attributes_hash；
+    - 子模块可以指定自己的源代码、资源文件、编译配置、依赖等；
+    - 同一 Spec 内部的子模块是可以有依赖关系的；
+    - 每个子模块在 pod push 的时候是需要被 lint 通过的；
+
+
+## 6. PodSpec 管理策略
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514162002.png)
+
+* Source
+  * 作为 PodSpec 的聚合仓库，Spec Repo 记录着所有 pod 所发布的不同版本的 PodSpec 文件。该仓库对应到 Core 的数据结构为 Source，即为今天的主角。
+  * 整个 Source 的结构比较简单，它基本是围绕着 Git 来做文章，主要是对 PodSpec 文件进行各种查找更新操作。
+
+
+## 7. Molinillo 依赖校验
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514162208.png)
+
+- 依赖关系的解决
+  - 对于依赖过多或者多重依赖问题，我们可通过合理的架构和设计模式来解决。而依赖校验主要解决的问题为：
+  - 检查依赖图是否存在版本冲突；
+  - 判断依赖图是否存在循环依赖；
+  - 版本冲突的解决方案
+- 对于版本冲突可通过修改指定版本为带兼容性的版本范围问题来避免。如上面的问题有两个解决方案：
+    - 通过修改两个 pod 的 Alamofire 版本约束为 ~> 4.0 来解决。
+    - 去除两个 pod 的版本约束，交由项目中的 Podfile 来指定。
+  - 不过这样会有一个隐患，由于两个 Pod 使用的主版本不同，可能带来 API 不兼容，导致 pod install 即使成功了，最终也无法编译或运行时报错。
+  - 还有一种解决方案，是基于语言特性来进行依赖性隔离。如 npm 的每个传递依赖包如果冲突都可以有自己的 node_modules 依赖目录，即一个依赖库可以存在多个不同版本。
+
+## 8. Xcode 工程文件解析
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514162522.png)
+
+
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20220514162814.png)
+
+ pbxproj 内 Object 的说明
+- PBXProject：Project 的设置，编译工程所需信息
+- PBXNativeTarget：Target 的设置
+- PBXTargetDependency：Target 依赖
+- PBXContainerItemProxy：部署的元素
+- XCConfigurationList：构建配置相关，包含 project 和 target 文件
+- XCBuildConfiguration：编译配置，对应 Xcode 的 Build Setting 内容
+- PBXVariantGroup：国际化对照表或 .storyboard 文件
+- PBXBuildFile：各类文件，最终会关联到 PBXFileReference
+- PBXFileReference：源码、资源、库，Info.plist 等文件索引
+- PBXGroup：虚拟文件夹，可嵌套，记录管理的 PBXFileReference 与子 PBXGroup
+- PBXSourcesBuildPhase：编译源文件（.m、.swift）
+- PBXFrameworksBuildPhase：用于 framework 的构建
+- PBXResourcesBuildPhase：编译资源文件，有 xib、storyboard、plist 以及 xcassets 等资源文件
+
+
+Xcode 解析工程的是依次检查 *.xcworkspace > *.xcproject > project.pbxproj，根据 project.pbxproj 的数据结构，Xcodeproj 提供了 Project 类，用于记录根元素。
+在 pod install 的依赖解析阶段，会读取 project.pbxproj。
+
+
+
+
+## Pod
 
 pod install 和 pod update 区别还是比较大的，每次在执行 pod install 或者 update 时最后都会生成或者修改 Podfile.lock 文件，Podfile.lock会锁定当前各依赖库的版本,。这样多人协作的时候，可以防止第三方库升级时造成大家各自的第三方库版本不一致.其中前者并不会修改 Podfile.lock 中显示指定的版本，**而后者会会无视该文件的内容，尝试将所有的 pod 更新到最新版。
 **
