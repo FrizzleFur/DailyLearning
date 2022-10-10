@@ -529,6 +529,12 @@ SourceKitService消耗了超过400％的CPU
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20210215121243.png)
 
 
+## Xcode 安装
+
+Xcode安装进度的查看
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/mac_xcode_install_progress.png)
+
 # Fixing Xcode
 
 [Edit Page](https://github.com/codepath/ios_guides/wiki/Fixing-Xcode/_edit)[Page History](https://github.com/codepath/ios_guides/wiki/Fixing-Xcode/_history)
