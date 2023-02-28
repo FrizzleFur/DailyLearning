@@ -6,8 +6,7 @@
 If you don't know the exact build time of your project, enable the following option in Xcode.
 
 ```
-defaults write 
-com.apple.dt.Xcode ShowBuildOperationDuration -bool YES
+defaults write com.apple.dt.Xcode ShowBuildOperationDuration -bool YES
 ```
 ![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20190314210614.png)
 

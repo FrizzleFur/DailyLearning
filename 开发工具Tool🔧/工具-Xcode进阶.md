@@ -171,6 +171,16 @@ property (nonatomic, <#type#>) <#className#> *propertyName;/**< <#remark#> */
 ![](http://pic-mike.oss-cn-hongkong.aliyuncs.com/qiniu/15376703183349.jpg)
 
 
+1.  Show Document items, 文件内的方法列表
+[ios - shortcut to open method dropdown in xcode - Stack Overflow](https://stackoverflow.com/questions/11100364/shortcut-to-open-method-dropdown-in-xcode)
+
+![](https://pic-mike.oss-cn-hongkong.aliyuncs.com/Blog/20230228111121.png)
+
+The shortcut is ^6 (a.k.a. Control+6). To change the shortcut go to Xcode-->Preferences...->Key Bindings, and look for the View Menu list. It is called "Standard editor -> Show Document items"
+
+
+
+
 ### 1. Open Quickly
 
 相信大家都熟悉 `⌘ + ⌥ + O` ，但是你知道怎么在辅助编辑器中打开吗？按住`Alt + Enter`， enjoy~
@@ -202,7 +212,6 @@ The rest of the jump bar consists of heierarchial navigation with each level giv
 
 ### 9. Filter in Navigator  
 本来热键是`⌘ + ⌥ + J`,发现貌似不起作用，就改成`⌘ + ⌥ + O`
-
 ###  10. 显示注释
 
 * 显示注释 `Cmd + Option + /`
