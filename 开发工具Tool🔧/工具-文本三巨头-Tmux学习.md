@@ -155,6 +155,8 @@ Tmux Resurrec提供如下两个操作：
 
 [OhMyTmux](https://github.com/gpakosz/.tmux).
 
+![image](https://github.com/FrizzleFur/DailyLearning/assets/16328879/570f8c53-c84d-4612-a491-f489968a72ce)
+
 
 ## 参考
 
