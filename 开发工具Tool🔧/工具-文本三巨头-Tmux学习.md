@@ -151,9 +151,20 @@ Tmux Resurrec提供如下两个操作：
 保存时，tmux会话的详细信息会以文本文件的格式保存到`~/.tmux/resurrect`目录，恢复时则从此处读取，由于数据文件是明文的，因此你完全可以自由管理或者编辑这些会话状态文件（如果备份频繁，记得定期清除历史备份）。
 
 
+## 插件
+
+Install using [tpm](https://github.com/tmux-plugins/tpm)
+
+If you are a tpm user, you can install the theme and keep up to date by adding the following to your .tmux.conf file:
+
+set -g @plugin 'dracula/tmux'
+Add any configuration options below this line in your tmux config.
+
+
 ## 主题
 
-[OhMyTmux](https://github.com/gpakosz/.tmux).
+1. [OhMyTmux](https://github.com/gpakosz/.tmux).
+2. [draculatheme](https://draculatheme.com/tmux).
 
 ![image](https://github.com/FrizzleFur/DailyLearning/assets/16328879/570f8c53-c84d-4612-a491-f489968a72ce)
 
