@@ -151,6 +151,11 @@ Tmux Resurrec提供如下两个操作：
 保存时，tmux会话的详细信息会以文本文件的格式保存到`~/.tmux/resurrect`目录，恢复时则从此处读取，由于数据文件是明文的，因此你完全可以自由管理或者编辑这些会话状态文件（如果备份频繁，记得定期清除历史备份）。
 
 
+## 主题
+
+[OhMyTmux](https://github.com/gpakosz/.tmux).
+
+
 ## 参考
 
 * [Tmux使用手册 | louis blog](http://louiszhai.github.io/2017/09/30/tmux/#Buffer%E7%BC%93%E5%AD%98)
