@@ -411,4 +411,132 @@ export PATH=/Users/mac/.rvm/rubies/ruby-2.5.1/bin:$PATH
 export PATH="$GEM_HOME/bin:$PATH"
 ```
 
+
+## 个人配置
+
+```
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+ ZSH_THEME="robbyrussell"
+# ZSH_THEME="spaceship"
+# ZSH_THEME=powerlevel10k/powerlevel10k
+
+# Source file
+#source ~/.bash_profile
+source $ZSH/oh-my-zsh.sh
+source "$HOME/.zsh/spaceship/spaceship.zsh"
+source /Users/guyan/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /Users/guyan/.mtl-cli/bin/mtl-activate
+
+ # Set Spaceship ZSH as a prompt
+ # autoload -U promptinit; promptinit
+ # prompt spaceship
+
+# Path to HomeBrew
+export PATH=/opt/homebrew/bin:$PATH
+
+#plugins
+plugins=(
+	git
+	autojump	
+	zsh-autosuggestions
+	)
+
+## autojump 编译脚本
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+#fzf
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# Dev
+
+# Ruby
+# export PATH="$GEM_HOME/bin:$PATH"
+
+# Flutter Path
+# Flutter config
+
+
+# alias
+
+# alias flutter
+alias flt="flutter"
+
+# alias application
+alias ops="open -a Sublime\ Text"
+alias opv="open -a Visual\ Studio\ Code"
+alias cc="opv ."
+alias op="open ."
+alias xx="open *.xcworkspace -a xcode" #  workspace
+alias xp="open *.xcodeproj -a xcode" # workspace
+alias ff="ranger"
+alias gg="lazygit"
+alias gui="gitui"
+alias yg="you-get"
+# alias vim
+alias vv="vim"
+alias nv="mvim"
+# alias tmux
+alias tt="tmux"
+alias tn="tmux new -s " # 新建一个名称为xx的会话
+alias t="tmux a -t" # 进入到名称为xx的会话
+alias tls="tmux ls" # 查看所有会话
+alias te="tmux detach" # 断开当前会话，会话在后台运行
+alias tkss="tmux kill-session -t " # 关闭demo会话
+alias tkserver="tmux kill-server" # 关闭服务器，所有的会话都将关闭
+
+# alias tool
+alias dft="drafter" # oc class call graph
+alias mtfind="mtl findsymbol -p Pods/" # search symbols in pod
+
+# alias Git
+alias g="git"
+alias gs="git status"
+alias gc="git clone"
+alias ga.="git add ."
+alias gco="git checkout"
+alias gbr="git branch"
+alias gct="git commit"
+alias gd="git diff"
+alias gdh="git diff HEAD"
+alias gdl="git diff HEAD~"
+
+## zsh config
+alias ozh="opv ~/.zshrc"
+alias vzh="vv ~/.zshrc"
+
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+```
+
+
 ## 参考
